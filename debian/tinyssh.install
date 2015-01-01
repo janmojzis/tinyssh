@@ -1,0 +1,2 @@
+build/bin/tinysshd* usr/sbin/
+debian/nacl-20110221/build/bin/tinysshd* usr/sbin/

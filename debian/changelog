@@ -1,0 +1,21 @@
+tinyssh (20150101) experimental; urgency=low
+
+  * initial release (alpha)
+
+  * contains modern crypto
+   - ssh-ed25519
+   - curve25519-sha256@libssh.org
+   - chacha20-poly1305@openssh.com
+
+  * contains older standardized crypto
+   - ecdsa-sha2-nistp256
+   - ecdh-sha2-nistp256
+   - aes128-ctr/hmac-sha2-256
+   - aes256-ctr/hmac-sha2-256
+
+  * temporary work around
+   - debian package is compiled using full NaCl library
+   - in the future will be compiled using nacl-tools/libnacl-dev
+   - package nacl-tools/libnacl-dev is currently not usable
+
+ -- Jan Mojzis <jan.mojzis@gmail.com>  Thu, 01 Jan 2015 11:33:03 +0100

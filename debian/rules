@@ -1,0 +1,15 @@
+#!/usr/bin/make -f
+
+export DH_VERBOSE=1
+
+override_dh_auto_build:
+	sh -e debian/nacl-20110221-build.sh
+	#env LIBS='-lnacl' CFLAGS='-I/usr/include/nacl' LDFLAGS='-L/usr/lib' sh -e make-tinyssh.sh
+
+%:
+	dh $@
+
+clean:
+	rm -rf debian/tinyssh
+	rm -f debian/*.substvars debian/*.debhelper debian/*.log debian/files
+	rm -rf build nacl-20110221/build

@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if [ x"$1" != "xpurge" ]; then
+    exit 0
+fi
+
+rm -rf /var/log/tinyssh
+rm -rf /etc/tinyssh/service
+deluser tinysshlog || :

@@ -1,0 +1,15 @@
+--- tinysshd-makekey prints help
+
+tinysshd-makekey: usage: tinysshd-makekey keydir 
+100
+
+--- tinysshd-makekey creates key-directory
+
+keydir/ed25519.pk
+keydir/nistp256ecdsa.pk
+0
+
+--- tinysshd-makekey fails when directory exists
+
+tinysshd-makekey: fatal: unable to create directory keydir (file already exists)
+111

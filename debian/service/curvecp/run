@@ -1,0 +1,59 @@
+#!/bin/sh
+exec 2>&1
+
+[ -f /etc/default/tinyssh-run ] && . /etc/default/tinyssh-run
+
+if [ x"${IP}" = x ]; then
+  IP=0.0.0.0
+  export IP
+fi
+
+if [ x"${PORT}" = x ]; then
+  PORT=22
+  export PORT
+fi
+
+
+if [ x"${NAME}" = x ]; then
+  NAME="`hostname -f`"
+  export NAME
+fi
+
+if [ x"${EXTENSION}" = x ]; then
+  EXTENSION=00000000000000000000000000000000
+  export EXTENSION
+fi
+
+curvecpserver=curvecpserver
+curvecpmessage=curvecpmessage
+curvecpprintkey=curvecpprintkey
+curvecpmakekey=curvecpmakekey
+if [ -x /usr/sbin/tinysshd-curvecpserver ]; then
+  curvecpserver=/usr/sbin/tinysshd-curvecpserver
+  curvecpmessage=/usr/sbin/tinysshd-curvecpmessage
+  curvecpprintkey=/usr/sbin/tinysshd-curvecpprintkey
+  curvecpmakekey=/usr/sbin/tinysshd-curvecpmakekey
+fi
+
+#CurveCP key
+[ -d /etc/tinyssh/curvecpkeydir ] || \
+  (
+    /usr/sbin/tinysshd-random32 > /dev/urandom || :
+    "${curvecpmakekey}" /etc/tinyssh/curvecpkeydir
+  )
+
+#TinySSH key
+[ -d /etc/tinyssh/sshkeydir ] || \
+  (
+    /usr/sbin/tinysshd-random32 > /dev/urandom || :
+    /usr/sbin/tinysshd-makekey /etc/tinyssh/sshkeydir
+  )
+
+curvecpkey=`${curvecpprintkey} /etc/tinyssh/curvecpkeydir`
+
+echo "Starting TinySSH using CurveCP transport: ${IP}:${PORT}:${NAME}:${curvecpkey}:${EXTENSION}" >&2
+/usr/sbin/tinysshd-printkey /etc/tinyssh/sshkeydir >&2
+
+exec "${curvecpserver}" "${NAME}" /etc/tinyssh/curvecpkeydir "${IP}" "${PORT}" "${EXTENSION}" "${curvecpmessage}" /usr/sbin/tinysshd ${OPTIONS} /etc/tinyssh/sshkeydir
+echo "curvecp utils not available" >&2
+exec sleep 86400
