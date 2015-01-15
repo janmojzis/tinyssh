@@ -45,7 +45,7 @@ Public domain.
    -S (optional): disable state-of-the-art crypto\n\
    -p (optional): enable post-quantum crypto - TODO\n\
    -P (optional): disable post-quantum crypto\n\
-   -x name=command (optional): add subsytem command (example: sftp=/usr/libexec/openssh/sftp-server)\n\
+   -x name=command (optional): add subsystem command (example: sftp=/usr/libexec/openssh/sftp-server)\n\
    keydir: directory containing secret and public SSH keys for signing\n\
 \n\
  compilation info:" \
