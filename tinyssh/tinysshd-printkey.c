@@ -12,21 +12,21 @@ Public domain.
 #include "crypto.h"
 #include "buf.h"
 
-unsigned char bspace[256];
+static unsigned char bspace[256];
 struct buf b = { bspace, 0, sizeof bspace };
 
-unsigned char pk[sshcrypto_sign_PUBLICKEYMAX];
-unsigned char hashedpk[crypto_hash_md5_BYTES];
-char hexfp[3 * crypto_hash_md5_BYTES];
-char hexpk[2 * sshcrypto_sign_PUBLICKEYMAX + 1];
+static unsigned char pk[sshcrypto_sign_PUBLICKEYMAX];
+static unsigned char hashedpk[crypto_hash_md5_BYTES];
+static char hexfp[3 * crypto_hash_md5_BYTES];
+static char hexpk[2 * sshcrypto_sign_PUBLICKEYMAX + 1];
 
-void die_usage(void) {
+static void die_usage(void) {
 
     log_u1("tinysshd-printkey keydir");
     _exit(100);
 }
 
-void die_fatal(const char *trouble, const char *d, const char *fn) {
+static void die_fatal(const char *trouble, const char *d, const char *fn) {
 
     if (d) {
         if (fn) log_f5(trouble, " ", d, "/", fn);

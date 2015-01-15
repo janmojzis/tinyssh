@@ -70,12 +70,12 @@ static int fdwd;
 static struct buf b1 = {global_bspace1, 0, GLOBAL_BSIZE};
 static struct buf b2 = {global_bspace2, 0, GLOBAL_BSIZE};
 
-void cleanup(void) {
+static void cleanup(void) {
 
     global_purge();
 }
 
-void die_usage(void) {
+static void die_usage(void) {
 
     cleanup();
 
@@ -85,7 +85,7 @@ void die_usage(void) {
     _exit(100);
 }
 
-void die_fatal(const char *trouble, const char *d, const char *fn) {
+static void die_fatal(const char *trouble, const char *d, const char *fn) {
 
     cleanup();
 
@@ -99,14 +99,14 @@ void die_fatal(const char *trouble, const char *d, const char *fn) {
     _exit(111);
 }
 
-void timeout(int x) {
+static void timeout(int x) {
     errno = x = ETIMEDOUT;
     die_fatal("closing connection", 0, 0);
 }
 
-int selfpipe[2] = { -1, -1 };
+static int selfpipe[2] = { -1, -1 };
 
-void trigger(int x) {
+static void trigger(int x) {
     errno = x = 0;
     write(selfpipe[1], "", 1);
 }

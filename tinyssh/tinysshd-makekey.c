@@ -16,13 +16,13 @@ Public domain.
 #define sk global_bspace1 /* reusing global buffer */
 #define pk global_bspace2 /* reusing global buffer */
 
-void die_usage(void) {
+static void die_usage(void) {
 
     log_u1("tinysshd-makekey keydir");
     global_die(100);
 }
 
-void die_fatal(const char *trouble, const char *d, const char *fn) {
+static void die_fatal(const char *trouble, const char *d, const char *fn) {
 
     if (d) {
         if (fn) log_f5(trouble, " ", d, "/", fn);
@@ -34,7 +34,7 @@ void die_fatal(const char *trouble, const char *d, const char *fn) {
     global_die(111);
 }
 
-void create(const char *d, const char *fn, const unsigned char *x, long long xlen) {
+static void create(const char *d, const char *fn, const unsigned char *x, long long xlen) {
     if (savesync(fn, x, xlen) == -1) die_fatal("unable to create", d, fn);
 }
 
