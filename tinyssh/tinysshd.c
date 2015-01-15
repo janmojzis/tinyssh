@@ -45,6 +45,7 @@ Public domain.
    -S (optional): disable state-of-the-art crypto\n\
    -p (optional): enable post-quantum crypto - TODO\n\
    -P (optional): disable post-quantum crypto\n\
+   -x name=command (optional): add subsytem command (example: sftp=/usr/libexec/openssh/sftp-server)\n\
    keydir: directory containing secret and public SSH keys for signing\n\
 \n\
  compilation info:" \
@@ -148,11 +149,18 @@ int main(int argc, char **argv) {
             if (*x == 'S') { cryptotypeselected &= ~sshcrypto_TYPENEWCRYPTO; continue; }
             if (*x == 'p') { cryptotypeselected |= sshcrypto_TYPEPQCRYPTO; continue; }
             if (*x == 'P') { cryptotypeselected &= ~sshcrypto_TYPEPQCRYPTO; continue; }
+            if (*x == 'x') {
+                if (x[1]) { channel_subsystem_add(x + 1); break; }
+                if (argv[1]) { channel_subsystem_add(*++argv); break; }
+            }
+
             die_usage();
         }
     }
     keydir = *++argv; if (!keydir) die_usage();
     log_init(flagverbose, "tinysshd", 1);
+
+    channel_subsystem_log();
 
     global_init();
 

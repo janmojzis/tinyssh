@@ -1,3 +1,9 @@
+tinyssh (20150115) experimental; urgency=low
+
+  * added support for SSH subsystem (fe sftp)
+
+ -- Jan Mojzis <jan.mojzis@gmail.com>  Thu, 15 Jan 2015 07:11:02 +0100
+
 tinyssh (20150101) experimental; urgency=low
 
   * initial release (alpha)

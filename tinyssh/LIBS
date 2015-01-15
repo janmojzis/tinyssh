@@ -4,6 +4,7 @@ buf.o
 channel_drop.o
 channel_fork.o
 channel_forkpty.o
+channel_subsystem.o
 channel.o
 coe.o
 connectioninfo.o

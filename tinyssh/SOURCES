@@ -5,6 +5,7 @@ channel
 channel_drop
 channel_fork
 channel_forkpty
+channel_subsystem
 coe
 connectioninfo
 dropuidgid

@@ -20,7 +20,7 @@ int packet_channel_request(struct buf *b1, struct buf *b2) {
     crypto_uint32 id, a, b, x, y;
     char *cmd;
     crypto_uint32 cmdlen;
-    char *p1, *p2;
+    char *p1, *p2, *subsystem;
     crypto_uint32 plen1, plen2;
 
     pos = packetparser_uint8(b1->buf, b1->len, pos, &ch);             /* byte      SSH_MSG_CHANNEL_REQUEST */
@@ -50,6 +50,33 @@ int packet_channel_request(struct buf *b1, struct buf *b2) {
 
         if (!channel_exec(p1)) bug();
         log_d3("packet=SSH_MSG_CHANNEL_REQUEST, exec ", p1, ", accepted");
+        goto accept;
+    }
+
+    if (str_equaln(cmd, cmdlen, "subsystem")) {
+
+/*      byte      SSH_MSG_CHANNEL_REQUEST
+        uint32    recipient channel
+        string    "subsystem"
+        boolean   want reply
+        string    subsystem name
+*/
+        pos = packetparser_uint32(b1->buf, b1->len, pos, &plen1);
+        p1 = (char *)b1->buf + pos;
+        pos = packetparser_skip(b1->buf, b1->len, pos, plen1);
+        pos = packetparser_end(b1->buf, b1->len, pos);
+        buf_putnum8(b1, 0);
+        p1[plen1] = 0;
+
+        subsystem = channel_subsystem_get(p1);
+        if (!subsystem) {
+            log_d3("packet=SSH_MSG_CHANNEL_REQUEST, subsystem ", p1, ", rejected");
+            goto reject;
+        }
+
+        if (!channel_exec(subsystem)) bug();
+        log_d5("packet=SSH_MSG_CHANNEL_REQUEST, subsystem ", p1, "=", subsystem, ", accepted");
+
         goto accept;
     }
 

@@ -34,6 +34,7 @@ void log_init(int level, const char *text, int line) {
         logstring[i] = chars[randommod(sizeof chars - 1)];
     }
     logstring[sizeof logstring - 1] = 0;
+    errno = 0;
 }
 
 char *log_string(void) {

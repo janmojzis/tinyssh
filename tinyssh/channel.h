@@ -42,4 +42,10 @@ extern crypto_uint32 channel_getlocalwindow(void);
 extern void channel_incrementremotewindow(crypto_uint32);
 extern void channel_incrementlocalwindow(crypto_uint32);
 
+/* channel subsystem.c */
+#define CHANNEL_SUBSYSTEM_MAX 64
+extern int channel_subsystem_add(const char *);
+extern char *channel_subsystem_get(const char *);
+extern void channel_subsystem_log(void);
+
 #endif
