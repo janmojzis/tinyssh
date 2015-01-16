@@ -13,7 +13,7 @@ Public domain.
 #include "buf.h"
 
 static unsigned char bspace[256];
-struct buf b = { bspace, 0, sizeof bspace };
+static struct buf b = { bspace, 0, sizeof bspace };
 
 static unsigned char pk[sshcrypto_sign_PUBLICKEYMAX];
 static unsigned char hashedpk[crypto_hash_md5_BYTES];
