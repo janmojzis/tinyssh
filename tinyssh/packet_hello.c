@@ -24,8 +24,11 @@ int packet_hello_send(void) {
     struct buf *b = &packet.hellosend;
 
     buf_purge(b);
-    buf_puts(b, "SSH-2.0-tinyssh_");
+    buf_puts(b, "SSH-2.0-tinyssh");
+#ifdef VERSION
+    buf_puts(b, "_");
     buf_puts(b, VERSION);
+#endif
     buf_puts(b, " ");
     buf_puts(b, log_string());
     buf_puts(b, "\r\n");
