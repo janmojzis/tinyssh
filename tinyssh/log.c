@@ -64,8 +64,8 @@ static void outs(const char *x) {
     }
 }
 
-static void outnum(unsigned long long num) {
-    outs(numtostr(0, num));
+static void outnum(unsigned long long n) {
+    outs(numtostr(0, n));
 }
 
 void log_9_(

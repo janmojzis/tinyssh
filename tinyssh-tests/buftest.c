@@ -15,8 +15,6 @@ Public domain.
 #include "crypto_uint32.h"
 #include "crypto_uint8.h"
 
-unsigned char bspace[10];
-struct buf b;
 
 /* XXX */
 int xbuf_putnum8_(const char *fn, unsigned long long line,
@@ -48,6 +46,7 @@ struct vectors {
     { 0, 0, 0, 0, 0 }
 };
 
+
 static int _test1a(long long spacelen, int (*op)(), unsigned char *x, long long xlen, int type) {
 
     pid_t pid;
@@ -55,6 +54,8 @@ static int _test1a(long long spacelen, int (*op)(), unsigned char *x, long long 
     int (*op1)(const char *, unsigned long long, struct buf *, long long);
     int (*op2)(const char *, unsigned long long, struct buf *, const unsigned char *, long long);
     int (*op3)(const char *, unsigned long long, struct buf *, const unsigned char *);
+    unsigned char bspace[10];
+    struct buf b;
 
     pid = fork();
     if (pid == -1) return -1;
@@ -92,6 +93,8 @@ static void _test1b(long long spacelen, int (*op)(), unsigned char *x, long long
     int (*op1)(const char *, unsigned long long, struct buf *, long long);
     int (*op2)(const char *, unsigned long long, struct buf *, const unsigned char *, long long);
     int (*op3)(const char *, unsigned long long, struct buf *, const unsigned char *);
+    unsigned char bspace[10];
+    struct buf b;
 
     buf_init(&b, bspace, spacelen);
     switch (type) {

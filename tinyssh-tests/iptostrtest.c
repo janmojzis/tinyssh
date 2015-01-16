@@ -527,8 +527,6 @@ struct vectors {
     { 0, 0 }
 };
 
-unsigned char ip[16];
-
 void test_compress() {
 
     long long i, j;
