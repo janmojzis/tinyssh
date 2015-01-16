@@ -18,6 +18,7 @@ Public domain.
 #include "purge.h"
 #include "byte.h"
 #include "readall.h"
+#include "blocking.h"
 #include "sshcrypto.h"
 
 /*
@@ -73,6 +74,7 @@ int subprocess_sign(unsigned char *y, long long ylen, const char *keydir, unsign
         global_die(0);
     }
     close(fromchild[1]);
+    blocking_enable(fromchild[0]);
     if (readall(fromchild[0], y, ylen) == -1) { close(fromchild[0]); return -1; }
     close(fromchild[0]);
 
