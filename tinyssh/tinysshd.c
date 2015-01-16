@@ -48,20 +48,7 @@ Public domain.
    -x name=command (optional): add subsystem command (example: sftp=/usr/libexec/openssh/sftp-server)\n\
    keydir: directory containing secret and public SSH keys for signing\n\
 \n\
- compilation info:" \
-" \n    compiler (" COMPILER \
-")\n    crypto_stream_chacha20 (" crypto_stream_chacha20_IMPLEMENTATION \
-")\n    crypto_onetimeauth_poly1305 (" crypto_onetimeauth_poly1305_IMPLEMENTATION \
-")\n    crypto_auth_hmacsha256 (" crypto_auth_hmacsha256_IMPLEMENTATION \
-")\n    crypto_hash_sha512 (" crypto_hash_sha512_IMPLEMENTATION \
-")\n    crypto_hash_sha256 (" crypto_hash_sha256_IMPLEMENTATION \
-")\n    crypto_core_aes128encrypt (" crypto_core_aes128encrypt_IMPLEMENTATION \
-")\n    crypto_core_aes256encrypt (" crypto_core_aes256encrypt_IMPLEMENTATION \
-")\n    crypto_scalarmult_curve25519 (" crypto_scalarmult_curve25519_IMPLEMENTATION \
-")\n    crypto_scalarmult_nistp256 (" crypto_scalarmult_nistp256_IMPLEMENTATION \
-")\n    crypto_sign_ed25519 (" crypto_sign_ed25519_IMPLEMENTATION \
-")\n    crypto_sign_nistp256ecdsa (" crypto_sign_nistp256ecdsa_IMPLEMENTATION \
-")\n"
+"
 
 static unsigned int cryptotypeselected = sshcrypto_TYPENEWCRYPTO;
 static int flagverbose = 1;
