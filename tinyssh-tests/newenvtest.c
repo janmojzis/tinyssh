@@ -43,7 +43,7 @@ void test1(void) {
     if (newenv_copyenv("CC3")) fail("newenv_copyenv failure");
 
     /* replaced env */
-    if (!newenv_env("DD1", "failed") == -1) fail("newenv_env failure");
+    if (!newenv_env("DD1", "failed")) fail("newenv_env failure");
     if (!newenv_env("DD1", "ok")) fail("newenv_env failure");
     if (setenv("DD3", "failed", 1) == -1) fail("setenv failure");
     if (!newenv_copyenv("DD3")) fail("newenv_copyenv failure");
