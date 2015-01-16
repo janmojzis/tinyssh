@@ -1,6 +1,8 @@
 #include "crypto.h"
 #include "sshcrypto.h"
 
+#if defined(crypto_core_aes256encrypt_KEYBYTES)
+
 int aesctr256_xor(unsigned char *c, const unsigned char *m, unsigned long long l, const unsigned char *nn, const unsigned char *k) {
 
     unsigned int u;
@@ -30,3 +32,4 @@ int aesctr256_xor(unsigned char *c, const unsigned char *m, unsigned long long l
     return 0;
 }
 
+#endif
