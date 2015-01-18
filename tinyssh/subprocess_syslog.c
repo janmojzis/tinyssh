@@ -18,6 +18,7 @@ For security reasons is never executed under root privileges.
 #include "dropuidgid.h"
 #include "global.h"
 #include "blocking.h"
+#include "open.h"
 #include "getln.h"
 #include "subprocess.h"
 
