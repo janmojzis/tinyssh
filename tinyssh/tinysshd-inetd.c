@@ -6,8 +6,9 @@ Public domain.
 
 #include <sys/types.h>
 #include <unistd.h>
+#include "env.h"
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc, char **argv) {
 
     char *logger[2] = { "logger", 0 };
     pid_t pid;
@@ -31,6 +32,6 @@ int main(int argc, char **argv, char **envp) {
     close(tochild[0]);
     if (dup2(tochild[1], 2) == -1) _exit(111);
 
-    execve(*argv, argv, envp);
+    execve(*argv, argv, environ);
     _exit(111);
 }
