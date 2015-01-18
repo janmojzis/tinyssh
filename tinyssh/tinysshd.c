@@ -45,8 +45,8 @@ Public domain.
    -S (optional): disable state-of-the-art crypto\n\
    -p (optional): enable post-quantum crypto - TODO\n\
    -P (optional): disable post-quantum crypto\n\
-   -l (optional): use syslog logger instead of standard error output (usefull for running from inetd)\n\
-   -L (optional): don't use logger (default)\n\
+   -l (optional): use syslog instead of standard error output (usefull for running from inetd)\n\
+   -L (optional): don't use syslog, use standard error output (default)\n\
    -x name=command (optional): add subsystem command (example: sftp=/usr/libexec/openssh/sftp-server)\n\
    keydir: directory containing secret and public SSH keys for signing\n\
 \n\
