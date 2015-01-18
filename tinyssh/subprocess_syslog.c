@@ -17,14 +17,16 @@ For security reasons is never executed under root privileges.
 #include "e.h"
 #include "dropuidgid.h"
 #include "global.h"
+#include "blocking.h"
 #include "getln.h"
+#include "subprocess.h"
 
 int subprocess_syslog(void) {
 
     pid_t pid;
     int tochild[2] = { -1, -1 };
 
-    if (pipe(tochild) == -1) return -1;
+    if (open_pipe(tochild) == -1) return -1;
     pid = fork();
     if (pid == -1) return -1;
 
@@ -35,6 +37,9 @@ int subprocess_syslog(void) {
         #define buf global_bspace1
 
         close(tochild[1]);
+        close(0);
+        if (dup(tochild[0]) != 0) global_die(111);
+        close(1);
 
         /* drop root */
         if (geteuid() == 0) {
@@ -56,7 +61,7 @@ int subprocess_syslog(void) {
 
         ppid = getppid();
         while (ppid == getppid()) {
-            i = getln(tochild[0], buf, sizeof buf);
+            i = getln(0, buf, sizeof buf);
             if (i == 0) break; 
             if (i == -1) if (errno != ENOMEM) break;
             syslog(LOG_INFO, "%s", buf);
@@ -65,6 +70,7 @@ int subprocess_syslog(void) {
         global_die(0);
     }
     close(tochild[0]);
+    blocking_enable(tochild[1]);
     if (dup2(tochild[1], 2) == -1) return -1;
     return 0;
 }
