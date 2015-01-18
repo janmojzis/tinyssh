@@ -527,7 +527,7 @@ struct vectors {
     { 0, 0 }
 };
 
-void test_compress() {
+void test_compress(void) {
 
     long long i, j;
     char *buf0;
@@ -568,7 +568,7 @@ static void test_bufferoverflow(void) {
 }
 
 
-int main() {
+int main(void) {
 
     test_compress();
     test_bufferoverflow();
