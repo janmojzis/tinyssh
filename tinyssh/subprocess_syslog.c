@@ -5,7 +5,7 @@ Public domain.
 */
 
 /*
-The 'logger' library is used to execute logger program.
+The 'subprocess_syslog' function reads log messages and feeds them to syslog.
 For security reasons is never executed under root privileges. 
 */
 
@@ -19,7 +19,7 @@ For security reasons is never executed under root privileges.
 #include "global.h"
 #include "getln.h"
 
-int syslogger(void) {
+int subprocess_syslog(void) {
 
     pid_t pid;
     int tochild[2] = { -1, -1 };

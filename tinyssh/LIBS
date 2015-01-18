@@ -54,9 +54,9 @@ stringparser.o
 str.o
 subprocess_auth.o
 subprocess_sign.o
+subprocess_syslog.o
 trymlock.o
 writeall.o
 savesync.o
 open.o
 loginshell.o
-syslogger.o

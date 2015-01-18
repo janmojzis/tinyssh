@@ -22,7 +22,6 @@ Public domain.
 #include "log.h"
 #include "sshcrypto.h"
 #include "subprocess.h"
-#include "syslogger.h"
 #include "global.h"
 
 #define USAGE "\
@@ -151,7 +150,7 @@ int main(int argc, char **argv) {
     }
     keydir = *++argv; if (!keydir) die_usage();
 
-    if (flaglogger) syslogger(); /* XXX if it fails, too bad - no logs !!! */
+    if (flaglogger) subprocess_syslog();
 
     log_init(flagverbose, "tinysshd", 1);
 
