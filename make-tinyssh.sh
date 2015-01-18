@@ -46,7 +46,16 @@ rm -rf "$work"
 mkdir -p "$work"
 (
   cd "${work}"
-  for i in -Wno-unused-function -Wno-sign-compare -Wno-overlength-strings -Wno-deprecated-declarations -Wno-long-long -Wall -pedantic ${CFLAGS} ${LDFLAGS}; do
+  #TODO -Wstrict-prototypes -Wwrite-strings -Wunused-parameter -Wunused-value -Wmissing-prototypes -Wmissing-declarations
+  for i in  -Wundef \
+            -Wdeclaration-after-statement \
+            -Wshadow \
+            -Wno-unused-function \
+            -Wno-sign-compare \
+            -Wno-overlength-strings \
+            -Wno-deprecated-declarations \
+            -Wno-long-long -Wall \
+            -pedantic ${CFLAGS} ${LDFLAGS}; do
     echo 'int main(void) { return 0; }' > try.c
     ${compiler} "$i" -o try try.c 2>/dev/null || { echo "=== `date` ===   $i failed"; continue; }
     options="$i $options"
