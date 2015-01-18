@@ -55,7 +55,6 @@ stringparser
 subprocess_auth
 subprocess_sign
 tinysshd
-tinysshd-inetd
 tinysshd-makekey
 tinysshd-printkey
 tinysshd-random32
@@ -64,3 +63,4 @@ writeall
 savesync
 open
 loginshell
+syslogger

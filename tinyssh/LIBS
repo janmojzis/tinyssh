@@ -59,3 +59,4 @@ writeall.o
 savesync.o
 open.o
 loginshell.o
+syslogger.o

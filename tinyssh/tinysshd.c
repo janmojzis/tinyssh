@@ -22,6 +22,7 @@ Public domain.
 #include "log.h"
 #include "sshcrypto.h"
 #include "subprocess.h"
+#include "syslogger.h"
 #include "global.h"
 
 #define USAGE "\
@@ -45,6 +46,8 @@ Public domain.
    -S (optional): disable state-of-the-art crypto\n\
    -p (optional): enable post-quantum crypto - TODO\n\
    -P (optional): disable post-quantum crypto\n\
+   -l (optional): use syslog logger instead of standard error output (usefull for running from inetd)\n\
+   -L (optional): don't use logger (default)\n\
    -x name=command (optional): add subsystem command (example: sftp=/usr/libexec/openssh/sftp-server)\n\
    keydir: directory containing secret and public SSH keys for signing\n\
 \n\
@@ -53,6 +56,7 @@ Public domain.
 static unsigned int cryptotypeselected = sshcrypto_TYPENEWCRYPTO;
 static int flagverbose = 1;
 static int fdwd;
+static int flaglogger = 0;
 
 static struct buf b1 = {global_bspace1, 0, GLOBAL_BSIZE};
 static struct buf b2 = {global_bspace2, 0, GLOBAL_BSIZE};
@@ -117,7 +121,6 @@ int main(int argc, char **argv) {
     signal(SIGPIPE, SIG_IGN);
     signal(SIGALRM, timeout);
 
-
     if (argc < 2) die_usage();
     if (!argv[0]) die_usage();
     for (;;) {
@@ -136,6 +139,8 @@ int main(int argc, char **argv) {
             if (*x == 'S') { cryptotypeselected &= ~sshcrypto_TYPENEWCRYPTO; continue; }
             if (*x == 'p') { cryptotypeselected |= sshcrypto_TYPEPQCRYPTO; continue; }
             if (*x == 'P') { cryptotypeselected &= ~sshcrypto_TYPEPQCRYPTO; continue; }
+            if (*x == 'l') { flaglogger = 1; continue; }
+            if (*x == 'L') { flaglogger = 0; continue; }
             if (*x == 'x') {
                 if (x[1]) { channel_subsystem_add(x + 1); break; }
                 if (argv[1]) { channel_subsystem_add(*++argv); break; }
@@ -145,6 +150,9 @@ int main(int argc, char **argv) {
         }
     }
     keydir = *++argv; if (!keydir) die_usage();
+
+    if (flaglogger) syslogger(); /* XXX if it fails, too bad - no logs !!! */
+
     log_init(flagverbose, "tinysshd", 1);
 
     channel_subsystem_log();
