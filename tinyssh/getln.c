@@ -40,8 +40,9 @@ int getln(int fd, void *xv, long long xmax) {
     char ch;
     char *x = xv;
 
-    if (fd < 0) return -1;
-    if (xmax < 1) return -1;
+    if (xmax < 1) { errno = EINVAL; return -1; }
+    x[0] = 0;
+    if (fd < 0) { errno = EBADF; return -1; }
 
     xlen = 0;
     for (;;) {
