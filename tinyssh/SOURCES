@@ -58,7 +58,6 @@ subprocess_syslog
 tinysshd
 tinysshd-makekey
 tinysshd-printkey
-tinysshd-random32
 trymlock
 writeall
 savesync

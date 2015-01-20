@@ -21,7 +21,6 @@ fi
 #TinySSH key
 [ -d /etc/tinyssh/sshkeydir ] || \
   (
-    /usr/sbin/tinysshd-random32 > /dev/urandom || :
     /usr/sbin/tinysshd-makekey /etc/tinyssh/sshkeydir
   )
 
