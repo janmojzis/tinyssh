@@ -1,6 +1,5 @@
 --- tinysshd-makekey prints help
 
-tinysshd-makekey: usage: tinysshd-makekey keydir 
 100
 
 --- tinysshd-makekey creates key-directory

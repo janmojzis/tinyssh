@@ -13,6 +13,7 @@ Public domain.
 #include "buf.h"
 #include "log.h"
 #include "writeall.h"
+#include "die.h"
 
 static struct buf b1 = { global_bspace1, 0, sizeof global_bspace1 }; /* reusing global buffer */
 static struct buf b2 = { global_bspace2, 0, sizeof global_bspace2 }; /* reusing global buffer */
@@ -35,24 +36,6 @@ static unsigned char pk[sshcrypto_sign_PUBLICKEYMAX];
 "
 
 
-static void die_usage(void) {
-
-    log_u1(USAGE);
-    global_die(100);
-}
-
-static void die_fatal(const char *trouble, const char *d, const char *fn) {
-
-    if (d) {
-        if (fn) log_f5(trouble, " ", d, "/", fn);
-        else log_f3(trouble, " ", d);
-    }
-    else {
-        log_f1(trouble);
-    }
-    global_die(111);
-}
-
 int main(int argc, char **argv) {
 
     char *x;
@@ -60,9 +43,9 @@ int main(int argc, char **argv) {
 
     log_init(3, "tinysshd-printkey", 0, 0);
 
-    if (argc < 2) die_usage();
-    if (!argv[0]) die_usage();
-    if (!argv[1]) die_usage();
+    if (argc < 2) die_usage(USAGE);
+    if (!argv[0]) die_usage(USAGE);
+    if (!argv[1]) die_usage(USAGE);
     x = argv[1];
 
     if (chdir(x) == -1) die_fatal("unable to chdir to directory", x, 0);

@@ -11,33 +11,30 @@ Public domain.
 #include "log.h"
 #include "sshcrypto.h"
 #include "global.h"
-#include "purge.h"
+#include "die.h"
 
 #define sk global_bspace1 /* reusing global buffer */
 #define pk global_bspace2 /* reusing global buffer */
 
-static void die_usage(void) {
-
-    log_u1("tinysshd-makekey keydir");
-    global_die(100);
-}
-
-static void die_fatal(const char *trouble, const char *d, const char *fn) {
-
-    if (d) {
-        if (fn) log_f5(trouble, " ", d, "/", fn);
-        else log_f3(trouble, " ", d);
-    }
-    else {
-        log_f1(trouble);
-    }
-    global_die(111);
-}
+#define USAGE "\
+\n\
+ name:\n\
+   tinysshd-makekey - create SSH keys\n\
+\n\
+ syntax:\n\
+   tinysshd-makekey keydir\n\
+\n\
+ description:\n\
+   tinysshd-makekey - creates SSH keys for signing\n\
+\n\
+ options:\n\
+   keydir: directory for secret and public SSH keys for signing\n\
+\n\
+"
 
 static void create(const char *d, const char *fn, const unsigned char *x, long long xlen) {
     if (savesync(fn, x, xlen) == -1) die_fatal("unable to create", d, fn);
 }
-
 
 int main(int argc, char **argv) {
 
@@ -46,9 +43,9 @@ int main(int argc, char **argv) {
 
     log_init(1, "tinysshd-makekey", 0, 0);
 
-    if (argc < 2) die_usage();
-    if (!argv[0]) die_usage();
-    if (!argv[1]) die_usage();
+    if (argc < 2) die_usage(USAGE);
+    if (!argv[0]) die_usage(USAGE);
+    if (!argv[1]) die_usage(USAGE);
     d = argv[1];
 
     umask(022);

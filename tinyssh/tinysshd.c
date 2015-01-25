@@ -23,6 +23,7 @@ Public domain.
 #include "sshcrypto.h"
 #include "subprocess.h"
 #include "global.h"
+#include "die.h"
 
 #define USAGE "\
 \n\
@@ -60,26 +61,6 @@ static int flaglogger = 0;
 static struct buf b1 = {global_bspace1, 0, GLOBAL_BSIZE};
 static struct buf b2 = {global_bspace2, 0, GLOBAL_BSIZE};
 
-static void die_usage(void) {
-
-    log_init(0, "tinysshd", 0, 0);
-    log_u1(USAGE);
-
-    global_die(100);
-}
-
-static void die_fatal(const char *trouble, const char *d, const char *fn) {
-
-    if (d) {
-        if (fn) log_f5(trouble, " ", d, "/", fn);
-        else log_f3(trouble, " ", d);
-    }
-    else {
-        log_f1(trouble);
-    }
-    global_die(111);
-}
-
 static void timeout(int x) {
     errno = x = ETIMEDOUT;
     die_fatal("closing connection", 0, 0);
@@ -111,8 +92,10 @@ int main(int argc, char **argv) {
     signal(SIGPIPE, SIG_IGN);
     signal(SIGALRM, timeout);
 
-    if (argc < 2) die_usage();
-    if (!argv[0]) die_usage();
+    log_init(0, "tinysshd", 0, 0);
+
+    if (argc < 2) die_usage(USAGE);
+    if (!argv[0]) die_usage(USAGE);
     for (;;) {
         if (!argv[1]) break;
         if (argv[1][0] != '-') break;
@@ -136,10 +119,10 @@ int main(int argc, char **argv) {
                 if (argv[1]) { channel_subsystem_add(*++argv); break; }
             }
 
-            die_usage();
+            die_usage(USAGE);
         }
     }
-    keydir = *++argv; if (!keydir) die_usage();
+    keydir = *++argv; if (!keydir) die_usage(USAGE);
 
     log_init(flagverbose, "tinysshd", 1, flaglogger);
 

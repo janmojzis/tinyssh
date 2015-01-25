@@ -1,6 +1,6 @@
 blocking
-byte
 buf
+byte
 channel
 channel_drop
 channel_fork
@@ -8,6 +8,7 @@ channel_forkpty
 channel_subsystem
 coe
 connectioninfo
+die
 dropuidgid
 e
 env
@@ -17,9 +18,11 @@ global
 iptostr
 load
 log
+loginshell
 logsys
 newenv
 numtostr
+open
 packet
 packet_auth
 packet_channel_open
@@ -37,6 +40,7 @@ packet_send
 porttostr
 randommod
 readall
+savesync
 ssh
 sshcrypto
 sshcrypto_cipher
@@ -59,6 +63,3 @@ tinysshd-makekey
 tinysshd-printkey
 trymlock
 writeall
-savesync
-open
-loginshell
