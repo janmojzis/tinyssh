@@ -7,8 +7,10 @@ The 'log' library is used to write log messages
 on standard error output including source file,
 function and line number.
 Non-printable characters are replaced using '?'.
+The 'log' library also supports syslog.
 */
 
+#include <syslog.h>
 #include "writeall.h"
 #include "randommod.h"
 #include "purge.h"
@@ -20,8 +22,9 @@ static const char *logtext = "x";
 static char logstring[9] = "________";
 static int loglevel = 1;
 static int logline = 1;
+static int logsyslog = 0;
 
-void log_init(int level, const char *text, int line) {
+void log_init(int level, const char *text, int line, int flagsyslog) {
 
     long long i;
     static char chars[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRTSUVWXYZ0123456789";
@@ -34,6 +37,12 @@ void log_init(int level, const char *text, int line) {
         logstring[i] = chars[randommod(sizeof chars - 1)];
     }
     logstring[sizeof logstring - 1] = 0;
+
+    if (flagsyslog) {
+        openlog(text, 0, LOG_DAEMON);
+        logsyslog = 1;
+    }
+
     errno = 0;
 }
 
@@ -41,12 +50,18 @@ char *log_string(void) {
     return logstring;
 }
 
-
-static char buf[256];
+static char buf[257];
 static long long buflen = 0;
 
 static void flush(void) {
-    writeall(2, buf, buflen);
+
+    if (logsyslog) {
+        buf[buflen] = 0;
+        syslog(LOG_INFO, "%s", buf);
+    }
+    else {
+        writeall(2, buf, buflen);
+    }
     buflen = 0;
     purge(buf, buflen);
 }
@@ -56,7 +71,7 @@ static void outs(const char *x) {
     long long i;
 
     for(i = 0; x[i]; ++i) {
-        if (buflen >= sizeof buf) flush();
+        if (buflen >= sizeof buf - 1) flush();
         if (x[i] == '\n')  buf[buflen++] = '\n';
         else if (x[i] < 32)  buf[buflen++] = '?';
         else if (x[i] > 126) buf[buflen++] = '?';
@@ -102,7 +117,7 @@ void log_9_(
     }
 
     outs(" ");
-    if (level != LOG_INFO && errno) { outs("("); outs(e_str(errno)); outs(")"); }
+    if (level != 2 /*LOG_INFO*/ && errno) { outs("("); outs(e_str(errno)); outs(")"); }
     if (f && l && logline) { outs("{"); outs(f); outs(":"); outnum(l); outs("}"); }
     outs("\n");
     flush();

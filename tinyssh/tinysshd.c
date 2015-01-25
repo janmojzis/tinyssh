@@ -62,7 +62,7 @@ static struct buf b2 = {global_bspace2, 0, GLOBAL_BSIZE};
 
 static void die_usage(void) {
 
-    log_init(0, "tinysshd", 0);
+    log_init(0, "tinysshd", 0, 0);
     log_u1(USAGE);
 
     global_die(100);
@@ -141,9 +141,7 @@ int main(int argc, char **argv) {
     }
     keydir = *++argv; if (!keydir) die_usage();
 
-    if (flaglogger) subprocess_syslog();
-
-    log_init(flagverbose, "tinysshd", 1);
+    log_init(flagverbose, "tinysshd", 1, flaglogger);
 
     channel_subsystem_log();
 

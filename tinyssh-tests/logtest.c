@@ -81,7 +81,7 @@ static void feed(void) {
 }
 
 static void test_fatal(void) {
-    log_init(LOG_FATAL, "x", 1);
+    log_init(0, "x", 1, 0);
     log_d1("hidden");
     log_i1("hidden");
     log_w1("hidden");
@@ -89,20 +89,20 @@ static void test_fatal(void) {
 }
 
 static void test_warning(void) {
-    log_init(LOG_WARNING, "x", 1);
+    log_init(1, "x", 1, 0);
     log_d1("hidden");
     log_i1("hidden");
     log_w1(line);
 }
 
 static void test_info(void) {
-    log_init(LOG_INFO, "x", 1);
+    log_init(2, "x", 1, 0);
     log_d1("hidden");
     log_i1(line);
 }
 
 static void test_debug(void) {
-    log_init(LOG_DEBUG, "x", 1);
+    log_init(3, "x", 1, 0);
     log_d1(line);
 }
 

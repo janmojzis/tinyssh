@@ -1,7 +1,7 @@
 #ifndef _LOG_H____
 #define _LOG_H____
 
-extern void log_init(int, const char *, int);
+extern void log_init(int, const char *, int, int);
 extern char *log_string(void);
 
 extern void log_9_(int, const char *, unsigned long long, const char *, const char *, const char *, const char *, const char *, const char *, const char *, const char *, const char *, const char *);
@@ -61,9 +61,12 @@ extern void log_9_(int, const char *, unsigned long long, const char *, const ch
 #define log_d2(a,b) log_d3(a,b,0)
 #define log_d1(a) log_d2(a,0)
 
-#define LOG_FATAL 0
-#define LOG_WARNING 1
-#define LOG_INFO 2
-#define LOG_DEBUG 3
+/*
+not compatible with syslog
+LOG_FATAL 0
+LOG_WARNING 1
+LOG_INFO 2
+LOG_DEBUG 3
+*/
 
 #endif

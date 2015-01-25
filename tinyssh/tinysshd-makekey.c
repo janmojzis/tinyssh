@@ -39,12 +39,12 @@ static void create(const char *d, const char *fn, const unsigned char *x, long l
 }
 
 
-int main(int argc,char **argv) {
+int main(int argc, char **argv) {
 
     const char *d;
     long long i;
 
-    log_init(1, "tinysshd-makekey", 0);
+    log_init(1, "tinysshd-makekey", 0, 0);
 
     if (argc < 2) die_usage();
     if (!argv[0]) die_usage();

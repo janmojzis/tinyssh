@@ -54,7 +54,6 @@ str
 stringparser
 subprocess_auth
 subprocess_sign
-subprocess_syslog
 tinysshd
 tinysshd-makekey
 tinysshd-printkey

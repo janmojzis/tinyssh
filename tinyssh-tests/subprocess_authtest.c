@@ -489,7 +489,7 @@ int main(void) {
     run(test_path_dir3_perm3, "d1/ (access denied)");
     run(test_path_dir_symlink, "d1/ (access denied)");
 
-    log_init(-1, "xxx", 1);
+    log_init(-1, "xxx", 1, 0);
     test_authorizedkeys_ne();
     authorizedkeys();
     test_authorizedkeys_ok();

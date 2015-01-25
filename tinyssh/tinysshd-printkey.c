@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
     char *x;
     long long i;
 
-    log_init(3, "tinysshd-printkey", 0);
+    log_init(3, "tinysshd-printkey", 0, 0);
 
     if (argc < 2) die_usage();
     if (!argv[0]) die_usage();
