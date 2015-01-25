@@ -1,29 +1,44 @@
 /*
-20121022
+20150124
 Jan Mojzis
 Public domain.
 */
 
 #include <unistd.h>
-#include "log.h"
 #include "e.h"
 #include "load.h"
 #include "sshcrypto.h"
 #include "crypto.h"
+#include "global.h"
 #include "buf.h"
+#include "log.h"
+#include "writeall.h"
 
-static unsigned char bspace[256];
-static struct buf b = { bspace, 0, sizeof bspace };
-
+static struct buf b1 = { global_bspace1, 0, sizeof global_bspace1 }; /* reusing global buffer */
+static struct buf b2 = { global_bspace2, 0, sizeof global_bspace2 }; /* reusing global buffer */
 static unsigned char pk[sshcrypto_sign_PUBLICKEYMAX];
-static unsigned char hashedpk[crypto_hash_md5_BYTES];
-static char hexfp[3 * crypto_hash_md5_BYTES];
-static char hexpk[2 * sshcrypto_sign_PUBLICKEYMAX + 1];
+
+#define USAGE "\
+\n\
+ name:\n\
+   tinysshd-printkey - print SSH public-keys\n\
+\n\
+ syntax:\n\
+   tinysshd-printkey keydir\n\
+\n\
+ description:\n\
+   tinysshd-printkey - prints SSH public-keys in base64 format\n\
+\n\
+ options:\n\
+   keydir: directory containing secret and public SSH keys for signing\n\
+\n\
+"
+
 
 static void die_usage(void) {
 
-    log_u1("tinysshd-printkey keydir");
-    _exit(100);
+    log_u1(USAGE);
+    global_die(100);
 }
 
 static void die_fatal(const char *trouble, const char *d, const char *fn) {
@@ -35,50 +50,41 @@ static void die_fatal(const char *trouble, const char *d, const char *fn) {
     else {
         log_f1(trouble);
     }
-    _exit(111);
+    global_die(111);
 }
 
 int main(int argc, char **argv) {
 
-    char *d;
-    long long i, j;
+    char *x;
+    long long i;
 
     log_init(3, "tinysshd-printkey", 0);
 
     if (argc < 2) die_usage();
     if (!argv[0]) die_usage();
     if (!argv[1]) die_usage();
-    d = argv[1];
+    x = argv[1];
 
-    if (chdir(d) == -1) die_fatal("unable to chdir to directory", d, 0);
+    if (chdir(x) == -1) die_fatal("unable to chdir to directory", x, 0);
 
     /* read public keys */
     for (i = 0; sshcrypto_keys[i].name; ++i) {
         if (load(sshcrypto_keys[i].sign_publickeyfilename, pk, sshcrypto_keys[i].sign_publickeybytes) == -1) {
             if (errno == ENOENT) continue;
-            die_fatal("unable to read public key from file", d, sshcrypto_keys[i].sign_publickeyfilename);
+            die_fatal("unable to read public key from file", x, sshcrypto_keys[i].sign_publickeyfilename);
         }
 
-        /* md5 - fingerprint */
-        buf_purge(&b);
-        sshcrypto_keys[i].buf_putsignpk(&b, pk);
-        if (b.len < 4) die_fatal("unable to get publickey", 0, 0);
-        crypto_hash_md5(hashedpk, b.buf + 4, b.len - 4);
-        for (j = 0; j < crypto_hash_md5_BYTES; ++j) {
-            hexfp[3 * j + 0] = "0123456789abcdef"[15 & (int) (hashedpk[j] >> 4)];
-            hexfp[3 * j + 1] = "0123456789abcdef"[15 & (int) (hashedpk[j] >> 0)];
-            hexfp[3 * j + 2] = ':';
-        }
-        hexfp[3 * j - 1] = 0;
+        buf_purge(&b1);
+        sshcrypto_keys[i].buf_putsignpk(&b1, pk);
+        if (b1.len < 4) die_fatal("unable to get publickey", 0, 0);
 
-        /* hex */
-        for (j = 0; j < sshcrypto_keys[i].sign_publickeybytes; ++j) {
-            hexpk[2 * j + 0] = "0123456789abcdef"[15 & (int) (pk[j] >> 4)];
-            hexpk[2 * j + 1] = "0123456789abcdef"[15 & (int) (pk[j] >> 0)];
-        }
-        hexpk[2 * j] = 0;
-
-        log_i5(sshcrypto_keys[i].name, " ", hexfp, " ", hexpk);
+        /* base64 */
+        buf_purge(&b2);
+        buf_puts(&b2, sshcrypto_keys[i].name);
+        buf_puts(&b2, " ");
+        buf_putbase64(&b2, b1.buf + 4, b1.len - 4);
+        buf_puts(&b2, "\n");
+        if (writeall(1, b2.buf, b2.len) == -1) die_fatal("unable to write output", 0, 0);
     }
-    _exit(0);
+    global_die(0); return 111;
 }

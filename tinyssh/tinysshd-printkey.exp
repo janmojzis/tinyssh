@@ -1,21 +1,20 @@
 --- tinysshd-printkey prints help
 
-tinysshd-printkey: usage: tinysshd-printkey keydir 
 100
 
 --- tinysshd-printkey prints keys
 
-tinysshd-printkey: info: ssh-ed25519 0b:c5:a3:f6:54:8f:8c:a4:cd:91:f4:50:51:27:bd:30 787878787878787878787878787878787878787878787878787878787878780a 
-tinysshd-printkey: info: ecdsa-sha2-nistp256 6c:d5:3e:ba:f5:ae:d2:9d:ad:03:28:81:bb:b8:43:5f 7878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878780a 
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHgK
+ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eAo=
 0
 
 --- tinysshd-printkey prints only ssh-ed25519 key
 
-tinysshd-printkey: info: ssh-ed25519 0b:c5:a3:f6:54:8f:8c:a4:cd:91:f4:50:51:27:bd:30 787878787878787878787878787878787878787878787878787878787878780a 
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHgK
 0
 
 --- tinysshd-printkey prints only ecdsa-sha2-nistp256 key
 
-tinysshd-printkey: info: ecdsa-sha2-nistp256 6c:d5:3e:ba:f5:ae:d2:9d:ad:03:28:81:bb:b8:43:5f 7878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878780a 
+ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eAo=
 0
 

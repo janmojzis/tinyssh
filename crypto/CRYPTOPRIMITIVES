@@ -3,7 +3,6 @@ crypto_onetimeauth_poly1305 1
 crypto_auth_hmacsha256 1
 crypto_hash_sha512 1
 crypto_hash_sha256 1
-crypto_hash_md5 1
 crypto_verify_16 1
 crypto_verify_32 1
 crypto_core_aes128encrypt 1

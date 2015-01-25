@@ -4,7 +4,6 @@ crypto_core_aes128encrypt
 crypto_core_aes256encrypt
 randombytes
 uint32_pack
-uint64_pack
 uint32_unpack
 uint64_pack_big
 uint64_unpack_big
@@ -19,7 +18,6 @@ sha256
 crypto_hash_sha256
 crypto_auth_hmacsha256
 crypto_hash_sha512
-crypto_hash_md5
 fe
 fe25519
 ge25519

@@ -6,7 +6,7 @@ mkdir keydir
 
 echo '--- tinysshd-printkey prints help'
 echo
-./tinysshd-printkey 2>&1
+./tinysshd-printkey 2>/dev/null
 echo $?
 echo
 
@@ -22,7 +22,7 @@ echo
 
 echo '--- tinysshd-printkey prints keys'
 echo
-./tinysshd-printkey keydir 2>&1
+./tinysshd-printkey keydir
 echo $?
 echo
 
@@ -30,7 +30,7 @@ mv keydir/nistp256ecdsa.pk keydir/nistp256ecdsa.pk.bk
 
 echo '--- tinysshd-printkey prints only ssh-ed25519 key'
 echo
-./tinysshd-printkey keydir 2>&1
+./tinysshd-printkey keydir
 echo $?
 echo
 
@@ -39,9 +39,8 @@ mv keydir/ed25519.pk keydir/ed25519.pk.bk
 
 echo '--- tinysshd-printkey prints only ecdsa-sha2-nistp256 key'
 echo
-./tinysshd-printkey keydir 2>&1
+./tinysshd-printkey keydir
 echo $?
 echo
 
 exit 0
-

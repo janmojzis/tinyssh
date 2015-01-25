@@ -1,9 +1,10 @@
-tinyssh (20150118) experimental; urgency=low
+tinyssh (20150125) experimental; urgency=low
 
-  * added support for SSH subsystem (fe sftp)
+  * added support for SSH subsystem (e.g. sftp)
   * added support for syslog, removed tinysshd-inetd
+  * tinysshd-printkey redesign, removed crypto_hash_md5()
 
- -- Jan Mojzis <jan.mojzis@gmail.com>  Sun, 18 Jan 2015 15:42:40 +0100
+ -- Jan Mojzis <jan.mojzis@gmail.com>  Sun, 25 Jan 2015 08:34:29 +0100
 
 tinyssh (20150101) experimental; urgency=low
 
