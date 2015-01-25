@@ -108,7 +108,7 @@ void log_9_(
     s[4] = s4; s[5] = s5; s[6] = s6; s[7] = s7;
     s[8] = s8;
 
-    outs(logtext); outs(": ");
+    if (!logsyslog) { outs(logtext); outs(": "); }
     if (logline) { outs(logstring); outs(": "); }
     outs(m); outs(": ");
 
