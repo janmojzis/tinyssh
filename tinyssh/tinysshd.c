@@ -60,24 +60,15 @@ static int flaglogger = 0;
 static struct buf b1 = {global_bspace1, 0, GLOBAL_BSIZE};
 static struct buf b2 = {global_bspace2, 0, GLOBAL_BSIZE};
 
-static void cleanup(void) {
-
-    global_purge();
-}
-
 static void die_usage(void) {
-
-    cleanup();
 
     log_init(0, "tinysshd", 0);
     log_u1(USAGE);
 
-    _exit(100);
+    global_die(100);
 }
 
 static void die_fatal(const char *trouble, const char *d, const char *fn) {
-
-    cleanup();
 
     if (d) {
         if (fn) log_f5(trouble, " ", d, "/", fn);
@@ -86,7 +77,7 @@ static void die_fatal(const char *trouble, const char *d, const char *fn) {
     else {
         log_f1(trouble);
     }
-    _exit(111);
+    global_die(111);
 }
 
 static void timeout(int x) {
@@ -335,6 +326,5 @@ rekeying:
     }
 
     log_i1("finished");
-    cleanup();
-    _exit(0);
+    global_die(0); return 111;
 }
