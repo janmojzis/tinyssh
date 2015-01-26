@@ -45,8 +45,17 @@ int main(int argc, char **argv) {
 
     if (argc < 2) die_usage(USAGE);
     if (!argv[0]) die_usage(USAGE);
-    if (!argv[1]) die_usage(USAGE);
-    x = argv[1];
+    for (;;) {
+        if (!argv[1]) break;
+        if (argv[1][0] != '-') break;
+        x = *++argv;
+        if (x[0] == '-' && x[1] == 0) break;
+        if (x[0] == '-' && x[1] == '-' && x[2] == 0) break;
+        while (*++x) {
+            die_usage(USAGE);
+        }
+    }
+    x = *++argv; if (!x) die_usage(USAGE);
 
     if (chdir(x) == -1) die_fatal("unable to chdir to directory", x, 0);
 

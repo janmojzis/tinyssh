@@ -12,3 +12,11 @@ keydir/nistp256ecdsa.pk
 
 tinysshd-makekey: fatal: unable to create directory keydir (file already exists)
 111
+--- tinysshd-makekey handles '-r' parameter (prints help)
+
+100
+
+--- tinysshd-makekey creates '-r' key-directory
+
+0
+

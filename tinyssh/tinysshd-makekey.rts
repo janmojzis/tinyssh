@@ -27,3 +27,14 @@ mkdir keydir
 ./tinysshd-makekey keydir 2>&1
 echo $?
 
+echo "--- tinysshd-makekey handles '-r' parameter (prints help)"
+echo
+./tinysshd-makekey -r 2>/dev/null
+echo $?
+echo
+
+echo "--- tinysshd-makekey creates '-r' key-directory"
+echo
+./tinysshd-makekey -- -r 2>&1
+echo $?
+echo

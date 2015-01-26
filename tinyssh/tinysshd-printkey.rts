@@ -43,4 +43,19 @@ echo
 echo $?
 echo
 
+
+./tinysshd-makekey 2>/dev/null || :
+
+echo "--- tinysshd-printkey handles '-r' parameter (prints help)"
+echo
+./tinysshd-printkey -r 2>/dev/null
+echo $?
+echo
+
+echo "--- tinysshd-printkey prints keys from '-r' key-directory"
+echo
+./tinysshd-printkey -- -r 1>/dev/null
+echo $?
+echo
+
 exit 0
