@@ -19,17 +19,19 @@ Public domain.
 #define USAGE "\
 \n\
  name:\n\
-   tinysshd-makekey - create SSH keys\n\
+   tinysshd-makekey - create TinySSH key-directory\n\
 \n\
  syntax:\n\
    tinysshd-makekey keydir\n\
 \n\
  description:\n\
-   tinysshd-makekey - creates SSH keys for signing\n\
+   tinysshd-makekey - creates TinySSH key-directory.\n\
+   Key-directory 'keydir' containts public keys and secret keys:\n\n\
+   ed25519.pk and .ed25519.sk ............... ED25519 keys\n\
+   nistp256ecdsa.pk and .nistp256ecdsa.sk ... NIST P256 ECDSA keys\n\
 \n\
  options:\n\
-   keydir: directory for secret and public SSH keys for signing\n\
-\n\
+   keydir: directory for secret and public TinySSH keys\n\
 "
 
 static void create(const char *d, const char *fn, const unsigned char *x, long long xlen) {

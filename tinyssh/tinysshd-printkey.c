@@ -22,16 +22,17 @@ static unsigned char pk[sshcrypto_sign_PUBLICKEYMAX];
 #define USAGE "\
 \n\
  name:\n\
-   tinysshd-printkey - print SSH public-keys\n\
+   tinysshd-printkey - print public-keys TinySSH keys\n\
 \n\
  syntax:\n\
    tinysshd-printkey keydir\n\
 \n\
  description:\n\
-   tinysshd-printkey - prints SSH public-keys in base64 format\n\
+   tinysshd-printkey - prints TinySSH public-keys in base64 format.\n\
+   \n\
 \n\
  options:\n\
-   keydir: directory containing secret and public SSH keys for signing\n\
+   keydir: directory containing secret and public TinySSH keys\n\
 \n\
 "
 

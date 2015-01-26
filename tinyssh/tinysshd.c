@@ -28,7 +28,7 @@ Public domain.
 #define USAGE "\
 \n\
  name:\n\
-   tinysshd - tiny SSH daemon\n\
+   tinysshd - TinySSH daemon\n\
 \n\
  syntax:\n\
    tinysshd [options] keydir\n\
@@ -49,7 +49,7 @@ Public domain.
    -l (optional): use syslog instead of standard error output (useful for running from inetd)\n\
    -L (optional): don't use syslog, use standard error output (default)\n\
    -x name=command (optional): add subsystem command (example: sftp=/usr/libexec/openssh/sftp-server)\n\
-   keydir: directory containing secret and public SSH keys for signing\n\
+   keydir: directory containing secret and public TinySSH keys\n\
 \n\
 "
 
