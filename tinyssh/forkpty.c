@@ -15,7 +15,9 @@ will determine the  terminal attributes and window size of the slave side of the
 
 #ifdef FORKPTYGENERIC
 #include <unistd.h>
+#if defined(sun) || defined(__hpux)
 #include <sys/stropts.h>
+#endif
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
