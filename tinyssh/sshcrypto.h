@@ -133,9 +133,8 @@ extern int sshcrypto_cipher_select(const unsigned char *, long long);
 extern void sshcrypto_cipher_put(struct buf *);
 extern void sshcrypto_cipher_macput(struct buf *b);
 
-/* init/purge/random32 */
+/* init/purge */
 extern void sshcrypto_init(void);
 extern void sshcrypto_purge(void);
-extern void sshcrypto_random32(unsigned char *);
 
 #endif

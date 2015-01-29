@@ -6,16 +6,17 @@ Public domain.
 
 #include "buf.h"
 #include "crypto.h"
+#include "randombytes.h"
 #include "sshcrypto.h"
 
-#if defined(crypto_scalarmult_curve25519_BYTES) && defined(crypto_hash_sha256_BYTES) && crypto_scalarmult_curve25519_SCALARBYTES == 32
+#if defined(crypto_scalarmult_curve25519_BYTES) && defined(crypto_hash_sha256_BYTES)
 int curve25519_dh(unsigned char *k, unsigned char *pk, unsigned char *sk) {
     return crypto_scalarmult_curve25519(k, sk, pk);
 }
 
 int curve25519_keypair(unsigned char *pk, unsigned char *sk) {
 
-    sshcrypto_random32(sk);
+    randombytes(sk, crypto_scalarmult_curve25519_SCALARBYTES);
     return crypto_scalarmult_curve25519_base(pk, sk);
 }
 

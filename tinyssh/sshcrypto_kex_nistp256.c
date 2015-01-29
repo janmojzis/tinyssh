@@ -8,9 +8,10 @@ Public domain.
 #include "crypto.h"
 #include "byte.h"
 #include "purge.h"
+#include "randombytes.h"
 #include "sshcrypto.h"
 
-#if defined(crypto_scalarmult_nistp256_BYTES) && defined(crypto_hash_sha256_BYTES) && crypto_scalarmult_nistp256_SCALARBYTES == 32
+#if defined(crypto_scalarmult_nistp256_BYTES) && defined(crypto_hash_sha256_BYTES)
 int nistp256_dh(unsigned char *k, unsigned char *pk, unsigned char *sk) {
 
     unsigned char kk[crypto_scalarmult_nistp256_BYTES];
@@ -24,7 +25,7 @@ int nistp256_dh(unsigned char *k, unsigned char *pk, unsigned char *sk) {
 
 int nistp256_keypair(unsigned char *pk, unsigned char *sk) {
 
-    sshcrypto_random32(sk);
+    randombytes(sk, crypto_scalarmult_nistp256_SCALARBYTES);
     pk[0] = 4; /* means uncompressed point */
     return crypto_scalarmult_nistp256_base(pk + 1, sk);
 }
