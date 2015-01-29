@@ -23,7 +23,9 @@ will determine the  terminal attributes and window size of the slave side of the
 #include <fcntl.h>
 #include <termios.h>
 #include <sys/ioctl.h> 
-#include <stdlib.h>
+extern char *ptsname(int);
+extern int grantpt(int);
+extern int unlockpt(int);
 
 const char *fn[] = { "/dev/ptmx", "/dev/ptc", 0 };
 
