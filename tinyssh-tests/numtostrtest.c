@@ -8,7 +8,6 @@ Public domain.
 #include <string.h>
 #include <stdio.h>
 #include "fail.h"
-#include "num.h"
 #include "numtostr.h"
 
 static num int128max(void) {
