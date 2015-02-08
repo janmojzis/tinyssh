@@ -61,8 +61,8 @@ static void test_bufferoverflow(void) {
 
 static void test_minmax(void) {
 
-    char *llmax;
-    char *llmin;
+    const char *llmax;
+    const char *llmin;
     num llmaxnum;
     num llminnum;
     char *x;
