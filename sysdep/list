@@ -19,10 +19,6 @@ echo 'crypto_uint64.h crypto_uint64.h-longlong'
 echo 'crypto_uint64.h crypto_uint64.h-long'
 echo 'crypto_uint64.h crypto_uint64.h-attr'
 
-#num
-#echo 'num.h num.h-128'
-echo 'num.h num.h-longlong'
-
 #mlock
 echo 'hasmlock.h hasmlock.h-yes'
 echo 'hasmlock.h default.h-no'

@@ -11,10 +11,10 @@ The 'numtostr(strbuf,n)' converts number 'n' into the 0-terminated string.
 The caller must allocate at least NUMTOSTR_LEN bytes for 'strbuf'.
 The 'numtostr' function is ready for 128-bit integer.
 */
-char *numtostr(char *strbuf, num n) {
+char *numtostr(char *strbuf, long long n) {
 
     long long len = 0;
-    num_u nn;
+    unsigned long long nn;
     static char staticbuf[NUMTOSTR_LEN];
     int flagsign = 0;
 
