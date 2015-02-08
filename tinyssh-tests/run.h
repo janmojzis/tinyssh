@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include "fail.h"
 
-static void _run_mustfail(char *file, unsigned long long line, void (*op)(void)) {      \
+static void _run_mustfail(const char *file, unsigned long long line, void (*op)(void)) {\
                                                                                         \
     pid_t pid;                                                                          \
     int status;                                                                         \
@@ -26,7 +26,7 @@ static void _run_mustfail(char *file, unsigned long long line, void (*op)(void))
     if (!WEXITSTATUS(status)) fail_(file, line, "process exited with status = 0");      \
 }
 
-static void _run_mustpass(char *file, unsigned long long line, void (*op)(void)) {      \
+static void _run_mustpass(const char *file, unsigned long long line, void (*op)(void)) {\
                                                                                         \
     pid_t pid;                                                                          \
     int status;                                                                         \

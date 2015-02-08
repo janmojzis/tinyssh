@@ -18,7 +18,7 @@ int main(void) {
     unsigned char b1[32];
     unsigned char b2[32];
     long long i, j;
-    char *x = "abcdefgh";
+    const char *x = "abcdefgh";
     char y[8];
 
     /* byte_zero test */

@@ -47,7 +47,7 @@ void test_setunset(void) {
 
 void test_env(void) {
 
-    char *env[10];
+    const char *env[10];
 
     env[0] = "a=1";
     env[1] = "a=2";
@@ -58,7 +58,7 @@ void test_env(void) {
     env[6] = "e==";
     env[7] = 0;
 
-    environ = env;
+    environ = (char **)env;
 
     doit("a", "1");
     doit("b", "b=1");
