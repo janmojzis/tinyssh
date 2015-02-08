@@ -10,9 +10,9 @@ Public domain.
 #include "fail.h"
 #include "numtostr.h"
 
-static num int128max(void) {
+static long long int128max(void) {
 
-    num x = 9223372036854775807LL;
+    long long x = 9223372036854775807LL;
 
     x <<= 32;
     x <<= 32;
@@ -28,9 +28,9 @@ static void test_bufferoverflow(void) {
     char buf[NUMTOSTR_LEN + 16];
     long long i, j;
     char ch[2] = {0x00, (char)0xff };
-    num llmaxnum;
-    num llminnum;
-    long long numlen = sizeof(num);
+    long long  llmaxnum;
+    long long llminnum;
+    long long numlen = sizeof(long long);
 
     if (numlen == 16) {
         llmaxnum = int128max();
@@ -62,10 +62,10 @@ static void test_minmax(void) {
 
     const char *llmax;
     const char *llmin;
-    num llmaxnum;
-    num llminnum;
+    long long llmaxnum;
+    long long llminnum;
     char *x;
-    long long numlen = sizeof(num);
+    long long numlen = sizeof(long long);
 
     if (numlen == 16) {
         llmax   = "170141183460469231731687303715884105727";
