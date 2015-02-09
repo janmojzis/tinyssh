@@ -36,16 +36,24 @@ if [ -x /usr/sbin/tinysshd-curvecpserver ]; then
 fi
 
 #CurveCP key
-[ -d /etc/tinyssh/curvecpkeydir ] || \
-  (
-    "${curvecpmakekey}" /etc/tinyssh/curvecpkeydir
-  )
+while true; do
+  [ -d /etc/tinyssh/curvecpkeydir ] && break
+  entropy="`cat /proc/sys/kernel/random/entropy_avail`"
+  [ "${entropy}" -ge 256 ] && "${curvecpmakekey}" /etc/tinyssh/curvecpkeydir
+  echo "entropy too low (${entropy} < 256) - please wait" >&2
+  echo "or run it manualy (at your own risk)" >&2
+  sleep 60
+done
 
 #TinySSH key
-[ -d /etc/tinyssh/sshkeydir ] || \
-  (
-    /usr/sbin/tinysshd-makekey /etc/tinyssh/sshkeydir
-  )
+while true; do
+  [ -d /etc/tinyssh/sshkeydir ] && break
+  entropy="`cat /proc/sys/kernel/random/entropy_avail`"
+  [ "${entropy}" -ge 256 ] && /usr/sbin/tinysshd-makekey /etc/tinyssh/sshkeydir
+  echo "entropy too low (${entropy} < 256) ... waiting" >&2
+  echo "or run it manualy (at your own risk)" >&2
+  sleep 60
+done
 
 curvecpkey=`${curvecpprintkey} /etc/tinyssh/curvecpkeydir`
 

@@ -19,10 +19,14 @@ if [ -x /usr/sbin/tinysshd-tcpserver ]; then
 fi
 
 #TinySSH key
-[ -d /etc/tinyssh/sshkeydir ] || \
-  (
-    /usr/sbin/tinysshd-makekey /etc/tinyssh/sshkeydir
-  )
+while true; do
+  [ -d /etc/tinyssh/sshkeydir ] && break
+  entropy="`cat /proc/sys/kernel/random/entropy_avail`"
+  [ "${entropy}" -ge 256 ] && /usr/sbin/tinysshd-makekey /etc/tinyssh/sshkeydir
+  echo "entropy too low (${entropy} < 256) - please wait" >&2
+  echo "or run it manualy (at your own risk)" >&2
+  sleep 10
+done
 
 echo "Starting TinySSH using TCP transport: ${IP}:${PORT}" >&2
 /usr/sbin/tinysshd-printkey /etc/tinyssh/sshkeydir >&2
