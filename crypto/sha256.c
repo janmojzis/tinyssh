@@ -2,6 +2,7 @@
 #include "uint32_pack_big.h"
 #include "uint32_unpack_big.h"
 #include "uint64_pack_big.h"
+#include "sha256.h"
 
 #define FOR(i,n) for (i = 0;i < n;++i)
 
