@@ -146,9 +146,9 @@ static void test2(void) {
 }
 
 struct vectors64 {
-    char *in;
+    const char *in;
     long long inlen;
-    char *out;
+    const char *out;
 } testvectors64[] = {
     { "\107\303\221\307\306\077\106\014\235\115\356\215\375", 13, "R8ORx8Y/RgydTe6N/Q==" },
     { "\133\253\044\246\070\374", 6, "W6skpjj8" },
@@ -384,9 +384,9 @@ static void test4(void) {
 }
 
 struct vectorssh {
-    char *in;
+    const char *in;
     long long inlen;
-    char *out;
+    const char *out;
     long long outlen;
 } testvectorssh[] = {
     { "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 32, "\0\0\0\0" , 4},
