@@ -48,6 +48,7 @@ mkdir -p "$work"
   cd "${work}"
   #TODO -Wstrict-prototypes -Wwrite-strings -Wunused-parameter -Wunused-value -Wmissing-prototypes -Wmissing-declarations
   for i in  -Wundef \
+            -Wwrite-strings \
             -Wdeclaration-after-statement \
             -Wshadow \
             -Wno-unused-function \
