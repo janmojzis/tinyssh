@@ -76,10 +76,10 @@ void test1(void) {
     if (newenv_copyenv("ZZ3")) fail("newenv_copyenv failure");
 
 
-    run[0] = "/bin/sh";
-    run[1] = "-ec";
-    run[2] = SCRIPT1;
-    run[3] = 0;
+    run[0] = (char *)"/bin/sh";
+    run[1] = (char *)"-ec";
+    run[2] = (char *)SCRIPT1;
+    run[3] = (char *)0;
     newenv_exec(*run, run);
     fail("failure");
 }
@@ -99,9 +99,9 @@ void test2(void) {
     /* setenv */
     if (setenv("AAAA", "failed", 1) == -1) fail("setenv failure");
 
-    run[0] = "/bin/sh";
-    run[1] = "-ec";
-    run[2] = SCRIPT2;
+    run[0] = (char *)"/bin/sh";
+    run[1] = (char *)"-ec";
+    run[2] = (char *)SCRIPT2;
     run[3] = 0;
     newenv_exec(*run, run);
 }

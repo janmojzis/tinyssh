@@ -53,7 +53,7 @@ into new environment.
 The newenv_lowenv is limited to a half of the buffer-space.
 */
 
-int newenv_env_(int x, char *s, char *t) {
+int newenv_env_(int x, const char *s, const char *t) {
 
     long long slen, tlen, len, i;
 
@@ -88,7 +88,7 @@ int newenv_env_(int x, char *s, char *t) {
 The 'newenv_copyenv' function copies the variable
 from current environment into new environment.
 */
-int newenv_copyenv(char *s) {
+int newenv_copyenv(const char *s) {
 
     char *t;
 
