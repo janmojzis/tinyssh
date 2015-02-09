@@ -9,12 +9,10 @@ static unsigned char a[32];
 static unsigned char sk[256];
 static unsigned char pk[256];
 static unsigned char k[64];
-static unsigned char kk[2048];
 static unsigned char m[512];
 static unsigned char sm[512];
 static unsigned long long smlen;
 static unsigned long long mlen;
-static long long i;
 static double speed;
 
 static unsigned char n[8];
