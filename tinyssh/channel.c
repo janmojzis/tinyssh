@@ -81,7 +81,7 @@ from SSH_MSG_CHANNEL_OPEN message.
 Function also obtaines connection information and sets
 environment variables PATH, SSH_CONNECTION and MAIL.
 */
-int channel_open(char *user, crypto_uint32 id, crypto_uint32 remotewindow, crypto_uint32 maxpacket, crypto_uint32 *localwindow) {
+int channel_open(const char *user, crypto_uint32 id, crypto_uint32 remotewindow, crypto_uint32 maxpacket, crypto_uint32 *localwindow) {
 
     struct buf b = { channel.buf0, 0, CHANNEL_BUFSIZE };
 
@@ -134,7 +134,7 @@ int channel_open(char *user, crypto_uint32 id, crypto_uint32 remotewindow, crypt
 The 'channel_openterminal' function only sets initial
 terminal windowsize and sets environment variable TERM.
 */
-int channel_openterminal(char *name, crypto_uint32 a, crypto_uint32 b, crypto_uint32 x, crypto_uint32 y) {
+int channel_openterminal(const char *name, crypto_uint32 a, crypto_uint32 b, crypto_uint32 x, crypto_uint32 y) {
 
     if (channel.maxpacket == 0) bug_proto();
     if (channel.pid != 0) bug_proto();
@@ -172,7 +172,7 @@ void channel_ptyresize(crypto_uint32 a, crypto_uint32 b, crypto_uint32 x, crypto
 The 'channel_env' adds new environment variable
 sent from client.
 */
-int channel_env(char *x, char *y) {
+int channel_env(const char *x, const char *y) {
 
     if (channel.maxpacket == 0) bug_proto();
     if (channel.pid != 0) bug_proto();
@@ -186,7 +186,7 @@ If terminal is requsted, than users shell is executed,
 if exec is requested, than command 'cmd' is executed.
 Process is executed under appropriate users UID.
 */
-int channel_exec(char *cmd) {
+int channel_exec(const char *cmd) {
 
     char *run[4];
     char *shell;
@@ -214,8 +214,8 @@ int channel_exec(char *cmd) {
         if (!channel_droppriv(channel.user, &shell)) _exit(111);
         if (cmd) {
             run[0] = shell;
-            run[1] = "-c";
-            run[2] = cmd;
+            run[1] = (char *)"-c";
+            run[2] = (char *)cmd;
             run[3] = 0;
         }
         else {

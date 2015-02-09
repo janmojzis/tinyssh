@@ -14,11 +14,11 @@ extern long long channel_forkpty(int *);
 
 /* channel.c */
 extern void channel_purge(void);
-extern int channel_open(char *, crypto_uint32, crypto_uint32, crypto_uint32, crypto_uint32 *);
-extern int channel_openterminal(char *, crypto_uint32, crypto_uint32, crypto_uint32, crypto_uint32);
+extern int channel_open(const char *, crypto_uint32, crypto_uint32, crypto_uint32, crypto_uint32 *);
+extern int channel_openterminal(const char *, crypto_uint32, crypto_uint32, crypto_uint32, crypto_uint32);
 extern void channel_ptyresize(crypto_uint32, crypto_uint32, crypto_uint32, crypto_uint32);
-extern int channel_env(char *, char *);
-extern int channel_exec(char *);
+extern int channel_env(const char *, const char *);
+extern int channel_exec(const char *);
 extern void channel_put(unsigned char *, long long);
 extern void channel_puteof(void);
 extern int channel_putisready(void);

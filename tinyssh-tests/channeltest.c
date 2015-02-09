@@ -12,8 +12,8 @@ Public domain.
 #include "byte.h"
 #include "channel.h"
 
-char *user = "user";
-char *termname = "xterm";
+const char *user = "user";
+const char *termname = "xterm";
 crypto_uint32 id = 0;
 crypto_uint32 remotewindow = 100;
 crypto_uint32 maxpacket = 100;
