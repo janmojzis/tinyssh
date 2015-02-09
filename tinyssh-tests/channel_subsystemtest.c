@@ -9,7 +9,7 @@ Public domain.
 #include "numtostr.h"
 #include "channel.h"
 
-char *vector[] = {
+const char *vector[] = {
     "0=0",
     "1=1",
     "2=2",
