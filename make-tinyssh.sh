@@ -46,7 +46,6 @@ rm -rf "$work"
 mkdir -p "$work"
 (
   cd "${work}"
-  #TODO -Wunused-parameter -Wunused-value
   for i in  -Wundef \
             -Wunused-parameter \
             -Wunused-value \

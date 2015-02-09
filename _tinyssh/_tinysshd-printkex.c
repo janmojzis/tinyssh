@@ -92,7 +92,7 @@ static int _packet_kex_receive(void) {
 }
 
 
-int main(int argc, char **argv, char **envp) {
+int main(int argc, char **argv) {
 
     pid_t pid;
     int tochild[2] = { -1, -1 };

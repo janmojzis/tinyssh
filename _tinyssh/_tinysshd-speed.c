@@ -20,7 +20,7 @@ static unsigned char space[10240];
 
 static int flagtimeout;
 static void timeout(int x) {
-    flagtimeout = 1;
+    flagtimeout = x = 1;
     signal(SIGALRM, timeout);
 }
 
