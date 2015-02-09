@@ -106,27 +106,27 @@ static int run2(void (*op)(void)) {
 
 static void test_usernotexist(void) {
 
-    char *account = "21ecdfcc00506bc138d004a0c04139442e24b02ac456bf05601f1e8f645baa2";
-    char *keyname = "ssh-ed25519";
-    char *key = "key1";
+    const char *account = "21ecdfcc00506bc138d004a0c04139442e24b02ac456bf05601f1e8f645baa2";
+    const char *keyname = "ssh-ed25519";
+    const char *key = "key1";
 
     if (subprocess_auth(account, keyname, key) == 0) fail("subprocess_auth() failure");
 }
 
 static void test_usertoolong(void) {
 
-    char *account = "21ecdfcc00506bc138d004a0c04139442e24b02ac456bf05601f1e8f645baa25";
-    char *keyname = "ssh-ed25519";
-    char *key = "key1";
+    const char *account = "21ecdfcc00506bc138d004a0c04139442e24b02ac456bf05601f1e8f645baa25";
+    const char *keyname = "ssh-ed25519";
+    const char *key = "key1";
 
     if (subprocess_auth(account, keyname, key) == 0) fail("subprocess_auth() failure");
 }
 
 static void test_keytooshort(void) {
 
-    char *account = "21ecdfcc00506bc138d004a0c04139442e24b02ac456bf05601f1e8f645baa2";
-    char *keyname = "ssh-ed25519";
-    char *key = "AAAAC3NzaC1lZDI1NTE5AAAAICj44ZR+OCpjuLbOwqys2MKHroSvAWGgEE1o7yq+UVe";
+    const char *account = "21ecdfcc00506bc138d004a0c04139442e24b02ac456bf05601f1e8f645baa2";
+    const char *keyname = "ssh-ed25519";
+    const char *key = "AAAAC3NzaC1lZDI1NTE5AAAAICj44ZR+OCpjuLbOwqys2MKHroSvAWGgEE1o7yq+UVe";
 
     if (subprocess_auth(account, keyname, key) == 0) fail("subprocess_auth() failure");
 }
@@ -153,9 +153,9 @@ static void droproot(void) {
 
 static void test_root(void) {
 
-    char *account = "root";
-    char *keyname = "ssh-ed25519";
-    char *key = "key1";
+    const char *account = "root";
+    const char *keyname = "ssh-ed25519";
+    const char *key = "key1";
 
     if (subprocess_auth(account, keyname, key) == 0) fail("subprocess_auth() failure");
 }
@@ -365,12 +365,12 @@ static void test_path_dir_symlink(void) {
     if (rmdir("d1") == -1) fail("rmdir() failure");
 }
 
-extern int subprocess_auth_authorizedkeys_(char *, char *, char *, char *, long long);
+extern int subprocess_auth_authorizedkeys_(const char *, const char *, const char *, const char *, long long);
 
 static void test_authorizedkeys_ne(void) {
 
-    char *keyname = "";
-    char *key = "";
+    const char *keyname = "";
+    const char *key = "";
     if (!getcwd((char *)path, sizeof path)) fail("getcwd() failure");
 
     if (subprocess_auth_authorizedkeys_(keyname, key, (char *)path, (char *)buf, sizeof buf))
@@ -414,7 +414,7 @@ static void authorizedkeys(void) {
 
 static void test_authorizedkeys_ok(void) {
 
-    char *keyname, *key;
+    const char *keyname, *key;
 
     if (!getcwd((char *)path, sizeof path)) fail("getcwd() failure");
 
@@ -441,7 +441,7 @@ static void test_authorizedkeys_ok(void) {
 
 static void test_authorizedkeys_bad(void) {
 
-    char *keyname, *key;
+    const char *keyname, *key;
 
     if (!getcwd((char *)path, sizeof path)) fail("getcwd() failure");
 
