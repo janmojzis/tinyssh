@@ -15,7 +15,7 @@ Public domain.
 #ifdef crypto_sign_ed25519_BYTES
 void ed25519_putsignature(struct buf *b, const unsigned char *x) {
 
-    char *name = "ssh-ed25519";
+    const char *name = "ssh-ed25519";
     long long len = crypto_sign_ed25519_BYTES;
 
     buf_putnum32(b, len + str_len(name) + 8);
@@ -25,7 +25,7 @@ void ed25519_putsignature(struct buf *b, const unsigned char *x) {
 
 void ed25519_putsignpk(struct buf *b, const unsigned char *x) {
 
-    char *name = "ssh-ed25519";
+    const char *name = "ssh-ed25519";
     long long len = crypto_sign_ed25519_PUBLICKEYBYTES;
 
     buf_putnum32(b, len + str_len(name) + 8);

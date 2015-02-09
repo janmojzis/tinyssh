@@ -40,7 +40,7 @@ void nistp256ecdsa_putsignature(struct buf *b, const unsigned char *x) {
     struct buf mpintb;
     struct buf sigblob;
     long long halflen = crypto_sign_nistp256ecdsa_BYTES / 2;
-    char *name = "ecdsa-sha2-nistp256";
+    const char *name = "ecdsa-sha2-nistp256";
 
     buf_init(&mpintr, mpintrspace, sizeof mpintrspace);
     buf_init(&mpints, mpintsspace, sizeof mpintsspace);
@@ -63,8 +63,8 @@ void nistp256ecdsa_putsignature(struct buf *b, const unsigned char *x) {
 
 void nistp256ecdsa_putsignpk(struct buf *b, const unsigned char *x) {
 
-    char *name = "ecdsa-sha2-nistp256";
-    char *ecname = "nistp256";
+    const char *name = "ecdsa-sha2-nistp256";
+    const char *ecname = "nistp256";
     long long len = crypto_sign_nistp256ecdsa_PUBLICKEYBYTES;
 
     buf_putnum32(b, len + str_len(name) + str_len(ecname) + 12 + 1);
