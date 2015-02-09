@@ -46,8 +46,13 @@ rm -rf "$work"
 mkdir -p "$work"
 (
   cd "${work}"
-  #TODO -Wstrict-prototypes -Wwrite-strings -Wunused-parameter -Wunused-value -Wmissing-prototypes -Wmissing-declarations
+  #TODO -Wunused-parameter -Wunused-value
   for i in  -Wundef \
+            -Wunused-parameter \
+            -Wunused-value \
+            -Wstrict-prototypes \
+            -Wmissing-prototypes \
+            -Wmissing-declarations \
             -Wwrite-strings \
             -Wdeclaration-after-statement \
             -Wshadow \
