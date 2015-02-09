@@ -28,7 +28,7 @@ err='newenvtest: failed: newenv_env does not set correcty variable'\n\
 exit 0 \n\
 "
 
-void test1(void) {
+static void test1(void) {
 
     char *run[4];
     long long i;
@@ -92,7 +92,7 @@ exit 0 \n\
 "
 
 
-void test2(void) {
+static void test2(void) {
 
     char *run[4];
 
@@ -106,7 +106,7 @@ void test2(void) {
     newenv_exec(*run, run);
 }
 
-void test3(void) {
+static void test3(void) {
 
     for (;;) {
         if (newenv_lowenv("XXX", "YYY")) break;
@@ -114,7 +114,7 @@ void test3(void) {
     if (!newenv_env("XXX", "YYY")) fail("newenv_env failure");
 }
 
-void testdummy(void) {
+static void testdummy(void) {
     _exit(111);
 }
 

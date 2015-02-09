@@ -19,7 +19,7 @@ Public domain.
 #include "connectioninfo.h"
 #include "byte.h"
 
-void connectioninfotest_empty(void) {
+static void connectioninfotest_empty(void) {
 
     char localip[IPTOSTR_LEN];
     char localport[PORTTOSTR_LEN];

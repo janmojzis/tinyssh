@@ -61,7 +61,7 @@ static void packport(unsigned char *y, crypto_uint16 x) {
     y[0] = x & 255;
 }
 
-void porttostr_full(void) {
+static void porttostr_full(void) {
 
     long long i, j;
     unsigned char port[2];

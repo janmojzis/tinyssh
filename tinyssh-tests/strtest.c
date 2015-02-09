@@ -10,7 +10,7 @@ Public domain.
 #include "fail.h"
 #include "str.h"
 
-void test_len(void) {
+static void test_len(void) {
 
     if (str_len("") != 0) fail("str_len return's bad length");
     if (str_len("\0ahoj") != 0) fail("str_len return's bad length");
@@ -19,7 +19,7 @@ void test_len(void) {
     if (str_len("ahoj") != 4) fail("str_len return's bad length");
 }
 
-void test_start(void) {
+static void test_start(void) {
 
     if (!str_start("","")) fail("str_start failure");
     if (!str_start("x","")) fail("str_start failure");
@@ -28,7 +28,7 @@ void test_start(void) {
     if (str_start("ahoj","ahojx")) fail("str_start failure");
 }
 
-void test_equal(void) {
+static void test_equal(void) {
 
 #ifdef TODO
     /* equal */
@@ -50,7 +50,7 @@ void test_equal(void) {
 #endif
 }
 
-void test_equaln(void) {
+static void test_equaln(void) {
 
     char buf[5];
 
@@ -67,7 +67,7 @@ void test_equaln(void) {
     if (strncmp("ahoj", "ahoj", 4)) fail("strncmp failure");
 }
 
-void test_copyn(void) {
+static void test_copyn(void) {
 
     char buf[5];
 

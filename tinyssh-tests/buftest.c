@@ -17,7 +17,7 @@ Public domain.
 
 
 /* XXX */
-int xbuf_putnum8_(const char *fn, unsigned long long line,
+static int xbuf_putnum8_(const char *fn, unsigned long long line,
                  struct buf *b, crypto_uint32 uu) {
         crypto_uint8 u = uu;
         return buf_put_(fn, line, b, &u, 1);
@@ -395,8 +395,8 @@ struct vectorssh {
     { 0, 0, 0, 0},
 };
 
-unsigned char bspacesh[64];
-struct buf b;
+static unsigned char bspacesh[64];
+static struct buf b;
 
 static void test5(void) {
 

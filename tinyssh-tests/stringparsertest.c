@@ -24,7 +24,7 @@ static struct vectors {
     { 0 }
 };
 
-void stringstringparser_test1(void) {
+static void stringstringparser_test1(void) {
 
     unsigned char *buf;
     long long i, pos = 0;
@@ -52,7 +52,7 @@ void stringstringparser_test1(void) {
     }
 }
 
-void stringstringparser_test2(void) {
+static void stringstringparser_test2(void) {
 
     unsigned char *buf;
     long long pos = 0;

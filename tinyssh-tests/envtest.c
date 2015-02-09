@@ -11,12 +11,12 @@ Public domain.
 #include "fail.h"
 #include "env.h"
 
-void test_zero(void) {
+static void test_zero(void) {
 
     if (env_get(0)) fail("env_get accepts zero input");
 }
 
-void doit(const char *d0, const char *d) {
+static void doit(const char *d0, const char *d) {
 
     char *s;
 
@@ -32,7 +32,7 @@ void doit(const char *d0, const char *d) {
     return;
 }
 
-void test_setunset(void) {
+static void test_setunset(void) {
 
     setenv("x","x",1);
     doit("x", "x");
@@ -45,7 +45,7 @@ void test_setunset(void) {
 }
 
 
-void test_env(void) {
+static void test_env(void) {
 
     const char *env[10];
 
