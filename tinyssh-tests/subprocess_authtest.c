@@ -160,8 +160,6 @@ static void test_root(void) {
     if (subprocess_auth(account, keyname, key) == 0) fail("subprocess_auth() failure");
 }
 
-extern int subprocess_auth_checkpath_(char *, long long, uid_t);
-
 #define path global_bspace2 /* reusing global buffer */
 #define buf global_bspace1 /* reusing global buffer */
 
@@ -365,15 +363,13 @@ static void test_path_dir_symlink(void) {
     if (rmdir("d1") == -1) fail("rmdir() failure");
 }
 
-extern int subprocess_auth_authorizedkeys_(const char *, const char *, const char *, const char *, long long);
-
 static void test_authorizedkeys_ne(void) {
 
     const char *keyname = "";
     const char *key = "";
     if (!getcwd((char *)path, sizeof path)) fail("getcwd() failure");
 
-    if (subprocess_auth_authorizedkeys_(keyname, key, (char *)path, (char *)buf, sizeof buf))
+    if (subprocess_auth_authorizedkeys_((char *)keyname, (char *)key, (char *)path, (char *)buf, sizeof buf))
         fail("subprocess_auth_authorizedkeys_() failure");
 }
 
@@ -419,23 +415,23 @@ static void test_authorizedkeys_ok(void) {
     if (!getcwd((char *)path, sizeof path)) fail("getcwd() failure");
 
     keyname = "ssh-ed25519"; key = "key1";
-    if (!subprocess_auth_authorizedkeys_(keyname, key, (char *)path, (char *)buf, sizeof buf))
+    if (!subprocess_auth_authorizedkeys_((char *)keyname, (char *)key, (char *)path, (char *)buf, sizeof buf))
         fail("subprocess_auth_authorizedkeys_() failure");
 
     keyname = "ssh-ed25519"; key = "key2";
-    if (!subprocess_auth_authorizedkeys_(keyname, key, (char *)path, (char *)buf, sizeof buf))
+    if (!subprocess_auth_authorizedkeys_((char *)keyname, (char *)key, (char *)path, (char *)buf, sizeof buf))
         fail("subprocess_auth_authorizedkeys_() failure");
 
     keyname = "ssh-ed25519"; key = "key3";
-    if (!subprocess_auth_authorizedkeys_(keyname, key, (char *)path, (char *)buf, sizeof buf))
+    if (!subprocess_auth_authorizedkeys_((char *)keyname, (char *)key, (char *)path, (char *)buf, sizeof buf))
         fail("subprocess_auth_authorizedkeys_() failure");
 
     keyname = "ssh-ed25519"; key = "key4";
-    if (!subprocess_auth_authorizedkeys_(keyname, key, (char *)path, (char *)buf, sizeof buf))
+    if (!subprocess_auth_authorizedkeys_((char *)keyname, (char *)key, (char *)path, (char *)buf, sizeof buf))
         fail("subprocess_auth_authorizedkeys_() failure");
 
     keyname = "ssh-ed25519"; key = "key5";
-    if (!subprocess_auth_authorizedkeys_(keyname, key, (char *)path, (char *)buf, sizeof buf))
+    if (!subprocess_auth_authorizedkeys_((char *)keyname, (char *)key, (char *)path, (char *)buf, sizeof buf))
         fail("subprocess_auth_authorizedkeys_() failure");
 }
 
@@ -446,23 +442,23 @@ static void test_authorizedkeys_bad(void) {
     if (!getcwd((char *)path, sizeof path)) fail("getcwd() failure");
 
     keyname = "ssh-ed25519"; key = "badkey1";
-    if (subprocess_auth_authorizedkeys_(keyname, key, (char *)path, (char *)buf, sizeof buf))
+    if (subprocess_auth_authorizedkeys_((char *)keyname, (char *)key, (char *)path, (char *)buf, sizeof buf))
         fail("subprocess_auth_authorizedkeys_() failure");
 
     keyname = "ssh-ed25519"; key = "badkey2";
-    if (subprocess_auth_authorizedkeys_(keyname, key, (char *)path, (char *)buf, sizeof buf))
+    if (subprocess_auth_authorizedkeys_((char *)keyname, (char *)key, (char *)path, (char *)buf, sizeof buf))
         fail("subprocess_auth_authorizedkeys_() failure");
 
     keyname = "ssh-ed25519"; key = "badkey3";
-    if (subprocess_auth_authorizedkeys_(keyname, key, (char *)path, (char *)buf, sizeof buf))
+    if (subprocess_auth_authorizedkeys_((char *)keyname, (char *)key, (char *)path, (char *)buf, sizeof buf))
         fail("subprocess_auth_authorizedkeys_() failure");
 
     keyname = "ssh-ed25519"; key = "badkey4";
-    if (subprocess_auth_authorizedkeys_(keyname, key, (char *)path, (char *)buf, sizeof buf))
+    if (subprocess_auth_authorizedkeys_((char *)keyname, (char *)key, (char *)path, (char *)buf, sizeof buf))
         fail("subprocess_auth_authorizedkeys_() failure");
 
     keyname = "ssh-ed25519"; key = "badkey5";
-    if (subprocess_auth_authorizedkeys_(keyname, key, (char *)path, (char *)buf, sizeof buf))
+    if (subprocess_auth_authorizedkeys_((char *)keyname, (char *)key, (char *)path, (char *)buf, sizeof buf))
         fail("subprocess_auth_authorizedkeys_() failure");
 }
 
