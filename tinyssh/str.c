@@ -29,7 +29,7 @@ int str_start(const char *s, const char *t) {
 The 'str_equaln(y,ylen,x)' function returns 1 if the length of string 'x' is ylen and 
 if y and x match up to, 0 otherwise.
 */
-int str_equaln(char *y, long long ylen, const char *x) {
+int str_equaln(const char *y, long long ylen, const char *x) {
 
     long long i;
 
