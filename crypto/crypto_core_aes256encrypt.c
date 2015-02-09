@@ -7,9 +7,9 @@ int crypto_core_aes256encrypt_tinynacl(unsigned char *out, const unsigned char *
     unsigned char d[240];
     long long i;
 
-    if (c) return -1;
     aes_expandkey256(d, k);
     aes_core(out, in, d, 14);
     cleanup(d);
+    if (c) return -1;
     return 0;
 }
