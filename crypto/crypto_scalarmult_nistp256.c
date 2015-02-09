@@ -6,6 +6,7 @@ Public domain.
 
 #include "cleanup.h"
 #include "gep256.h"
+#include "crypto_scalarmult_nistp256.h"
 
 int crypto_scalarmult_nistp256_tinynacl(unsigned char *q, const unsigned char *n, const unsigned char *p) {
 

@@ -3,6 +3,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include "randombytes.h"
 
 /* it's really stupid that there isn't a syscall for this */
 

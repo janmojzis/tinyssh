@@ -9,6 +9,7 @@
 #include "crypto_uint64.h"
 #include "uint64_pack_big.h"
 #include "uint64_unpack_big.h"
+#include "crypto_hash_sha512.h"
 
 #define FOR(i,n) for (i = 0;i < n;++i)
 
@@ -44,7 +45,7 @@ static const crypto_uint64 K[80] =
   0x4cc5d4becb3e42b6ULL, 0x597f299cfc657e2aULL, 0x5fcb6fab3ad6faecULL, 0x6c44198c4a475817ULL
 };
 
-int crypto_hashblocks_sha512_tinynacl(unsigned char *x,const unsigned char *m,unsigned long long n)
+static int crypto_hashblocks_sha512_tinynacl(unsigned char *x,const unsigned char *m,unsigned long long n)
 {
   crypto_uint64 z[8],b[8],a[8],w[16],t;
   int i,j;

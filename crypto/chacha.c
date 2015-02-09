@@ -8,6 +8,7 @@ Public domain.
 #include "crypto_uint64.h"
 #include "uint32_pack.h"
 #include "uint32_unpack.h"
+#include "chacha.h"
 
 #define ROTATE(x, c) ((x) << (c)) | ((x) >> (32 - (c)))
 

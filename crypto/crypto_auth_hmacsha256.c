@@ -1,5 +1,6 @@
 #include "sha256.h"
 #include "crypto_verify_32.h"
+#include "crypto_auth_hmacsha256.h"
 
 int crypto_auth_hmacsha256_tinynacl(unsigned char *out, const unsigned char *m, unsigned long long n, const unsigned char *k) {
     return sha256_auth(out, m, n, k);

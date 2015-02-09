@@ -12,6 +12,7 @@ Public domain.
 #include "cleanup.h"
 #include "randombytes.h"
 #include "crypto_verify_32.h"
+#include "crypto_sign_nistp256ecdsa.h"
 
 
 int crypto_sign_nistp256ecdsa_tinynacl(unsigned char *sm, unsigned long long *smlen, const unsigned char *m, unsigned long long n, const unsigned char *skorig) {

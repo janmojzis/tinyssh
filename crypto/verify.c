@@ -1,3 +1,5 @@
+#include "verify.h"
+
 int verify(const unsigned char *x, const unsigned char *y, long long n) {
 
     unsigned int d = 0;

@@ -10,6 +10,7 @@ Based on poly1305-donna (https://github.com/floodyberry/poly1305-opt/blob/master
 #include "crypto_verify_16.h"
 #include "uint32_pack.h"
 #include "uint32_unpack.h"
+#include "crypto_onetimeauth_poly1305.h"
 
 int crypto_onetimeauth_poly1305_tinynacl(unsigned char *o, const unsigned char *m, unsigned long long n, const unsigned char *k) {
 

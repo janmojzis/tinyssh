@@ -1,5 +1,6 @@
 #include "cleanup.h"
 #include "fe25519.h"
+#include "crypto_scalarmult_curve25519.h"
 
 int crypto_scalarmult_curve25519_tinynacl(unsigned char *q, const unsigned char *n, const unsigned char *p) {
 
