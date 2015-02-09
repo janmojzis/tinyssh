@@ -12,22 +12,6 @@ Public domain.
 #include "log.h"
 #include "sshcrypto.h"
 
-#if defined(crypto_scalarmult_curve25519_BYTES) && defined(crypto_hash_sha256_BYTES)
-/* sshcrypto_kex_curve25519.c */
-extern int curve25519_dh(unsigned char *, unsigned char *, unsigned char *);
-extern int curve25519_keypair(unsigned char *, unsigned char *);
-extern void curve25519_putdhpk(struct buf *, const unsigned char *);
-extern void curve25519_putsharedsecret(struct buf *, const unsigned char *);
-#endif
-
-#if defined(crypto_scalarmult_nistp256_BYTES) && defined(crypto_hash_sha256_BYTES)
-/* sshcrypto_kex_nistp256.c */
-extern int nistp256_dh(unsigned char *, unsigned char *, unsigned char *);
-extern int nistp256_keypair(unsigned char *, unsigned char *);
-extern void nistp256_putdhpk(struct buf *, const unsigned char *);
-extern void nistp256_putsharedsecret(struct buf *, const unsigned char *);
-#endif
-
 struct sshcrypto_kex sshcrypto_kexs[] = {
 #if defined(crypto_scalarmult_curve25519_BYTES) && defined(crypto_hash_sha256_BYTES)
     {   "curve25519-sha256@libssh.org",

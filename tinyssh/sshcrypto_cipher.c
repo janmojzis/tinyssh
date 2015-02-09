@@ -18,18 +18,6 @@ static int default_beforenm(unsigned char *y, const unsigned char *x) {
     return 0;
 }
 
-/* from sshcrypto_cipher_chachapoly.c */
-extern void chachapoly_packet_put(struct buf *);
-extern int chachapoly_packet_get(struct buf *);
-
-/* from sshcrypto_cipher_aesctr.c */
-extern void aesctr_packet_put(struct buf *);
-extern int aesctr_packet_get(struct buf *);
-/* from sshcrypto_cipher_aesctr128.c */
-extern int aesctr128_xor(unsigned char *, const unsigned char *, unsigned long long, const unsigned char *, const unsigned char *);
-/* from sshcrypto_cipher_aesctr256.c */
-extern int aesctr256_xor(unsigned char *, const unsigned char *, unsigned long long, const unsigned char *, const unsigned char *);
-
 struct sshcrypto_cipher sshcrypto_ciphers[] = {
 #if defined(crypto_stream_chacha20_KEYBYTES) && defined(crypto_onetimeauth_poly1305_BYTES)
     {   "chacha20-poly1305@openssh.com",

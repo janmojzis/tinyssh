@@ -14,24 +14,6 @@ Public domain.
 #include "purge.h"
 #include "sshcrypto.h"
 
-#ifdef crypto_sign_ed25519_BYTES
-/* sshcrypto_key_ed25519.c */
-extern void ed25519_putsignature(struct buf *, const unsigned char *);
-extern void ed25519_putsignpk(struct buf *, const unsigned char *);
-extern void ed25519_putsignpkbase64(struct buf *, const unsigned char *);
-extern int ed25519_parsesignpk(unsigned char *, const unsigned char *, long long);
-extern int ed25519_parsesignature(unsigned char *, const unsigned char *, long long);
-#endif
-
-#ifdef crypto_sign_nistp256ecdsa_BYTES
-/* sshcrypto_key_nistp256ecdsa.c */
-extern void nistp256ecdsa_putsignature(struct buf *, const unsigned char *);
-extern void nistp256ecdsa_putsignpk(struct buf *, const unsigned char *);
-extern void nistp256ecdsa_putsignpkbase64(struct buf *, const unsigned char *);
-extern int nistp256ecdsa_parsesignpk(unsigned char *, const unsigned char *, long long);
-extern int nistp256ecdsa_parsesignature(unsigned char *, const unsigned char *, long long);
-#endif
-
 struct sshcrypto_key sshcrypto_keys[] = {
 #ifdef crypto_sign_ed25519_BYTES
     {   "ssh-ed25519",

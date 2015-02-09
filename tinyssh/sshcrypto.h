@@ -45,6 +45,24 @@ extern void (*sshcrypto_buf_putdhpk)(struct buf *, const unsigned char *);
 extern int sshcrypto_kex_select(const unsigned char *, long long, crypto_uint8 *);
 extern void sshcrypto_kex_put(struct buf *);
 
+#if defined(crypto_scalarmult_curve25519_BYTES) && defined(crypto_hash_sha256_BYTES)
+/* sshcrypto_kex_curve25519.c */
+extern int curve25519_dh(unsigned char *, unsigned char *, unsigned char *);
+extern int curve25519_keypair(unsigned char *, unsigned char *);
+extern void curve25519_putdhpk(struct buf *, const unsigned char *);
+extern void curve25519_putsharedsecret(struct buf *, const unsigned char *);
+#endif
+
+#if defined(crypto_scalarmult_nistp256_BYTES) && defined(crypto_hash_sha256_BYTES)
+/* sshcrypto_kex_nistp256.c */
+extern int nistp256_dh(unsigned char *, unsigned char *, unsigned char *);
+extern int nistp256_keypair(unsigned char *, unsigned char *);
+extern void nistp256_putdhpk(struct buf *, const unsigned char *);
+extern void nistp256_putsharedsecret(struct buf *, const unsigned char *);
+#endif
+
+
+
 /* key - sign */
 #define sshcrypto_sign_PUBLICKEYMAX 64          /* space for nistp256ecdsa         pk  */
 #define sshcrypto_sign_SECRETKEYMAX 64          /* space for nistp256ecdsa         sk  */
@@ -87,6 +105,24 @@ extern void (*sshcrypto_buf_putsignpk)(struct buf *, const unsigned char *);
 
 extern int sshcrypto_key_select(const unsigned char *, long long);
 extern void sshcrypto_key_put(struct buf *);
+
+#ifdef crypto_sign_ed25519_BYTES
+/* sshcrypto_key_ed25519.c */
+extern void ed25519_putsignature(struct buf *, const unsigned char *);
+extern void ed25519_putsignpk(struct buf *, const unsigned char *);
+extern void ed25519_putsignpkbase64(struct buf *, const unsigned char *);
+extern int ed25519_parsesignpk(unsigned char *, const unsigned char *, long long);
+extern int ed25519_parsesignature(unsigned char *, const unsigned char *, long long);
+#endif
+
+#ifdef crypto_sign_nistp256ecdsa_BYTES
+/* sshcrypto_key_nistp256ecdsa.c */
+extern void nistp256ecdsa_putsignature(struct buf *, const unsigned char *);
+extern void nistp256ecdsa_putsignpk(struct buf *, const unsigned char *);
+extern void nistp256ecdsa_putsignpkbase64(struct buf *, const unsigned char *);
+extern int nistp256ecdsa_parsesignpk(unsigned char *, const unsigned char *, long long);
+extern int nistp256ecdsa_parsesignature(unsigned char *, const unsigned char *, long long);
+#endif
 
 
 /* cipher + mac */
@@ -132,6 +168,19 @@ extern int (*sshcrypto_packet_get)(struct buf *);
 extern int sshcrypto_cipher_select(const unsigned char *, long long);
 extern void sshcrypto_cipher_put(struct buf *);
 extern void sshcrypto_cipher_macput(struct buf *b);
+
+
+/* from sshcrypto_cipher_chachapoly.c */
+extern void chachapoly_packet_put(struct buf *);
+extern int chachapoly_packet_get(struct buf *);
+
+/* from sshcrypto_cipher_aesctr.c */
+extern void aesctr_packet_put(struct buf *);
+extern int aesctr_packet_get(struct buf *);
+/* from sshcrypto_cipher_aesctr128.c */
+extern int aesctr128_xor(unsigned char *, const unsigned char *, unsigned long long, const unsigned char *, const unsigned char *);
+/* from sshcrypto_cipher_aesctr256.c */
+extern int aesctr256_xor(unsigned char *, const unsigned char *, unsigned long long, const unsigned char *, const unsigned char *);
 
 /* init/purge */
 extern void sshcrypto_init(void);

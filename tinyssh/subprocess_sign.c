@@ -20,6 +20,7 @@ Public domain.
 #include "readall.h"
 #include "blocking.h"
 #include "sshcrypto.h"
+#include "subprocess.h"
 
 /*
 The 'subprocess_sign' function reads secret-key from 'keydir' and

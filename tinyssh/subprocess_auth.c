@@ -20,6 +20,7 @@ Public domain.
 #include "getln.h"
 #include "bug.h"
 #include "purge.h"
+#include "subprocess.h"
 
 static int findnameandkey(const char *keyname, const char *key, char *x) {
 
