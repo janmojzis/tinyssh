@@ -15,7 +15,7 @@ Public domain.
 #include "sshcrypto.h"
 #include "packet.h"
 
-int packet_get_plain_(struct buf *b) {
+static int packet_get_plain_(struct buf *b) {
 
     crypto_uint32 packet_length;
     long long len;
@@ -48,7 +48,7 @@ int packet_get_plain_(struct buf *b) {
     return 1;
 }
 
-int packet_get_(struct buf *b) {
+static int packet_get_(struct buf *b) {
 
     if (packet.flagkeys) {
         return sshcrypto_packet_get(b);

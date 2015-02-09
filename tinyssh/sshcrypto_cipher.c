@@ -13,7 +13,7 @@ Public domain.
 #include "packet.h"
 #include "sshcrypto.h"
 
-int default_beforenm(unsigned char *y, const unsigned char *x) {
+static int default_beforenm(unsigned char *y, const unsigned char *x) {
     byte_copy(y, sshcrypto_cipher_KEYMAX, x);
     return 0;
 }

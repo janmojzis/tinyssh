@@ -1,5 +1,6 @@
 /* taken from nacl-20110221, from curvecp/randommod.c */
 #include "randombytes.h"
+#include "randommod.h"
 
 /* XXX: current implementation is limited to n<2^55 */
 
