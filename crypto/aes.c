@@ -6,6 +6,7 @@
 #include "cleanup.h"
 #include "aessbox.h"
 #include "crypto_uint32.h"
+#include "aes.h"
 
 static unsigned char gmul2(unsigned char a) {
 
