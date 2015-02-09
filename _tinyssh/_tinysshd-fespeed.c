@@ -6,8 +6,8 @@
 #include "fe25519.h"
 
 
-int flagtimeout;
-void timeout(int x) {
+static int flagtimeout;
+static void timeout(int x) {
     flagtimeout = 1;
     signal(SIGALRM, timeout);
 }

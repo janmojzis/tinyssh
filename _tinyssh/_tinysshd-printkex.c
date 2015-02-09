@@ -33,7 +33,7 @@ static void die_fatal(const char *trouble, const char *d, const char *fn) {
     _exit(111);
 }
 
-int _packet_kex_receive(void) {
+static int _packet_kex_receive(void) {
 
     struct buf *b = &packet.kexrecv;
     long long pos = 0;

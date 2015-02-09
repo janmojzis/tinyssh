@@ -5,23 +5,23 @@
 #include "randombytes.h"
 #include "sshcrypto.h"
 
-unsigned char a[32];
-unsigned char sk[256];
-unsigned char pk[256];
-unsigned char k[64];
-unsigned char kk[2048];
-unsigned char m[512];
-unsigned char sm[512];
-unsigned long long smlen;
-unsigned long long mlen;
-long long i;
-double speed;
+static unsigned char a[32];
+static unsigned char sk[256];
+static unsigned char pk[256];
+static unsigned char k[64];
+static unsigned char kk[2048];
+static unsigned char m[512];
+static unsigned char sm[512];
+static unsigned long long smlen;
+static unsigned long long mlen;
+static long long i;
+static double speed;
 
-unsigned char n[8];
-unsigned char space[10240];
+static unsigned char n[8];
+static unsigned char space[10240];
 
-int flagtimeout;
-void timeout(int x) {
+static int flagtimeout;
+static void timeout(int x) {
     flagtimeout = 1;
     signal(SIGALRM, timeout);
 }
