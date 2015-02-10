@@ -1,0 +1,14 @@
+-Wundef
+-Wunused-parameter
+-Wunused-value
+-Wstrict-prototypes
+-Wmissing-prototypes
+-Wmissing-declarations
+-Wwrite-strings
+-Wdeclaration-after-statement
+-Wshadow
+-Wno-unused-function
+-Wno-overlength-strings
+-Wno-long-long
+-Wall
+-pedantic

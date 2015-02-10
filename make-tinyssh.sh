@@ -46,21 +46,10 @@ rm -rf "$work"
 mkdir -p "$work"
 (
   cd "${work}"
-  for i in  -Wundef \
-            -Wunused-parameter \
-            -Wunused-value \
-            -Wstrict-prototypes \
-            -Wmissing-prototypes \
-            -Wmissing-declarations \
-            -Wwrite-strings \
-            -Wdeclaration-after-statement \
-            -Wshadow \
-            -Wno-unused-function \
-            -Wno-sign-compare \
-            -Wno-overlength-strings \
-            -Wno-deprecated-declarations \
-            -Wno-long-long -Wall \
-            -pedantic ${CFLAGS} ${LDFLAGS}; do
+  cflags=`cat "${top}/conf-cflags"`
+  cflags="${CFLAGS} ${LDFLAGS} ${cflags}"
+
+  for i in ${cflags}; do
     echo 'int main(void) { return 0; }' > try.c
     ${compiler} "$i" -o try try.c 2>/dev/null || { echo "=== `date` ===   $i failed"; continue; }
     options="$i $options"
