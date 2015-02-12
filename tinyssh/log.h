@@ -4,10 +4,23 @@
 extern void log_init(int, const char *, int, int);
 extern char *log_string(void);
 
-extern void log_9_(int, const char *, unsigned long long, const char *, const char *, const char *, const char *, const char *, const char *, const char *, const char *, const char *, const char *);
+extern void log_9_(
+            int,
+            int,
+            const char *,
+            unsigned long long,
+            const char *,
+            const char *,
+            const char *,
+            const char *,
+            const char *,
+            const char *,
+            const char *,
+            const char *,
+            const char *);
 
 /* usage */
-#define log_u9(a,b,c,d,e,f,g,h,i) log_9_(0,__FILE__,__LINE__,"usage",a,b,c,d,e,f,g,h,i)
+#define log_u9(a,b,c,d,e,f,g,h,i) log_9_(-1,1,__FILE__,__LINE__,a,b,c,d,e,f,g,h,i)
 #define log_u8(a,b,c,d,e,f,g,h) log_u9(a,b,c,d,e,f,g,h,0)
 #define log_u7(a,b,c,d,e,f,g) log_u8(a,b,c,d,e,f,g,0)
 #define log_u6(a,b,c,d,e,f) log_u7(a,b,c,d,e,f,0)
@@ -18,7 +31,7 @@ extern void log_9_(int, const char *, unsigned long long, const char *, const ch
 #define log_u1(a) log_u2(a,0)
 
 /* fatal */
-#define log_f9(a,b,c,d,e,f,g,h,i) log_9_(0,__FILE__,__LINE__,"fatal",a,b,c,d,e,f,g,h,i)
+#define log_f9(a,b,c,d,e,f,g,h,i) log_9_(1,0,__FILE__,__LINE__,a,b,c,d,e,f,g,h,i)
 #define log_f8(a,b,c,d,e,f,g,h) log_f9(a,b,c,d,e,f,g,h,0)
 #define log_f7(a,b,c,d,e,f,g) log_f8(a,b,c,d,e,f,g,0)
 #define log_f6(a,b,c,d,e,f) log_f7(a,b,c,d,e,f,0)
@@ -29,7 +42,7 @@ extern void log_9_(int, const char *, unsigned long long, const char *, const ch
 #define log_f1(a) log_f2(a,0)
 
 /* warning */
-#define log_w9(a,b,c,d,e,f,g,h,i) log_9_(1,__FILE__,__LINE__,"warning",a,b,c,d,e,f,g,h,i)
+#define log_w9(a,b,c,d,e,f,g,h,i) log_9_(2,0,__FILE__,__LINE__,a,b,c,d,e,f,g,h,i)
 #define log_w8(a,b,c,d,e,f,g,h) log_w9(a,b,c,d,e,f,g,h,0)
 #define log_w7(a,b,c,d,e,f,g) log_w8(a,b,c,d,e,f,g,0)
 #define log_w6(a,b,c,d,e,f) log_w7(a,b,c,d,e,f,0)
@@ -40,7 +53,7 @@ extern void log_9_(int, const char *, unsigned long long, const char *, const ch
 #define log_w1(a) log_w2(a,0)
 
 /* info */
-#define log_i9(a,b,c,d,e,f,g,h,i) log_9_(2,__FILE__,__LINE__,"info",a,b,c,d,e,f,g,h,i)
+#define log_i9(a,b,c,d,e,f,g,h,i) log_9_(2,1,__FILE__,__LINE__,a,b,c,d,e,f,g,h,i)
 #define log_i8(a,b,c,d,e,f,g,h) log_i9(a,b,c,d,e,f,g,h,0)
 #define log_i7(a,b,c,d,e,f,g) log_i8(a,b,c,d,e,f,g,0)
 #define log_i6(a,b,c,d,e,f) log_i7(a,b,c,d,e,f,0)
@@ -51,7 +64,7 @@ extern void log_9_(int, const char *, unsigned long long, const char *, const ch
 #define log_i1(a) log_i2(a,0)
 
 /* debug */
-#define log_d9(a,b,c,d,e,f,g,h,i) log_9_(3,__FILE__,__LINE__,"debug",a,b,c,d,e,f,g,h,i)
+#define log_d9(a,b,c,d,e,f,g,h,i) log_9_(3,0,__FILE__,__LINE__,a,b,c,d,e,f,g,h,i)
 #define log_d8(a,b,c,d,e,f,g,h) log_d9(a,b,c,d,e,f,g,h,0)
 #define log_d7(a,b,c,d,e,f,g) log_d8(a,b,c,d,e,f,g,0)
 #define log_d6(a,b,c,d,e,f) log_d7(a,b,c,d,e,f,0)
@@ -60,13 +73,5 @@ extern void log_9_(int, const char *, unsigned long long, const char *, const ch
 #define log_d3(a,b,c) log_d4(a,b,c,0)
 #define log_d2(a,b) log_d3(a,b,0)
 #define log_d1(a) log_d2(a,0)
-
-/*
-not compatible with syslog
-LOG_FATAL 0
-LOG_WARNING 1
-LOG_INFO 2
-LOG_DEBUG 3
-*/
 
 #endif

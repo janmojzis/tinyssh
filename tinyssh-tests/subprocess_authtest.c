@@ -469,6 +469,7 @@ int main(void) {
     if (!getcwd(globalpath, sizeof globalpath)) fail("getcwd() failure");
     globalpathlen = str_len(globalpath);
 
+    log_init(2, "xxx", 1, 0);
     run(test_path_authorizedkeys_ne, "d1/authorized_keys (file does not exist)");
     run(test_path_authorizedkeys_fifo, "d1/authorized_keys (access denied)");
     run(test_path_authorizedkeys_perm1, "d1/authorized_keys (access denied)");

@@ -21,17 +21,19 @@ The 'log' library also supports syslog.
 static const char *logtext = "x";
 static char logstring[9] = "________";
 static int loglevel = 1;
-static int logline = 1;
-static int logsyslog = 0;
+
+static int logflagfnln = 1;
+static int logflagsyslog = 0;
+
+static char chars[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRTSUVWXYZ0123456789";
 
 void log_init(int level, const char *text, int line, int flagsyslog) {
 
     long long i;
-    static char chars[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRTSUVWXYZ0123456789";
 
     loglevel = level;
     logtext  = text;
-    logline  = line;
+    logflagfnln  = line;
 
     for (i = 0; i < sizeof logstring; ++i) {
         logstring[i] = chars[randommod(sizeof chars - 1)];
@@ -40,11 +42,12 @@ void log_init(int level, const char *text, int line, int flagsyslog) {
 
     if (flagsyslog) {
         openlog(text, 0, LOG_DAEMON);
-        logsyslog = 1;
+        logflagsyslog = 1;
     }
 
     errno = 0;
 }
+
 
 char *log_string(void) {
     return logstring;
@@ -55,7 +58,7 @@ static long long buflen = 0;
 
 static void flush(void) {
 
-    if (logsyslog) {
+    if (logflagsyslog) {
         buf[buflen] = 0;
         syslog(LOG_INFO, "%s", buf);
     }
@@ -80,14 +83,15 @@ static void outs(const char *x) {
 }
 
 static void outnum(unsigned long long n) {
-    outs(numtostr(0, n));
+    char b[NUMTOSTR_LEN];
+    outs(numtostr(b, n));
 }
 
 void log_9_(
     int level
+    ,int ignoreerrno
     ,const char *f
     ,unsigned long long l
-    ,const char *m
     ,const char *s0
     ,const char *s1
     ,const char *s2
@@ -101,6 +105,7 @@ void log_9_(
 {
     const char *s[9];
     long long i;
+    const char *m;
 
     if (level > loglevel) return;
 
@@ -108,17 +113,72 @@ void log_9_(
     s[4] = s4; s[5] = s5; s[6] = s6; s[7] = s7;
     s[8] = s8;
 
-    if (!logsyslog) { outs(logtext); outs(": "); }
-    if (logline) { outs(logstring); outs(": "); }
-    outs(m); outs(": ");
-
-    for (i = 0; i < 9 && s[i]; ++i) {
-        outs(s[i]);
+    switch (level) {
+        case -2:
+            m = "fatal: BUG!!!!";
+            break;
+        case -1:
+            m = "usage";
+            break;
+        case  1:
+            m = "fatal";
+            break;
+        case  2: 
+            if (!ignoreerrno) m = "warning";
+            else m = "info";
+            break;
+        case  3:
+            m = "debug";
+            break;
+        default:
+            m = "unknown";
+            break;
     }
 
+
+    /* name: session: level: message (error){file:line} */
+
+    /* 'name:' */
+    do {
+        if (level == -1)   break; /* don't print in usage level */
+        if (logflagsyslog) break; /* don't print in syslog mode */
+        outs(logtext); outs(": ");
+    } while (0);
+
+    /* 'session:' */
+    do {
+        if (level == -1) break;  /* don't print in usage level */
+        if (!logflagfnln) break; /* don't print when diabled   */
+        outs(logstring); outs(": ");
+    } while (0);
+
+    /* 'level:' */
+    do {
+        if (level == -1) break; /* don't print in usage level */
+        outs(m); outs(": ");
+    } while (0);
+
+    /* 'message' */
+    for (i = 0; i < 9 && s[i]; ++i) outs(s[i]);
     outs(" ");
-    if (level != 2 /*LOG_INFO*/ && errno) { outs("("); outs(e_str(errno)); outs(")"); }
-    if (f && l && logline) { outs("{"); outs(f); outs(":"); outnum(l); outs("}"); }
+
+    /* '(error)' */
+    do {
+        if (level == -1) break; /* don't print in usage level */
+        if (!errno)      break; /* don't print when errno = 0 */
+        if (ignoreerrno) break; /* don't print when diabled   */
+        outs("("); outs(e_str(errno)); outs(")");
+    } while (0);
+
+    /* {file:line} */
+    do {
+        if (level == -1) break;  /* don't print in usage level */
+        if (!f)          break;  /* don't print when no f      */
+        if (!l)          break;  /* don't print when no l      */
+        if (!logflagfnln) break; /* don't print when diabled   */
+        outs("{"); outs(f); outs(":"); outnum(l); outs("}");
+    } while (0);
+
     outs("\n");
     flush();
     return;
