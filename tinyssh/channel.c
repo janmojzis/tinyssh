@@ -64,6 +64,8 @@ static struct channel {
     char user[64];
     char termname[64];
     int flagterminal;
+    int master;
+    int slave;
     int a;
     int b;
     int x;
@@ -131,14 +133,16 @@ int channel_open(const char *user, crypto_uint32 id, crypto_uint32 remotewindow,
 }
 
 /*
-The 'channel_openterminal' function only sets initial
-terminal windowsize and sets environment variable TERM.
+The 'channel_openterminal' function opens terminal,
+sets environment variable TERM and initial terminal windowsize.
 */
 int channel_openterminal(const char *name, crypto_uint32 a, crypto_uint32 b, crypto_uint32 x, crypto_uint32 y) {
 
     if (channel.maxpacket == 0) bug_proto();
     if (channel.pid != 0) bug_proto();
+    if (channel.flagterminal == 1) bug_proto();
 
+    if (!channel_openpty(&channel.master, &channel.slave)) return 0;
     if (!newenv_env("TERM", name)) return 0;
 
     channel.flagterminal = 1;
@@ -198,7 +202,7 @@ int channel_exec(const char *cmd) {
     if (channel.pid != 0 ) bug_proto();
 
     if (channel.flagterminal) {
-        channel.pid = channel_forkpty(fd);
+        channel.pid = channel_forkpty(fd, channel.master, channel.slave);
         if (channel.pid > 0) {
             name = ptsname(fd[0]);
             if (!name) bug();
@@ -483,6 +487,8 @@ void channel_init(void) {
     channel.len0 = 0;
     channel.pid = 0;
     channel.flagterminal = 0;
+    channel.master = -1;
+    channel.slave = -1;
 }
 
 int channel_getfd0(void) { return channel.fd0; }

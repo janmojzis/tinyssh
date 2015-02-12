@@ -59,12 +59,6 @@ echo 'hasutmplogwtmp.h default.h-no'
 echo 'hasutmploginlogout.h hasutmploginlogout.h-yes'
 echo 'hasutmploginlogout.h default.h-no'
 
-#forkpty
-echo 'forkpty.h forkpty.h-pty'
-echo 'forkpty.h forkpty.h-util'
-echo 'forkpty.h forkpty.h-libutil'
-echo 'forkpty.h forkpty.h-generic'
-
 #order
 echo 'order.h order.h-little'
 echo 'order.h order.h-big'

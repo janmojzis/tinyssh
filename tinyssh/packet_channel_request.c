@@ -154,7 +154,11 @@ int packet_channel_request(struct buf *b1, struct buf *b2) {
         /* XXX TODO encoded terminal modes (p2, plen2) */
         p1[plen1] = 0;
         p2[plen2] = 0;
-        if (!channel_openterminal(p1, a, b, x, y)) bug();
+        if (!channel_openterminal(p1, a, b, x, y)) {
+            log_w1("unable to open terminal");
+            log_d3("packet=SSH_MSG_CHANNEL_REQUEST, pty-req ", p1, ", rejected");
+            goto reject;
+        }
         log_d3("packet=SSH_MSG_CHANNEL_REQUEST, pty-req ", p1, ", accepted");
         goto accept;
     }

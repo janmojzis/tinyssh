@@ -12,7 +12,6 @@ die
 dropuidgid
 e
 env
-forkpty
 getln
 global
 iptostr

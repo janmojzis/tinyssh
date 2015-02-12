@@ -10,7 +10,8 @@ extern int channel_droppriv(char *, char **);
 /* channel_fork.c */
 extern long long channel_fork(int *);
 /* channel_forkpty.c */
-extern long long channel_forkpty(int *);
+extern long long channel_forkpty(int *, int, int);
+extern int channel_openpty(int *, int *);
 
 /* channel.c */
 extern void channel_purge(void);

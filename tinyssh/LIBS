@@ -12,7 +12,6 @@ die.o
 dropuidgid.o
 env.o
 e.o
-forkpty.o
 getln.o
 global.o
 iptostr.o
