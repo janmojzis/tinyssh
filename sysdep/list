@@ -29,6 +29,12 @@ echo 'haslibutilh.h default.h-no'
 echo 'hasutilh.h hasutilh.h-yes' 
 echo 'hasutilh.h default.h-no' 
 
+#openpty/login_tty
+echo 'hasopenpty.h hasopenpty.h-yes'
+echo 'hasopenpty.h default.h-no'
+echo 'haslogintty.h haslogintty.h-yes'
+echo 'haslogintty.h default.h-no'
+
 #utmpx
 echo 'hasutmpx.h hasutmpx.h-yes'
 echo 'hasutmpx.h default.h-no'

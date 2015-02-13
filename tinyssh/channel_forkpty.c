@@ -17,6 +17,16 @@ extern char *ptsname(int);
 extern int grantpt(int);
 extern int unlockpt(int);
 
+#include "hasopenpty.h"
+#ifdef HASOPENPTY
+extern int openpty(int *, int *, char *, struct termios *, struct winsize *);
+#endif
+
+#include "haslogintty.h"
+#ifdef HASLOGINTTY
+extern int login_tty(int);
+#endif
+
 #include "coe.h"
 #include "blocking.h"
 #include "global.h"
@@ -50,8 +60,7 @@ static int _login_tty(int fd) {
     return 0;
 }
 
-
-int channel_openpty(int *amaster, int *aslave) {
+static int _openpty(int *amaster, int *aslave) {
 
     int master = -1, slave = -1;
     char *slave_name;
@@ -62,14 +71,14 @@ int channel_openpty(int *amaster, int *aslave) {
         master = open(fn[i], O_RDWR | O_NOCTTY);
         if (master != -1) break;
     }
-    if (master == -1) return 0;
+    if (master == -1) return -1;
 
-    if (grantpt(master) == -1) { close(master); return 0; }
-    if (unlockpt(master) == -1) { close(master); return 0; }
+    if (grantpt(master) == -1) { close(master); return -1; }
+    if (unlockpt(master) == -1) { close(master); return -1; }
     slave_name = ptsname(master);
-    if (!slave_name) { close(master); return 0; }
+    if (!slave_name) { close(master); return -1; }
     slave = open(slave_name, O_RDWR | O_NOCTTY);
-    if (slave == -1) { close(master); return 0; }
+    if (slave == -1) { close(master); return -1; }
 #if defined(sun) || defined(__hpux)
     ioctl(slave, I_PUSH, "ptem");
     ioctl(slave, I_PUSH, "ldterm");
@@ -78,16 +87,27 @@ int channel_openpty(int *amaster, int *aslave) {
     ioctl(slave, I_PUSH, "ttcompat");
 #endif
 
-    if (!ttyname(slave)) {
-        close(master);
-        close(slave);
+    if (amaster) *amaster = master;
+    if (aslave)  *aslave  = slave;
+    return 0;
+}
+
+int channel_openpty(int *amaster, int *aslave) {
+
+#ifdef HASOPENPTY
+    if (openpty(amaster, aslave, 0, 0, 0) == -1) return 0;
+#else
+    if (_openpty(amaster, aslave) == -1) return 0;
+#endif
+
+   if (!ttyname(*aslave)) {
+        close(*amaster);
+        close(*aslave);
         return 0;
     }
-
-    if (amaster) *amaster = master;
-    if (amaster) *aslave  = slave;
     return 1;
 }
+
 
 /*
 The 'channel_forkpty' function is used to create a new process
@@ -99,6 +119,8 @@ fd[2] is always -1
 long long channel_forkpty(int fd[3], int master, int slave) {
 
     long long pid;
+
+    if (!ttyname(slave)) return -1;
     
     fd[0] = fd[1] = master;
     fd[2] = -1;
@@ -111,7 +133,12 @@ long long channel_forkpty(int fd[3], int master, int slave) {
             return -1;
         case 0:
             close(master);
+#ifdef HASLOGINTTY
+            if (!ttyname(slave)) global_die(111);
+            if (login_tty(slave) == -1) global_die(111);
+#else
             if (_login_tty(slave) == -1) global_die(111);
+#endif
             return 0;
         default:
             coe_enable(master);
