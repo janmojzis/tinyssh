@@ -114,11 +114,9 @@ void log_9_(
     s[8] = s8;
 
     switch (level) {
-        case -2:
-            m = "fatal: BUG!!!!";
-            break;
         case -1:
-            m = "usage";
+            if (!ignoreerrno) m = "BUG";
+            else m = "usage";
             break;
         case  1:
             m = "fatal";
