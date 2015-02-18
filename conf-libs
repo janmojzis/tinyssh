@@ -1,0 +1,2 @@
+-lutil
+-lsocket -lnsl

@@ -67,13 +67,18 @@ rm -rf "$work"
 mkdir -p "$work"
 (
   cd "$work"
-  for i in '-lutil' '-lsocket -lnsl'; do
-    echo 'int main(void) { return 0; }' > try.c
-    ${compiler} $i -o try try.c 2>/dev/null || { echo "=== `date` ===   $i failed"; continue; }
-    syslibs="$i $syslibs"
-    echo "=== `date` ===   $i ok"
-  done
-  echo $syslibs > syslibs
+  (
+    exec 2>/dev/null
+    cat "${top}/conf-libs" || :
+  ) | (
+    exec 5>syslibs
+    while read i; do
+      echo 'int main(void) { return 0; }' > try.c
+      ${compiler} ${i} -o try try.c 2>/dev/null || { echo "=== `date` ===   ${i} failed"; continue; }
+      echo "${i}" >&5
+      echo "=== `date` ===   $i ok"
+    done
+  )
 )
 libs=`cat "${work}/syslibs"`
 echo "=== `date` === finishing"
