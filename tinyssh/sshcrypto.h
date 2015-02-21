@@ -69,6 +69,7 @@ extern void nistp256_putsharedsecret(struct buf *, const unsigned char *);
 #define sshcrypto_sign_MAX          64          /* space for nistp256ecdsa/ed25519 sig */
 #define sshcrypto_sign_BASE64PUBLICKEYMAX 141   /* space for nistp256ecdsa in base64 + 0-terminator */
 #define sshcrypto_sign_BASE64PUBLICKEYMIN 69    /* space for ed25519 in base64 + 0-terminator */
+#define sshcrypto_sign_NAMEMAX 20               /* space for string ecdsa-sha2-nistp256 + 0-terminator */
 
 struct sshcrypto_key {
     const char *name;

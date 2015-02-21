@@ -118,7 +118,7 @@ int subprocess_auth(const char *a, const char *kname, const char *k) {
     if (pid == 0) {
 
         char account[64];
-        char keyname[20]; /* space for ecdsa-sha2-nistp256 */
+        char keyname[sshcrypto_sign_NAMEMAX];
         char key[sshcrypto_sign_BASE64PUBLICKEYMAX];
         #define path global_bspace2 /* reusing global buffer */
         #define buf global_bspace1 /* reusing global buffer */
