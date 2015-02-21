@@ -46,7 +46,7 @@ rm -rf "$work"
 mkdir -p "$work"
 (
   cd "${work}"
-  cflags=`cat "${top}/conf-cflags"`
+  cflags=`cat "${top}/conf-cflags" 2>/dev/null || :`
   cflags="${CFLAGS} ${LDFLAGS} ${cflags}"
 
   for i in ${cflags}; do
@@ -150,7 +150,7 @@ mkdir -p "$work"
 cp -p crypto/CRYPTOPRIMITIVES "$work"
 cp -pr crypto-tests/*test.c "$work"
 cp -pr crypto-tests/*.h "$work"
-cp -pr crypto-tests/*.data "$work"
+cp -pr crypto-tests/*.data "$work" 2>/dev/null || :
 (
   cd "$work"
   cat CRYPTOPRIMITIVES\
@@ -218,9 +218,10 @@ mkdir -p "$work"
 cp -pr tinyssh/* "$work"
 cp -pr tinyssh-tests/*test.c "$work"
 cp -pr tinyssh-tests/*.h "$work"
-cp -pr _tinyssh/* "$work"
+cp -pr _tinyssh/* "$work" 2>/dev/null || :
 (
   cd "$work"
+  touch SOURCES TARGETS _TARGETS
   cat SOURCES TARGETS _TARGETS\
   | while read x
   do
@@ -285,8 +286,11 @@ mkdir -p "$work"
 
 for dir in tinyssh-tests crypto-tests _tinyssh; do
   (
-    cd "${dir}"
-    cat *.c *.h > "${work}/${dir}"
+    exec 2>/dev/null
+    touch "${work}/${dir}"
+    [ -d "${dir}" ] || exit 0
+    cd "${dir}" 
+    cat *.c *.h > "${work}/${dir}" || :
   )
 
   (
@@ -321,8 +325,9 @@ mkdir -p "$work"
 
 for dir in sysdep tinyssh crypto; do
   (
+    exec 2>/dev/null
     cd "${dir}"
-    cat *.c *.h > "${work}/${dir}"
+    cat *.c *.h > "${work}/${dir}" || :
   )
 
   (
