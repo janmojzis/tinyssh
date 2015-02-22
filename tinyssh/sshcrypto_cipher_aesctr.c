@@ -7,7 +7,7 @@ Public domain.
 #include "buf.h"
 #include "uint32_pack_big.h"
 #include "uint32_unpack_big.h"
-/* #include "randommod.h" */
+#include "randommod.h"
 #include "packet.h"
 #include "byte.h"
 #include "bug.h"
@@ -34,7 +34,7 @@ void aesctr_packet_put(struct buf *b) {
 
     /* add padding */
     paddinglen  = 2 * BB - ((sendbuf->len - pos - 4) % BB);
-    /* paddinglen += randommod(2) * BB; */
+    paddinglen += randommod(2) * BB;
     buf_putpadding(sendbuf, paddinglen);
 
     /* add space for mac */

@@ -7,7 +7,7 @@ Public domain.
 #include "uint32_pack_big.h"
 #include "uint32_unpack_big.h"
 #include "crypto_verify_16.h"
-/* #include "randommod.h" */
+#include "randommod.h"
 #include "e.h"
 #include "byte.h"
 #include "purge.h"
@@ -38,7 +38,7 @@ void chachapoly_packet_put(struct buf *b) {
 
     /* padding */
     paddinglen  = 2 * BB - ((sendbuf->len - pos - ZB) % BB) + 4;
-    /* paddinglen += randommod(2) * BB; */
+    paddinglen += randommod(2) * BB;
     buf_putpadding(sendbuf, paddinglen);
     sendbuf->buf[pos + ZB + 4] = paddinglen;
 
