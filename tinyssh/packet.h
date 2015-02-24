@@ -127,7 +127,4 @@ extern int packet_channel_send_windowadjust(struct buf *);
 extern void packet_channel_send_eof(struct buf *);
 extern int packet_channel_send_close(struct buf *, int, int);
 
-/* packet_debug.c */
-extern void packet_debug_send(struct buf *, char *, long long);
-
 #endif
