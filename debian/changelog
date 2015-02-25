@@ -1,3 +1,11 @@
+tinyssh (20150301) unstable; urgency=low
+
+  * pty rework - using openpty() instead of forkpty()
+  * log library rework
+  * fixed compilation warnings
+
+ -- Jan Mojzis <jan.mojzis@gmail.com>  Wed, 25 Feb 2015 07:37:44 +0100
+
 tinyssh (20150201) unstable; urgency=low
 
   * added support for SSH subsystem (e.g. sftp)
