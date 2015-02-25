@@ -20,7 +20,7 @@ Public domain.
 int packet_auth(struct buf *b, struct buf *b2) {
 
     crypto_uint8 ch, flagsignature;
-    long long pos;
+    long long pos, i, count, sign_bytes = 0;
     crypto_uint32 len;
     const char *pkname = "unknown";
     int (*sign_open)(unsigned char *,unsigned long long *,const unsigned char *,unsigned long long,const unsigned char *) = 0;
@@ -28,7 +28,6 @@ int packet_auth(struct buf *b, struct buf *b2) {
     int (*parsesignature)(unsigned char *, const unsigned char *, long long) = 0;
     void (*putsignpk)(struct buf *, const unsigned char *) = 0;
     void (*putsignpkbase64)(struct buf *, const unsigned char *) = 0;
-    long long i, sign_bytes = 0;
     unsigned char pk[sshcrypto_sign_PUBLICKEYMAX];
     unsigned char sig[sshcrypto_sign_MAX];
     unsigned long long smlen;
@@ -52,7 +51,7 @@ int packet_auth(struct buf *b, struct buf *b2) {
     if (!packet_sendall()) bug();
 
 
-    for (;;) {
+    for (count = 0; count < 32; ++count) {
         /* receive userauth request */
         pos = 0;
         buf_purge(b);
