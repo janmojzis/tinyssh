@@ -148,7 +148,7 @@ int packet_auth(struct buf *b, struct buf *b2) {
         packet_put(b);
         if (!packet_sendall()) bug();
 
-        if (count++ > 32) return 1;
+        if (count++ > 32) return 0;
     }
 
 
