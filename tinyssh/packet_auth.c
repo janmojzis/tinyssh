@@ -84,8 +84,7 @@ int packet_auth(struct buf *b, struct buf *b2) {
             sign_open = 0; parsesignpk = 0; putsignpk = 0; putsignpkbase64 = 0; parsesignature = 0; sign_bytes = 0;
             for (i = 0; sshcrypto_keys[i].name; ++i) {
                 if (!sshcrypto_keys[i].sign_flagclient) continue;
-                if (len != str_len(sshcrypto_keys[i].name)) continue;
-                if (!byte_isequal(pkname, len, sshcrypto_keys[i].name)) continue;
+                if (!str_equaln(pkname, len, sshcrypto_keys[i].name)) continue;
                 pkname = sshcrypto_keys[i].name;
                 sign_open = sshcrypto_keys[i].sign_open;
                 parsesignature = sshcrypto_keys[i].parsesignature;
@@ -138,9 +137,6 @@ int packet_auth(struct buf *b, struct buf *b2) {
                 buf_putnum8(b, 0);
                 if (subprocess_auth(packet.name, pkname, (char *)b->buf) == 0) break;
             }
-        }
-        if (len == 4 && byte_isequal(b->buf + pos - len, len, "none")) {
-            pkname = "none";
         }
 
         /* reject */
