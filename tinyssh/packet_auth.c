@@ -22,7 +22,7 @@ int packet_auth(struct buf *b, struct buf *b2) {
     crypto_uint8 ch, flagsignature;
     long long pos, i, count = 0, sign_bytes = 0;
     crypto_uint32 len;
-    const char *pkname = "unknown";
+    const char *pkname;
     int (*sign_open)(unsigned char *,unsigned long long *,const unsigned char *,unsigned long long,const unsigned char *) = 0;
     int (*parsesignpk)(unsigned char *, const unsigned char *, long long) = 0;
     int (*parsesignature)(unsigned char *, const unsigned char *, long long) = 0;
@@ -53,6 +53,7 @@ int packet_auth(struct buf *b, struct buf *b2) {
 
     for (;;) {
         /* receive userauth request */
+        pkname = "unknown";
         pos = 0;
         buf_purge(b);
         if (!packet_getall(b, SSH_MSG_USERAUTH_REQUEST)) bug();
@@ -69,7 +70,10 @@ int packet_auth(struct buf *b, struct buf *b2) {
 
         pos = packetparser_uint32(b->buf, b->len, pos, &len);       /* publickey/password/hostbased/none */
         pos = packetparser_skip(b->buf, b->len, pos, len);
-        if (len == 9 && byte_isequal(b->buf + pos - len, len, "publickey")) {
+
+        if (str_equaln((char *)b->buf + pos - len, len, "none")) pkname = "none";
+        if (str_equaln((char *)b->buf + pos - len, len, "password")) pkname = "password";
+        if (str_equaln((char *)b->buf + pos - len, len, "publickey")) {
             pos = packetparser_uint8(b->buf, b->len, pos, &flagsignature);
 
             pos = packetparser_uint32(b->buf, b->len, pos, &len);   /* public key algorithm name */
