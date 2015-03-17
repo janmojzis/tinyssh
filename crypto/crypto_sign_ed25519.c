@@ -85,7 +85,7 @@ int crypto_sign_ed25519_tinynacl_open(unsigned char *m, unsigned long long *mlen
 
     /* copy message */
     n -= 64; *mlen = n;
-    for (i = n - 1; i >= 0; --i) m[i] = m[i + 64];
+    for (i = 0; i <  n; ++i) m[i] = m[i + 64];
     for (i = 0; i < 64; ++i) m[i + n] = 0;
     ret = 0;
     goto cleanup;

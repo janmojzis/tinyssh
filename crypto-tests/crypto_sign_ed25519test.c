@@ -85,8 +85,34 @@ static void test_random(void) {
             fail_printdata("sk", sk + i, crypto_sign_ed25519_SECRETKEYBYTES);
             fail("crypto_sign_ed25519_open() failure, please report it !!!!!!!!!");
         }
+
         ++i;
         i %= 16;
+    }
+}
+
+static void test_signopen(void) {
+
+    unsigned char m[1024];
+    unsigned char sm[1024];
+    unsigned char om[1024];
+    unsigned long long smlen = 0;
+    unsigned long long omlen;
+
+    if (crypto_sign_ed25519_keypair(pk, sk) != 0) fail("crypto_sign_ed25519_keypair() failure");
+
+    pseudorandombytes(m, sizeof m);
+
+    crypto_sign_ed25519(sm, &smlen, m + 64, sizeof m - 64, sk);
+    if (crypto_sign_ed25519_open(om, &omlen, sm, sizeof sm, pk) != 0) {
+        fail_printdata("sm", sm, smlen);
+        fail_printdata("pk", pk, crypto_sign_ed25519_PUBLICKEYBYTES);
+        fail_printdata("sk", sk, crypto_sign_ed25519_SECRETKEYBYTES);
+        fail("crypto_sign_ed25519_open() failure, please report it !!!!!!!!!");
+    }
+
+    if (memcmp(m + 64, om, sizeof m - 64)) {
+        fail("crypto_sign_ed25519_open() failure, messages do not match");
     }
 }
 
@@ -95,6 +121,7 @@ int main(void) {
 
     test_precomp();
     test_random();
+    test_signopen();
 
     _exit(0);
 }
