@@ -300,8 +300,8 @@ rekeying:
                 case SSH_MSG_KEXINIT:
                     goto rekeying;
                 default:
-                    die_fatal("unknown message type", 0, 0);
-                    /* XXX TODO - send SSH_MSG_UNIMPLEMENTED */
+                    log_d1("unknown packet - sending SSH_MSG_UNIMPLEMENTED message");
+                    if (!packet_uinmplemented(&b1)) die_fatal("unable to send SSH_MSG_UNIMPLEMENTED message", 0, 0);
             }
         }
     }

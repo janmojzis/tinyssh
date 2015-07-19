@@ -1,3 +1,15 @@
+tinyssh (20150719) unstable; urgency=low
+
+  * SSH_MSG_UNIMPLEMENTED response for unknown packets
+
+ -- Jan Mojzis <jan.mojzis@gmail.com>  Sun, 19 Jul 2015 11:56:04 +0200
+
+tinyssh (20150501) unstable; urgency=low
+
+  * fix in crypto_sign_* + added tests
+
+ -- Jan Mojzis <jan.mojzis@gmail.com>  Fri, 01 May 2015 16:20:31 +0200
+
 tinyssh (20150301) unstable; urgency=low
 
   * pty rework - using openpty() instead of forkpty()

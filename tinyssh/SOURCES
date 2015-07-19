@@ -36,6 +36,7 @@ packetparser
 packet_put
 packet_recv
 packet_send
+packet_uinmplemented
 porttostr
 randommod
 readall
