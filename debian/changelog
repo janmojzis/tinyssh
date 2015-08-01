@@ -1,8 +1,8 @@
-tinyssh (20150719) unstable; urgency=low
+tinyssh (20150801) unstable; urgency=low
 
   * SSH_MSG_UNIMPLEMENTED response for unknown packets
 
- -- Jan Mojzis <jan.mojzis@gmail.com>  Sun, 19 Jul 2015 11:56:04 +0200
+ -- Jan Mojzis <jan.mojzis@gmail.com>  Sat, 01 Aug 2015 07:08:25 +0200
 
 tinyssh (20150501) unstable; urgency=low
 
