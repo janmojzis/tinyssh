@@ -36,7 +36,7 @@ packetparser.o
 packet_put.o
 packet_recv.o
 packet_send.o
-packet_uinmplemented.o
+packet_unimplemented.o
 porttostr.o
 randommod.o
 readall.o
