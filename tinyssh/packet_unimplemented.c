@@ -8,7 +8,7 @@ Public domain.
 #include "ssh.h"
 #include "packet.h"
 
-int packet_uinmplemented(struct buf *b) {
+int packet_unimplemented(struct buf *b) {
 
     buf_purge(b);
     buf_putnum8(b, SSH_MSG_UNIMPLEMENTED);       /* SSH_MSG_UNIMPLEMENTED */
