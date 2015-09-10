@@ -118,8 +118,7 @@ void log_9_(
             m = "BUG";
             break;
         case -1:
-            if (!ignoreerrno) m = "BUG";
-            else m = "usage";
+            m = "usage";
             break;
         case  1:
             m = "fatal";
