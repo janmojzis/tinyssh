@@ -6,7 +6,7 @@
 #include "e.h"
 #include "log.h"
 
-#define bug_(a, b) do { log_9_(-1, 0, a, b, 0, 0, 0, 0, 0, 0, 0, 0, 0); global_die(111); } while (0);
+#define bug_(a, b) do { log_9_(-2, 0, a, b, 0, 0, 0, 0, 0, 0, 0, 0, 0); global_die(111); } while (0);
 #define bug() bug_(__FILE__, __LINE__)
 
 #define bug_nomem() do { errno = ENOMEM; bug(); } while (0);
