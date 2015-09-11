@@ -114,10 +114,10 @@ void log_9_(
     s[8] = s8;
 
     switch (level) {
-        case -2:
+        case -1:
             m = "BUG";
             break;
-        case -1:
+        case 0:
             m = "usage";
             break;
         case  1:
@@ -140,21 +140,21 @@ void log_9_(
 
     /* 'name:' */
     do {
-        if (level == -1)   break; /* don't print in usage level */
+        if (level == 0)   break; /* don't print in usage level */
         if (logflagsyslog) break; /* don't print in syslog mode */
         outs(logtext); outs(": ");
     } while (0);
 
     /* 'session:' */
     do {
-        if (level == -1) break;  /* don't print in usage level */
-        if (!logflagfnln) break; /* don't print when diabled   */
+        if (level == 0) break;  /* don't print in usage level */
+        if (!logflagfnln) break; /* don't print when disabled   */
         outs(logstring); outs(": ");
     } while (0);
 
     /* 'level:' */
     do {
-        if (level == -1) break; /* don't print in usage level */
+        if (level == 0) break; /* don't print in usage level */
         outs(m); outs(": ");
     } while (0);
 
@@ -164,18 +164,18 @@ void log_9_(
 
     /* '(error)' */
     do {
-        if (level == -1) break; /* don't print in usage level */
+        if (level == 0) break; /* don't print in usage level */
         if (!errno)      break; /* don't print when errno = 0 */
-        if (ignoreerrno) break; /* don't print when diabled   */
+        if (ignoreerrno) break; /* don't print when disabled   */
         outs("("); outs(e_str(errno)); outs(")");
     } while (0);
 
     /* {file:line} */
     do {
-        if (level == -1) break;  /* don't print in usage level */
+        if (level == 0) break;  /* don't print in usage level */
         if (!f)          break;  /* don't print when no f      */
         if (!l)          break;  /* don't print when no l      */
-        if (!logflagfnln) break; /* don't print when diabled   */
+        if (!logflagfnln) break; /* don't print when disabled   */
         outs("{"); outs(f); outs(":"); outnum(l); outs("}");
     } while (0);
 

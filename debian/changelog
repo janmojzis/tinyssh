@@ -1,7 +1,7 @@
 tinyssh (20150910) unstable; urgency=low
 
   * tty permissions fix - user-only (mode 0600)
-  * log library fix - BUG level = -2
+  * log library fix
 
  -- Jan Mojzis <jan.mojzis@gmail.com>  Thu, 10 Sep 2015 11:07:50 +0200
 

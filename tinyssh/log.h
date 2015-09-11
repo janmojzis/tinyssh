@@ -20,7 +20,7 @@ extern void log_9_(
             const char *);
 
 /* usage */
-#define log_u9(a,b,c,d,e,f,g,h,i) log_9_(-1,1,__FILE__,__LINE__,a,b,c,d,e,f,g,h,i)
+#define log_u9(a,b,c,d,e,f,g,h,i) log_9_(0,1,__FILE__,__LINE__,a,b,c,d,e,f,g,h,i)
 #define log_u8(a,b,c,d,e,f,g,h) log_u9(a,b,c,d,e,f,g,h,0)
 #define log_u7(a,b,c,d,e,f,g) log_u8(a,b,c,d,e,f,g,0)
 #define log_u6(a,b,c,d,e,f) log_u7(a,b,c,d,e,f,0)
