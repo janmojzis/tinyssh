@@ -10,6 +10,10 @@
 
 111
 
+--- tinysshd don't accept too many unauthenticated messages
+
+0
+
 --- tinysshd default setup
 
 _tinysshd-printkex: info: kex algorithms: curve25519-sha256@libssh.org 
