@@ -13,6 +13,7 @@ Public domain.
 #include "purge.h"
 #include "ssh.h"
 #include "sshcrypto.h"
+#include "numtostr.h"
 #include "packet.h"
 
 static int packet_get_plain_(struct buf *b) {
@@ -31,7 +32,13 @@ static int packet_get_plain_(struct buf *b) {
 
     /* parse length */
     packet_length = uint32_unpack_big(pp);
-    if (packet_length > PACKET_LIMIT) bug_proto();
+    if (packet_length > PACKET_LIMIT) {
+        char buf1[NUMTOSTR_LEN];
+        char buf2[NUMTOSTR_LEN];
+        errno = EPROTO;
+        log_f4("packet length ", numtostr(buf1, packet_length), " > PACKET_LIMIT ", numtostr(buf2, PACKET_LIMIT));
+        global_die(111);
+    }
     if (packet_length + 4 > l) return 1;
 
     /* we have full packet */
@@ -64,7 +71,11 @@ int packet_get(struct buf *b, crypto_uint8 x) {
     buf_purge(b);
     if (!packet_get_(b)) return 0;
     if (b->len <= 0) return 1;
-    if (!packet.flagauthorized) if (packet.receivepacketid > PACKET_UNAUTHENTICATED_MESSAGES) bug_proto();
+    if (!packet.flagauthorized) if (packet.receivepacketid > PACKET_UNAUTHENTICATED_MESSAGES) {
+        errno = EPROTO;
+        log_f1("too many unauthenticated messages");
+        global_die(111);
+    }
 
     switch (b->buf[0]) {
         case SSH_MSG_DISCONNECT:
@@ -75,7 +86,13 @@ int packet_get(struct buf *b, crypto_uint8 x) {
             buf_purge(b);
             break;
         default:
-            if (x && x != b->buf[0]) bug_proto();
+            if (x && x != b->buf[0]) {
+                char buf1[NUMTOSTR_LEN];
+                char buf2[NUMTOSTR_LEN];
+                errno = EPROTO;
+                log_f4("expected packet type ", numtostr(buf1, b->buf[0]), ", got ", numtostr(buf2, x));
+                global_die(111);
+            }
             break;
     }
     return 1;
