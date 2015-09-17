@@ -12,3 +12,4 @@
 -Wno-long-long
 -Wall
 -pedantic
+-fwrapv
