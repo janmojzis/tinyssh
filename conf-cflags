@@ -12,4 +12,5 @@
 -Wno-long-long
 -Wall
 -pedantic
+-fno-strict-overflow
 -fwrapv
