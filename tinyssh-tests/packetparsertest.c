@@ -98,6 +98,16 @@ static void _test3a(void) {
     pos = packetparser_skip(buf, sizeof buf, pos, 6);
 }
 
+
+static void _test3aa(void) {
+
+    unsigned char buf[5];
+    long long len, pos;
+    len = pos = 9223372036854775807LL;
+
+    pos = packetparser_skip(buf, len, pos, 1);
+}
+
 /* packetparser_uint32() overflow */
 static void _test3b(void) {
 
@@ -107,6 +117,18 @@ static void _test3b(void) {
 
     pos = packetparser_uint32(buf, sizeof buf, pos, &u);
 }
+
+static void _test3bb(void) {
+
+    unsigned char buf[4];
+    crypto_uint32 u;
+    long long len, pos;
+    len = pos = 9223372036854775807LL;
+    
+    pos = packetparser_uint32(buf, len, pos, &u);
+}
+
+
 
 /* packetparser_uint8() overflow */
 static void _test3c(void) {
@@ -121,6 +143,16 @@ static void _test3c(void) {
     pos = packetparser_uint8(buf, sizeof buf, pos, &ch);
 }
 
+static void _test3cc(void) {
+
+    unsigned char buf[3];
+    crypto_uint8 ch;
+    long long len, pos;
+    len = pos = 9223372036854775807LL;
+
+    pos = packetparser_uint8(buf, len, pos, &ch);
+}
+
 /* packetparser_copy() overflow */
 static void _test3d(void) {
 
@@ -131,6 +163,17 @@ static void _test3d(void) {
     pos = packetparser_copy(buf1, sizeof buf1, pos, buf2, sizeof buf2);
 }
 
+static void _test3dd(void) {
+
+    unsigned char buf1[10];
+    unsigned char buf2[10];
+    long long len, pos;
+    len = pos = 9223372036854775807LL;
+
+    pos = packetparser_copy(buf1, len, pos, buf2, sizeof buf2);
+}
+
+
 /* packetparser_end() failure */
 static void _test3e(void) {
 
@@ -139,12 +182,26 @@ static void _test3e(void) {
     packetparser_end(buf, 0, 1);
 }
 
+static void _test3ee(void) {
+
+    unsigned char buf[1];
+    long long pos = 9223372036854775807LL;
+    
+    packetparser_end(buf, pos, pos);
+}
+
+
 static void test3(void) {
     run_mustfail(_test3a);
+    run_mustfail(_test3aa);
     run_mustfail(_test3b);
+    run_mustfail(_test3bb);
     run_mustfail(_test3c);
+    run_mustfail(_test3cc);
     run_mustfail(_test3d);
+    run_mustfail(_test3dd);
     run_mustfail(_test3e);
+    run_mustfail(_test3ee);
 }
 
 /* dummy test */
