@@ -175,7 +175,7 @@ void log_9_(
         if (level == 0) break;  /* don't print in usage level */
         if (!f)          break;  /* don't print when no f      */
         if (!l)          break;  /* don't print when no l      */
-        if (!logflagfnln) break; /* don't print when disabled   */
+        if (!logflagfnln && level != -1) break; /* don't print when disabled   */
         outs("{"); outs(f); outs(":"); outnum(l); outs("}");
     } while (0);
 
