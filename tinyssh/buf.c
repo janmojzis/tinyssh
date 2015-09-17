@@ -24,7 +24,7 @@ Initialize 'b' structure.
 void buf_init_(const char *fn, unsigned long long line,
                 struct buf *b, unsigned char *buf, long long alloc) {
 
-    if (alloc <= 0 || !b || !buf) bug_inval_(fn, line);
+    if (!b || !buf || alloc <= 0 || alloc > 1073741824) bug_inval_(fn, line);
 
     b->buf = buf;
     b->len = 0;
@@ -38,7 +38,7 @@ Remove content of 'b'.
 void buf_purge_(const char *fn, unsigned long long line,
                 struct buf *b) {
 
-    if (!b || b->len < 0 || b->alloc <= 0 || !b->buf) bug_inval_(fn, line);
+    if (!b || b->len < 0 || b->len > 1073741824 || b->alloc <= 0 || b->alloc > 1073741824 || !b->buf) bug_inval_(fn, line);
 
     purge(b->buf, b->len);
     b->len = 0;
@@ -50,7 +50,7 @@ Retun if 'b' has available space for string of length 'len'.
 int buf_ready_(const char *fn, unsigned long long line,
                struct buf *b, long long len) {
 
-    if (len < 0 || !b || b->len < 0 || b->alloc <= 0 || !b->buf) bug_inval_(fn, line);
+    if (!b || b->len < 0 || b->len > 1073741824 || b->alloc <= 0 || b->alloc > 1073741824 || !b->buf || len < 0 || len > 1073741824) bug_inval_(fn, line);
     return (b->len + len < b->alloc);
 }
 
@@ -61,7 +61,7 @@ Put string 'x' of length 'len'.
 int buf_put_(const char *fn, unsigned long long line,
              struct buf *b, const unsigned char *x, long long len) {
 
-    if (len < 0 || !b || b->len < 0 || b->alloc <= 0 || !b->buf) bug_inval_(fn, line);
+    if (!b || b->len < 0 || b->len > 1073741824 || b->alloc <= 0 || b->alloc > 1073741824 || !b->buf || !x || len < 0 || len > 1073741824) bug_inval_(fn, line);
     if (b->len + len >= b->alloc) bug_nomem_(fn, line);
 
     byte_copy(b->buf + b->len, len, x);
@@ -83,7 +83,7 @@ Put zero bytes of length 'len'.
 int buf_putzerobytes_(const char *fn, unsigned long long line,
                       struct buf *b, long long len) {
 
-    if (len < 0 || !b || b->len < 0 || b->alloc <= 0 || !b->buf) bug_inval_(fn, line);
+    if (!b || b->len < 0 || b->len > 1073741824 || b->alloc <= 0 || b->alloc > 1073741824 || !b->buf || len < 0 || len > 1073741824) bug_inval_(fn, line);
     if (b->len + len >= b->alloc) bug_nomem_(fn, line);
 
     byte_zero(b->buf + b->len, len);
@@ -97,7 +97,7 @@ Put random bytes of length 'len'.
 int buf_putrandombytes_(const char *fn, unsigned long long line,
                         struct buf *b, long long len) {
 
-    if (len < 0 || !b || b->len < 0 || b->alloc <= 0 || !b->buf) bug_inval_(fn, line);
+    if (!b || b->len < 0 || b->len > 1073741824 || b->alloc <= 0 || b->alloc > 1073741824 || !b->buf || len < 0 || len > 1073741824) bug_inval_(fn, line);
     if (b->len + len >= b->alloc) bug_nomem_(fn, line);
 
     randombytes(b->buf + b->len, len);
@@ -111,7 +111,7 @@ Put padding of length 'len'.
 int buf_putpadding_(const char *fn, unsigned long long line,
                         struct buf *b, long long len) {
 
-    if (len < 0 || !b || b->len < 0 || b->alloc <= 0 || !b->buf) bug_inval_(fn, line);
+    if (!b || b->len < 0 || b->len > 1073741824 || b->alloc <= 0 || b->alloc > 1073741824 || !b->buf || len < 0 || len > 1073741824) bug_inval_(fn, line);
     if (b->len + len >= b->alloc) bug_nomem_(fn, line);
 
     purge(b->buf + b->len, len);
@@ -167,7 +167,7 @@ int buf_putsharedsecret_(const char *fn, unsigned long long line,
 
     long long pos;
 
-    if (len < 0 || !b || !x) bug_inval_(fn, line);
+    if (len < 0 || len > 1073741824 || !b || !x) bug_inval_(fn, line);
 
     for (pos = 0; pos < len; ++pos) if (x[pos]) break;
 
@@ -193,7 +193,7 @@ int buf_putbase64_(const char *fn, unsigned long long line,
     unsigned long long bits = 0, v = 0;
     unsigned char ch;
 
-    if (len < 0 || !b || !x) bug_inval_(fn, line);
+    if (len < 0 || len > 1073741824 || !b || !x) bug_inval_(fn, line);
 
     for (i = 0; i < len; ++i) {
         v <<= 8; v += x[i]; bits += 8;
