@@ -91,11 +91,13 @@ int main(int argc, char **argv) {
     if (!packet_hello_receive()) die_fatal("unable to receive hello-string", 0, 0);
     if (!packet_hello_send()) die_fatal("unable to send hello-string", 0, 0);
 
-    for (i = 1; i < 10 * PACKET_UNAUTHENTICATED_MESSAGES; ++i) {
+    for (i = 1; i < 100 * PACKET_UNAUTHENTICATED_MESSAGES; ++i) {
         if (!_packet_debug(&b)) {
             if (i < PACKET_UNAUTHENTICATED_MESSAGES) die_fatal("unable to send debug message - parent died too early", 0, 0);
             _exit(0); /* limitation works */
         }
+
+        if (i > PACKET_UNAUTHENTICATED_MESSAGES) usleep(1000); /* XXX */
     }
 
     die_fatal("limitation is not working !!!!!!!!!!", 0, 0);
