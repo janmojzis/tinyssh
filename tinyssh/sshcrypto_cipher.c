@@ -21,7 +21,8 @@ static int default_beforenm(unsigned char *y, const unsigned char *x) {
 struct sshcrypto_cipher sshcrypto_ciphers[] = {
 #if defined(crypto_stream_chacha20_KEYBYTES) && defined(crypto_onetimeauth_poly1305_BYTES)
     {   "chacha20-poly1305@openssh.com",
-        "chacha20-poly1305@openssh.com",
+        /* XXX - workaroud for bug in PUTTY */
+        "hmac-sha2-256", /* "chacha20-poly1305@openssh.com", */
         crypto_stream_chacha20_xor,
         default_beforenm,
         crypto_onetimeauth_poly1305,
