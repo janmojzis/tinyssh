@@ -69,9 +69,11 @@ int packet_kex_receive(void) {
 
     pos = packetparser_uint32(b->buf, b->len, pos, &len);     /* mac algorithms client to server */
     pos = packetparser_skip(b->buf, b->len, pos, len);        
+    if (!sshcrypto_cipher_macselect(b->buf + pos - len, len)) bug_proto();
 
     pos = packetparser_uint32(b->buf, b->len, pos, &len);     /* mac algorithms server to client */
     pos = packetparser_skip(b->buf, b->len, pos, len);        
+    if (!sshcrypto_cipher_macselect(b->buf + pos - len, len)) bug_proto();
 
     pos = packetparser_uint32(b->buf, b->len, pos, &len);     /* compress algorithms client to server */
     pos = packetparser_skip(b->buf, b->len, pos, len);        

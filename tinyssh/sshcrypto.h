@@ -167,6 +167,7 @@ extern void (*sshcrypto_packet_put)(struct buf *);
 extern int (*sshcrypto_packet_get)(struct buf *);
 
 extern int sshcrypto_cipher_select(const unsigned char *, long long);
+extern int sshcrypto_cipher_macselect(const unsigned char *, long long);
 extern void sshcrypto_cipher_put(struct buf *);
 extern void sshcrypto_cipher_macput(struct buf *b);
 

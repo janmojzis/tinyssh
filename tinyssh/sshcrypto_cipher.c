@@ -118,6 +118,12 @@ int sshcrypto_cipher_select(const unsigned char *buf, long long len) {
     return 0;
 }
 
+int sshcrypto_cipher_macselect(const unsigned char *buf, long long len) {
+
+    if (buf[len] != 0) { errno = EPROTO; return 0; }
+    log_d2("kex: client: mac algorithms: ", (char *)buf);
+    return 1;
+}
 
 void sshcrypto_cipher_put(struct buf *b) {
 
