@@ -265,7 +265,7 @@ that remote side closed standard output.
 void channel_puteof(void) {
 
     if (channel.maxpacket == 0) bug_proto();
-    if (channel.pid <= 0) bug_proto();
+    if (channel.pid == 0) bug_proto();
     if (channel.fd0 == -1) bug_proto();
 
     channel.remoteeof = 1;
