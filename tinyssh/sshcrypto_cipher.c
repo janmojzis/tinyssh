@@ -21,8 +21,6 @@ static int default_beforenm(unsigned char *y, const unsigned char *x) {
 struct sshcrypto_cipher sshcrypto_ciphers[] = {
 #if defined(crypto_stream_chacha20_KEYBYTES) && defined(crypto_onetimeauth_poly1305_BYTES)
     {   "chacha20-poly1305@openssh.com",
-        /* XXX - workaroud for bug in PUTTY */
-        "hmac-sha2-256", /* "chacha20-poly1305@openssh.com", */
         crypto_stream_chacha20_xor,
         default_beforenm,
         crypto_onetimeauth_poly1305,
@@ -37,7 +35,6 @@ struct sshcrypto_cipher sshcrypto_ciphers[] = {
 #endif
 #if defined(crypto_core_aes128encrypt_KEYBYTES) && defined(crypto_auth_hmacsha256_BYTES)
     {   "aes128-ctr",
-        "hmac-sha2-256",
         aesctr128_xor,
         default_beforenm,
         crypto_auth_hmacsha256,
@@ -52,7 +49,6 @@ struct sshcrypto_cipher sshcrypto_ciphers[] = {
 #endif
 #if defined(crypto_core_aes256encrypt_KEYBYTES) && defined(crypto_auth_hmacsha256_BYTES)
     {   "aes256-ctr",
-        "hmac-sha2-256",
         aesctr256_xor,
         default_beforenm,
         crypto_auth_hmacsha256,
@@ -65,11 +61,10 @@ struct sshcrypto_cipher sshcrypto_ciphers[] = {
         0
     },
 #endif
-    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 };
 
 const char *sshcrypto_cipher_name = 0;
-const char *sshcrypto_cipher_macname = 0;
 int (*sshcrypto_stream_xor)(unsigned char *, const unsigned char *, unsigned long long, const unsigned char *, const unsigned char *) = 0;
 int (*sshcrypto_stream_beforenm)(unsigned char *, const unsigned char *) = 0;
 int (*sshcrypto_auth)(unsigned char *, const unsigned char *, unsigned long long, const unsigned char *) = 0;
@@ -99,7 +94,6 @@ int sshcrypto_cipher_select(const unsigned char *buf, long long len) {
             if (!sshcrypto_ciphers[i].flagenabled) continue;
             if (str_equaln((char *)x, xlen, sshcrypto_ciphers[i].name)) {
                 sshcrypto_cipher_name = sshcrypto_ciphers[i].name;
-                sshcrypto_cipher_macname = sshcrypto_ciphers[i].macname;
                 sshcrypto_stream_xor = sshcrypto_ciphers[i].stream_xor;
                 sshcrypto_stream_beforenm = sshcrypto_ciphers[i].stream_beforenm;
                 sshcrypto_auth = sshcrypto_ciphers[i].auth;
@@ -109,7 +103,7 @@ int sshcrypto_cipher_select(const unsigned char *buf, long long len) {
                 sshcrypto_packet_get = sshcrypto_ciphers[i].packet_get;
                 sshcrypto_packet_put = sshcrypto_ciphers[i].packet_put;
                 log_i2("kex: cipher selected: ", sshcrypto_ciphers[i].name);
-                log_i2("kex: mac selected: ", sshcrypto_ciphers[i].macname);
+                log_i1("kex: mac selected: hmac-sha2-256 (ignored for chacha20-poly1305@openssh.com)");
                 return 1;
             }
         }
@@ -151,27 +145,12 @@ void sshcrypto_cipher_put(struct buf *b) {
     log_d2("kex: server: cipher algorithms: ", (char *)b->buf + start);
 }
 
+/* 
+XXX we support only hmac-sha2-256 with aes128-ctr and aes256-ctr
+for chacha20-poly1305@openssh.com is hmac-sha2-256 string ignored 
+*/
 void sshcrypto_cipher_macput(struct buf *b) {
 
-    crypto_uint32 len = 0;
-    long long i, j, start;
-
-    j = 0;
-    for (i = 0; sshcrypto_ciphers[i].macname; ++i) {
-        if (!sshcrypto_ciphers[i].flagenabled) continue;
-        if (j++) ++len;
-        len += str_len(sshcrypto_ciphers[i].macname);
-    }
-
-    buf_putnum32(b, len);
-    start = b->len;
-
-    j = 0;
-    for (i = 0; sshcrypto_ciphers[i].macname; ++i) {
-        if (!sshcrypto_ciphers[i].flagenabled) continue;
-        if (j++) buf_puts(b, ",");
-        buf_puts(b, sshcrypto_ciphers[i].macname);
-    }
-    b->buf[b->len] = 0;
-    log_d2("kex: server: mac algorithms: ", (char *)b->buf + start);
+    buf_putstring(b, "hmac-sha2-256");
+    log_d1("kex: server: mac algorithms: hmac-sha2-256");
 }

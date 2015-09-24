@@ -141,7 +141,6 @@ extern int nistp256ecdsa_parsesignature(unsigned char *, const unsigned char *, 
 
 struct sshcrypto_cipher {
     const char *name;
-    const char *macname;
     int (*stream_xor)(unsigned char *,const unsigned char *,unsigned long long,const unsigned char *,const unsigned char *);
     int (*stream_beforenm)(unsigned char *,const unsigned char *);
     int (*auth)(unsigned char *,const unsigned char *,unsigned long long,const unsigned char *);
@@ -156,7 +155,6 @@ struct sshcrypto_cipher {
 extern struct sshcrypto_cipher sshcrypto_ciphers[];
 
 extern const char *sshcrypto_cipher_name;
-extern const char *sshcrypto_cipher_macname;
 extern int (*sshcrypto_stream_xor)(unsigned char *,const unsigned char *,unsigned long long,const unsigned char *,const unsigned char *);
 extern int (*sshcrypto_stream_beforenm)(unsigned char *,const unsigned char *);
 extern int (*sshcrypto_auth)(unsigned char *,const unsigned char *,unsigned long long,const unsigned char *);
