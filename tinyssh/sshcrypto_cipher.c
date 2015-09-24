@@ -129,20 +129,22 @@ int sshcrypto_cipher_macselect(const unsigned char *buf, long long len) {
 void sshcrypto_cipher_put(struct buf *b) {
 
     crypto_uint32 len = 0;
-    long long i, start;
+    long long i, j, start;
 
+    j = 0;
     for (i = 0; sshcrypto_ciphers[i].name; ++i) {
         if (!sshcrypto_ciphers[i].flagenabled) continue;
-        if (i) ++len;
+        if (j++) ++len;
         len += str_len(sshcrypto_ciphers[i].name);
     }
 
     buf_putnum32(b, len);
     start = b->len;
 
+    j = 0;
     for (i = 0; sshcrypto_ciphers[i].name; ++i) {
         if (!sshcrypto_ciphers[i].flagenabled) continue;
-        if (i) buf_puts(b, ",");
+        if (j++) buf_puts(b, ",");
         buf_puts(b, sshcrypto_ciphers[i].name);
     }
     b->buf[b->len] = 0;
@@ -152,20 +154,22 @@ void sshcrypto_cipher_put(struct buf *b) {
 void sshcrypto_cipher_macput(struct buf *b) {
 
     crypto_uint32 len = 0;
-    long long i, start;
+    long long i, j, start;
 
+    j = 0;
     for (i = 0; sshcrypto_ciphers[i].macname; ++i) {
         if (!sshcrypto_ciphers[i].flagenabled) continue;
-        if (i) ++len;
+        if (j++) ++len;
         len += str_len(sshcrypto_ciphers[i].macname);
     }
 
     buf_putnum32(b, len);
     start = b->len;
 
+    j = 0;
     for (i = 0; sshcrypto_ciphers[i].macname; ++i) {
         if (!sshcrypto_ciphers[i].flagenabled) continue;
-        if (i) buf_puts(b, ",");
+        if (j++) buf_puts(b, ",");
         buf_puts(b, sshcrypto_ciphers[i].macname);
     }
     b->buf[b->len] = 0;

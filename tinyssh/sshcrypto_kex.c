@@ -117,20 +117,22 @@ int sshcrypto_kex_select(const unsigned char *buf, long long len, crypto_uint8 *
 void sshcrypto_kex_put(struct buf *b) {
 
     crypto_uint32 len = 0;
-    long long i, start;
+    long long i, j, start;
 
+    j = 0;
     for (i = 0; sshcrypto_kexs[i].name; ++i) {
         if (!sshcrypto_kexs[i].flagenabled) continue;
-        if (i) ++len;
+        if (j++) ++len;
         len += str_len(sshcrypto_kexs[i].name);
     }
 
     buf_putnum32(b, len);
     start = b->len;
 
+    j = 0;
     for (i = 0; sshcrypto_kexs[i].name; ++i) {
         if (!sshcrypto_kexs[i].flagenabled) continue;
-        if (i) buf_puts(b, ",");
+        if (j++) buf_puts(b, ",");
         buf_puts(b, sshcrypto_kexs[i].name);
     }
     b->buf[b->len] = 0;

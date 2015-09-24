@@ -137,9 +137,8 @@ void sshcrypto_key_put(struct buf *b) {
     j = 0;
     for (i = 0; sshcrypto_keys[i].name; ++i) {
         if (!sshcrypto_keys[i].sign_flagserver) continue;
-        if (j) ++len;
+        if (j++) ++len;
         len += str_len(sshcrypto_keys[i].name);
-        ++j;
     }
 
     buf_putnum32(b, len);
@@ -148,9 +147,8 @@ void sshcrypto_key_put(struct buf *b) {
     j = 0;
     for (i = 0; sshcrypto_keys[i].name; ++i) {
         if (!sshcrypto_keys[i].sign_flagserver) continue;
-        if (j) buf_puts(b, ",");
+        if (j++) buf_puts(b, ",");
         buf_puts(b, sshcrypto_keys[i].name);
-        ++j;
     }
     b->buf[b->len] = 0;
     log_d2("kex: server: key algorithms: ", (char *)b->buf + start);
