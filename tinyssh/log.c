@@ -164,7 +164,6 @@ void log_9_(
 
     /* '(error)' */
     do {
-        if (level == 0) break; /* don't print in usage level */
         if (!errno)      break; /* don't print when errno = 0 */
         if (ignoreerrno) break; /* don't print when disabled   */
         outs("("); outs(e_str(errno)); outs(")");

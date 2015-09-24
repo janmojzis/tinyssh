@@ -64,7 +64,7 @@ extern void log_9_(
 #define log_i1(a) log_i2(a,0)
 
 /* debug */
-#define log_d9(a,b,c,d,e,f,g,h,i) log_9_(3,0,__FILE__,__LINE__,a,b,c,d,e,f,g,h,i)
+#define log_d9(a,b,c,d,e,f,g,h,i) log_9_(3,1,__FILE__,__LINE__,a,b,c,d,e,f,g,h,i)
 #define log_d8(a,b,c,d,e,f,g,h) log_d9(a,b,c,d,e,f,g,h,0)
 #define log_d7(a,b,c,d,e,f,g) log_d8(a,b,c,d,e,f,g,0)
 #define log_d6(a,b,c,d,e,f) log_d7(a,b,c,d,e,f,0)
