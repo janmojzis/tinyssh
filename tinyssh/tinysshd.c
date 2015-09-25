@@ -300,7 +300,6 @@ rekeying:
                 case SSH_MSG_KEXINIT:
                     goto rekeying;
                 default:
-                    log_d1("unknown packet - sending SSH_MSG_UNIMPLEMENTED message");
                     if (!packet_unimplemented(&b1)) die_fatal("unable to send SSH_MSG_UNIMPLEMENTED message", 0, 0);
             }
         }
