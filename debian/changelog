@@ -1,9 +1,14 @@
-tinyssh (20150910) unstable; urgency=low
+tinyssh (20150926) unstable; urgency=low
 
   * tty permissions fix - user-only (mode 0600)
-  * log library fix
+  * few log library fixes and improvements
+  * added regression test for unauthenticated packets
+  * added compiler parameter -fno-strict-overflow -fwrapv
+  * improved bounds checking in buf.c and packetparser.c
+  * MAC rework - always printed hmac-sha2-256
+  * install script rework
 
- -- Jan Mojzis <jan.mojzis@gmail.com>  Thu, 10 Sep 2015 11:07:50 +0200
+ -- Jan Mojzis <jan.mojzis@gmail.com>  Sat, 26 Sep 2015 06:42:47 +0200
 
 tinyssh (20150801) unstable; urgency=low
 
