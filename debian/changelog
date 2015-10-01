@@ -1,4 +1,4 @@
-tinyssh (20150926) unstable; urgency=low
+tinyssh (20151001) unstable; urgency=low
 
   * tty permissions fix - user-only (mode 0600)
   * few log library fixes and improvements
@@ -8,7 +8,7 @@ tinyssh (20150926) unstable; urgency=low
   * MAC rework - always printed hmac-sha2-256
   * install script rework
 
- -- Jan Mojzis <jan.mojzis@gmail.com>  Sat, 26 Sep 2015 06:42:47 +0200
+ -- Jan Mojzis <jan.mojzis@gmail.com>  Thu, 01 Oct 2015 10:49:23 +0200
 
 tinyssh (20150801) unstable; urgency=low
 
