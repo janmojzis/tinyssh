@@ -129,20 +129,9 @@ extern int nistp256ecdsa_parsesignature(unsigned char *, const unsigned char *, 
 /* cipher + mac */
 #define sshcrypto_cipher_KEYMAX 128     /* space for 2 x sha512 */
 
-#define sshcrypto_cipher_BEFORENMMAX sshcrypto_cipher_KEYMAX
-#if defined(crypto_stream_aes128ctr_BEFORENMBYTES) && crypto_stream_aes128ctr_BEFORENMBYTES > sshcrypto_cipher_BEFORENMMAX
-#undef sshcrypto_cipher_BEFORENMMAX
-#define sshcrypto_cipher_BEFORENMMAX crypto_stream_aes128ctr_BEFORENMBYTES
-#endif
-#if defined(crypto_stream_aes256ctr_BEFORENMBYTES) && crypto_stream_aes256ctr_BEFORENMBYTES > sshcrypto_cipher_BEFORENMMAX
-#undef sshcrypto_cipher_BEFORENMMAX
-#define sshcrypto_cipher_BEFORENMMAX crypto_stream_aes256ctr_BEFORENMBYTES
-#endif
-
 struct sshcrypto_cipher {
     const char *name;
     int (*stream_xor)(unsigned char *,const unsigned char *,unsigned long long,const unsigned char *,const unsigned char *);
-    int (*stream_beforenm)(unsigned char *,const unsigned char *);
     int (*auth)(unsigned char *,const unsigned char *,unsigned long long,const unsigned char *);
     long long stream_keybytes;
     long long cipher_blockbytes;
@@ -156,7 +145,6 @@ extern struct sshcrypto_cipher sshcrypto_ciphers[];
 
 extern const char *sshcrypto_cipher_name;
 extern int (*sshcrypto_stream_xor)(unsigned char *,const unsigned char *,unsigned long long,const unsigned char *,const unsigned char *);
-extern int (*sshcrypto_stream_beforenm)(unsigned char *,const unsigned char *);
 extern int (*sshcrypto_auth)(unsigned char *,const unsigned char *,unsigned long long,const unsigned char *);
 extern long long sshcrypto_stream_keybytes;
 extern long long sshcrypto_cipher_blockbytes;

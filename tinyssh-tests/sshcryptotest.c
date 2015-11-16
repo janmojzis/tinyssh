@@ -39,9 +39,6 @@ error!
 #ifndef sshcrypto_cipher_KEYMAX
 error!
 #endif
-#ifndef sshcrypto_cipher_BEFORENMMAX
-error!
-#endif
 
 int main(void) {
 

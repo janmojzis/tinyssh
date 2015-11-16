@@ -111,8 +111,8 @@ int packet_kexdh(const char *keydir, struct buf *b1, struct buf *b2) {
 
         if (i == 0) byte_copy(packet.clientnonce, sshcrypto_cipher_KEYMAX, key);
         if (i == 1) byte_copy(packet.servernonce, sshcrypto_cipher_KEYMAX, key);
-        if (i == 2) sshcrypto_stream_beforenm(packet.clientkey, key);
-        if (i == 3) sshcrypto_stream_beforenm(packet.serverkey, key);
+        if (i == 2) byte_copy(packet.clientkey, sshcrypto_cipher_KEYMAX, key);
+        if (i == 3) byte_copy(packet.serverkey, sshcrypto_cipher_KEYMAX, key);
         if (i == 4) byte_copy(packet.clientmackey, sshcrypto_cipher_KEYMAX, key);
         if (i == 5) byte_copy(packet.servermackey, sshcrypto_cipher_KEYMAX, key);
     }

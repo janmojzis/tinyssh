@@ -39,8 +39,8 @@ struct packet {
     crypto_uint32 receivepacketid;
 
     /* keys */
-    unsigned char serverkey[sshcrypto_cipher_BEFORENMMAX + 32];
-    unsigned char clientkey[sshcrypto_cipher_BEFORENMMAX + 32];
+    unsigned char serverkey[sshcrypto_cipher_KEYMAX];
+    unsigned char clientkey[sshcrypto_cipher_KEYMAX];
     unsigned char servermackey[sshcrypto_cipher_KEYMAX];
     unsigned char clientmackey[sshcrypto_cipher_KEYMAX];
     unsigned char servernonce[sshcrypto_cipher_KEYMAX];

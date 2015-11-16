@@ -13,16 +13,10 @@ Public domain.
 #include "packet.h"
 #include "sshcrypto.h"
 
-static int default_beforenm(unsigned char *y, const unsigned char *x) {
-    byte_copy(y, sshcrypto_cipher_KEYMAX, x);
-    return 0;
-}
-
 struct sshcrypto_cipher sshcrypto_ciphers[] = {
 #if defined(crypto_stream_chacha20_KEYBYTES) && defined(crypto_onetimeauth_poly1305_BYTES)
     {   "chacha20-poly1305@openssh.com",
         crypto_stream_chacha20_xor,
-        default_beforenm,
         crypto_onetimeauth_poly1305,
         crypto_stream_chacha20_KEYBYTES * 2,
         8,
@@ -36,7 +30,6 @@ struct sshcrypto_cipher sshcrypto_ciphers[] = {
 #if defined(crypto_core_aes128encrypt_KEYBYTES) && defined(crypto_auth_hmacsha256_BYTES)
     {   "aes128-ctr",
         aesctr128_xor,
-        default_beforenm,
         crypto_auth_hmacsha256,
         crypto_core_aes128encrypt_KEYBYTES,
         16,
@@ -50,7 +43,6 @@ struct sshcrypto_cipher sshcrypto_ciphers[] = {
 #if defined(crypto_core_aes256encrypt_KEYBYTES) && defined(crypto_auth_hmacsha256_BYTES)
     {   "aes256-ctr",
         aesctr256_xor,
-        default_beforenm,
         crypto_auth_hmacsha256,
         crypto_core_aes256encrypt_KEYBYTES,
         16,
@@ -61,7 +53,7 @@ struct sshcrypto_cipher sshcrypto_ciphers[] = {
         0
     },
 #endif
-    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 };
 
 const char *sshcrypto_cipher_name = 0;
@@ -95,7 +87,6 @@ int sshcrypto_cipher_select(const unsigned char *buf, long long len) {
             if (str_equaln((char *)x, xlen, sshcrypto_ciphers[i].name)) {
                 sshcrypto_cipher_name = sshcrypto_ciphers[i].name;
                 sshcrypto_stream_xor = sshcrypto_ciphers[i].stream_xor;
-                sshcrypto_stream_beforenm = sshcrypto_ciphers[i].stream_beforenm;
                 sshcrypto_auth = sshcrypto_ciphers[i].auth;
                 sshcrypto_stream_keybytes = sshcrypto_ciphers[i].stream_keybytes;
                 sshcrypto_cipher_blockbytes = sshcrypto_ciphers[i].cipher_blockbytes;
