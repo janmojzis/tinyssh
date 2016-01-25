@@ -69,8 +69,8 @@ static void timeout(int x) {
 static int selfpipe[2] = { -1, -1 };
 
 static void trigger(int x) {
-    errno = x = 0;
-    write(selfpipe[1], "", 1);
+    errno = 0;
+    x = write(selfpipe[1], "", 1);
 }
 
 

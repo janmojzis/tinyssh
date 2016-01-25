@@ -4,7 +4,7 @@ Priority: standard
 #Build-Depends: debhelper, build-essential, make, libnacl-dev
 Build-Depends: debhelper, build-essential, make
 Maintainer: Jan Mojzis <jan.mojzis@gmail.com>
-Homepage: http://tinyssh.org/
+Homepage: https://tinyssh.org/
 
 Package: tinyssh
 Section: net
