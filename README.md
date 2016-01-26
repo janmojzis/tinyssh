@@ -1,1 +1,1 @@
-See http://tinyssh.org/
+See https://tinyssh.org/
