@@ -80,7 +80,6 @@ static void madd(gep256 out, gep256 p, gep256_precomp qp) {
 
     gep256 q, o;
     fe ZZ1, S2, R, RR, U2, H, HH, HHH, t0, t1;
-    long long i;
 
     fe_copy(q[0], qp[0]);
     fe_copy(q[1], qp[1]);
@@ -123,7 +122,6 @@ void gep256_add(gep256 out, gep256 p, gep256 q) {
 
     fe ZZ1, ZZ2, S1, S2, R, RR, U1, U2, H, HH, HHH, t0, t1;
     gep256 o;
-    long long i;
 
     fep256_sq(ZZ1, p[2]);
     fep256_sq(ZZ2, q[2]);
@@ -168,7 +166,6 @@ static void dbl(gep256 p, gep256 q) {
 
     gep256 o;
     fe t0, t1, t2, S, S2, M, ZZ, U;
-    long long i;
 
     fep256_mul2(t0, q[1]);      /* t0 = 2 * Y1                  */
     fep256_mul2(t1, t0);        /* t1 = 4 * Y1                  */
@@ -205,7 +202,6 @@ checks if point is on curve x^3 - 3x + b = y^2
 static int checkaffine(gep256 p) {
 
     fe tmpx, tmpy;
-    long long i;
     int ret = -1;
 
     fep256_sq(tmpx, p[0]);
@@ -230,7 +226,6 @@ conversion from Jacobian coordinates into affine form
 static int toaffine(gep256 p) {
 
     fe invz, tmp;
-    long long i;
 
     if (!fep256_isnonzero(p[2])) return -1;
 

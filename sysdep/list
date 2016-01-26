@@ -69,3 +69,7 @@ echo 'hasutmploginlogout.h default.h-no'
 echo 'order.h order.h-little'
 echo 'order.h order.h-big'
 echo 'order.h default.h-no'
+
+#__asm__ __volatile__ ...
+echo 'hasasmvolatilememory.h hasasmvolatilememory.h-yes'
+echo 'hasasmvolatilememory.h default.h-no'

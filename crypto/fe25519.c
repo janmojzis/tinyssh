@@ -41,7 +41,6 @@ o = (a * b) % p
 void fe25519_mul(fe o, const fe a, const fe b) {
 
     fel t;
-    long long i;
 
     fe_mul_(t, a, b);
     fe25519_reducebig(o, t);
@@ -55,7 +54,6 @@ o = (a ^ 2) % p
 void fe25519_sq(fe o, const fe a) {
 
     fel t;
-    long long i;
 
     fe_sq_(t, a);
     fe25519_reducebig(o, t);
@@ -149,7 +147,7 @@ void fe25519_inv(fe o, const fe z) {
     fe25519_sq(t1, t1); for (i = 1; i < 5; ++i) fe25519_sq(t1, t1);
     fe25519_mul(o, t1, t0);
 
-    fe_0(t0); fe_0(t1); fe_0(t2); fe_0(t3);
+    cleanup(t0); cleanup(t1); cleanup(t2); cleanup(t3);
 }
 
 void fe25519_pow22523(fe out, const fe z) {
@@ -180,7 +178,7 @@ void fe25519_pow22523(fe out, const fe z) {
     fe25519_sq(t0, t0); for (i = 1; i < 2; ++i) fe25519_sq(t0, t0);
     fe25519_mul(out, t0, z);
 
-    fe_0(t0); fe_0(t1); fe_0(t2);
+    cleanup(t0); cleanup(t1); cleanup(t2);
 }
 
 /*
@@ -216,7 +214,6 @@ else return -1;
 static const unsigned char zero[32] = {0};
 int fe25519_isnonzero(const fe f) {
     unsigned char s[32];
-    long long i;
     int r;
     fe25519_tobytes(s, f);
     r = crypto_verify_32(s, zero);
@@ -231,7 +228,6 @@ else return -1;
 */
 int fe25519_isnegative(const fe f) {
     unsigned char s[32];
-    long long i;
     int r;
     fe25519_tobytes(s,f);
     r = s[0] & 1;

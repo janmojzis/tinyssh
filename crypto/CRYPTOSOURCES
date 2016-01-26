@@ -29,3 +29,4 @@ crypto_scalarmult_curve25519
 crypto_sign_ed25519
 crypto_scalarmult_nistp256
 crypto_sign_nistp256ecdsa
+cleanup

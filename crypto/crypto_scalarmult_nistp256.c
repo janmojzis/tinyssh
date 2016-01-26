@@ -31,7 +31,6 @@ cleanup:
 int crypto_scalarmult_nistp256_tinynacl_base(unsigned char *q, const unsigned char *n) {
 
     gep256 Q;
-    long long i;
     int ret = -1;
 
     gep256_scalarmult_base(Q, n);

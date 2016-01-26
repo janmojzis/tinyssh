@@ -93,7 +93,6 @@ o = (a * b) % m
 static void _mul(fe o, const fe a, const fe b) {
 
     fel t;
-    long long i;
 
     fe_mul_(t, a, b);
     _reducebig(o, t);
@@ -107,7 +106,6 @@ o = (a ^ 2) % m
 static void _sq(fe o, const fe a) {
 
     fel t;
-    long long i;
 
     fe_sq_(t, a);
     _reducebig(o, t);
@@ -227,7 +225,6 @@ void scp256_reduce64(unsigned char *x) {
 void scp256_reduce32(unsigned char *x) {
 
     fe a;
-    long long i;
 
     _frombytes(a, x);
     fe_reducesmall(a, m, 0);
@@ -239,7 +236,6 @@ void scp256_reduce32(unsigned char *x) {
 void scp256_inv(unsigned char *x) {
 
     fe a;
-    long long i;
 
     _frombytes(a, x);
     _inv(a, a);
@@ -252,7 +248,6 @@ void scp256_inv(unsigned char *x) {
 void scp256_mul(unsigned char *o, const unsigned char *x, const unsigned char *y) {
 
     fe a, b;
-    long long i;
 
     _frombytes(a, x);
     _frombytes(b, y);
@@ -265,7 +260,6 @@ void scp256_mul(unsigned char *o, const unsigned char *x, const unsigned char *y
 void scp256_add(unsigned char *o, const unsigned char *x, const unsigned char *y) {
 
     fe a, b;
-    long long i;
 
     _frombytes(a, x);
     _frombytes(b, y);

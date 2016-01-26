@@ -14,3 +14,4 @@ crypto_sign_nistp256ecdsa 1
 randombytes 0
 uint32_pack_big 0
 uint32_unpack_big 0
+cleanup 0

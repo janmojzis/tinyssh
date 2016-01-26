@@ -129,7 +129,6 @@ secret key has 2 parts:
 int crypto_sign_nistp256ecdsa_tinynacl_keypair(unsigned char *pk, unsigned char *sk) {
 
     gep256 A;
-    long long i;
     int ret = -1;
 
     randombytes(sk, 64);                     /* create random initial value */

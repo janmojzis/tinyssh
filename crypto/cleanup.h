@@ -1,6 +1,7 @@
 #ifndef _CLEANUP_H____
 #define _CLEANUP_H____
 
-#define cleanup(x) for (i = 0; i < sizeof(x); ++i) ((char *)x)[i] = 0;
+extern void cleanup_(void *, long long);
+#define cleanup(x) cleanup_((x), sizeof(x))
 
 #endif

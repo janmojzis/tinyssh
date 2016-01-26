@@ -84,7 +84,6 @@ o = (a * b) % p
 void fep256_mul(fe o, const fe a, const fe b) {
 
     fel t;
-    long long i;
 
     fe_mul_(t, a, b);
     fep256_reducebig(o, t);
@@ -98,7 +97,6 @@ o = (a ^ 2) % p
 void fep256_sq(fe o, const fe a) {
 
     fel t;
-    long long i;
 
     fe_sq_(t, a);
     fep256_reducebig(o, t);
@@ -260,7 +258,6 @@ static const unsigned char zero[32] = {0};
 int fep256_isnonzero(const fe f) {
 
     unsigned char s[32];
-    long long i;
     int r;
 
     fep256_tobytes(s, f);

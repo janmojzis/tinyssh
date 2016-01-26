@@ -85,8 +85,8 @@ void ge25519_add(ge25519 o, ge25519 p, ge25519 q) {
     fe25519_mul(o[2], g, f);
     fe25519_mul(o[3], e, h);
 
-    fe_0(a); fe_0(b); fe_0(c); fe_0(d); fe_0(t);
-    fe_0(e); fe_0(f); fe_0(g); fe_0(h);
+    cleanup(a); cleanup(b); cleanup(c); cleanup(d); cleanup(t);
+    cleanup(e); cleanup(f); cleanup(g); cleanup(h);
 }
 
 static void madd(ge25519 o, ge25519 p, ge25519_precomp q) {
@@ -109,8 +109,8 @@ static void madd(ge25519 o, ge25519 p, ge25519_precomp q) {
     fe25519_mul(o[2], g, f);
     fe25519_mul(o[3], e, h);
 
-    fe_0(a); fe_0(b); fe_0(c); fe_0(d);
-    fe_0(e); fe_0(f); fe_0(g); fe_0(h);
+    cleanup(a); cleanup(b); cleanup(c); cleanup(d);
+    cleanup(e); cleanup(f); cleanup(g); cleanup(h);
 }
 
 
@@ -137,8 +137,8 @@ static void dbl(ge25519 o, ge25519 p) {
     fe25519_mul(o[2], f, g);    /* Z3 = F*G   */
     fe25519_mul(o[3], e, h);    /* T3 = E*H   */
 
-    fe_0(a); fe_0(b); fe_0(c); fe_0(d);
-    fe_0(e); fe_0(f); fe_0(g); fe_0(h);
+    cleanup(a); cleanup(b); cleanup(c); cleanup(d);
+    cleanup(e); cleanup(f); cleanup(g); cleanup(h);
 }
 
 
@@ -152,7 +152,7 @@ void ge25519_tobytes(unsigned char *s, ge25519 h) {
     fe25519_tobytes(s, y);
     s[31] ^= fe25519_isnegative(x) << 7;
 
-    fe_0(x); fe_0(y); fe_0(z);
+    cleanup(x); cleanup(y); cleanup(z);
 }
 
 int ge25519_frombytes_negate_vartime(ge25519 h, const unsigned char *s) {
@@ -195,8 +195,8 @@ int ge25519_frombytes_negate_vartime(ge25519 h, const unsigned char *s) {
     ret = 0;
 
 cleanup:
-    fe_0(u); fe_0(v); fe_0(v3);
-    fe_0(vxx); fe_0(check);
+    cleanup(u); cleanup(v); cleanup(v3);
+    cleanup(vxx); cleanup(check);
     return ret;
 }
 
