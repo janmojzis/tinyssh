@@ -19,7 +19,6 @@ void trymlock(void *x, long long len) {
 #ifdef HASMLOCK
     mlock(x, len);
 #endif
-    return;
 }
 
 /*
@@ -30,5 +29,4 @@ void trymunlock(void *x, long long len) {
 #ifdef HASMLOCK
     munlock(x, len);
 #endif
-    return;
 }
