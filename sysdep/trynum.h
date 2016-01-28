@@ -1,6 +1,6 @@
 #include <stdio.h>
 #define TRYINT(bits,target) \
-int tryint() \
+static int tryint(void) \
 { \
   target x; \
   int i; \
@@ -19,7 +19,7 @@ int tryint() \
 
 #define DOINT(bits, target, typedefstr) \
 TRYINT(bits,target) \
-int main(){ \
+int main(void){ \
   if (tryint() != 0) return 100; \
   printf("#ifndef crypto_int%d_h\n", bits); \
   printf("#define crypto_int%d_h\n\n", bits); \
@@ -30,7 +30,7 @@ int main(){ \
 
 
 #define TRYUINT(bits,target) \
-int tryuint() \
+static int tryuint(void) \
 { \
   target x; \
   int i; \
@@ -49,7 +49,7 @@ int tryuint() \
 
 #define DOUINT(bits, target, typedefstr) \
 TRYUINT(bits,target) \
-int main(){ \
+int main(void){ \
   if (tryuint() != 0) return 100; \
   printf("#ifndef crypto_uint%d_h\n", bits); \
   printf("#define crypto_uint%d_h\n\n", bits); \
