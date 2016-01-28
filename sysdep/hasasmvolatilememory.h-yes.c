@@ -7,7 +7,7 @@ static void testcleanup(void *yv, long long ylen) {
     __asm__ __volatile__("" : : "r"(yv) : "memory");
 }
 
-int main() {
+int main(void) {
 
     char buf[7] = "abcdef";
     char ret = 0;

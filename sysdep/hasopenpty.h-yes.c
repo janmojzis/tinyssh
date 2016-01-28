@@ -5,7 +5,7 @@
 
 extern int openpty(int *, int *, char *, struct termios *, struct winsize *);
 
-void fce(void) {
+static void fce(void) {
 
     int master, slave;
     openpty(&master, &slave, 0, 0, 0);

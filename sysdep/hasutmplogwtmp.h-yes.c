@@ -1,9 +1,9 @@
 /* Public domain. */
 #include <stdio.h>
 
-extern logwtmp(const char *, const char *, const char *);
+extern void logwtmp(const char *, const char *, const char *);
 
-void fce(void) {
+static void fce(void) {
 
     logwtmp("", "", "");
 }

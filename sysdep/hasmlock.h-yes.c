@@ -3,7 +3,7 @@
 #include <sys/mman.h>
 #include <stdlib.h>
 
-int main() {
+int main(void) {
 
     size_t len = 16;
     char *x;

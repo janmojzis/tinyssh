@@ -3,7 +3,7 @@
 
 extern int login_tty(int);
 
-void fce(void) {
+static void fce(void) {
     login_tty(0);
 }
 

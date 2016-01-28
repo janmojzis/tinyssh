@@ -7,7 +7,7 @@
 extern void login(const struct utmp *);
 extern int logout(const char *);
 
-void fce(void) {
+static void fce(void) {
 
     struct utmp ut = {0};
 

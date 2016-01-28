@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <utmpx.h>
 
-void fce(void) {
+static void fce(void) {
 
     struct utmpx ut;
 
