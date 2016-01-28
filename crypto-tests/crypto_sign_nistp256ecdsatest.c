@@ -4,6 +4,7 @@ Jan Mojzis
 Public domain.
 */
 
+#include <string.h>
 #include "misc.h"
 #include "crypto_sign_nistp256ecdsa.h"
 
