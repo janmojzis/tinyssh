@@ -8,7 +8,7 @@ int main(void) {
     size_t len = 16;
     char *x;
 
-    x = malloc(len);
+    x = (char *)malloc(len);
     if (!x) return 1;
     if (mlock(x, len) == -1) return 1;
     if (munlock(x, len) == -1) return 1;
