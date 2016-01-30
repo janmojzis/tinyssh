@@ -38,7 +38,7 @@ int getln(int fd, void *xv, long long xmax) {
     long long xlen;
     int r;
     char ch;
-    char *x = xv;
+    char *x = (char *)xv;
 
     if (xmax < 1) { errno = EINVAL; return -1; }
     x[0] = 0;

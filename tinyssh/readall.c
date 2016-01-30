@@ -6,7 +6,7 @@
 int readall(int fd, void *xv, long long xlen) {
 
     long long r;
-    unsigned char *x = xv;
+    unsigned char *x = (unsigned char *)xv;
 
     while (xlen > 0) {
         r = xlen;
