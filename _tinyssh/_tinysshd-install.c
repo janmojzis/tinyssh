@@ -1,7 +1,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-extern int rename(const char *, const char *);
+#include <stdio.h>
 #include "open.h"
 #include "log.h"
 
@@ -13,15 +13,15 @@ static void usage(void) {
 }
 
 static int flagtmpcreated = 0;
-static const char *srcfile = 0;
-static const char *tmpfile = 0;
-static const char *dstfile = 0;
+static const char *srcfn = 0;
+static const char *tmpfn = 0;
+static const char *dstfn = 0;
 static const char *dstdir = 0;
 static int fd1 = -1, fd2 = -1;
 
 static void cleanup(void) {
     if (flagtmpcreated) {
-        unlink(tmpfile);
+        unlink(tmpfn);
     }
 }
 
@@ -56,35 +56,35 @@ int main(int argc, char **argv) {
     if (!argv[3]) usage();
     if (!argv[4]) usage();
 
-    srcfile = argv[1];
+    srcfn = argv[1];
     dstdir  = argv[2];
-    tmpfile = argv[3];
-    dstfile = argv[4];
+    tmpfn = argv[3];
+    dstfn = argv[4];
 
     /* open source file */
-    fd1 = open_read(srcfile);
-    if (fd1 == -1) die_fatal("unable to open file", srcfile, 0);
+    fd1 = open_read(srcfn);
+    if (fd1 == -1) die_fatal("unable to open file", srcfn, 0);
 
     /* stat destination directory and change directory */
     if ((stat(dstdir, &st)) == -1) die_fatal("unable to stat directory", dstdir, 0);
     if (chdir(dstdir) == -1) die_fatal("unable to change directory to", dstdir, 0);
 
     /* open temporary file */
-    fd2 = open_write(tmpfile);
-    if (fd2 == -1) die_fatal("unable to open file", dstdir, tmpfile);
+    fd2 = open_write(tmpfn);
+    if (fd2 == -1) die_fatal("unable to open file", dstdir, tmpfn);
     flagtmpcreated = 1;
 
     /* copy file */
     for (;;) {
         r = read(fd1, &ch, 1);
-        if (r == -1) die_fatal("unable to read from file", srcfile, 0);
+        if (r == -1) die_fatal("unable to read from file", srcfn, 0);
         if (r == 0) break;
-        if (write(fd2, &ch, 1) != 1) die_fatal("unable to write to file", dstdir, tmpfile);
+        if (write(fd2, &ch, 1) != 1) die_fatal("unable to write to file", dstdir, tmpfn);
     }
-    if (fsync(fd2) == -1) die_fatal("unable to write to file", dstdir, tmpfile);
-    if (fchown(fd2, st.st_uid, st.st_gid) == -1) die_fatal("unable to change owner on", dstdir, tmpfile);
-    if (fchmod(fd2, 0755) == -1) die_fatal("unable to change owner on", dstdir, tmpfile);
-    if (close(fd2) == -1) die_fatal("unable to write to file", dstdir, tmpfile);
-    if (rename(tmpfile, dstfile) == -1) die_fatal("unable to rename file to", dstdir, dstfile);
+    if (fsync(fd2) == -1) die_fatal("unable to write to file", dstdir, tmpfn);
+    if (fchown(fd2, st.st_uid, st.st_gid) == -1) die_fatal("unable to change owner on", dstdir, tmpfn);
+    if (fchmod(fd2, 0755) == -1) die_fatal("unable to change owner on", dstdir, tmpfn);
+    if (close(fd2) == -1) die_fatal("unable to write to file", dstdir, tmpfn);
+    if (rename(tmpfn, dstfn) == -1) die_fatal("unable to rename file to", dstdir, dstfn);
     _exit(0);
 }
