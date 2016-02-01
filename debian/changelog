@@ -1,8 +1,9 @@
-tinyssh (20160126) unstable; urgency=low
+tinyssh (20160201) unstable; urgency=low
 
   * cleanup fix - prevent compiler to remove cleanup code
+  * build script - added log file
 
- -- Jan Mojzis <jan.mojzis@gmail.com>  Tue, 26 Jan 2016 10:21:58 +0100
+ -- Jan Mojzis <jan.mojzis@gmail.com>  Mon, 01 Feb 2016 06:42:07 +0100
 
 tinyssh (20151001) unstable; urgency=low
 
