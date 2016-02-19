@@ -1,6 +1,7 @@
 tinyssh (20160219) unstable; urgency=low
  
   * removed bundled NaCl
+  * added bundled CurveCP (temporary solution)
 
  -- Jan Mojzis <jan.mojzis@gmail.com>  Fri, 19 Feb 2016 16:58:36 +0100
 

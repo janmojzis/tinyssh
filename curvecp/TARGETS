@@ -1,0 +1,7 @@
+curvecpprintkey tinysshd-curvecpprintkey
+curvecpmakekey tinysshd-curvecpmakekey
+curvecpclient tinysshd-curvecpclient
+curvecpserver tinysshd-curvecpserver
+curvecpmessage tinysshd-curvecpmessage
+netcurvecpupdatenoncecounter tinysshd-curvecpupdatenoncecounter
+netcurvecpprintkey32 tinysshd-curvecpprintkey32
