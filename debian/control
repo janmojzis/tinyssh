@@ -1,8 +1,7 @@
 Source: tinyssh
 Section: net
 Priority: standard
-#Build-Depends: debhelper, build-essential, make, libnacl-dev
-Build-Depends: debhelper, build-essential, make
+Build-Depends: debhelper (>= 8), dh-systemd, build-essential, make, libnacl-dev [amd64] | libnacl-dev [i386]
 Maintainer: Jan Mojzis <jan.mojzis@gmail.com>
 Homepage: https://tinyssh.org/
 
@@ -14,8 +13,14 @@ Description: Tiny SSH server - binaries
 
 Package: tinyssh-run
 Section: net
-#Depends: tinyssh, daemontools-run, adduser, ucspi-tcp, nacl-tools
-Depends: tinyssh, daemontools-run, adduser, ucspi-tcp
+Depends: tinyssh, daemontools-run, adduser, ucspi-tcp, gzip
 Provides: ssh-server
 Architecture: all
-Description: Tiny SSH server
+Description: Tiny SSH server - running under daemontools
+
+Package: tinyssh-server
+Section: net
+Depends: tinyssh, adduser
+Provides: ssh-server
+Architecture: all
+Description: Tiny SSH server - running under systemd
