@@ -1,0 +1,2 @@
+debian/systemd/tinyssh-server@.service lib/systemd/system
+debian/systemd/tinyssh-server.socket lib/systemd/system

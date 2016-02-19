@@ -1,0 +1,33 @@
+OPTIONS=""
+
+#enable/disable older standardized crypto - ecdsa-sha2-nistp256, ecdh-sha2-nistp256, aes256-ctr, hmac-sha2-256
+#enable  '-o'
+#disable '-O'
+OPTIONS="${OPTIONS} -O"
+
+#enable/disable state-of-the-art crypto - ssh-ed25519, curve25519-sha256@libssh.org, chacha20-poly1305@openssh.com
+#enable  '-s'
+#disable '-S'
+OPTIONS="${OPTIONS} -s"
+
+#enable/disable post-quantum crypto TODO
+#enable  '-p'
+#disable '-P'
+OPTIONS="${OPTIONS} -P"
+
+#enable quiet mode '-q'
+#enable verbose mode '-v'
+#enable debug mode   '-vv'
+OPTIONS="${OPTIONS} -v"
+
+#IP - TCP or CurveCP IP
+IP=0.0.0.0
+
+#PORT - TCP or CurveCP port
+PORT=22
+
+#NAME - hostname for CurveCP layer, by default taken from 'hostname -f'
+NAME=""
+
+#EXTENSION - CurveCP extension
+EXTENSION=00000000000000000000000000000000
