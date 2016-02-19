@@ -1,0 +1,16 @@
+[Unit]
+Description=Tiny SSH server
+After=network.target auditd.service
+
+[Service]
+EnvironmentFile=-/etc/default/tinyssh-server
+ExecStart=/usr/sbin/tinysshd -v /etc/tinyssh/sshkeydir
+KillMode=process
+Restart=on-failure
+StandardInput=socket
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+Alias=tinyssh-server.service
+
