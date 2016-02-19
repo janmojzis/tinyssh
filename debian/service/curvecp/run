@@ -39,20 +39,26 @@ fi
 while true; do
   [ -d /etc/tinyssh/curvecpkeydir ] && break
   entropy="`cat /proc/sys/kernel/random/entropy_avail`"
-  [ "${entropy}" -ge 256 ] && "${curvecpmakekey}" /etc/tinyssh/curvecpkeydir
-  echo "entropy too low (${entropy} < 256) - please wait" >&2
-  echo "or run it manualy (at your own risk)" >&2
-  sleep 60
+  if [ "${entropy}" -ge 256 ]; then
+    "${curvecpmakekey}" /etc/tinyssh/curvecpkeydir
+  else
+    echo "entropy too low (${entropy} < 256) - please wait" >&2
+    echo "or run manualy ${curvecpmakekey} /etc/tinyssh/curvecpkeydir (at your own risk)" >&2
+    sleep 10
+  fi
 done
 
 #TinySSH key
 while true; do
   [ -d /etc/tinyssh/sshkeydir ] && break
   entropy="`cat /proc/sys/kernel/random/entropy_avail`"
-  [ "${entropy}" -ge 256 ] && /usr/sbin/tinysshd-makekey /etc/tinyssh/sshkeydir
-  echo "entropy too low (${entropy} < 256) ... waiting" >&2
-  echo "or run it manualy (at your own risk)" >&2
-  sleep 60
+  if [ "${entropy}" -ge 256 ]; then
+    /usr/sbin/tinysshd-makekey /etc/tinyssh/sshkeydir
+  else
+    echo "entropy too low (${entropy} < 256) ... waiting" >&2
+    echo "or run manualy /usr/sbin/tinysshd-makekey /etc/tinyssh/sshkeydir (at your own risk)" >&2
+    sleep 10
+  fi
 done
 
 curvecpkey=`${curvecpprintkey} /etc/tinyssh/curvecpkeydir`
