@@ -1,3 +1,9 @@
+tinyssh (20160219) unstable; urgency=low
+ 
+  * removed bundled NaCl
+
+ -- Jan Mojzis <jan.mojzis@gmail.com>  Fri, 19 Feb 2016 16:58:36 +0100
+
 tinyssh (20160201) unstable; urgency=low
 
   * cleanup fix - prevent compiler to remove cleanup code
