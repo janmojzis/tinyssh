@@ -238,13 +238,16 @@ cp -pr tinyssh-tests/*.h "${work}"
 cp -pr _tinyssh/* "${work}" 2>/dev/null || :
 (
   cd "${work}"
+  log1 "starting tinyssh objects"
   touch SOURCES TARGETS _TARGETS
   cat SOURCES TARGETS _TARGETS\
   | while read x
   do
-    ${compiler} "-DCOMPILER=\"${compilerorig}\"" "-DVERSION=\"${version}\"" -I"${include}" -c "${x}.c" || exit 111
+    ${compiler} "-DCOMPILER=\"${compilerorig}\"" "-DVERSION=\"${version}\"" -I"${include}" -c "${x}.c" || { log2 "${x}.o failed ... see the log ${log}"; exit 111; }
+    log2 "${x}.o ok"
   done
   ar cr libtinyssh.a `cat LIBS` || exit 111
+  log1 "finishing"
 
   #tests
   log1 "starting tinyssh-tests"
