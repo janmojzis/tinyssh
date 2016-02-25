@@ -109,7 +109,7 @@ int sshcrypto_kex_select(const unsigned char *buf, long long len, crypto_uint8 *
         }
         *kex_guess = 0;
     }
-    log_d2("kex: kex not available", (char *)buf);
+    log_d2("kex: kex not available ", (char *)buf);
     errno = EPROTO;
     return 0;
 }
