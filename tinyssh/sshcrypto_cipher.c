@@ -98,7 +98,7 @@ int sshcrypto_cipher_select(const unsigned char *buf, long long len) {
             }
         }
     }
-    log_d2("kex: cipher not available", (char *)buf);
+    log_d2("kex: cipher not available ", (char *)buf);
     errno = EPROTO;
     return 0;
 }
