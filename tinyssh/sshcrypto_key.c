@@ -124,7 +124,7 @@ int sshcrypto_key_select(const unsigned char *buf, long long len) {
             }
         }
     }
-    log_d2("kex: key not available", (char *)buf);
+    log_d2("kex: key not available ", (char *)buf);
     errno = EPROTO;
     return 0;
 }
