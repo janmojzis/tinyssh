@@ -268,7 +268,7 @@ cp -pr _tinyssh/* "${work}" 2>/dev/null || :
   cat _TARGETS \
   | while read x
   do
-    ${compiler} -I"${include}" -o "${x}" "${x}.o" libtinyssh.a ${libs} || { log2 "${x} failed ... see the log"; exit 111; }
+    ${compiler} -I"${include}" -o "${x}" "${x}.o" libtinyssh.a ${libs} || { log2 "${x} failed ... see the log ${log}"; exit 111; }
     log2 "${x} ok"
     cp -p "${x}" "${bin}/${x}";
   done
@@ -278,7 +278,7 @@ cp -pr _tinyssh/* "${work}" 2>/dev/null || :
   cat TARGETS \
   | while read x
   do
-    ${compiler} -I"${include}" -o "${x}" "${x}.o" libtinyssh.a ${libs} || { log2 "${x} failed ... see the log"; exit 111; }
+    ${compiler} -I"${include}" -o "${x}" "${x}.o" libtinyssh.a ${libs} || { log2 "${x} failed ... see the log ${log}"; exit 111; }
     log2 "${x} ok"
   done
   log1 "finishing"
