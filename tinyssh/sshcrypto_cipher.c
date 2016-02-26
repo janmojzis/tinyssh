@@ -8,6 +8,7 @@ Public domain.
 #include "stringparser.h"
 #include "e.h"
 #include "log.h"
+#include "bug.h"
 #include "str.h"
 #include "byte.h"
 #include "packet.h"
@@ -75,7 +76,7 @@ int sshcrypto_cipher_select(const unsigned char *buf, long long len) {
 
     if (sshcrypto_cipher_name) return 1;
 
-    if (buf[len] != 0) { errno = EPROTO; return 0; }
+    if (buf[len] != 0) bug_proto();
     log_d2("kex: client: cipher algorithms: ", (char *)buf);
 
     for (;;) {
@@ -105,7 +106,7 @@ int sshcrypto_cipher_select(const unsigned char *buf, long long len) {
 
 int sshcrypto_cipher_macselect(const unsigned char *buf, long long len) {
 
-    if (buf[len] != 0) { errno = EPROTO; return 0; }
+    if (buf[len] != 0) bug_proto();
     log_d2("kex: client: mac algorithms: ", (char *)buf);
     log_i1("kex: mac selected: hmac-sha2-256 (ignored for chacha20-poly1305@openssh.com)");
     return 1;

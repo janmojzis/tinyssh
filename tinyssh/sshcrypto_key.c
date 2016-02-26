@@ -11,6 +11,7 @@ Public domain.
 #include "byte.h"
 #include "e.h"
 #include "log.h"
+#include "bug.h"
 #include "purge.h"
 #include "sshcrypto.h"
 
@@ -100,7 +101,7 @@ int sshcrypto_key_select(const unsigned char *buf, long long len) {
 
     if (sshcrypto_key_name) return 1;
 
-    if (buf[len] != 0) { errno = EPROTO; return 0; }
+    if (buf[len] != 0) bug_proto();
     log_d2("kex: client: key algorithms: ", (char *)buf);
 
     for (;;) {

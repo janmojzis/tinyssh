@@ -53,15 +53,15 @@ int packet_kex_receive(void) {
 
     pos = packetparser_uint32(b->buf, b->len, pos, &len);     /* kex algorithms */
     pos = packetparser_skip(b->buf, b->len, pos, len);        
-    if (!sshcrypto_kex_select(b->buf + pos - len, len, &packet.kex_guess)) bug_proto();
+    if (!sshcrypto_kex_select(b->buf + pos - len, len, &packet.kex_guess)) return 0;
 
     pos = packetparser_uint32(b->buf, b->len, pos, &len);     /* server host key algorithms */
     pos = packetparser_skip(b->buf, b->len, pos, len);        
-    if (!sshcrypto_key_select(b->buf + pos - len, len)) bug_proto();
+    if (!sshcrypto_key_select(b->buf + pos - len, len)) return 0;
 
     pos = packetparser_uint32(b->buf, b->len, pos, &len);     /* encryption algorithms client to server */
     pos = packetparser_skip(b->buf, b->len, pos, len);        
-    if (!sshcrypto_cipher_select(b->buf + pos - len, len)) bug_proto();
+    if (!sshcrypto_cipher_select(b->buf + pos - len, len)) return 0;
 
     pos = packetparser_uint32(b->buf, b->len, pos, &len);     /* encryption algorithms server to client */
     pos = packetparser_skip(b->buf, b->len, pos, len);        
@@ -69,7 +69,7 @@ int packet_kex_receive(void) {
 
     pos = packetparser_uint32(b->buf, b->len, pos, &len);     /* mac algorithms client to server */
     pos = packetparser_skip(b->buf, b->len, pos, len);        
-    if (!sshcrypto_cipher_macselect(b->buf + pos - len, len)) bug_proto();
+    if (!sshcrypto_cipher_macselect(b->buf + pos - len, len)) return 0;
 
     pos = packetparser_uint32(b->buf, b->len, pos, &len);     /* mac algorithms server to client */
     pos = packetparser_skip(b->buf, b->len, pos, len);        

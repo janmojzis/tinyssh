@@ -10,6 +10,7 @@ Public domain.
 #include "byte.h"
 #include "e.h"
 #include "log.h"
+#include "bug.h"
 #include "sshcrypto.h"
 
 struct sshcrypto_kex sshcrypto_kexs[] = {
@@ -81,7 +82,7 @@ int sshcrypto_kex_select(const unsigned char *buf, long long len, crypto_uint8 *
 
     if (sshcrypto_kex_name) return 1;
 
-    if (buf[len] != 0) { errno = EPROTO; return 0; }
+    if (buf[len] != 0) bug_proto();
     log_d2("kex: client: kex algorithms: ", (char *)buf); 
 
     *kex_guess = 1;
