@@ -93,6 +93,32 @@ for i in o O; do
   done
 done
 
+rm -rf keydir
+./tinysshd-makekey keydir
 
+echo "--- tinysshd logs 'client closed connection' when trying to write hello message"
+echo ""
+./_tinysshd-test-hello1 ./tinysshd keydir  2>&1 | sed -e 's/tinysshd: .*: //' -e 's/SSH-.*//' -e 's/{.*}//'
+echo ""
+
+echo "--- tinysshd logs 'client closed the connection' when trying to read hello message"
+echo ""
+./_tinysshd-test-hello2 '' ./tinysshd keydir  2>&1 | sed -e 's/tinysshd: .*: //' -e 's/SSH-.*//' -e 's/{.*}//'
+echo ""
+
+echo "--- tinysshd 'logs unacceptable hello string' when trying to read hello message"
+echo ""
+./_tinysshd-test-hello2 SSH ./tinysshd keydir  2>&1 | sed -e 's/tinysshd: .*: //' -e 's/SSH-.*//' -e 's/{.*}//'
+echo ""
+
+echo "--- tinysshd 'logs unacceptable hello string' when trying to read hello message"
+echo ""
+./_tinysshd-test-hello2 ssh- ./tinysshd keydir  2>&1 | sed -e 's/tinysshd: .*: //' -e 's/SSH-.*//' -e 's/{.*}//'
+echo ""
+
+echo "--- tinysshd 'logs unacceptable hello string' when trying to read hello message"
+echo ""
+./_tinysshd-test-hello2  'SSH-2.0 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' ./tinysshd -v keydir  2>&1 | sed -e 's/tinysshd: .*: //' -e 's/SSH-.*//' -e 's/{.*}//'
+echo ""
 
 exit 0
