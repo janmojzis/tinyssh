@@ -32,7 +32,7 @@ int packet_hello_send(void) {
     buf_puts(b, " ");
     buf_puts(b, log_string());
     buf_puts(b, "\r\n");
-    if (writeall(1, b->buf, b->len) == -1) { log_w1("hello: write problem"); return 0; }
+    if (writeall(1, b->buf, b->len) == -1)  return 0;
     b->len -= 2; /* remove "\r\n" */
     b->buf[b->len] = 0;
     log_d2("hello: server: ", (char *)(b->buf));
