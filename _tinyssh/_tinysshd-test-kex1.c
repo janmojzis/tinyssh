@@ -68,7 +68,7 @@ int main(int argc, char **argv) {
 
     global_init();
 
-    log_init(2, "_tinysshd-printkex", 0, 0);
+    log_init(2, "_tinysshd-test-kex1", 0, 0);
 
     if (!packet_hello_receive()) die_fatal("unable to receive hello-string", 0, 0);
     if (!packet_hello_send()) die_fatal("unable to send hello-string", 0, 0);

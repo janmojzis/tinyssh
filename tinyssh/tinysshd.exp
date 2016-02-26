@@ -479,3 +479,7 @@ unable to receive hello-string (out of memory)
 
 unable to receive kex-message (connection reset)
 
+--- tinysshd 'logs kex problem' when client disconnected the connection
+
+unable to receive kex-message 
+

@@ -126,4 +126,9 @@ echo ""
 ./_tinysshd-test-kex1 ./tinysshd keydir  2>&1 | sed -e 's/tinysshd: .*: //' -e 's/{.*}//'
 echo ""
 
+echo "--- tinysshd 'logs kex problem' when client disconnected the connection"
+echo ""
+./_tinysshd-test-kex2 ./tinysshd keydir  2>&1 | sed -e 's/tinysshd: .*: //' -e 's/{.*}//'
+echo ""
+
 exit 0
