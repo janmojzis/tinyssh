@@ -27,7 +27,7 @@ int packet_recv(void) {
     if (!packet_recvisready()) return 1;
 
     r = read(0, b->buf + b->len, PACKET_FULLLIMIT);
-    if (r == 0) { errno = EIO; return 0; }
+    if (r == 0) { errno = ECONNRESET; return 0; }
     if (r == -1) {
         if (errno == EINTR) return 1;
         if (errno == EAGAIN) return 1;
