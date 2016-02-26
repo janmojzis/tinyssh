@@ -116,9 +116,14 @@ echo ""
 ./_tinysshd-test-hello2 ssh- ./tinysshd keydir  2>&1 | sed -e 's/tinysshd: .*: //' -e 's/SSH-.*//' -e 's/{.*}//'
 echo ""
 
-echo "--- tinysshd 'logs unacceptable hello string' when trying to read hello message"
+echo "--- tinysshd 'logs unacceptable hello string' when trying to read long hello message"
 echo ""
 ./_tinysshd-test-hello2  'SSH-2.0 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' ./tinysshd -v keydir  2>&1 | sed -e 's/tinysshd: .*: //' -e 's/SSH-.*//' -e 's/{.*}//'
+echo ""
+
+echo "--- tinysshd 'logs kex problem' when client closed the connection"
+echo ""
+./_tinysshd-test-kex1 ./tinysshd keydir  2>&1 | sed -e 's/tinysshd: .*: //' -e 's/{.*}//'
 echo ""
 
 exit 0
