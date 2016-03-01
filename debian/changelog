@@ -1,9 +1,12 @@
-tinyssh (20160219) unstable; urgency=low
+tinyssh (20160301) unstable; urgency=low
  
   * removed bundled NaCl
   * added bundled CurveCP (temporary solution)
+  * log messages fix
+  * added support for systemd
 
- -- Jan Mojzis <jan.mojzis@gmail.com>  Fri, 19 Feb 2016 16:58:36 +0100
+ -- Jan Mojzis <jan.mojzis@gmail.com>  Tue, 01 Mar 2016 06:49:37 +0100
+
 
 tinyssh (20160201) unstable; urgency=low
 
