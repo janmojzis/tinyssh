@@ -14,29 +14,30 @@ The 'numtostr' function is ready for 128-bit integer.
 char *numtostr(char *strbuf, long long n) {
 
     long long len = 0;
-    unsigned long long nn;
+    unsigned long long n1, n2;
     static char staticbuf[NUMTOSTR_LEN];
     int flagsign = 0;
 
     if (!strbuf) strbuf = staticbuf; /* not thread-safe */
 
     if (n < 0) {
-        n = -n;
+        n1 = n2 = -(unsigned long long)n;
         flagsign = 1;
     }
+    else {
+        n1 = n2 = (unsigned long long)n;
+    }
 
-    nn = n;
     do {
-        nn /= 10; ++len;
-    } while (nn);
+        n1 /= 10; ++len;
+    } while (n1);
     if (flagsign) ++len;
     strbuf += len;
 
-    nn = n;
     do {
-        *--strbuf = '0' + (nn % 10);
-        nn /= 10;
-    } while (nn);
+        *--strbuf = '0' + (n2 % 10);
+        n2 /= 10;
+    } while (n2);
     if (flagsign) *--strbuf = '-';
 
     while (len < NUMTOSTR_LEN) strbuf[len++] = 0;
