@@ -34,7 +34,18 @@ Public domain.
    tinysshd [options] keydir\n\
 \n\
  description:\n\
-   TODO\n\
+   tinysshd - Tiny SSH server with goals:\n\
+   * easy auditable - TinySSH has less than 100000 words of code\n\
+   * no dynamic memory allocation - TinySSH has all memory statically allocated (less than 1MB)\n\
+   * simple configuration - TinySSH can't be misconfigured\n\
+   * reusing code - TinySSH is reusing libraries from CurveCP implementation\n\
+   * reusing software - TinySSH is using tcpserver/curvecpserver for TCP/CurveCP connection\n\
+   * limited amount of features - TinySSH doesn't have features such: SSH1 protocol, compression, scp, sftp, ...\n\
+   * no older cryptographic primitives - rsa, dsa, classic diffie-hellman, hmac-md5, hmac-sha1, 3des, arcfour, ...\n\
+   * no copyright restrictions - TinySSH is in the public domain\n\
+   * no dependency on OpenSSL - TinySSH has its own crypto library compatible with NaCl\n\
+   * cryptographic library (minimum 128-bit security, side-channel attack resistant, state-of-the-art crypto, ...)\n\
+   * public-key authentication only (no password or hostbased authentication)\n\
 \n\
  options:\n\
    -q (optional): no error messages\n\
@@ -44,7 +55,7 @@ Public domain.
    -O (optional): disable older standardized crypto (default)\n\
    -s (optional): enable state-of-the-art crypto - ssh-ed25519, curve25519-sha256@libssh.org, chacha20-poly1305@openssh.com (default)\n\
    -S (optional): disable state-of-the-art crypto\n\
-   -p (optional): enable post-quantum crypto - TODO\n\
+   -p (optional): enable post-quantum crypto - TODO, TODO, chacha20-poly1305@openssh.com\n\
    -P (optional): disable post-quantum crypto\n\
    -l (optional): use syslog instead of standard error output (useful for running from inetd)\n\
    -L (optional): don't use syslog, use standard error output (default)\n\
