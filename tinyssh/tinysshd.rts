@@ -121,9 +121,9 @@ echo ""
 ./_tinysshd-test-hello2  'SSH-2.0 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' ./tinysshd -v keydir  2>&1 | sed -e 's/tinysshd: .*: //' -e 's/SSH-.*//' -e 's/{.*}//'
 echo ""
 
-echo "--- tinysshd 'logs kex problem' when client closed the connection"
+echo "--- tinysshd 'logs kex problem' when client closed the connection - ends with (connection reset) or (broken pipe)"
 echo ""
-./_tinysshd-test-kex1 ./tinysshd keydir  2>&1 | sed -e 's/tinysshd: .*: //' -e 's/{.*}//'
+./_tinysshd-test-kex1 ./tinysshd keydir  2>&1 | sed -e 's/tinysshd: .*: //' -e 's/{.*}//' -e 's/(.*)//'
 echo ""
 
 echo "--- tinysshd 'logs kex problem' when client disconnected the connection"

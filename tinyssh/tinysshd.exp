@@ -475,9 +475,9 @@ unable to receive hello-string (protocol error)
 
 unable to receive hello-string (out of memory)
 
---- tinysshd 'logs kex problem' when client closed the connection
+--- tinysshd 'logs kex problem' when client closed the connection - ends with (connection reset) or (broken pipe)
 
-unable to receive kex-message (connection reset)
+unable to receive kex-message 
 
 --- tinysshd 'logs kex problem' when client disconnected the connection
 
