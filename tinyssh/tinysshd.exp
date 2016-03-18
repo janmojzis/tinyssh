@@ -455,31 +455,3 @@ _tinysshd-printkex: info: encryption algorithms server to client:
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
---- tinysshd logs 'client closed connection' when trying to write hello message
-
-unable to send hello-string (broken pipe)
-
---- tinysshd logs 'client closed the connection' when trying to read hello message
-
-unable to receive hello-string (connection reset)
-
---- tinysshd 'logs unacceptable hello string' when trying to read hello message
-
-unable to receive hello-string (protocol error)
-
---- tinysshd 'logs unacceptable hello string' when trying to read hello message
-
-unable to receive hello-string (protocol error)
-
---- tinysshd 'logs unacceptable hello string' when trying to read long hello message
-
-unable to receive hello-string (out of memory)
-
---- tinysshd 'logs kex problem' when client closed the connection - ends with (connection reset) or (broken pipe)
-
-unable to receive kex-message 
-
---- tinysshd 'logs kex problem' when client disconnected the connection
-
-unable to receive kex-message 
-

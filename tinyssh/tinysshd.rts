@@ -93,6 +93,9 @@ for i in o O; do
   done
 done
 
+#temporary removed
+exit 0
+
 rm -rf keydir
 ./tinysshd-makekey keydir
 
