@@ -1,3 +1,9 @@
+tinyssh (20160318) unstable; urgency=low
+
+  * regresion test fix
+
+ -- Jan Mojzis <jan.mojzis@gmail.com>  Fri, 18 Mar 2016 17:05:39 +0100
+
 tinyssh (20160301) unstable; urgency=low
  
   * removed bundled NaCl
