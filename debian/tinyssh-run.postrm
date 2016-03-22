@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 if [ x"$1" != "xpurge" ]; then
     exit 0
