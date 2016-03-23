@@ -13,7 +13,7 @@ Description: Tiny SSH server - binaries
 
 Package: tinyssh-run
 Section: net
-Depends: tinyssh, daemontools-run, adduser, ucspi-tcp, gzip
+Depends: tinyssh, daemontools-run, adduser, ucspi-tcp
 Provides: ssh-server
 Conflicts: tinyssh-server
 Architecture: all
