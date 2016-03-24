@@ -10,12 +10,15 @@ Section: net
 Depends: ${shlibs:Depends}
 Architecture: any
 Description: Tiny SSH server - binaries
- This is Tiny SSH server which implement 'less'.
- TinySSH supports only secure crypto (min 128-bit security) and resistant
- against side-channel attacks. Unnecessary features (such SSH1 protocol,
- compression, scp, sftp ) and unsafe crypto (such rsa, dsa, hmac-md5,
- hmac-sha1, 3des, arcfour) are simply NOT implemented.
+ This is tiny SSH server which implement 'less'.
+ TinySSH supports only secure crypto (min 128-bit security,
+ protected against cache-timing attacks).
+ Unnecessary features (such SSH1 protocol, compression, scp, sftp, ...),
+ unsafe crypto (such rsa, dsa, hmac-md5, hmac-sha1, 3des, arcfour, ...) and
+ unsafe features (such password or hostbased authentication)
+ are simply NOT implemented.
  TinySSH has less than 100000 words of code, so it's very easy auditable.
+
 
 Package: tinyssh-run
 Section: net
@@ -24,12 +27,15 @@ Provides: ssh-server
 Conflicts: tinyssh-server
 Architecture: all
 Description: Tiny SSH server - running under daemontools
- This is Tiny SSH server which implement 'less'.
- TinySSH supports only secure crypto (min 128-bit security) and resistant
- against side-channel attacks. Unnecessary features (such SSH1 protocol,
- compression, scp, sftp ) and unsafe crypto (such rsa, dsa, hmac-md5,
- hmac-sha1, 3des, arcfour) are simply NOT implemented.
+ This is tiny SSH server which implement 'less'.
+ TinySSH supports only secure crypto (min 128-bit security, 
+ protected against cache-timing attacks).
+ Unnecessary features (such SSH1 protocol, compression, scp, sftp, ...),
+ unsafe crypto (such rsa, dsa, hmac-md5, hmac-sha1, 3des, arcfour, ...) and
+ unsafe features (such password or hostbased authentication)
+ are simply NOT implemented.
  TinySSH has less than 100000 words of code, so it's very easy auditable.
+
 
 Package: tinyssh-server
 Section: net
@@ -38,9 +44,11 @@ Conflicts: tinyssh-run
 Provides: ssh-server
 Architecture: all
 Description: Tiny SSH server - running under systemd
- This is Tiny SSH server which implement 'less'.
- TinySSH supports only secure crypto (min 128-bit security) and resistant
- against side-channel attacks. Unnecessary features (such SSH1 protocol,
- compression, scp, sftp ) and unsafe crypto (such rsa, dsa, hmac-md5,
- hmac-sha1, 3des, arcfour) are simply NOT implemented.
+ This is tiny SSH server which implement 'less'.
+ TinySSH supports only secure crypto (min 128-bit security, 
+ protected against cache-timing attacks).
+ Unnecessary features (such SSH1 protocol, compression, scp, sftp, ...),
+ unsafe crypto (such rsa, dsa, hmac-md5, hmac-sha1, 3des, arcfour, ...) and
+ unsafe features (such password or hostbased authentication)
+ are simply NOT implemented.
  TinySSH has less than 100000 words of code, so it's very easy auditable.
