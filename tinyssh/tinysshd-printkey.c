@@ -19,22 +19,7 @@ static struct buf b1 = { global_bspace1, 0, sizeof global_bspace1 }; /* reusing 
 static struct buf b2 = { global_bspace2, 0, sizeof global_bspace2 }; /* reusing global buffer */
 static unsigned char pk[sshcrypto_sign_PUBLICKEYMAX];
 
-#define USAGE "\
-\n\
- name:\n\
-   tinysshd-printkey - print public-keys TinySSH keys\n\
-\n\
- syntax:\n\
-   tinysshd-printkey keydir\n\
-\n\
- description:\n\
-   tinysshd-printkey - prints TinySSH public-keys in base64 format.\n\
-   \n\
-\n\
- options:\n\
-   keydir: directory containing secret and public TinySSH keys\n\
-\n\
-"
+#define USAGE "usage: tinysshd-printkey keydir"
 
 
 int main(int argc, char **argv) {

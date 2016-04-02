@@ -16,23 +16,7 @@ Public domain.
 #define sk global_bspace1 /* reusing global buffer */
 #define pk global_bspace2 /* reusing global buffer */
 
-#define USAGE "\
-\n\
- name:\n\
-   tinysshd-makekey - create TinySSH key-directory\n\
-\n\
- syntax:\n\
-   tinysshd-makekey keydir\n\
-\n\
- description:\n\
-   tinysshd-makekey - creates TinySSH key-directory.\n\
-   Key-directory 'keydir' contains public keys and secret keys:\n\n\
-   ed25519.pk and .ed25519.sk ............... ED25519 keys\n\
-   nistp256ecdsa.pk and .nistp256ecdsa.sk ... NIST P256 ECDSA keys\n\
-\n\
- options:\n\
-   keydir: directory for secret and public TinySSH keys\n\
-"
+#define USAGE "usage: tinysshd-makekey keydir"
 
 static void create(const char *d, const char *fn, const unsigned char *x, long long xlen) {
     if (savesync(fn, x, xlen) == -1) die_fatal("unable to create", d, fn);
