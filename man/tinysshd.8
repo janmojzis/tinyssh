@@ -63,6 +63,64 @@ add subsystem command (e.g.: sftp=/usr/libexec/openssh/sftp-server)
 .TP
 .I keydir
 directory containing TinySSH keys, typically /etc/tinyssh/sshkeydir
+.SH EXAMPLES
+.TP
+.B TCPSERVER
+tcpserver -HRDl0 0.0.0.0 22 /usr/sbin/tinysshd -v /etc/tinyssh/sshkeydir &
+.TP
+.B BUSYBOX
+busybox tcpsvd 0 22 tinysshd -v /etc/tinyssh/sshkeydir &
+.TP
+.B INETD
+.RS 4
+/etc/inetd.conf:
+.RS 4
+ssh stream tcp nowait root /usr/sbin/tinysshd tinysshd -l -v /etc/tinyssh/sshkeydir
+.RE
+.RE
+.TP
+.B SYSTEMD
+.RS 4
+tinyssh-server.socket:
+.RS 4
+.nf
+[Unit]
+Description=TinySSH server socket
+Before=tinyssh-server.service
+Conflicts=tinyssh-server.service
+
+[Socket]
+ListenStream=22
+Accept=yes
+
+[Install]
+WantedBy=sockets.target
+.fi
+.RE
+.RE
+.sp
+.RS 4
+tinyssh-server@.service:
+.RS 4
+.nf
+[Unit]
+Description=Tiny SSH server
+After=network.target auditd.service
+
+[Service]
+EnvironmentFile=-/etc/default/tinyssh-server
+ExecStart=/usr/sbin/tinysshd -v /etc/tinyssh/sshkeydir
+KillMode=process
+Restart=on-failure
+StandardInput=socket
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+Alias=tinyssh-server.service
+.fi
+.RE
+.RE
 .SH SEE ALSO
 .BR tinysshd-makekey (1),
 .BR tinysshd-printkey (1)
