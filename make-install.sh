@@ -3,7 +3,7 @@
 build="`pwd`/build"
 source="`pwd`"
 bin="${build}/bin"
-man="${source}/man"
+man="${build}/man"
 installcmd="${bin}/_tinysshd-install"
 
 cat "${source}/tinyssh/TARGETS" |\

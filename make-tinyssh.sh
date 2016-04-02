@@ -3,6 +3,7 @@
 top="`pwd`"
 build="`pwd`/build"
 bin="${build}/bin"
+man="${build}/man"
 lib="${build}/lib"
 include="${build}/include"
 log="${build}/log"
@@ -12,6 +13,7 @@ contribdir="`pwd`/build-contrib"
 rm -rf "${build}"
 mkdir -p "${build}"
 mkdir -p "${bin}"
+mkdir -p "${man}"
 mkdir -p "${lib}"
 mkdir -p "${include}"
 
@@ -319,6 +321,10 @@ cp -pr curvecp/* "$work"
   done
   log1 "finishing"
 ) || exit 111
+
+log1 "starting manpages"
+cp -pr man/* "${man}"
+log1 "finishing"
 
 
 log1 "counting words of code - tests"
