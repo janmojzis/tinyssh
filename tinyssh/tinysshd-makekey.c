@@ -26,7 +26,7 @@ Public domain.
 \n\
  description:\n\
    tinysshd-makekey - creates TinySSH key-directory.\n\
-   Key-directory 'keydir' containts public keys and secret keys:\n\n\
+   Key-directory 'keydir' contains public keys and secret keys:\n\n\
    ed25519.pk and .ed25519.sk ............... ED25519 keys\n\
    nistp256ecdsa.pk and .nistp256ecdsa.sk ... NIST P256 ECDSA keys\n\
 \n\
