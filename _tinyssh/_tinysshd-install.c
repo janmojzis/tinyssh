@@ -8,7 +8,7 @@
 
 static void usage(void) {
 
-    log_u1("_tinysshd-install: usage: _tinysshd-install sourcefile destdir tempfile destfile");
+    log_u1("_tinysshd-install: usage: _tinysshd-install sourcefile destdir tempfile destfile [flagexecutable]");
     _exit(100);
 }
 
@@ -39,7 +39,7 @@ static void die_fatal(const char *trouble, const char *d, const char *fn) {
     _exit(111);
 }
 
-
+static int flagexecutable = 0;
 
 int main(int argc, char **argv) {
 
@@ -60,6 +60,7 @@ int main(int argc, char **argv) {
     dstdir  = argv[2];
     tmpfn = argv[3];
     dstfn = argv[4];
+    if (argv[5]) flagexecutable = 1;
 
     /* open source file */
     fd1 = open_read(srcfn);
@@ -83,7 +84,12 @@ int main(int argc, char **argv) {
     }
     if (fsync(fd2) == -1) die_fatal("unable to write to file", dstdir, tmpfn);
     if (fchown(fd2, st.st_uid, st.st_gid) == -1) die_fatal("unable to change owner on", dstdir, tmpfn);
-    if (fchmod(fd2, 0755) == -1) die_fatal("unable to change owner on", dstdir, tmpfn);
+    if (flagexecutable) {
+        if (fchmod(fd2, 0755) == -1) die_fatal("unable to change owner on", dstdir, tmpfn);
+    }
+    else {
+        if (fchmod(fd2, 0644) == -1) die_fatal("unable to change owner on", dstdir, tmpfn);
+    }
     if (close(fd2) == -1) die_fatal("unable to write to file", dstdir, tmpfn);
     if (rename(tmpfn, dstfn) == -1) die_fatal("unable to rename file to", dstdir, dstfn);
     _exit(0);

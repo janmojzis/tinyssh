@@ -30,10 +30,7 @@ mkdir -p "${bindir}" || exit 111
 cat "${source}/tinyssh/TARGETS" |\
 while read x
 do
-  #cp "${bin}/${x}" "$1/${confbin}" || exit 111
-  #chmod 755 "$1/${confbin}/${x}" || exit 111
-  #chown 0:0 "$1/${confbin}/${x}" || exit 111
-  "${installcmd}" "${bin}/${x}" "${bindir}" "${x}.tmp" "${x}" || exit 111
+  "${installcmd}" "${bin}/${x}" "${bindir}" "${x}.tmp" "${x}" 1 || exit 111
   echo "=== `date` ===   installing ${bin}/${x} -> ${bindir}/${x}"
 done || exit 111
 echo "=== `date` === finishing"
