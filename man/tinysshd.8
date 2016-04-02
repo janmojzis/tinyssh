@@ -1,0 +1,58 @@
+.TH tinysshd 8
+.SH NAME
+tinysshd \- Tiny SSH daemon
+.SH SYNOPSIS
+.B tinysshd
+[ options ]
+.I keydir
+.SH DESCRIPTION
+.B tinysshd
+TODO
+.SH OPTIONS
+.TP
+.B \-q
+no error messages
+.TP
+.B \-Q
+print error messages (default)
+.TP
+.B \-v
+print extra information
+.TP
+.B \-o
+enable older standardized crypto - ecdsa-sha2-nistp256, ecdh-sha2-nistp256, aes128-ctr, aes256-ctr, hmac-sha2-256
+.TP
+.B \-O
+disable older standardized crypto (default)
+.TP
+.B \-s
+enable state-of-the-art crypto - ssh-ed25519, curve25519-sha256@libssh.org, chacha20-poly1305@openssh.com (default)
+.TP
+.B \-S
+disable state-of-the-art crypto
+.TP
+.B \-p
+enable post-quantum crypto - TODO, TODO, chacha20-poly1305@openssh.com
+.TP
+.B \-P
+disable post-quantum crypto
+.TP
+.B \-l
+use syslog instead of standard error output (useful for running from inetd)
+.TP
+.B \-L
+don't use syslog, use standard error output (default)
+.TP
+.B \-x \fIname=command
+add subsystem command (e.g.: sftp=/usr/libexec/openssh/sftp-server)
+.TP
+.I keydir
+directory containing secret and public TinySSH keys
+.SH SEE ALSO
+.BR tinysshd-makekey (1),
+.BR tinysshd-printkey (1)
+.sp
+.nf
+https://tinyssh.org/
+https://curvecp.org/
+.fi
