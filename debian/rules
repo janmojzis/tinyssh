@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-export DH_VERBOSE=1
+#export DH_VERBOSE=1
 
 override_dh_auto_build:
 	env LIBS='-lnacl' CFLAGS='-I/usr/include/nacl' LDFLAGS='-L/usr/lib' sh -e make-tinyssh.sh
@@ -9,6 +9,6 @@ override_dh_auto_build:
 	dh $@ --with systemd
 
 clean:
-	rm -rf debian/tinyssh debian/tinyssh-run debian/tinyssh-server
+	rm -rf debian/tinyssh debian/tinyssh-run debian/tinyssh-server debian/tmp
 	rm -f debian/*.substvars debian/*.debhelper debian/*.log debian/files
-	rm -rf build nacl-20110221/build
+	rm -rf build
