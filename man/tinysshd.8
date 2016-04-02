@@ -7,7 +7,22 @@ tinysshd \- Tiny SSH daemon
 .I keydir
 .SH DESCRIPTION
 .B tinysshd
-TODO
+is tiny SSH server which implement 'less'.
+.sp
+.B tinysshd
+supports only secure crypto (min. 128-bit security, protected against cache-timing attacks)
+.sp
+.B tinysshd
+doesn't implement unnecessary features (such SSH1 protocol, compression, scp, sftp, ...)
+.sp
+.B tinysshd
+doesn't implement older crypto (such RSA, DSA, HMAC-MD5, HMAC-SHA1, 3DES, RC4, ...)
+.sp
+.B tinysshd
+doesn't implement unsafe features (such password or hostbased authentication)
+.sp
+.B tinysshd
+doesn't use dynamic memory allocation (no allocation failures, etc.)
 .SH OPTIONS
 .TP
 .B \-q
