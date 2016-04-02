@@ -7,7 +7,7 @@ Homepage: https://tinyssh.org/
 
 Package: tinyssh
 Section: net
-Depends: ${shlibs:Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends}
 Architecture: any
 Description: Tiny SSH server - binaries
  This is tiny SSH server which implement 'less'.
@@ -22,7 +22,7 @@ Description: Tiny SSH server - binaries
 
 Package: tinyssh-run
 Section: net
-Depends: tinyssh, daemontools-run, adduser, ucspi-tcp
+Depends: ${misc:Depends}, tinyssh, daemontools-run, adduser, ucspi-tcp
 Provides: ssh-server
 Conflicts: tinyssh-server
 Architecture: all
@@ -39,7 +39,7 @@ Description: Tiny SSH server - running under daemontools
 
 Package: tinyssh-server
 Section: net
-Depends: tinyssh, adduser, systemd
+Depends: ${misc:Depends}, tinyssh, adduser, systemd
 Conflicts: tinyssh-run
 Provides: ssh-server
 Architecture: all
