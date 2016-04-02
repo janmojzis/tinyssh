@@ -1,2 +1,3 @@
 man/tinysshd.8
 man/tinysshd-makekey.1
+man/tinysshd-printkey.1
