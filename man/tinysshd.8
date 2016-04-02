@@ -66,16 +66,16 @@ directory containing TinySSH keys, typically /etc/tinyssh/sshkeydir
 .SH EXAMPLES
 .TP
 .B TCPSERVER
-tcpserver -HRDl0 0.0.0.0 22 /usr/sbin/tinysshd -v /etc/tinyssh/sshkeydir &
+tcpserver \-HRDl0 0.0.0.0 22 /usr/sbin/tinysshd \-v /etc/tinyssh/sshkeydir &
 .TP
 .B BUSYBOX
-busybox tcpsvd 0 22 tinysshd -v /etc/tinyssh/sshkeydir &
+busybox tcpsvd 0 22 tinysshd \-v /etc/tinyssh/sshkeydir &
 .TP
 .B INETD
 .RS 4
 /etc/inetd.conf:
 .RS 4
-ssh stream tcp nowait root /usr/sbin/tinysshd tinysshd -l -v /etc/tinyssh/sshkeydir
+ssh stream tcp nowait root /usr/sbin/tinysshd tinysshd \-l \-v /etc/tinyssh/sshkeydir
 .RE
 .RE
 .TP
@@ -109,7 +109,7 @@ After=network.target auditd.service
 
 [Service]
 EnvironmentFile=-/etc/default/tinyssh-server
-ExecStart=/usr/sbin/tinysshd -v /etc/tinyssh/sshkeydir
+ExecStart=/usr/sbin/tinysshd \-v /etc/tinyssh/sshkeydir
 KillMode=process
 Restart=on-failure
 StandardInput=socket
