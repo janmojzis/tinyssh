@@ -1,4 +1,5 @@
 #!/bin/sh -e
+set -e
 
 if [ x"$1" != "xconfigure" ]; then
   exit 0
@@ -30,3 +31,5 @@ for S in `ls -d ${DIR}/* 2>/dev/null`; do
         echo ". done."
     fi
 done
+
+#DEBHELPER#
