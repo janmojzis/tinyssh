@@ -5,6 +5,9 @@
 override_dh_auto_build:
 	env LIBS='-lnacl' CFLAGS='-I/usr/include/nacl' LDFLAGS='-L/usr/lib' sh -e make-tinyssh.sh
 
+override_dh_auto_install:
+	echo >/dev/null
+
 %:
 	dh $@ --with systemd
 
