@@ -3,6 +3,7 @@
 build="`pwd`/build"
 source="`pwd`"
 bin="${build}/bin"
+man="${source}/man"
 installcmd="${bin}/_tinysshd-install"
 
 cat "${source}/tinyssh/TARGETS" |\
@@ -34,6 +35,20 @@ do
   #chown 0:0 "$1/${confbin}/${x}" || exit 111
   "${installcmd}" "${bin}/${x}" "${bindir}" "${x}.tmp" "${x}" || exit 111
   echo "=== `date` ===   installing ${bin}/${x} -> ${bindir}/${x}"
+done || exit 111
+echo "=== `date` === finishing"
+
+#man
+confman="`head -1 conf-man`"
+mandir=`echo "$1/${confman}" | sed 's,//,/,g'`
+echo "=== `date` === installing man directory ${mandir}"
+mkdir -p "${bindir}" || exit 111
+ls "${man}" | sort |\
+while read x
+do
+  n=`echo "${x}" | cut -d'.' -f2`
+  "${installcmd}" "${man}/${x}" "${mandir}/man${n}" "${x}.tmp" "${x}" || exit 111
+  echo "=== `date` ===   installing ${man}/${x} -> ${mandir}/man${n}/${x}"
 done || exit 111
 echo "=== `date` === finishing"
 
