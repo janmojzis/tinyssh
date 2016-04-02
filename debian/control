@@ -4,9 +4,10 @@ Priority: standard
 Build-Depends: debhelper (>= 8), dh-systemd, build-essential, make, libnacl-dev [amd64] | libnacl-dev [i386]
 Maintainer: Jan Mojzis <jan.mojzis@gmail.com>
 Homepage: https://tinyssh.org/
+Standards-Version: 3.9.6
 
 Package: tinyssh
-Section: net
+#Section: net
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Architecture: any
 Description: Tiny SSH server - binaries
@@ -21,7 +22,7 @@ Description: Tiny SSH server - binaries
 
 
 Package: tinyssh-run
-Section: net
+#Section: net
 Depends: ${misc:Depends}, tinyssh, daemontools-run, adduser, ucspi-tcp
 Provides: ssh-server
 Conflicts: tinyssh-server
@@ -38,7 +39,7 @@ Description: Tiny SSH server - running under daemontools
 
 
 Package: tinyssh-server
-Section: net
+#Section: net
 Depends: ${misc:Depends}, tinyssh, adduser, systemd
 Conflicts: tinyssh-run
 Provides: ssh-server
