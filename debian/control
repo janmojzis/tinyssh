@@ -1,7 +1,8 @@
 Source: tinyssh
 Section: net
 Priority: standard
-Build-Depends: debhelper (>= 8), dh-systemd, build-essential, make, libnacl-dev [amd64] | libnacl-dev [i386]
+#Build-Depends: debhelper (>= 8), dh-systemd, build-essential, make, libnacl-dev [amd64] | libnacl-dev [i386]
+Build-Depends: debhelper (>= 8), dh-systemd, libnacl-dev [amd64] | libnacl-dev [i386]
 Maintainer: Jan Mojzis <jan.mojzis@gmail.com>
 Homepage: https://tinyssh.org/
 Standards-Version: 3.9.6
