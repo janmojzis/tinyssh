@@ -1,3 +1,10 @@
+tinyssh (20160402) unstable; urgency=low
+
+  * added manpages
+  * silence lintian errors/warnings/...
+
+ -- Jan Mojzis <jan.mojzis@gmail.com>  Sat, 02 Apr 2016 22:34:41 +0200
+
 tinyssh (20160318) unstable; urgency=low
 
   * regresion test fix
