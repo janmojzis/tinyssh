@@ -4,3 +4,5 @@ clean:
 	rm -rf build
 install:
 	sh -e make-install.sh $(DESTDIR)
+deb:
+	dpkg-buildpackage -b -rfakeroot -us -uc
