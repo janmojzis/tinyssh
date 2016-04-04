@@ -23,6 +23,7 @@ Public domain.
 #include "sshcrypto.h"
 #include "subprocess.h"
 #include "global.h"
+#include "connectioninfo.h"
 #include "die.h"
 
 #define USAGE "usage: tinysshd [options] keydir"
@@ -99,6 +100,9 @@ int main(int argc, char **argv) {
     keydir = *++argv; if (!keydir) die_usage(USAGE);
 
     log_init(flagverbose, "tinysshd", 1, flaglogger);
+
+    connectioninfo(channel.localip, channel.localport, channel.remoteip, channel.remoteport);
+    log_i4("connection from ", channel.remoteip, ":", channel.remoteport);
 
     channel_subsystem_log();
 

@@ -2,8 +2,52 @@
 #define _CHANNEL_H____
 
 #include "crypto_uint32.h"
+#include "iptostr.h"
+#include "porttostr.h"
 
 #define CHANNEL_BUFSIZE 131072
+
+struct channel {
+
+    /* channel */
+    crypto_uint32 maxpacket;
+    crypto_uint32 id;
+    crypto_uint32 localwindow;
+    crypto_uint32 remotewindow;
+
+    /* child */
+    unsigned char buf0[CHANNEL_BUFSIZE];
+    long long len0;
+    long long pid;
+    int fd0;
+    int fd1;
+    int fd2;
+    int status;
+
+    /* ip */
+    char localip[IPTOSTR_LEN];
+    char localport[PORTTOSTR_LEN];
+    char remoteip[IPTOSTR_LEN];
+    char remoteport[PORTTOSTR_LEN];
+
+    /* terminal */
+    char user[64];
+    char termname[64];
+    int flagterminal;
+    int master;
+    int slave;
+    int a;
+    int b;
+    int x;
+    int y;
+
+    /* channel */
+    int remoteeof;
+
+};
+
+extern struct channel channel;
+
 
 /* channel_drop.c */
 extern int channel_droppriv(char *, char **);
