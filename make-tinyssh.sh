@@ -156,7 +156,7 @@ cp -pr crypto/* "${work}"
   | while read x
   do
     ${compiler} -I"${include}" -c "${x}.c" || { log2 "libtinynacl.a failed ... see the log ${log}"; exit 111; }
-  done
+  done || exit 111
   ar cr "${lib}/libtinynacl.a" `cat CRYPTOLIBS` || exit 0
 )
 log2 "libtinynacl.a ok"
@@ -227,7 +227,7 @@ cp -pr crypto-tests/*.data "${work}" 2>/dev/null || :
     fi
     log2 "${primitive}.h failed ... see the log ${log}"
     exit 111
-  done
+  done || exit 111
   cp crypto.h "${include}/crypto.h"
 )
 log1 "finishing"
@@ -247,7 +247,7 @@ cp -pr _tinyssh/* "${work}" 2>/dev/null || :
   do
     ${compiler} "-DCOMPILER=\"${compilerorig}\"" "-DVERSION=\"${version}\"" -I"${include}" -c "${x}.c" || { log2 "${x}.o failed ... see the log ${log}"; exit 111; }
     log2 "${x}.o ok"
-  done
+  done || exit 111
   ar cr libtinyssh.a `cat LIBS` || exit 111
   log1 "finishing"
 
@@ -273,7 +273,7 @@ cp -pr _tinyssh/* "${work}" 2>/dev/null || :
     ${compiler} -I"${include}" -o "${x}" "${x}.o" libtinyssh.a ${libs} || { log2 "${x} failed ... see the log ${log}"; exit 111; }
     log2 "${x} ok"
     cp -p "${x}" "${bin}/${x}";
-  done
+  done || exit 111
   log1 "finishing"
 
   log1 "starting tinyssh"
@@ -282,7 +282,7 @@ cp -pr _tinyssh/* "${work}" 2>/dev/null || :
   do
     ${compiler} -I"${include}" -o "${x}" "${x}.o" libtinyssh.a ${libs} || { log2 "${x} failed ... see the log ${log}"; exit 111; }
     log2 "${x} ok"
-  done
+  done || exit 111
   log1 "finishing"
 
   log1 "starting tinyssh regression tests"
@@ -309,7 +309,7 @@ cp -pr curvecp/* "$work"
   | while read x
   do
     ${compiler} -I"${include}" -c "$x.c" || exit 111
-  done
+  done || exit 111
   ar cr libcurvecp.a `cat LIBS` || exit 111
 
   cat TARGETS \
@@ -317,8 +317,8 @@ cp -pr curvecp/* "$work"
   do
     ${compiler} -I"${include}" -o "${x}" "${x}.o" libcurvecp.a ${libs} || exit 111
     log2 "${y} ok"
-    cp -p "${x}" "${bin}/${y}";
-  done
+    cp -p "${x}" "${bin}/${y}"
+  done || exit 111
   log1 "finishing"
 ) || exit 111
 
