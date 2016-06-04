@@ -72,7 +72,7 @@ mkdir -p "${work}"
 (
   cd "${work}"
   cflags=`cat "${top}/conf-cflags" || :`
-  cflags="${CFLAGS} ${LDFLAGS} ${cflags}"
+  cflags="${CPPFLAGS} ${CFLAGS} ${LDFLAGS} ${cflags}"
 
   for i in ${cflags}; do
     echo 'int main(void) { return 0; }' > try.c
