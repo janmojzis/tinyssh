@@ -7,18 +7,18 @@ Public domain.
 #include "misc.h"
 #include "crypto_core_aes128encrypt.h"
 
-unsigned char key[crypto_core_aes128encrypt_KEYBYTES + 16];
-unsigned char out[crypto_core_aes128encrypt_OUTPUTBYTES + 16];
-unsigned char in[crypto_core_aes128encrypt_INPUTBYTES + 16];
+static unsigned char key[crypto_core_aes128encrypt_KEYBYTES + 16];
+static unsigned char out[crypto_core_aes128encrypt_OUTPUTBYTES + 16];
+static unsigned char in[crypto_core_aes128encrypt_INPUTBYTES + 16];
 
-unsigned char o[32] = {
+static unsigned char o[32] = {
     0xfb, 0x69, 0xd1, 0xae, 0xce, 0x0e, 0xa0, 0x89, 
     0xfe, 0xe8, 0x07, 0xb2, 0xe1, 0x5b, 0xb3, 0xd4, 
     0x1b, 0xa9, 0x73, 0x54, 0xca, 0x8f, 0x83, 0x6c, 
     0x05, 0x51, 0x8b, 0x10, 0xe8, 0x81, 0x45, 0xc7
 };
 
-void test_alignment(void) {
+static void test_alignment(void) {
 
     long long i;
 
