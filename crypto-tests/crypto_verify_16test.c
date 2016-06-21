@@ -7,11 +7,11 @@ Public domain.
 #include "misc.h"
 #include "crypto_verify_16.h"
 
-unsigned char b1[crypto_verify_16_BYTES + 16];
-unsigned char b2[crypto_verify_16_BYTES + 16];
+static unsigned char b1[crypto_verify_16_BYTES + 16];
+static unsigned char b2[crypto_verify_16_BYTES + 16];
 
 
-void test_alignment(void) {
+static void test_alignment(void) {
 
     long long i;
 
@@ -23,7 +23,7 @@ void test_alignment(void) {
     }
 }
 
-void test_verify(void) {
+static void test_verify(void) {
 
     long long i;
 
