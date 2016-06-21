@@ -5,7 +5,7 @@ Priority: standard
 Build-Depends: debhelper (>= 9), dh-systemd, libnacl-dev [amd64] | libnacl-dev [i386]
 Maintainer: Jan Mojzis <jan.mojzis@gmail.com>
 Homepage: https://tinyssh.org/
-Standards-Version: 3.9.6
+Standards-Version: 3.9.8
 
 Package: tinyssh
 #Section: net
