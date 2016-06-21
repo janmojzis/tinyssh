@@ -8,18 +8,18 @@ Public domain.
 #include "misc.h"
 #include "crypto_stream_chacha20.h"
 
-unsigned char space[5232];
-unsigned char k[crypto_stream_chacha20_KEYBYTES + 16];
-unsigned char n[crypto_stream_chacha20_NONCEBYTES + 16];
+static unsigned char space[5232];
+static unsigned char k[crypto_stream_chacha20_KEYBYTES + 16];
+static unsigned char n[crypto_stream_chacha20_NONCEBYTES + 16];
 
-unsigned char o[32] = {
+static unsigned char o[32] = {
     0x98, 0x43, 0x28, 0xe2, 0x76, 0xc2, 0xc3, 0xa1, 
     0xe8, 0xf3, 0x50, 0x98, 0x15, 0xc4, 0xea, 0xa6, 
     0x2c, 0x54, 0x87, 0x1b, 0x02, 0x4c, 0x61, 0xd1, 
     0x01, 0xd9, 0xf0, 0xb1, 0xd5, 0x21, 0xc4, 0x7a
 };
 
-void test_alignment(void) {
+static void test_alignment(void) {
 
     long long i;
 
@@ -28,7 +28,7 @@ void test_alignment(void) {
     }
 }
 
-void test_rand(void) {
+static void test_rand(void) {
 
     long long i, j;
     unsigned int u;
