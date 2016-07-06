@@ -12,8 +12,6 @@ Public domain.
 #include "packetparser.h"
 #include "packet.h"
 
-#define CHAN_SESSION "session"
-
 int packet_channel_open(struct buf *b1, struct buf *b2) {
 
     crypto_uint32 id, remotewindow, localwindow, maxpacket, chanlen;
@@ -32,7 +30,7 @@ int packet_channel_open(struct buf *b1, struct buf *b2) {
     pos = packetparser_uint32(b1->buf, b1->len, pos, &maxpacket);       /* uint32    maximum packet size */
     if (maxpacket > PACKET_LIMIT) maxpacket = PACKET_LIMIT;
 
-    if (sizeof CHAN_SESSION == chanlen + 1 && byte_isequal(CHAN_SESSION, chanlen, chan)) {
+    if (str_equaln(chan, chanlen, "session")) {
 
 /*    byte      SSH_MSG_CHANNEL_OPEN
       string    "session"
