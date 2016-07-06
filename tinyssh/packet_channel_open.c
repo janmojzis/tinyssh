@@ -8,7 +8,6 @@ Public domain.
 #include "ssh.h"
 #include "e.h"
 #include "bug.h"
-#include "byte.h"
 #include "packetparser.h"
 #include "str.h"
 #include "packet.h"
