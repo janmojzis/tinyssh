@@ -91,11 +91,11 @@ int nistp256ecdsa_parsesignpk(unsigned char *buf, const unsigned char *x, long l
 
     pos = packetparser_uint32(x, xlen, pos, &len);
     pos = packetparser_skip(x, xlen, pos, len);
-    if (!byte_isequal(x + pos - len, len, "ecdsa-sha2-nistp256")) return 0;
+    if (!str_equaln(x + pos - len, len, "ecdsa-sha2-nistp256")) return 0;
 
     pos = packetparser_uint32(x, xlen, pos, &len);
     pos = packetparser_skip(x, xlen, pos, len);
-    if (!byte_isequal(x + pos - len, len, "nistp256")) return 0;
+    if (!str_equaln(x + pos - len, len, "nistp256")) return 0;
 
     pos = packetparser_uint32(x, xlen, pos, &len);
     if (len != crypto_sign_nistp256ecdsa_PUBLICKEYBYTES + 1) return 0;
@@ -139,7 +139,7 @@ int nistp256ecdsa_parsesignature(unsigned char *buf, const unsigned char *x, lon
 
     pos = packetparser_uint32(x, xlen, pos, &len);
     pos = packetparser_skip(x, xlen, pos, len);
-    if (!byte_isequal(x + pos - len, len, "ecdsa-sha2-nistp256")) return 0;
+    if (!str_equaln(x + pos - len, len, "ecdsa-sha2-nistp256")) return 0;
 
     pos = packetparser_uint32(x, xlen, pos, &len);
     pos = packetparser_skip(x, xlen, pos, len);
