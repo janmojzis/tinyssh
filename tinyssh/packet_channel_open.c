@@ -10,6 +10,7 @@ Public domain.
 #include "bug.h"
 #include "byte.h"
 #include "packetparser.h"
+#include "str.h"
 #include "packet.h"
 
 int packet_channel_open(struct buf *b1, struct buf *b2) {
