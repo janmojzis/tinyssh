@@ -299,34 +299,6 @@ cp -pr _tinyssh/* "${work}" 2>/dev/null || :
 ) || exit 111
 
 
-log1 "starting curvecp"
-rm -rf "$work"
-mkdir -p "$work"
-cp -pr curvecp/* "$work"
-(
-  cd "$work"
-  cat SOURCES\
-  | while read x
-  do
-    ${compiler} -I"${include}" -c "$x.c" || exit 111
-  done || exit 111
-  ar cr libcurvecp.a `cat LIBS` || exit 111
-
-  cat TARGETS \
-  | while read x y
-  do
-    ${compiler} -I"${include}" -o "${x}" "${x}.o" libcurvecp.a ${libs} || exit 111
-    log2 "${y} ok"
-    cp -p "${x}" "${bin}/${y}"
-  done || exit 111
-  log1 "finishing"
-) || exit 111
-
-log1 "starting manpages"
-cp -pr man/* "${man}"
-log1 "finishing"
-
-
 log1 "counting words of code - tests"
 rm -rf "${work}"
 mkdir -p "${work}"
