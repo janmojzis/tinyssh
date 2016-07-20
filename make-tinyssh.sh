@@ -298,6 +298,9 @@ cp -pr _tinyssh/* "${work}" 2>/dev/null || :
 
 ) || exit 111
 
+log1 "starting manpages"
+cp -pr man/* "${man}"
+log1 "finishing"
 
 log1 "counting words of code - tests"
 rm -rf "${work}"
