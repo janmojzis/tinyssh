@@ -1,8 +1,0 @@
-#!/bin/sh
-
-if [ ! -d /var/log/tinyssh/tcp ]; then
-  mkdir -p /var/log/tinyssh/tcp
-fi
-chown tinysshlog /var/log/tinyssh/tcp
-
-exec setuidgid tinysshlog multilog t /var/log/tinyssh/tcp

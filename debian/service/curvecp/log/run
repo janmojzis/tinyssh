@@ -1,8 +1,0 @@
-#!/bin/sh
-
-if [ ! -d /var/log/tinyssh/curvecp ]; then
-  mkdir -p /var/log/tinyssh/curvecp
-fi
-chown tinysshlog /var/log/tinyssh/curvecp
-
-exec setuidgid tinysshlog multilog t /var/log/tinyssh/curvecp

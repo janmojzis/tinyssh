@@ -1,4 +1,0 @@
-debian/service/tcp/run etc/tinyssh/service/tcp
-debian/service/tcp/log/run etc/tinyssh/service/tcp/log
-debian/service/curvecp/run etc/tinyssh/service/curvecp
-debian/service/curvecp/log/run etc/tinyssh/service/curvecp/log
