@@ -3,12 +3,20 @@
 tinysshd-makekey \- create TinySSH key-directory
 .SH SYNOPSIS
 .B tinysshd-makekey
+[ options ]
 .I keydir
 .SH DESCRIPTION
 .B tinysshd-makekey
 safely creates secret-keys and appropriate public-keys in directory
 .I keydir
 .SH OPTIONS
+.TP
+.B \-q
+no error messages
+.TP
+.B \-Q
+print error messages (default)
+.TP
 .TP
 .I keydir
 directory for TinySSH keys, typically /etc/tinyssh/sshkeydir

@@ -22,12 +22,14 @@ static void create(const char *d, const char *fn, const unsigned char *x, long l
     if (savesync(fn, x, xlen) == -1) die_fatal("unable to create", d, fn);
 }
 
+static int flagverbose = 1;
+
 int main(int argc, char **argv) {
 
     char *x;
     long long i;
 
-    log_init(1, "tinysshd-makekey", 0, 0);
+    log_init(flagverbose, "tinysshd-makekey", 0, 0);
 
     if (argc < 2) die_usage(USAGE);
     if (!argv[0]) die_usage(USAGE);
@@ -38,10 +40,14 @@ int main(int argc, char **argv) {
         if (x[0] == '-' && x[1] == 0) break;
         if (x[0] == '-' && x[1] == '-' && x[2] == 0) break;
         while (*++x) {
+            if (*x == 'q') { flagverbose = 0; continue; }
+            if (*x == 'Q') { flagverbose = 1; continue; }
             die_usage(USAGE);
         }
     }
     x = *++argv; if (!x) die_usage(USAGE);
+
+    log_init(flagverbose, "tinysshd-makekey", 0, 0);
 
     umask(022);
     if (mkdir(x, 0755) == -1) die_fatal("unable to create directory", x, 0);
