@@ -7,7 +7,6 @@ Public domain.
 #include "buf.h"
 #include "ssh.h"
 #include "e.h"
-#include "byte.h"
 #include "str.h"
 #include "packetparser.h"
 #include "subprocess.h"
@@ -40,9 +39,8 @@ int packet_auth(struct buf *b, struct buf *b2) {
     pos = packetparser_uint8(b->buf, b->len, pos, &ch);       /* SSH_MSG_SERVICE_REQUEST */
     if (ch != SSH_MSG_SERVICE_REQUEST) bug_proto();
     pos = packetparser_uint32(b->buf, b->len, pos, &len);     /* "ssh-userauth" */
-    if (len != 12) bug_proto();
     pos = packetparser_skip(b->buf, b->len, pos, len);
-    if (!byte_isequal(b->buf + pos - len, len, "ssh-userauth")) bug_proto();
+    if (!str_equaln((char *)b->buf + pos - len, len, "ssh-userauth")) bug_proto();
     pos = packetparser_end(b->buf, b->len, pos);
 
     /* send service accept */
@@ -64,9 +62,8 @@ int packet_auth(struct buf *b, struct buf *b2) {
         pos = packetparser_copy(b->buf, b->len, pos, (unsigned char *)packet.name, len);
         packet.name[len] = 0;
         pos = packetparser_uint32(b->buf, b->len, pos, &len);       /* "ssh-connection" */
-        if (len != 14) bug_proto();
         pos = packetparser_skip(b->buf, b->len, pos, len);
-        if (!byte_isequal(b->buf + pos - len, len, "ssh-connection")) bug_proto();
+        if (!str_equaln((char *)b->buf + pos - len, len, "ssh-connection")) bug_proto();
 
         pos = packetparser_uint32(b->buf, b->len, pos, &len);       /* publickey/password/hostbased/none */
         pos = packetparser_skip(b->buf, b->len, pos, len);
