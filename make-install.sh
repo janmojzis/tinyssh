@@ -39,7 +39,7 @@ echo "=== `date` === finishing"
 confman="`head -1 conf-man`"
 mandir=`echo "$1/${confman}" | sed 's,//,/,g'`
 echo "=== `date` === installing man directory ${mandir}"
-mkdir -p "${bindir}" || exit 111
+mkdir -p "${mandir}" || exit 111
 ls "${man}" | sort |\
 while read x
 do
