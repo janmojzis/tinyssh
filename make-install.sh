@@ -44,6 +44,7 @@ ls "${man}" | sort |\
 while read x
 do
   n=`echo "${x}" | cut -d'.' -f2`
+  mkdir -p "${mandir}/man${n}" || exit 111
   "${installcmd}" "${man}/${x}" "${mandir}/man${n}" "${x}.tmp" "${x}" || exit 111
   echo "=== `date` ===   installing ${man}/${x} -> ${mandir}/man${n}/${x}"
 done || exit 111
