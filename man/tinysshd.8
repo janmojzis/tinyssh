@@ -86,8 +86,6 @@ tinyssh-server.socket:
 .nf
 [Unit]
 Description=TinySSH server socket
-Before=tinyssh-server.service
-Conflicts=tinyssh-server.service
 
 [Socket]
 ListenStream=22
@@ -108,8 +106,9 @@ Description=Tiny SSH server
 After=network.target auditd.service
 
 [Service]
-EnvironmentFile=-/etc/default/tinyssh-server
-ExecStart=/usr/sbin/tinysshd \-v /etc/tinyssh/sshkeydir
+ExecStartPre=-/usr/sbin/tinysshd-makekey -q /etc/tinyssh/sshkeydir
+EnvironmentFile=-/etc/default/tinyssh
+ExecStart=/usr/sbin/tinysshd ${TINYSSHOPTS} -- /etc/tinyssh/sshkeydir
 KillMode=process
 Restart=on-failure
 StandardInput=socket
@@ -117,7 +116,6 @@ StandardError=journal
 
 [Install]
 WantedBy=multi-user.target
-Alias=tinyssh-server.service
 .fi
 .RE
 .RE
