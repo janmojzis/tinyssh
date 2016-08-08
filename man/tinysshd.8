@@ -10,13 +10,13 @@ tinysshd \- Tiny SSH daemon
 is tiny SSH server which implement 'less'.
 .sp
 .B tinysshd
-supports only secure crypto (min. 128-bit security, protected against cache-timing attacks)
+supports only secure crypto (min. 128\-bit security, protected against cache\-timing attacks)
 .sp
 .B tinysshd
 doesn't implement unnecessary features (such SSH1 protocol, compression, scp, sftp, ...)
 .sp
 .B tinysshd
-doesn't implement older crypto (such RSA, DSA, HMAC-MD5, HMAC-SHA1, 3DES, RC4, ...)
+doesn't implement older crypto (such RSA, DSA, HMAC\-MD5, HMAC\-SHA1, 3DES, RC4, ...)
 .sp
 .B tinysshd
 doesn't implement unsafe features (such password or hostbased authentication)
@@ -35,22 +35,22 @@ print error messages (default)
 print extra information
 .TP
 .B \-o
-enable older standardized crypto - ecdsa-sha2-nistp256, ecdh-sha2-nistp256, aes128-ctr, aes256-ctr, hmac-sha2-256
+enable older standardized crypto \- ecdsa\-sha2\-nistp256, ecdh\-sha2\-nistp256, aes128\-ctr, aes256\-ctr, hmac\-sha2\-256
 .TP
 .B \-O
 disable older standardized crypto (default)
 .TP
 .B \-s
-enable state-of-the-art crypto - ssh-ed25519, curve25519-sha256@libssh.org, chacha20-poly1305@openssh.com (default)
+enable state\-of\-the\-art crypto \- ssh\-ed25519, curve25519\-sha256@libssh.org, chacha20\-poly1305@openssh.com (default)
 .TP
 .B \-S
-disable state-of-the-art crypto
+disable state\-of\-the\-art crypto
 .TP
 .B \-p
-enable post-quantum crypto - TODO, TODO, chacha20-poly1305@openssh.com
+enable post\-quantum crypto \- TODO, TODO, chacha20\-poly1305@openssh.com
 .TP
 .B \-P
-disable post-quantum crypto
+disable post\-quantum crypto
 .TP
 .B \-l
 use syslog instead of standard error output (useful for running from inetd)
@@ -59,7 +59,7 @@ use syslog instead of standard error output (useful for running from inetd)
 don't use syslog, use standard error output (default)
 .TP
 .B \-x \fIname=command
-add subsystem command (e.g.: sftp=/usr/libexec/openssh/sftp-server)
+add subsystem command (e.g.: sftp=/usr/libexec/openssh/sftp\-server)
 .TP
 .I keydir
 directory containing TinySSH keys, typically /etc/tinyssh/sshkeydir
@@ -81,7 +81,7 @@ ssh stream tcp nowait root /usr/sbin/tinysshd tinysshd \-l \-v /etc/tinyssh/sshk
 .TP
 .B SYSTEMD
 .RS 4
-tinyssh-server.socket:
+tinyssh\-server.socket:
 .RS 4
 .nf
 [Unit]
@@ -98,7 +98,7 @@ WantedBy=sockets.target
 .RE
 .sp
 .RS 4
-tinyssh-server@.service:
+tinyssh\-server@.service:
 .RS 4
 .nf
 [Unit]
@@ -106,22 +106,22 @@ Description=Tiny SSH server
 After=network.target auditd.service
 
 [Service]
-ExecStartPre=-/usr/sbin/tinysshd-makekey -q /etc/tinyssh/sshkeydir
-EnvironmentFile=-/etc/default/tinyssh
-ExecStart=/usr/sbin/tinysshd ${TINYSSHOPTS} -- /etc/tinyssh/sshkeydir
+ExecStartPre=\-/usr/sbin/tinysshd\-makekey \-q /etc/tinyssh/sshkeydir
+EnvironmentFile=\-/etc/default/tinyssh
+ExecStart=/usr/sbin/tinysshd ${TINYSSHOPTS} \-\- /etc/tinyssh/sshkeydir
 KillMode=process
-Restart=on-failure
+Restart=on\-failure
 StandardInput=socket
 StandardError=journal
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=multi\-user.target
 .fi
 .RE
 .RE
 .SH SEE ALSO
-.BR tinysshd-makekey (1),
-.BR tinysshd-printkey (1)
+.BR tinysshd\-makekey (1),
+.BR tinysshd\-printkey (1)
 .sp
 .nf
 https://tinyssh.org/
