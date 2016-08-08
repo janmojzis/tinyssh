@@ -5,6 +5,8 @@ Public domain.
 */
 
 #include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include <pwd.h>
 #include "crypto_uint32.h"
 #include "fail.h"
@@ -184,8 +186,29 @@ static void testok4(void) {
     _exit(0);
 }
 
+#define warn_(a, b, x) do { fprintf(stderr, "%s:%llu: warning: %s\n", (a), (unsigned long long)(b), (x)); fflush(stderr); _exit(0); } while (0);
+#define warn(x) warn_(__FILE__, __LINE__, (x))
+
+
+static int homedir(void) {
+    
+    struct passwd *pw;
+    struct stat st;
+
+    pw = getpwuid(geteuid());
+    if (!pw) return 0;
+    
+    return 1 + stat(pw->pw_dir, &st);
+}
+
 
 int main(void) {
+
+    /* don't run check when homedir not exist */
+    if (!homedir()) {
+        warn("homedir not exist - skipping tests")
+        _exit(0);
+    }
 
     run_mustfail(testopen1);
     run_mustfail(testopen2);
@@ -213,6 +236,6 @@ int main(void) {
     run_mustpass(testok2);
     run_mustpass(testok3);
     run_mustpass(testok4);
-
+;
     _exit(0);
 }
