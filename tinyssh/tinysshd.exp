@@ -27,8 +27,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: curve25519-sha256@libssh.org,ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms: ssh-ed25519,ecdsa-sha2-nistp256 
-_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
@@ -36,8 +36,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: curve25519-sha256@libssh.org,ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms: ssh-ed25519,ecdsa-sha2-nistp256 
-_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
@@ -45,8 +45,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: curve25519-sha256@libssh.org,ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms: ssh-ed25519,ecdsa-sha2-nistp256 
-_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
@@ -54,8 +54,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: curve25519-sha256@libssh.org,ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms: ssh-ed25519,ecdsa-sha2-nistp256 
-_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
@@ -63,8 +63,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms: ecdsa-sha2-nistp256 
-_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
@@ -72,8 +72,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms: ecdsa-sha2-nistp256 
-_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
@@ -81,8 +81,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms: ecdsa-sha2-nistp256 
-_tinysshd-printkex: info: encryption algorithms client to server: aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
@@ -90,8 +90,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms: ecdsa-sha2-nistp256 
-_tinysshd-printkex: info: encryption algorithms client to server: aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
@@ -171,8 +171,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: curve25519-sha256@libssh.org,ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms: ssh-ed25519 
-_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
@@ -180,8 +180,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: curve25519-sha256@libssh.org,ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms: ssh-ed25519 
-_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
@@ -189,8 +189,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: curve25519-sha256@libssh.org,ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms: ssh-ed25519 
-_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
@@ -198,8 +198,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: curve25519-sha256@libssh.org,ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms: ssh-ed25519 
-_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
@@ -207,8 +207,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms:  
-_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
@@ -216,8 +216,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms:  
-_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
@@ -225,8 +225,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms:  
-_tinysshd-printkex: info: encryption algorithms client to server: aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
@@ -234,8 +234,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms:  
-_tinysshd-printkex: info: encryption algorithms client to server: aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
@@ -315,8 +315,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: curve25519-sha256@libssh.org,ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms: ecdsa-sha2-nistp256 
-_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
@@ -324,8 +324,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: curve25519-sha256@libssh.org,ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms: ecdsa-sha2-nistp256 
-_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
@@ -333,8 +333,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: curve25519-sha256@libssh.org,ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms: ecdsa-sha2-nistp256 
-_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
@@ -342,8 +342,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: curve25519-sha256@libssh.org,ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms: ecdsa-sha2-nistp256 
-_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
@@ -351,8 +351,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms: ecdsa-sha2-nistp256 
-_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
@@ -360,8 +360,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms: ecdsa-sha2-nistp256 
-_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com,aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
@@ -369,8 +369,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms: ecdsa-sha2-nistp256 
-_tinysshd-printkex: info: encryption algorithms client to server: aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 
@@ -378,8 +378,8 @@ _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256
 
 _tinysshd-printkex: info: kex algorithms: ecdh-sha2-nistp256 
 _tinysshd-printkex: info: server host key algorithms: ecdsa-sha2-nistp256 
-_tinysshd-printkex: info: encryption algorithms client to server: aes128-ctr,aes256-ctr 
-_tinysshd-printkex: info: encryption algorithms server to client: aes128-ctr,aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms client to server: aes256-ctr 
+_tinysshd-printkex: info: encryption algorithms server to client: aes256-ctr 
 _tinysshd-printkex: info: mac algorithms client to server: hmac-sha2-256 
 _tinysshd-printkex: info: mac algorithms server to client: hmac-sha2-256 
 

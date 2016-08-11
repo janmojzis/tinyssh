@@ -1,6 +1,5 @@
 crypto_onetimeauth_poly1305
 aes
-crypto_core_aes128encrypt
 crypto_core_aes256encrypt
 randombytes
 uint32_pack

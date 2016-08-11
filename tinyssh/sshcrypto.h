@@ -5,7 +5,7 @@
 #include "crypto.h"
 
 /* crypto type */
-#define sshcrypto_TYPEOLDCRYPTO 0x1 /* ecdsa-sha2-nistp256, ecdh-sha2-nistp256, aes128-ctr, aes256-ctr, hmac-sha2-256 */
+#define sshcrypto_TYPEOLDCRYPTO 0x1 /* ecdsa-sha2-nistp256, ecdh-sha2-nistp256, aes256-ctr, hmac-sha2-256 */
 #define sshcrypto_TYPENEWCRYPTO 0x2 /* ssh-ed25519, curve25519-sha256@libssh.org, chacha20-poly1305@openssh.com */
 #define sshcrypto_TYPEPQCRYPTO  0x4 /* TODO, TODO, chacha20-poly1305@openssh.com */
 
@@ -165,8 +165,6 @@ extern int chachapoly_packet_get(struct buf *);
 /* from sshcrypto_cipher_aesctr.c */
 extern void aesctr_packet_put(struct buf *);
 extern int aesctr_packet_get(struct buf *);
-/* from sshcrypto_cipher_aesctr128.c */
-extern int aesctr128_xor(unsigned char *, const unsigned char *, unsigned long long, const unsigned char *, const unsigned char *);
 /* from sshcrypto_cipher_aesctr256.c */
 extern int aesctr256_xor(unsigned char *, const unsigned char *, unsigned long long, const unsigned char *, const unsigned char *);
 

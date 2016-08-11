@@ -45,7 +45,6 @@ ssh
 sshcrypto
 sshcrypto_cipher
 sshcrypto_cipher_aesctr
-sshcrypto_cipher_aesctr128
 sshcrypto_cipher_aesctr256
 sshcrypto_cipher_chachapoly
 sshcrypto_kex

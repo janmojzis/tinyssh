@@ -28,19 +28,6 @@ struct sshcrypto_cipher sshcrypto_ciphers[] = {
         0
     },
 #endif
-#if defined(crypto_core_aes128encrypt_KEYBYTES) && defined(crypto_auth_hmacsha256_BYTES)
-    {   "aes128-ctr",
-        aesctr128_xor,
-        crypto_auth_hmacsha256,
-        crypto_core_aes128encrypt_KEYBYTES,
-        16,
-        crypto_auth_hmacsha256_BYTES,
-        aesctr_packet_put,
-        aesctr_packet_get,
-        sshcrypto_TYPEOLDCRYPTO,
-        0
-    },
-#endif
 #if defined(crypto_core_aes256encrypt_KEYBYTES) && defined(crypto_auth_hmacsha256_BYTES)
     {   "aes256-ctr",
         aesctr256_xor,
@@ -138,7 +125,7 @@ void sshcrypto_cipher_put(struct buf *b) {
 }
 
 /* 
-XXX we support only hmac-sha2-256 with aes128-ctr and aes256-ctr
+XXX we support only hmac-sha2-256 with aes256-ctr
 for chacha20-poly1305@openssh.com is hmac-sha2-256 string ignored 
 */
 void sshcrypto_cipher_macput(struct buf *b) {

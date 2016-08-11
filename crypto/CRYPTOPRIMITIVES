@@ -5,7 +5,6 @@ crypto_hash_sha512 1
 crypto_hash_sha256 1
 crypto_verify_16 1
 crypto_verify_32 1
-crypto_core_aes128encrypt 1
 crypto_core_aes256encrypt 1
 crypto_scalarmult_curve25519 1
 crypto_scalarmult_nistp256 1

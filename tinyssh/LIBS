@@ -41,7 +41,6 @@ porttostr.o
 randommod.o
 readall.o
 savesync.o
-sshcrypto_cipher_aesctr128.o
 sshcrypto_cipher_aesctr256.o
 sshcrypto_cipher_aesctr.o
 sshcrypto_cipher_chachapoly.o
