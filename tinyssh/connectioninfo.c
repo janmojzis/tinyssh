@@ -37,10 +37,10 @@ static int connectioninfo_fromfd(char *localip, char *localport, char *remoteip,
     
     ipstr[0] = localip;  portstr[0] = localport;
     ipstr[1] = remoteip; portstr[1] = remoteport;
-    salen = sizeof sa;
 
     for (i = 0; i < 2; ++i) {
         
+        salen = sizeof sa;
         if (op[i](fd, &sa, &salen) == -1) return 0;
 
         if (sa.sa_family == PF_INET) {
