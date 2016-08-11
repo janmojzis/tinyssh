@@ -26,7 +26,7 @@ getsockname(), getpeername() libc functions.
 static int connectioninfo_fromfd(char *localip, char *localport, char *remoteip, char *remoteport) {
 
     long long i;
-    struct sockaddr sa;
+    struct sockaddr_storage sa;
     socklen_t salen; 
     int fd = 0;
     unsigned char ip[16];
@@ -41,16 +41,16 @@ static int connectioninfo_fromfd(char *localip, char *localport, char *remoteip,
     for (i = 0; i < 2; ++i) {
         
         salen = sizeof sa;
-        if (op[i](fd, &sa, &salen) == -1) return 0;
+        if (op[i](fd, (struct sockaddr *)&sa, &salen) == -1) return 0;
 
-        if (sa.sa_family == PF_INET) {
+        if (sa.ss_family == PF_INET) {
             struct sockaddr_in *sin = (struct sockaddr_in *)&sa;
             byte_copy(ip, 12, "\0\0\0\0\0\0\0\0\0\0\377\377");
             byte_copy(ip + 12, 4, &sin->sin_addr);
             byte_copy(port, 2, &sin->sin_port);
         }
 #ifdef PF_INET6
-        else if (sa.sa_family == PF_INET6) {
+        else if (sa.ss_family == PF_INET6) {
             struct sockaddr_in6 *sin6 = (struct sockaddr_in6 *)&sa;
             byte_copy(ip, 16, &sin6->sin6_addr);
             byte_copy(port, 2, &sin6->sin6_port);
