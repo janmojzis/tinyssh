@@ -86,6 +86,7 @@ tinyssh\-server.socket:
 .nf
 [Unit]
 Description=TinySSH server socket
+ConditionPathExists=!/etc/tinyssh/disable_tinysshd_tcp
 
 [Socket]
 ListenStream=22
