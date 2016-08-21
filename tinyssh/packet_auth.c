@@ -152,7 +152,7 @@ int packet_auth(struct buf *b, struct buf *b2) {
 
 authorized:
     /* authenticated + authorized */
-    log_i5("auth: ", packet.name, ": ", pkname, " accepted");
+    log_i7("auth: ", packet.name, ": ", pkname, " ", (char *)b->buf, " accepted");
     buf_purge(b);
     buf_putnum8(b, SSH_MSG_USERAUTH_SUCCESS);
     buf_putstring(b,"ssh-connection");
