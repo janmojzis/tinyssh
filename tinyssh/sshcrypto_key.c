@@ -120,7 +120,7 @@ int sshcrypto_key_select(const unsigned char *buf, long long len) {
                 sshcrypto_sign_secretkeyfilename = sshcrypto_keys[i].sign_secretkeyfilename;
                 sshcrypto_buf_putsignature = sshcrypto_keys[i].buf_putsignature;
                 sshcrypto_buf_putsignpk = sshcrypto_keys[i].buf_putsignpk;
-                log_i2("kex: key selected: ", sshcrypto_keys[i].name);
+                log_d2("kex: key selected: ", sshcrypto_keys[i].name);
                 return 1;
             }
         }

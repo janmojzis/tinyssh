@@ -104,7 +104,7 @@ int sshcrypto_kex_select(const unsigned char *buf, long long len, crypto_uint8 *
                 sshcrypto_hash_bytes = sshcrypto_kexs[i].hash_bytes;
                 sshcrypto_buf_putsharedsecret = sshcrypto_kexs[i].buf_putsharedsecret;
                 sshcrypto_buf_putdhpk = sshcrypto_kexs[i].buf_putdhpk;
-                log_i2("kex: kex selected: ", sshcrypto_kexs[i].name);
+                log_d2("kex: kex selected: ", sshcrypto_kexs[i].name);
                 return 1;
             }
         }

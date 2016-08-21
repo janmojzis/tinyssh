@@ -81,7 +81,7 @@ int sshcrypto_cipher_select(const unsigned char *buf, long long len) {
                 sshcrypto_auth_bytes = sshcrypto_ciphers[i].auth_bytes;
                 sshcrypto_packet_get = sshcrypto_ciphers[i].packet_get;
                 sshcrypto_packet_put = sshcrypto_ciphers[i].packet_put;
-                log_i2("kex: cipher selected: ", sshcrypto_ciphers[i].name);
+                log_d2("kex: cipher selected: ", sshcrypto_ciphers[i].name);
                 return 1;
             }
         }
@@ -95,7 +95,7 @@ int sshcrypto_cipher_macselect(const unsigned char *buf, long long len) {
 
     if (buf[len] != 0) bug_proto();
     log_d2("kex: client: mac algorithms: ", (char *)buf);
-    log_i1("kex: mac selected: hmac-sha2-256 (ignored for chacha20-poly1305@openssh.com)");
+    log_d1("kex: mac selected: hmac-sha2-256 (ignored for chacha20-poly1305@openssh.com)");
     return 1;
 }
 

@@ -138,7 +138,7 @@ int packet_auth(struct buf *b, struct buf *b2) {
         }
 
         /* reject */
-        log_i5("auth: ", packet.name, ": ", pkname, " rejected");
+        log_d5("auth: ", packet.name, ": ", pkname, " rejected");
         buf_purge(b);
         buf_putnum8(b, SSH_MSG_USERAUTH_FAILURE);
         buf_putstring(b,"publickey");
