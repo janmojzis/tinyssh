@@ -20,9 +20,9 @@ int crypto_sign_ed25519_tinynacl(unsigned char *sm, unsigned long long *smlen, c
 
     /* copy m to sm, copy secret key and public key */
     *smlen = n + 64;
+    for (i = 31; i >= 0; --i) pk[i     ] = skorig[i + 32];
     for (i = n - 1; i >= 0; --i) sm[i + 64] = m[i];
     for (i = 31; i >= 0; --i) sm[i + 32] = sk[i + 32];
-    for (i = 31; i >= 0; --i) pk[i     ] = skorig[i + 32];
 
     /* get pseudorandom nonce = H(sk2, m) */
     crypto_hash_sha512(nonce, sm + 32, n + 32);
