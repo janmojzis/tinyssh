@@ -1,0 +1,1 @@
+#define HASLOGINTTY 1
