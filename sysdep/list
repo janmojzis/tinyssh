@@ -73,11 +73,6 @@ echo 'hasutmplogwtmp.h default.h-no'
 echo 'hasutmploginlogout.h hasutmploginlogout.h-yes'
 echo 'hasutmploginlogout.h default.h-no'
 
-#order
-echo 'order.h order.h-little'
-echo 'order.h order.h-big'
-echo 'order.h default.h-no'
-
 #__asm__ __volatile__ ...
 echo 'hasasmvolatilememory.h hasasmvolatilememory.h-yes'
 echo 'hasasmvolatilememory.h default.h-no'
