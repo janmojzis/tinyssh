@@ -2,22 +2,30 @@
 
 #crypto_uint*/crypto_int*
 echo 'crypto_int8.h crypto_int8.h-char'
+echo 'crypto_int8.h crypto_int8.h-stdint'
 echo 'crypto_uint8.h crypto_uint8.h-char'
+echo 'crypto_uint8.h crypto_uint8.h-stdint'
 
 echo 'crypto_int16.h crypto_int16.h-short'
+echo 'crypto_int16.h crypto_int16.h-stdint'
 echo 'crypto_uint16.h crypto_uint16.h-short'
+echo 'crypto_uint16.h crypto_uint16.h-stdint'
 
 echo 'crypto_int32.h crypto_int32.h-int'
 echo 'crypto_int32.h crypto_int32.h-long'
+echo 'crypto_int32.h crypto_int32.h-stdint'
 echo 'crypto_uint32.h crypto_uint32.h-int'
 echo 'crypto_uint32.h crypto_uint32.h-long'
+echo 'crypto_uint32.h crypto_uint32.h-stdint'
 
 echo 'crypto_int64.h crypto_int64.h-longlong'
 echo 'crypto_int64.h crypto_int64.h-long'
 echo 'crypto_int64.h crypto_int64.h-attr'
+echo 'crypto_int64.h crypto_int64.h-stdint'
 echo 'crypto_uint64.h crypto_uint64.h-longlong'
 echo 'crypto_uint64.h crypto_uint64.h-long'
 echo 'crypto_uint64.h crypto_uint64.h-attr'
+echo 'crypto_uint64.h crypto_uint64.h-stdint'
 
 #mlock
 echo 'hasmlock.h hasmlock.h-yes'

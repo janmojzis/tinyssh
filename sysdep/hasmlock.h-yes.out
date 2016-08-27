@@ -1,0 +1,1 @@
+#define HASMLOCK 1

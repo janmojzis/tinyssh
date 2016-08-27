@@ -1,0 +1,1 @@
+#define HASOPENPTY 1
