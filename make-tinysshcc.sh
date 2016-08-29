@@ -76,7 +76,7 @@ mkdir -p "${work}"
 
   for i in ${cflags}; do
     echo 'int main(void) { return 0; }' > try.c
-    ${compiler} "${i}" -o try try.c || { log2 "${i} failed"; continue; }
+    ${compiler} ${options} "${i}" -o try try.c || { log2 "${i} failed"; continue; }
     options="${options} ${i}"
     log2 "${i} ok"
   done
