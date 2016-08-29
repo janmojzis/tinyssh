@@ -1,3 +1,8 @@
+crypto_int64 0
+crypto_uint16 0
+crypto_uint32 0
+crypto_uint64 0
+crypto_uint8 0
 crypto_stream_chacha20 1
 crypto_onetimeauth_poly1305 1
 crypto_auth_hmacsha256 1

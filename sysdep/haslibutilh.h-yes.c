@@ -1,9 +1,7 @@
 /* Public domain. */
-#include <stdio.h>
 #include <libutil.h>
 
-int main(void) {
-
-    printf("#define HASLIBUTILH 1\n");
+int foo(void);
+int foo(void) {
     return 0;
 }

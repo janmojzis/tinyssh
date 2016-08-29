@@ -1,5 +1,4 @@
 /* Public domain. */
-#include <stdio.h>
 #include <time.h>
 #include <sys/time.h>
 #include <utmp.h>
@@ -7,16 +6,9 @@
 extern void login(const struct utmp *);
 extern int logout(const char *);
 
-static void fce(void) {
+void foo(const struct utmp *ut);
+void foo(const struct utmp *ut) {
 
-    struct utmp ut = {0};
-
-    login(&ut);
-    logout(ut.ut_line);
-}
-
-int main(void) {
-
-    printf("#define HASUTMPLOGINLOGOUT 1\n");
-    return 0;
+    login(ut);
+    logout(ut->ut_line);
 }

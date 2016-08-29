@@ -1,18 +1,10 @@
 /* Public domain. */
-#include <stdio.h>
 #include <sys/mman.h>
-#include <stdlib.h>
 
-int main(void) {
+int foo(char *x, size_t xlen);
+int foo(char *x, size_t xlen) {
 
-    size_t len = 16;
-    char *x;
-
-    x = (char *)malloc(len);
-    if (!x) return 1;
-    if (mlock(x, len) == -1) return 1;
-    if (munlock(x, len) == -1) return 1;
-    printf("/* Public domain. */\n\n");
-    printf("#define HASMLOCK 1\n");
+    if (mlock(x, xlen) == -1) return 1;
+    if (munlock(x, xlen) == -1) return 1;
     return 0;
 }

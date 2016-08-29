@@ -1,23 +1,14 @@
 /* Public domain. */
-#include <stdio.h>
 #include <utmpx.h>
 
-static void fce(void) {
+void foo(struct utmpx *ut);
+void foo(struct utmpx *ut) {
 
-    struct utmpx ut;
-
-    ut.ut_type = DEAD_PROCESS;
-    ut.ut_type = USER_PROCESS;
-    ut.ut_type = 0;
+    ut->ut_type = DEAD_PROCESS;
+    ut->ut_type = USER_PROCESS;
+    ut->ut_type = 0;
 
     setutxent();
-    pututxline(&ut);
+    pututxline(ut);
     endutxent();
 }
-
-int main(void) {
-
-    printf("#define HASUTMPX 1\n");
-    return 0;
-}
-
