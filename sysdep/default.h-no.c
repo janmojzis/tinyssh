@@ -1,6 +1,5 @@
-#include <stdio.h>
-
-int main(void) {
-    printf("\n");
+/* Public domain. */
+int foo(void);
+int foo(void) {
     return 0;
 }

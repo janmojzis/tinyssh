@@ -1,13 +1,7 @@
 /* Public domain. */
-#include <stdio.h>
 #include <utmpx.h>
 
-int main(void) {
-
-    struct utmpx ut = {0};
-
-    ut.ut_syslen = 0;
-
-    printf("#define HASUTMPXSYSLEN 1\n");
-    return 0;
+int foo(struct utmpx *ut);
+int foo(struct utmpx *ut) {
+    return ut->ut_syslen;
 }
