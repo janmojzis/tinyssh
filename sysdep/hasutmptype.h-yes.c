@@ -8,6 +8,6 @@ int foo(struct utmp *ut) {
 
     struct utmp ut;
 
-    ut.ut_type = USER_PROCESS | DEAD_PROCESS;
-    return ut.ut_type;
+    ut->ut_type = USER_PROCESS | DEAD_PROCESS;
+    return ut->ut_type;
 }
