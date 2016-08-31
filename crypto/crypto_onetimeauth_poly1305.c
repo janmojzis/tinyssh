@@ -8,9 +8,28 @@ Based on poly1305-donna (https://github.com/floodyberry/poly1305-opt/blob/master
 #include "crypto_uint32.h"
 #include "crypto_uint64.h"
 #include "crypto_verify_16.h"
-#include "uint32_pack.h"
-#include "uint32_unpack.h"
+#include "order.h"
 #include "crypto_onetimeauth_poly1305.h"
+
+#ifdef ORDER_LITTLEENDIAN
+#define pack(y, x) *(crypto_uint32 *)(y) = (x)
+#define unpack(x) *(crypto_uint32 *)(x)
+#else
+static crypto_uint32 unpack(const unsigned char *x) {
+    return
+        (crypto_uint32) (x[0])                  \
+    | (((crypto_uint32) (x[1])) << 8)           \
+    | (((crypto_uint32) (x[2])) << 16)          \
+    | (((crypto_uint32) (x[3])) << 24);
+}
+static void pack(unsigned char *x, crypto_uint32 u) {
+    x[0] = u; u >>= 8;
+    x[1] = u; u >>= 8;
+    x[2] = u; u >>= 8;
+    x[3] = u;
+}
+#endif
+
 
 int crypto_onetimeauth_poly1305_tinynacl(unsigned char *o, const unsigned char *m, unsigned long long n, const unsigned char *k) {
 
@@ -24,11 +43,11 @@ int crypto_onetimeauth_poly1305_tinynacl(unsigned char *o, const unsigned char *
 
 
     /* r &= 0xffffffc0ffffffc0ffffffc0fffffff */
-    r0 = (uint32_unpack(k +  0)     ) & 0x3ffffff;
-    r1 = (uint32_unpack(k +  3) >> 2) & 0x3ffff03;
-    r2 = (uint32_unpack(k +  6) >> 4) & 0x3ffc0ff;
-    r3 = (uint32_unpack(k +  9) >> 6) & 0x3f03fff;
-    r4 = (uint32_unpack(k + 12) >> 8) & 0x00fffff;
+    r0 = (unpack(k +  0)     ) & 0x3ffffff;
+    r1 = (unpack(k +  3) >> 2) & 0x3ffff03;
+    r2 = (unpack(k +  6) >> 4) & 0x3ffc0ff;
+    r3 = (unpack(k +  9) >> 6) & 0x3f03fff;
+    r4 = (unpack(k + 12) >> 8) & 0x00fffff;
 
     s1 = r1 * 5;
     s2 = r2 * 5;
@@ -42,22 +61,23 @@ int crypto_onetimeauth_poly1305_tinynacl(unsigned char *o, const unsigned char *
 
         /* h += m[i] */
         if (n >= 16) {
-            h0 += (uint32_unpack(m +  0)     ) & 0x3ffffff;
-            h1 += (uint32_unpack(m +  3) >> 2) & 0x3ffffff;
-            h2 += (uint32_unpack(m +  6) >> 4) & 0x3ffffff;
-            h3 += (uint32_unpack(m +  9) >> 6) & 0x3ffffff;
-            h4 += (uint32_unpack(m + 12) >> 8) | 16777216;
+            h0 += (unpack(m +  0)     ) & 0x3ffffff;
+            h1 += (unpack(m +  3) >> 2) & 0x3ffffff;
+            h2 += (unpack(m +  6) >> 4) & 0x3ffffff;
+            h3 += (unpack(m +  9) >> 6) & 0x3ffffff;
+            h4 += (unpack(m + 12) >> 8) | 16777216;
         }
         else {
-            unsigned char mm[16];
+            unsigned char mmspace[16];
+            unsigned char *mm = mmspace;
             for (i = 0; i < 16; ++i) mm[i] = 0;
             for (i = 0; i <  n; ++i) mm[i] = m[i];
             mm[i] = 1;
-            h0 += (uint32_unpack(mm +  0)     ) & 0x3ffffff;
-            h1 += (uint32_unpack(mm +  3) >> 2) & 0x3ffffff;
-            h2 += (uint32_unpack(mm +  6) >> 4) & 0x3ffffff;
-            h3 += (uint32_unpack(mm +  9) >> 6) & 0x3ffffff;
-            h4 += (uint32_unpack(mm + 12) >> 8);
+            h0 += (unpack(mm +  0)     ) & 0x3ffffff;
+            h1 += (unpack(mm +  3) >> 2) & 0x3ffffff;
+            h2 += (unpack(mm +  6) >> 4) & 0x3ffffff;
+            h3 += (unpack(mm +  9) >> 6) & 0x3ffffff;
+            h4 += (unpack(mm + 12) >> 8);
         }
 
         /* h *= r */
@@ -117,22 +137,16 @@ int crypto_onetimeauth_poly1305_tinynacl(unsigned char *o, const unsigned char *
     h3 = ((h3 >> 18) | (h4 <<  8)) & 0xffffffff;
 
     /* mac = (h + pad) % (2^128) */
-    f = (crypto_uint64)h0 + uint32_unpack(k + 16)            ; h0 = (crypto_uint32)f;
-    f = (crypto_uint64)h1 + uint32_unpack(k + 20) + (f >> 32); h1 = (crypto_uint32)f;
-    f = (crypto_uint64)h2 + uint32_unpack(k + 24) + (f >> 32); h2 = (crypto_uint32)f;
-    f = (crypto_uint64)h3 + uint32_unpack(k + 28) + (f >> 32); h3 = (crypto_uint32)f;
+    f = (crypto_uint64)h0 + unpack(k + 16)            ; h0 = (crypto_uint32)f;
+    f = (crypto_uint64)h1 + unpack(k + 20) + (f >> 32); h1 = (crypto_uint32)f;
+    f = (crypto_uint64)h2 + unpack(k + 24) + (f >> 32); h2 = (crypto_uint32)f;
+    f = (crypto_uint64)h3 + unpack(k + 28) + (f >> 32); h3 = (crypto_uint32)f;
 
-    uint32_pack(o +  0, h0);
-    uint32_pack(o +  4, h1);
-    uint32_pack(o +  8, h2);
-    uint32_pack(o + 12, h3);
+    pack(o +  0, h0);
+    pack(o +  4, h1);
+    pack(o +  8, h2);
+    pack(o + 12, h3);
 
-    /* cleanup */
-         s1 = s2 = s3 = s4 = 0;
-    h0 = h1 = h2 = h3 = h4 = 0;
-    r0 = r1 = r2 = r3 = r4 = 0;
-    d0 = d1 = d2 = d3 = d4 = 0;
-    f = c = mask = 0;
     return 0;
 }
 
