@@ -8,7 +8,6 @@ uint64_pack_big
 uint64_unpack_big
 uint32_pack_big
 uint32_unpack_big
-chacha
 crypto_stream_chacha20
 verify
 crypto_verify_16
