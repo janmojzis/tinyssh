@@ -9,4 +9,11 @@
 #define ORDER_LITTLEENDIAN
 #endif
 
+#if defined(__BYTE_ORDER__) && defined(__ORDER_LITTLE_ENDIAN__)
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+#undef ORDER_LITTLEENDIAN
+#define ORDER_LITTLEENDIAN
+#endif
+#endif
+
 #endif
