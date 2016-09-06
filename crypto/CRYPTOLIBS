@@ -12,6 +12,7 @@ crypto_stream_chacha20.o
 verify.o
 crypto_verify_16.o
 crypto_verify_32.o
+sha512.o
 crypto_hash_sha512.o
 sha256.o
 crypto_hash_sha256.o

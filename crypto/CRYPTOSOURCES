@@ -15,6 +15,7 @@ crypto_verify_32
 sha256
 crypto_hash_sha256
 crypto_auth_hmacsha256
+sha512
 crypto_hash_sha512
 fe
 fe25519
