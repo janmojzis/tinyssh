@@ -17,8 +17,8 @@ static const fe p = {
 p3 = 3 * p
 */
 static const crypto_uint64 p3[8] = { 
-    0x2ffffffc7, 0x2fffffffd, 0x2fffffffd, 0x2fffffffd,
-    0x2fffffffd, 0x2fffffffd, 0x2fffffffd, 0x17ffffffd
+    0x2ffffffc7ULL, 0x2fffffffdULL, 0x2fffffffdULL, 0x2fffffffdULL,
+    0x2fffffffdULL, 0x2fffffffdULL, 0x2fffffffdULL, 0x17ffffffdULL
 };
 
 /*
