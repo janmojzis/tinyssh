@@ -132,13 +132,13 @@ mkdir -p "${work}"
 cp -pr sysdep/* "${work}"
 (
   cd "${work}"
-  echo 'int main(void) { return 0; }' > main.c
   sh list | (
     while read target source
     do
       [ -f "${include}/${target}" ] && continue
       rm -f "${source}" "${target}.tmp" 
-      ${compiler} -O0 -o "${source}" "${source}.c" main.c ${libs} || continue
+      [ -f "${source}.out" ] || continue
+      ${compiler} -O0 -o "${source}" "${source}.c" ${libs} || continue
       cp "${source}.out" "${include}/${target}"
       log2 "${target} ${source}"
     done

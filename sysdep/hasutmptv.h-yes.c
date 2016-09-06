@@ -3,7 +3,8 @@
 #include <sys/time.h>
 #include <utmp.h>
 
-int foo(struct utmp *ut);
-int foo(struct utmp *ut) {
-    return ut->ut_tv.tv_sec + ut->ut_tv.tv_usec;
+int main(void) {
+
+    struct utmp ut = {0};
+    return ut.ut_tv.tv_sec + ut.ut_tv.tv_usec;
 }

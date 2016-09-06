@@ -1,7 +1,10 @@
 /* Public domain. */
 extern int login_tty(int);
 
-void foo(int fd);
-void foo(int fd) {
-    login_tty(fd);
+static void foo(void) {
+    login_tty(0);
+}
+
+int main(void) {
+    return 0;
 }

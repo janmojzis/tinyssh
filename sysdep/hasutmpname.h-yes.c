@@ -3,8 +3,9 @@
 #include <sys/time.h>
 #include <utmp.h>
 
-char *foo(struct utmp *ut);
-char *foo(struct utmp *ut) {
-    return ut->ut_name;
-}
+int main(void) {
 
+    struct utmp ut;
+    if (sizeof ut.ut_name < 8) return 111;
+    return 0;
+}

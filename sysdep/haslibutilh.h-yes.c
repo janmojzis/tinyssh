@@ -1,7 +1,6 @@
 /* Public domain. */
 #include <libutil.h>
 
-int foo(void);
-int foo(void) {
+int main(void) {
     return 0;
 }

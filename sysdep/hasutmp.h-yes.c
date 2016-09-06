@@ -3,7 +3,8 @@
 #include <sys/time.h>
 #include <utmp.h>
 
-struct utmp *foo(struct utmp *ut);
-struct utmp *foo(struct utmp *ut) {
-    return ut;
+int main(void) {
+
+    struct utmp ut = {0};
+    return 0;
 }
