@@ -1,7 +1,11 @@
 /* Public domain. */
 #include <utmpx.h>
 
-void foo(const char *wtmpx_file, const struct utmpx *utx);
-void foo(const char *wtmpx_file, const struct utmpx *utx) {
-    updwtmpx(wtmpx_file, utx);
+static void foo(void) {
+    struct utmpx ut = {0};
+    updwtmpx("/nonexistent", &ut);
+}
+
+int main(void) {
+    return 0;
 }

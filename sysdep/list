@@ -50,3 +50,7 @@ echo 'hasutmplogwtmp.h default.h-no'
 echo 'hasutmploginlogout.h hasutmploginlogout.h-yes'
 echo 'hasutmploginlogout.h default.h-no'
 
+#order
+echo 'order.h order.h-runtime-little'
+echo 'order.h order.h-runtime-big'
+echo 'order.h default.h-no'
