@@ -63,7 +63,21 @@ add subsystem command (e.g.: sftp=/usr/libexec/openssh/sftp\-server)
 .TP
 .I keydir
 directory containing TinySSH keys, typically /etc/tinyssh/sshkeydir
-.SH EXAMPLES
+.SH AUTHORIZATION
+.B tinysshd
+supports only public-key authorization via
+.B AuthorizedKeysFile
+~/.ssh/authorized_keys. Each line of the file contains one key in format "keytype base64-encoded-key comment".
+.B tinyssh
+supports only "ssh-ed25519" and "ecdsa-sha2-nistp256" keytypes.
+.sp
+~/.ssh/authorized_keys example:
+.nf
+.RS 2
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILV5AGhGQ1QVXjBWhTKJP3vrqE3isL4ivisBailQ14gS comment
+ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBPqVpPptLAMlCzojDM6W2x5rmzAxmOyOW0K9K3wuClgqMeguHg82Ju6IrA2YP76vhjhU8atfjM+tsfTXgplEo4o= comment
+.RE
+.SH RUNNING
 .TP
 .B TCPSERVER
 tcpserver \-HRDl0 0.0.0.0 22 /usr/sbin/tinysshd \-v /etc/tinyssh/sshkeydir &
