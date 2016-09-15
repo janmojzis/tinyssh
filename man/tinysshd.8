@@ -122,8 +122,8 @@ After=network.target auditd.service
 
 [Service]
 ExecStartPre=\-/usr/sbin/tinysshd\-makekey \-q /etc/tinyssh/sshkeydir
-EnvironmentFile=\-/etc/default/tinyssh
-ExecStart=/usr/sbin/tinysshd ${TINYSSHOPTS} \-\- /etc/tinyssh/sshkeydir
+EnvironmentFile=\-/etc/default/tinysshd
+ExecStart=/usr/sbin/tinysshd ${TINYSSHDOPTS} \-\- /etc/tinyssh/sshkeydir
 KillMode=process
 Restart=on\-failure
 StandardInput=socket
