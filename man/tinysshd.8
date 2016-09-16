@@ -95,12 +95,12 @@ ssh stream tcp nowait root /usr/sbin/tinysshd tinysshd \-l \-v /etc/tinyssh/sshk
 .TP
 .B SYSTEMD
 .RS 4
-tinyssh\-server.socket:
+tinysshd.socket:
 .RS 4
 .nf
 [Unit]
 Description=TinySSH server socket
-ConditionPathExists=!/etc/tinyssh/disable_tinysshd_tcp
+ConditionPathExists=!/etc/tinyssh/disable_tinysshd
 
 [Socket]
 ListenStream=22
@@ -113,7 +113,7 @@ WantedBy=sockets.target
 .RE
 .sp
 .RS 4
-tinyssh\-server@.service:
+tinysshd@.service:
 .RS 4
 .nf
 [Unit]
@@ -125,7 +125,6 @@ ExecStartPre=\-/usr/sbin/tinysshd\-makekey \-q /etc/tinyssh/sshkeydir
 EnvironmentFile=\-/etc/default/tinysshd
 ExecStart=/usr/sbin/tinysshd ${TINYSSHDOPTS} \-\- /etc/tinyssh/sshkeydir
 KillMode=process
-Restart=on\-failure
 StandardInput=socket
 StandardError=journal
 
