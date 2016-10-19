@@ -12,7 +12,7 @@ Public domain.
 static void droproot(void) {
 
     if (geteuid() == 0) {
-        if (!dropuidgid(0, 123000, 123000)) _exit(111);
+        if (!dropuidgid(0, 1230, 1230)) _exit(111);
     }
     if (geteuid() == 0) _exit(111);
 }
@@ -20,7 +20,7 @@ static void droproot(void) {
 
 static void test1(void) {
     droproot();
-    if (dropuidgid(0, 123001, getegid())) _exit(111);
+    if (dropuidgid(0, 1231, getegid())) _exit(111);
     _exit(0);
 }
 
