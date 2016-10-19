@@ -15,6 +15,7 @@ The 'dropuidgid' function is used to drop root privileges.
 If the process has appropriate permittions, the 'dropuidgid'
 function sets user ID and group ID of calling process to
 uid and gid.
+The 'dropuidgid' function also initialize supplementary group IDs.
 */
 int dropuidgid(const char *name, uid_t uid, gid_t gid) {
 
