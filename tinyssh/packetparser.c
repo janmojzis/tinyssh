@@ -47,7 +47,6 @@ Parse the string and copy it.
 long long packetparser_copy_(const char *fn, unsigned long long line,
                         const unsigned char *buf, long long len, long long pos, unsigned char *out, long long outlen) {
 
-    if (!buf || pos < 0 || len < 0) bug_inval_(fn, line);
     if (!buf || len < 0 || len > 1073741824 || pos < 0 || pos > 1073741824 || !out || outlen < 0 || outlen > 1073741824) bug_inval_(fn, line);
     if (pos + outlen > len) bug_proto_(fn, line);
     byte_copy(out, outlen, buf + pos);
