@@ -29,7 +29,7 @@ int channel_droppriv(char *user, char **shell) {
     }
 
     /* drop privileges */
-    if (!dropuidgid(pw->pw_uid, pw->pw_gid)) return 0;
+    if (!dropuidgid(pw->pw_name, pw->pw_uid, pw->pw_gid)) return 0;
 
     if (chdir(pw->pw_dir) == -1) return 0;
     if (!newenv_env("HOME", pw->pw_dir)) return 0;

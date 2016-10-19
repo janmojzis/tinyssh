@@ -139,7 +139,7 @@ int subprocess_auth(const char *a, const char *kname, const char *k) {
             log_w3("auth: account ", account, ": not exist");
             global_die(111);
         }
-        if (!dropuidgid(pw->pw_uid, pw->pw_gid)) {
+        if (!dropuidgid(pw->pw_name, pw->pw_uid, pw->pw_gid)) {
             log_w2("auth: unable to drop privileges to account ", account);
             global_die(111);
         }

@@ -142,7 +142,7 @@ static void droproot(void) {
     if (uid == 0) {
         pw = getpwnam("nobody");
         if (!pw) fail("getpwnam() failure")
-        if (!dropuidgid(pw->pw_uid, pw->pw_gid)) fail("dropuidgid() failure");
+        if (!dropuidgid(pw->pw_name, pw->pw_uid, pw->pw_gid)) fail("dropuidgid() failure");
     }
     else {
         pw = getpwuid(uid);
