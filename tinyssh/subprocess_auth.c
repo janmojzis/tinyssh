@@ -20,6 +20,7 @@ Public domain.
 #include "getln.h"
 #include "bug.h"
 #include "purge.h"
+#include "limit.h"
 #include "subprocess.h"
 
 static int findnameandkey(const char *keyname, const char *key, char *x) {
@@ -117,7 +118,7 @@ int subprocess_auth(const char *a, const char *kname, const char *k) {
     if (pid == -1) return -1;
     if (pid == 0) {
 
-        char account[64];
+        char account[LOGIN_NAME_MAX];
         char keyname[sshcrypto_sign_NAMEMAX];
         char key[sshcrypto_sign_BASE64PUBLICKEYMAX];
         #define path global_bspace2 /* reusing global buffer */

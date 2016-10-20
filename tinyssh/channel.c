@@ -27,6 +27,7 @@ extern char *ptsname(int);
 #include "logsys.h"
 #include "loginshell.h"
 #include "trymlock.h"
+#include "limit.h"
 #include "channel.h"
 
 /*
@@ -159,7 +160,7 @@ int channel_exec(const char *cmd) {
     char *shell;
     char *name;
     int fd[3];
-    char ln[32];
+    char ln[NAME_MAX + 2];
 
     if (channel.maxpacket == 0) bug_proto();
     if (channel.pid != 0 ) bug_proto();

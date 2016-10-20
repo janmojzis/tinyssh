@@ -4,6 +4,7 @@
 #include "crypto_uint32.h"
 #include "iptostr.h"
 #include "porttostr.h"
+#include "limit.h"
 
 #define CHANNEL_BUFSIZE 131072
 
@@ -31,8 +32,8 @@ struct channel {
     char remoteport[PORTTOSTR_LEN];
 
     /* terminal */
-    char user[64];
-    char termname[64];
+    char user[LOGIN_NAME_MAX];
+    char termname[TTY_NAME_MAX];
     int flagterminal;
     int master;
     int slave;
