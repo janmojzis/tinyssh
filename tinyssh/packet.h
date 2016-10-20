@@ -11,9 +11,8 @@ Public domain.
 #include "crypto_uint32.h"
 #include "crypto_uint8.h"
 #include "sshcrypto.h"
+#include "limit.h"
 #include "channel.h"
-
-#define PACKET_NAMESIZE 64
 
 #define PACKET_UNAUTHENTICATED_MESSAGES 30
 #define PACKET_LIMIT 32768
@@ -46,7 +45,7 @@ struct packet {
     unsigned char servernonce[sshcrypto_cipher_KEYMAX];
     unsigned char clientnonce[sshcrypto_cipher_KEYMAX];
     unsigned char sessionid[sshcrypto_hash_MAX];
-    char name[PACKET_NAMESIZE];
+    char name[LOGIN_NAME_MAX + 1];
     crypto_uint8 kex_packet_follows;
     crypto_uint8 kex_guess;
 

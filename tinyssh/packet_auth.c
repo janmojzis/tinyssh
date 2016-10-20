@@ -58,7 +58,7 @@ int packet_auth(struct buf *b, struct buf *b2) {
         pos = packetparser_uint8(b->buf, b->len, pos, &ch);         /* SSH_MSG_USERAUTH_REQUEST */
         if (ch != SSH_MSG_USERAUTH_REQUEST) bug_proto();
         pos = packetparser_uint32(b->buf, b->len, pos, &len);       /* name */
-        if (len >= PACKET_NAMESIZE) bug_proto();
+        if (len >= sizeof packet.name) bug_proto();
         pos = packetparser_copy(b->buf, b->len, pos, (unsigned char *)packet.name, len);
         packet.name[len] = 0;
         pos = packetparser_uint32(b->buf, b->len, pos, &len);       /* "ssh-connection" */
