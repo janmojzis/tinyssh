@@ -80,7 +80,7 @@ int subprocess_auth_checkpath_(char *path, long long pathlen, uid_t uid) {
     return (err == 0);
 }
 
-int subprocess_auth_authorizedkeys_(char *keyname, char *key, char *dir, char *buf, long long bufmax) {
+int subprocess_auth_authorizedkeys_(const char *keyname, const char *key, const char *dir, char *buf, long long bufmax) {
 
     int fd = -1;
     int r;
