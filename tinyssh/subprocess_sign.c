@@ -16,7 +16,6 @@ Public domain.
 #include "bug.h"
 #include "e.h"
 #include "purge.h"
-#include "byte.h"
 #include "readall.h"
 #include "blocking.h"
 #include "sshcrypto.h"
