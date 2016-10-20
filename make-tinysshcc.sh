@@ -36,6 +36,9 @@ log2() {
 }
 
 version=`head -1 "${top}/debian/changelog"  | cut -d '(' -f2 | cut -d ')' -f1` #XXX
+if [ x"${version}" = x ]; then
+  version=noversion
+fi
 
 LANG=C
 export LANG
