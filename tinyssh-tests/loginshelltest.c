@@ -9,6 +9,8 @@ Public domain.
 #include "fail.h"
 #include "loginshell.h"
 
+static char buf[10];
+
 static struct vector {
     const char *in;
     const char *out;
@@ -28,13 +30,14 @@ static struct vector {
     { "/bin/bash", "-bash" },
     { "///////dash", "-dash" },
     { "///////-ksh", "--ksh" },
+    /* truncation */
+    { "longlongsh", "-longlong" },
     { 0, 0 }
 };
 
 static void testok(void) {
 
     long long i, len;
-    char buf[10];
 
     for (i = 0; vectors[i].in; ++i) {
         if (!loginshell(buf, sizeof buf, vectors[i].in)) fail("loginshell failure");
@@ -46,13 +49,10 @@ static void testok(void) {
 
 static void testbad(void) {
 
-    char buf[10];
-
     if (loginshell(buf, -1, "")) fail("loginshell failure");
     if (loginshell(buf, 0, "")) fail("loginshell failure");
     if (loginshell(buf, 1, "")) fail("loginshell failure");
     if (loginshell(buf, 1, "//")) fail("loginshell failure");
-    if (loginshell(buf, 3, "/bin/sh")) fail("loginshell failure");
 }
 
 
