@@ -1,4 +1,4 @@
-/* taken from nacl-20110221, from randombytes/devurandom.c */
+/* taken from nacl-20110221, from randombytes/devurandom.c, added close-on-exec */
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -15,7 +15,12 @@ void randombytes(unsigned char *x,unsigned long long xlen)
 
   if (fd == -1) {
     for (;;) {
+#ifdef O_CLOEXEC
+      fd = open("/dev/urandom",O_RDONLY | O_CLOEXEC);
+#else
       fd = open("/dev/urandom",O_RDONLY);
+      fcntl(fd,F_SETFD,1);
+#endif
       if (fd != -1) break;
       sleep(1);
     }
