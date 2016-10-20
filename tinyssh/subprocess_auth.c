@@ -118,7 +118,7 @@ int subprocess_auth(const char *a, const char *kname, const char *k) {
     if (pid == -1) return -1;
     if (pid == 0) {
 
-        char account[LOGIN_NAME_MAX];
+        char account[LOGIN_NAME_MAX + 1];
         char keyname[sshcrypto_sign_NAMEMAX];
         char key[sshcrypto_sign_BASE64PUBLICKEYMAX];
         #define path global_bspace2 /* reusing global buffer */

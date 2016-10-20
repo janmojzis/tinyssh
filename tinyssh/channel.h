@@ -32,8 +32,8 @@ struct channel {
     char remoteport[PORTTOSTR_LEN];
 
     /* terminal */
-    char user[LOGIN_NAME_MAX];
-    char termname[TTY_NAME_MAX];
+    char user[LOGIN_NAME_MAX + 1];
+    char termname[TTY_NAME_MAX + 1];
     int flagterminal;
     int master;
     int slave;
