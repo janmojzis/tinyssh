@@ -16,10 +16,8 @@ Public domain.
 #include "e.h"
 #include "log.h"
 #include "sshcrypto.h"
-#include "byte.h"
 #include "getln.h"
 #include "bug.h"
-#include "purge.h"
 #include "limit.h"
 #include "subprocess.h"
 
@@ -109,7 +107,7 @@ int subprocess_auth_authorizedkeys_(char *keyname, char *key, char *dir, char *b
 The 'subprocess_auth' is used for authorization using 
 ~/.ssh/authorized_keys file.
 */
-int subprocess_auth(const char *a, const char *kname, const char *k) {
+int subprocess_auth(const char *account, const char *keyname, const char *key) {
 
     pid_t pid;
     int status;
@@ -118,21 +116,11 @@ int subprocess_auth(const char *a, const char *kname, const char *k) {
     if (pid == -1) return -1;
     if (pid == 0) {
 
-        char account[LOGIN_NAME_MAX + 1];
-        char keyname[sshcrypto_sign_NAMEMAX];
-        char key[sshcrypto_sign_BASE64PUBLICKEYMAX];
-        #define path global_bspace2 /* reusing global buffer */
-        #define buf global_bspace1 /* reusing global buffer */
+        #define buf global_bspace2 /* reusing global buffer */
         struct passwd *pw;
 
-        if (!a || !kname || !k) bug_inval();
-        if (sshcrypto_sign_BASE64PUBLICKEYMIN > str_len(k) + 1) bug_inval();
-
-        /* copy account, keyname, key on stack and clean global buffers  */
-        if (!str_copyn(account, sizeof account, a)) bug_inval();
-        if (!str_copyn(keyname, sizeof keyname, kname)) bug_inval();
-        if (!str_copyn(key, sizeof key, k)) bug_inval();
-        global_purge();
+        if (!account || !keyname || !key) bug_inval();
+        if (sshcrypto_sign_BASE64PUBLICKEYMIN > str_len(key) + 1) bug_inval();
 
         /* drop privileges */
         pw = getpwnam(account);
@@ -156,7 +144,7 @@ int subprocess_auth(const char *a, const char *kname, const char *k) {
         }
 
         /* authorization starts here */
-        if (!subprocess_auth_checkpath_((char *)path, sizeof path, pw->pw_uid)) global_die(111);
+        if (!subprocess_auth_checkpath_((char *)buf, sizeof buf, pw->pw_uid)) global_die(111);
         if (!subprocess_auth_authorizedkeys_(keyname, key, pw->pw_dir, (char *)buf, sizeof buf))  global_die(111);
         /* authorization ends here */
 
