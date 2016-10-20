@@ -54,3 +54,7 @@ echo 'hasutmploginlogout.h default.h-no'
 echo 'order.h order.h-runtime-little'
 echo 'order.h order.h-runtime-big'
 echo 'order.h default.h-no'
+
+#limits
+echo 'haslimits.h haslimits.h-yes'
+echo 'haslimits.h default.h-no'
