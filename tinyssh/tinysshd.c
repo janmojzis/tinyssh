@@ -33,8 +33,8 @@ static int flagverbose = 1;
 static int fdwd;
 static int flaglogger = 0;
 
-static struct buf b1 = {global_bspace1, 0, GLOBAL_BSIZE};
-static struct buf b2 = {global_bspace2, 0, GLOBAL_BSIZE};
+static struct buf b1 = {global_bspace1, 0, sizeof global_bspace1};
+static struct buf b2 = {global_bspace2, 0, sizeof global_bspace2};
 
 static void timeout(int x) {
     errno = x = ETIMEDOUT;
