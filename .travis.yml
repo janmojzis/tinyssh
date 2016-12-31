@@ -1,0 +1,22 @@
+language: c
+
+os:
+  - linux
+  - osx
+osx_image: xcode7.3
+
+cache:
+  ccache: true
+
+# opt-in Ubuntu Trusty
+sudo: required
+dist: trusty
+
+
+script:
+  - cd "$TRAVIS_BUILD_DIR"
+  - make -j2
+
+after_success:
+  - cd "$TRAVIS_BUILD_DIR"
+  - sudo make install
