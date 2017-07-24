@@ -7,6 +7,7 @@ int crypto_scalarmult_curve25519_tinynacl(unsigned char *q, const unsigned char 
     unsigned char e[32];
     fe x1, x2, z2, x3, z3, tmp0, tmp1;
     long long i;
+    unsigned int d = 0;
     int pos;
     crypto_uint32 swap, b;
 
@@ -60,7 +61,9 @@ int crypto_scalarmult_curve25519_tinynacl(unsigned char *q, const unsigned char 
     cleanup(tmp0); cleanup(tmp1);
     cleanup(x1); cleanup(x2); cleanup(x3);
     cleanup(z2); cleanup(z3);
-    return 0;
+
+    for (i = 0; i < 32; ++i) d |= q[i];
+    return -(1 & ((d - 1) >> 8));
 }
 
 static const unsigned char basepoint[32] = {9};
