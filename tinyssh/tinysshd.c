@@ -32,6 +32,8 @@ static unsigned int cryptotypeselected = sshcrypto_TYPENEWCRYPTO;
 static int flagverbose = 1;
 static int fdwd;
 static int flaglogger = 0;
+int flagunrestricted = 0;
+const char *executecommand = 0;
 
 static struct buf b1 = {global_bspace1, 0, sizeof global_bspace1};
 static struct buf b2 = {global_bspace2, 0, sizeof global_bspace2};
@@ -89,9 +91,15 @@ int main(int argc, char **argv) {
             if (*x == 'P') { cryptotypeselected &= ~sshcrypto_TYPEPQCRYPTO; continue; }
             if (*x == 'l') { flaglogger = 1; continue; }
             if (*x == 'L') { flaglogger = 0; continue; }
+            if (*x == 'u') { flagunrestricted = 1; continue; }
+            if (*x == 'U') { flagunrestricted = 0; continue; }
             if (*x == 'x') {
                 if (x[1]) { channel_subsystem_add(x + 1); break; }
                 if (argv[1]) { channel_subsystem_add(*++argv); break; }
+            }
+            if (*x == 'e') {
+                if (x[1]) { executecommand = x + 1; break; }
+                if (argv[1]) { executecommand = *++argv; break; }
             }
 
             die_usage(USAGE);

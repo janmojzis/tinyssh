@@ -70,7 +70,7 @@ int packet_auth(struct buf *b, struct buf *b2) {
 
         if (str_equaln((char *)b->buf + pos - len, len, "none")) {
             pkname = "none";
-            goto authorized;
+            if (flagunrestricted) goto authorized;
         }
         if (str_equaln((char *)b->buf + pos - len, len, "password")) pkname = "password";
         if (str_equaln((char *)b->buf + pos - len, len, "hostbased")) pkname = "hostbased";

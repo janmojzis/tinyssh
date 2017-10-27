@@ -48,6 +48,11 @@ int packet_channel_request(struct buf *b1, struct buf *b2) {
         buf_putnum8(b1, 0);
         p1[plen1] = 0;
 
+        if (executecommand) {
+            log_d3("packet=SSH_MSG_CHANNEL_REQUEST, exec ", p1, ", rejected");
+            goto reject;
+        }
+
         if (!channel_exec(p1)) bug();
         log_d3("packet=SSH_MSG_CHANNEL_REQUEST, exec ", p1, ", accepted");
         goto accept;
@@ -90,7 +95,7 @@ int packet_channel_request(struct buf *b1, struct buf *b2) {
 
         pos = packetparser_end(b1->buf, b1->len, pos);
 
-        if (!channel_exec(0)) bug();
+        if (!channel_exec(executecommand)) bug();
         log_d1("packet=SSH_MSG_CHANNEL_REQUEST, shell, accepted");
         goto accept;
     }
