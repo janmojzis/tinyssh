@@ -104,8 +104,8 @@ extern int packet_kex_receive(void);
 extern int packet_kexdh(const char *, struct buf *, struct buf *);
 
 /* packet_auth.c */
-extern int flagunrestricted;
 extern const char *executecommand;
+extern const char *guestuser;
 extern int packet_auth(struct buf *, struct buf *);
 
 /* packet_channel_open.c */
