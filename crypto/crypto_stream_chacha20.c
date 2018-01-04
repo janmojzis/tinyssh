@@ -6,13 +6,8 @@ Public domain.
 
 #include "crypto_uint32.h"
 #include "crypto_uint64.h"
-#include "order.h"
 #include "crypto_stream_chacha20.h"
 
-#ifdef ORDER_LITTLEENDIAN
-#define pack32(y, x) *(crypto_uint32 *)(y) = (x)
-#define unpack32(x) *(crypto_uint32 *)(x)
-#else
 static crypto_uint32 unpack32(const unsigned char *x) {
     return
         (crypto_uint32) (x[0])                  \
@@ -26,7 +21,6 @@ static void pack32(unsigned char *x, crypto_uint32 u) {
     x[2] = u; u >>= 8;
     x[3] = u;
 }
-#endif
 
 #define ROTATE32(x, c) ((x) << (c)) | (((x) & 0xffffffff) >> (32 - (c)))
 

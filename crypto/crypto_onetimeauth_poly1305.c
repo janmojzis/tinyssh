@@ -8,13 +8,8 @@ Based on poly1305-donna (https://github.com/floodyberry/poly1305-opt/blob/master
 #include "crypto_uint32.h"
 #include "crypto_uint64.h"
 #include "crypto_verify_16.h"
-#include "order.h"
 #include "crypto_onetimeauth_poly1305.h"
 
-#ifdef ORDER_LITTLEENDIAN
-#define pack(y, x) *(crypto_uint32 *)(y) = (x)
-#define unpack(x) *(crypto_uint32 *)(x)
-#else
 static crypto_uint32 unpack(const unsigned char *x) {
     return
         (crypto_uint32) (x[0])                  \
@@ -28,8 +23,6 @@ static void pack(unsigned char *x, crypto_uint32 u) {
     x[2] = u; u >>= 8;
     x[3] = u;
 }
-#endif
-
 
 int crypto_onetimeauth_poly1305_tinynacl(unsigned char *o, const unsigned char *m, unsigned long long n, const unsigned char *k) {
 
