@@ -1,23 +1,21 @@
 /*
+20180104
+*/
+/*
 Based on poly1305-donna (https://github.com/floodyberry/poly1305-opt/blob/master/extensions/poly1305_ref-32.c)
-- updated unsigned long types to crypto_uint
 - modified for NaCl API
-- added suffix _tinynacl
 */
 
-#include "crypto_uint32.h"
-#include "crypto_uint64.h"
-#include "crypto_verify_16.h"
 #include "crypto_onetimeauth_poly1305.h"
 
-static crypto_uint32 unpack(const unsigned char *x) {
+static unsigned long unpack(const unsigned char *x) {
     return
-        (crypto_uint32) (x[0])                  \
-    | (((crypto_uint32) (x[1])) << 8)           \
-    | (((crypto_uint32) (x[2])) << 16)          \
-    | (((crypto_uint32) (x[3])) << 24);
+        (unsigned long) (x[0])                  \
+    | (((unsigned long) (x[1])) << 8)           \
+    | (((unsigned long) (x[2])) << 16)          \
+    | (((unsigned long) (x[3])) << 24);
 }
-static void pack(unsigned char *x, crypto_uint32 u) {
+static void pack(unsigned char *x, unsigned long u) {
     x[0] = u; u >>= 8;
     x[1] = u; u >>= 8;
     x[2] = u; u >>= 8;
@@ -26,12 +24,12 @@ static void pack(unsigned char *x, crypto_uint32 u) {
 
 int crypto_onetimeauth_poly1305_tinynacl(unsigned char *o, const unsigned char *m, unsigned long long n, const unsigned char *k) {
 
-    crypto_uint32 h0, h1, h2, h3, h4;
-    crypto_uint32 r0, r1, r2, r3, r4;
-    crypto_uint32     s1, s2, s3, s4;
-    crypto_uint64 d0, d1, d2, d3, d4;
-    crypto_uint32 c, mask;
-    crypto_uint64 f;
+    unsigned long h0, h1, h2, h3, h4;
+    unsigned long r0, r1, r2, r3, r4;
+    unsigned long     s1, s2, s3, s4;
+    unsigned long long d0, d1, d2, d3, d4;
+    unsigned long c, mask;
+    unsigned long long f;
     long long i;
 
 
@@ -54,19 +52,18 @@ int crypto_onetimeauth_poly1305_tinynacl(unsigned char *o, const unsigned char *
 
         /* h += m[i] */
         if (n >= 16) {
-            h0 += (unpack(m +  0)     ) & 0x3ffffff;
+            h0 += (unpack(m     )     ) & 0x3ffffff;
             h1 += (unpack(m +  3) >> 2) & 0x3ffffff;
             h2 += (unpack(m +  6) >> 4) & 0x3ffffff;
             h3 += (unpack(m +  9) >> 6) & 0x3ffffff;
             h4 += (unpack(m + 12) >> 8) | 16777216;
         }
         else {
-            unsigned char mmspace[16];
-            unsigned char *mm = mmspace;
+            unsigned char mm[16];
             for (i = 0; i < 16; ++i) mm[i] = 0;
             for (i = 0; i <  n; ++i) mm[i] = m[i];
             mm[i] = 1;
-            h0 += (unpack(mm +  0)     ) & 0x3ffffff;
+            h0 += (unpack(mm     )     ) & 0x3ffffff;
             h1 += (unpack(mm +  3) >> 2) & 0x3ffffff;
             h2 += (unpack(mm +  6) >> 4) & 0x3ffffff;
             h3 += (unpack(mm +  9) >> 6) & 0x3ffffff;
@@ -74,18 +71,18 @@ int crypto_onetimeauth_poly1305_tinynacl(unsigned char *o, const unsigned char *
         }
 
         /* h *= r */
-        d0 = ((crypto_uint64)h0 * r0) + ((crypto_uint64)h1 * s4) + ((crypto_uint64)h2 * s3) + ((crypto_uint64)h3 * s2) + ((crypto_uint64)h4 * s1);
-        d1 = ((crypto_uint64)h0 * r1) + ((crypto_uint64)h1 * r0) + ((crypto_uint64)h2 * s4) + ((crypto_uint64)h3 * s3) + ((crypto_uint64)h4 * s2);
-        d2 = ((crypto_uint64)h0 * r2) + ((crypto_uint64)h1 * r1) + ((crypto_uint64)h2 * r0) + ((crypto_uint64)h3 * s4) + ((crypto_uint64)h4 * s3);
-        d3 = ((crypto_uint64)h0 * r3) + ((crypto_uint64)h1 * r2) + ((crypto_uint64)h2 * r1) + ((crypto_uint64)h3 * r0) + ((crypto_uint64)h4 * s4);
-        d4 = ((crypto_uint64)h0 * r4) + ((crypto_uint64)h1 * r3) + ((crypto_uint64)h2 * r2) + ((crypto_uint64)h3 * r1) + ((crypto_uint64)h4 * r0);
+        d0 = ((unsigned long long)h0 * r0) + ((unsigned long long)h1 * s4) + ((unsigned long long)h2 * s3) + ((unsigned long long)h3 * s2) + ((unsigned long long)h4 * s1);
+        d1 = ((unsigned long long)h0 * r1) + ((unsigned long long)h1 * r0) + ((unsigned long long)h2 * s4) + ((unsigned long long)h3 * s3) + ((unsigned long long)h4 * s2);
+        d2 = ((unsigned long long)h0 * r2) + ((unsigned long long)h1 * r1) + ((unsigned long long)h2 * r0) + ((unsigned long long)h3 * s4) + ((unsigned long long)h4 * s3);
+        d3 = ((unsigned long long)h0 * r3) + ((unsigned long long)h1 * r2) + ((unsigned long long)h2 * r1) + ((unsigned long long)h3 * r0) + ((unsigned long long)h4 * s4);
+        d4 = ((unsigned long long)h0 * r4) + ((unsigned long long)h1 * r3) + ((unsigned long long)h2 * r2) + ((unsigned long long)h3 * r1) + ((unsigned long long)h4 * r0);
 
         /* (partial) h %= p */
-                      c = (crypto_uint32)(d0 >> 26); h0 = (crypto_uint32)d0 & 0x3ffffff;
-        d1 += c;      c = (crypto_uint32)(d1 >> 26); h1 = (crypto_uint32)d1 & 0x3ffffff;
-        d2 += c;      c = (crypto_uint32)(d2 >> 26); h2 = (crypto_uint32)d2 & 0x3ffffff;
-        d3 += c;      c = (crypto_uint32)(d3 >> 26); h3 = (crypto_uint32)d3 & 0x3ffffff;
-        d4 += c;      c = (crypto_uint32)(d4 >> 26); h4 = (crypto_uint32)d4 & 0x3ffffff;
+                      c = (unsigned long)(d0 >> 26); h0 = (unsigned long)d0 & 0x3ffffff;
+        d1 += c;      c = (unsigned long)(d1 >> 26); h1 = (unsigned long)d1 & 0x3ffffff;
+        d2 += c;      c = (unsigned long)(d2 >> 26); h2 = (unsigned long)d2 & 0x3ffffff;
+        d3 += c;      c = (unsigned long)(d3 >> 26); h3 = (unsigned long)d3 & 0x3ffffff;
+        d4 += c;      c = (unsigned long)(d4 >> 26); h4 = (unsigned long)d4 & 0x3ffffff;
         h0 += c * 5;  c =                (h0 >> 26); h0 =                h0 & 0x3ffffff;
         h1 += c;
 
@@ -110,7 +107,7 @@ int crypto_onetimeauth_poly1305_tinynacl(unsigned char *o, const unsigned char *
     r4 = h4 + c - (1 << 26);
 
     /* select h if h < p, or h + -p if h >= p */
-    mask = (r4 >> ((sizeof(crypto_uint32) * 8) - 1)) - 1;
+    mask = (r4 >> ((sizeof(unsigned long) * 8) - 1)) - 1;
     r0 &= mask;
     r1 &= mask;
     r2 &= mask;
@@ -130,10 +127,10 @@ int crypto_onetimeauth_poly1305_tinynacl(unsigned char *o, const unsigned char *
     h3 = ((h3 >> 18) | (h4 <<  8)) & 0xffffffff;
 
     /* mac = (h + pad) % (2^128) */
-    f = (crypto_uint64)h0 + unpack(k + 16)            ; h0 = (crypto_uint32)f;
-    f = (crypto_uint64)h1 + unpack(k + 20) + (f >> 32); h1 = (crypto_uint32)f;
-    f = (crypto_uint64)h2 + unpack(k + 24) + (f >> 32); h2 = (crypto_uint32)f;
-    f = (crypto_uint64)h3 + unpack(k + 28) + (f >> 32); h3 = (crypto_uint32)f;
+    f = (unsigned long long)h0 + unpack(k + 16)            ; h0 = (unsigned long)f;
+    f = (unsigned long long)h1 + unpack(k + 20) + (f >> 32); h1 = (unsigned long)f;
+    f = (unsigned long long)h2 + unpack(k + 24) + (f >> 32); h2 = (unsigned long)f;
+    f = (unsigned long long)h3 + unpack(k + 28) + (f >> 32); h3 = (unsigned long)f;
 
     pack(o +  0, h0);
     pack(o +  4, h1);
@@ -146,7 +143,11 @@ int crypto_onetimeauth_poly1305_tinynacl(unsigned char *o, const unsigned char *
 int crypto_onetimeauth_poly1305_tinynacl_verify(const unsigned char *h, const unsigned char *in, unsigned long long l, const unsigned char *k) {
 
     unsigned char correct[16];
+    unsigned int d = 0;
+    long long i;
 
-    crypto_onetimeauth_poly1305_tinynacl(correct, in, l, k);
-    return crypto_verify_16(h, correct);
+    crypto_onetimeauth_poly1305(correct, in, l, k);
+
+    for (i = 0; i < 16; ++i) d |= correct[i] ^ h[i];
+    return (1 & ((d - 1) >> 8)) - 1;
 }
