@@ -11,6 +11,13 @@ Public domain.
 #define SCALARBYTES crypto_scalarmult_curve25519_SCALARBYTES
 
 static unsigned char pk[BYTES];
+static unsigned char sk1[SCALARBYTES + 16];
+static unsigned char pk1[BYTES + 16];
+static unsigned char k1[BYTES + 16];
+static unsigned char sk2[SCALARBYTES + 16];
+static unsigned char pk2[BYTES + 16];
+static unsigned char k2[BYTES + 16];
+
 
 static unsigned char S[BYTES] = { 9 };
 
@@ -97,13 +104,6 @@ static void test_scalarmult(void) {
 static void test_random(void) {
 
     long long i, j;
-    unsigned char sk1[SCALARBYTES + 16];
-    unsigned char pk1[BYTES + 16];
-    unsigned char k1[BYTES + 16];
-    unsigned char sk2[SCALARBYTES + 16];
-    unsigned char pk2[BYTES + 16];
-    unsigned char k2[BYTES + 16];
-
 
     for (i = 0; i < 16; ++i) {
         unsaferandombytes(sk1 + i, SCALARBYTES);
