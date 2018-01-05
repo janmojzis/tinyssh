@@ -46,6 +46,7 @@ export LANG
 log0 "uname -a: `uname -a || :`"
 log0 "uname -F: `uname -F || :`"
 log0 "uname -M: `uname -M || :`"
+log0 "ulimit -a: `echo; ulimit -a || :`"
 
 log1 "obtaining compiler"
 rm -rf "${work}"
@@ -207,6 +208,7 @@ cp -pr crypto-tests/*.data "${work}" 2>/dev/null || :
       echo 'return 0; }'
     ) > try.c
     #try ext. crypto library
+    log0 "trying: ext. ${primitive}:"
     if ${compiler} -c "${testf}.c" ${libs}; then
       if ${compiler} -o "${testf}" "${testf}.o" ${libs}; then
         if ${compiler} -o try try.c; then
@@ -221,6 +223,7 @@ cp -pr crypto-tests/*.data "${work}" 2>/dev/null || :
       fi
     fi
     #try int. crypto library
+    log0 "trying: int. ${primitive}:"
     if cp -p "${top}/crypto/${primitive}.h" . ; then
       if ${compilerorig} -I. -I"$include" -o "${testf}" "${testf}.c" ${origlibs}; then
         if ${compilerorig} -I. -I"$include" -o try try.c; then
