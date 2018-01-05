@@ -15,9 +15,9 @@ int writeall(int fd,const void *xv,long long xlen)
     if (w < 0) {
       if (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK) {
         struct pollfd p;
-	p.fd = fd;
-	p.events = POLLOUT | POLLERR;
-	poll(&p,1,-1);
+        p.fd = fd;
+        p.events = POLLOUT | POLLERR;
+        poll(&p,1,-1);
         continue;
       }
       return -1;

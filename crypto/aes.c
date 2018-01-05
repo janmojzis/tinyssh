@@ -92,10 +92,10 @@ void aes_core(unsigned char *out, const unsigned char *in, const unsigned char *
                 a1 = state[1][j];
                 a2 = state[2][j];
                 a3 = state[3][j];
-	        state[0][j] = gmul2(a0 ^ a1) ^ a1 ^ a2 ^ a3;
-	        state[1][j] = gmul2(a1 ^ a2) ^ a2 ^ a3 ^ a0;
-	        state[2][j] = gmul2(a2 ^ a3) ^ a3 ^ a0 ^ a1;
-	        state[3][j] = gmul2(a3 ^ a0) ^ a0 ^ a1 ^ a2;
+                state[0][j] = gmul2(a0 ^ a1) ^ a1 ^ a2 ^ a3;
+                state[1][j] = gmul2(a1 ^ a2) ^ a2 ^ a3 ^ a0;
+                state[2][j] = gmul2(a2 ^ a3) ^ a3 ^ a0 ^ a1;
+                state[3][j] = gmul2(a3 ^ a0) ^ a0 ^ a1 ^ a2;
             }
 
         /* AddRoundKey */
