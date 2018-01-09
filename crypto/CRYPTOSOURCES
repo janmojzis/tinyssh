@@ -4,8 +4,6 @@ crypto_core_aes256encrypt
 randombytes
 uint32_pack
 uint32_unpack
-uint64_pack_big
-uint64_unpack_big
 uint32_pack_big
 uint32_unpack_big
 crypto_stream_chacha20
