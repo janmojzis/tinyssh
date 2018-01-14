@@ -161,7 +161,7 @@ rekeying:
     if (packet.flagkeys) log_d1("rekeying: done");
     packet.flagkeys = 1;
 
-    /* note: comunication is encrypted */
+    /* note: communication is encrypted */
 
     /* authentication + authorization */
     if (packet.flagauthorized == 0) {
