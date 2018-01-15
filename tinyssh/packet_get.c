@@ -90,7 +90,7 @@ int packet_get(struct buf *b, crypto_uint8 x) {
                 char buf1[NUMTOSTR_LEN];
                 char buf2[NUMTOSTR_LEN];
                 errno = EPROTO;
-                log_f4("expected packet type ", numtostr(buf1, b->buf[0]), ", got ", numtostr(buf2, x));
+                log_f4("expected packet type ", numtostr(buf1, x), ", got ", numtostr(buf2, b->buf[0]));
                 global_die(111);
             }
             break;
