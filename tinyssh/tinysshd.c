@@ -117,8 +117,8 @@ int main(int argc, char **argv) {
     if (fdwd == -1) die_fatal("unable to open current directory", 0, 0);
     if (chdir(keydir) == -1) die_fatal("unable to chdir to", keydir, 0);
 
-    for (i = 0; sshcrypto_keys[i].name; ++i) sshcrypto_keys[i].sign_flagserver |= sshcrypto_kexs[i].cryptotype & cryptotypeselected;
-    for (i = 0; sshcrypto_keys[i].name; ++i) sshcrypto_keys[i].sign_flagclient |= sshcrypto_kexs[i].cryptotype & cryptotypeselected;
+    for (i = 0; sshcrypto_keys[i].name; ++i) sshcrypto_keys[i].sign_flagserver |= sshcrypto_keys[i].cryptotype & cryptotypeselected;
+    for (i = 0; sshcrypto_keys[i].name; ++i) sshcrypto_keys[i].sign_flagclient |= sshcrypto_keys[i].cryptotype & cryptotypeselected;
     for (i = 0; sshcrypto_kexs[i].name; ++i) sshcrypto_kexs[i].flagenabled |= sshcrypto_kexs[i].cryptotype & cryptotypeselected;
     for (i = 0; sshcrypto_ciphers[i].name; ++i) sshcrypto_ciphers[i].flagenabled |= sshcrypto_ciphers[i].cryptotype & cryptotypeselected;
 
