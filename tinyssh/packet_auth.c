@@ -68,7 +68,10 @@ int packet_auth(struct buf *b, struct buf *b2) {
         pos = packetparser_uint32(b->buf, b->len, pos, &len);       /* publickey/password/hostbased/none */
         pos = packetparser_skip(b->buf, b->len, pos, len);
 
-        if (str_equaln((char *)b->buf + pos - len, len, "none")) pkname = "none";
+        if (str_equaln((char *)b->buf + pos - len, len, "none")) {
+            pkname = "none";
+            if (guestuser) goto authorized;
+        }
         if (str_equaln((char *)b->buf + pos - len, len, "password")) pkname = "password";
         if (str_equaln((char *)b->buf + pos - len, len, "hostbased")) pkname = "hostbased";
         if (str_equaln((char *)b->buf + pos - len, len, "publickey")) {

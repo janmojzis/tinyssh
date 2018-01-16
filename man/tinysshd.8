@@ -61,6 +61,12 @@ don't use syslog, use standard error output (default)
 .B \-x \fIname=command
 add subsystem command (e.g.: sftp=/usr/libexec/openssh/sftp\-server)
 .TP
+.B \-e \fIcommand
+execute the given command instead of spawning the shell (disables \fIexec\fR channel requests)
+.TP
+.B \-g \fIusername
+enable unrestricted guest access as the specified user in the host system
+.TP
 .I keydir
 directory containing TinySSH keys, typically /etc/tinyssh/sshkeydir
 .SH AUTHORIZATION

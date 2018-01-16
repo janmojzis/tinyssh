@@ -43,7 +43,7 @@ int packet_channel_open(struct buf *b1, struct buf *b2) {
 
         /* send confirmation */
         buf_purge(b1);
-        if (channel_open(packet.name, id, remotewindow, maxpacket, &localwindow)) {
+        if (channel_open(guestuser ? guestuser : packet.name, id, remotewindow, maxpacket, &localwindow)) {
             buf_purge(b2);
             buf_putnum8(b2, SSH_MSG_CHANNEL_OPEN_CONFIRMATION);     /* byte      SSH_MSG_CHANNEL_OPEN_CONFIRMATION */
             buf_putnum32(b2, id);                                   /* uint32    recipient channel */
