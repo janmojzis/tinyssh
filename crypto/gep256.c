@@ -21,10 +21,6 @@ static void neutral(gep256 p) {
     fe_0(p[1]);
     fe_0(p[2]);
 }
-static void neutral_precomp(gep256_precomp p) {
-    fe_0(p[0]);
-    fe_0(p[1]);
-}
 
 /*
 p = q
@@ -45,12 +41,6 @@ static void cmov(gep256 p, gep256 q, crypto_uint32 b) {
     fe_cmov(p[1], q[1], b);
     fe_cmov(p[2], q[2], b);
 }
-static void cmov_precomp(gep256_precomp p, gep256_precomp q, crypto_uint32 b) {
-
-    fe_cmov(p[0], q[0], b);
-    fe_cmov(p[1], q[1], b);
-}
-
 
 /*
 if (a == b) return 1;
@@ -71,51 +61,6 @@ else return 0
 */
 static int isneutral(gep256 p) {
     return fe_iszero3(p[0], p[1], p[2]);
-}
-static int isneutral_precomp(gep256_precomp p) {
-    return fe_iszero2(p[0], p[1]);
-}
-
-static void madd(gep256 out, gep256 p, gep256_precomp qp) {
-
-    gep256 q, o;
-    fe ZZ1, S2, R, RR, U2, H, HH, HHH, t0, t1;
-
-    fe_copy(q[0], qp[0]);
-    fe_copy(q[1], qp[1]);
-    fe_1(q[2]);
-
-    fep256_sq(ZZ1, p[2]);
-    fep256_mul(S2, ZZ1, p[2]);
-    fep256_mul(S2, S2, q[1]);     /* S2 = Y2 * Z1^3   */
-    fep256_sub(R, p[1], S2);      /* R  = X1 - S2     */
-    fep256_mul(U2, q[0], ZZ1);    /* U2 = X2 * Z1^2   */
-    fep256_sub(H, p[0], U2);      /* H  = X1 - U2     */
-
-    fep256_mul(o[2], H, p[2]);    /* Z3 = H * Z1 */
-
-    fep256_sq(RR, R);             /* R^2 */
-    fep256_sq(HH, H);             /* H^2 */
-    fep256_mul(HHH, HH, H);       /* H^3 */
-    fep256_mul(t0, p[0], HH);     /*     X1 * H^2 */
-    fep256_mul2(t1, t0);          /* 2 * X1 * H^2 */
-    fep256_sub(o[0], RR, t1);
-    fep256_add(o[0], o[0], HHH);  /* X3 = R^2 + H^3 - 2 * X1 * H^2 */
-
-    fep256_sub(o[1], t0, o[0]);
-    fep256_mul(o[1], R, o[1]);
-    fep256_mul(t1, p[1], HHH);
-    fep256_sub(o[1], o[1], t1);  /* Y3 = R * (X1 * H^2 - X3) - X1 * H^3 */
-
-    /* if (p = neutral) o = q */
-    /* if (q = neutral) o = p */
-    cmov(o, q, isneutral(p));
-    cmov(o, p, isneutral_precomp(qp));
-    copy(out, o);
-
-    cleanup(ZZ1); cleanup(S2); cleanup(t0); cleanup(o);
-    cleanup(R); cleanup(RR);  cleanup(U2); cleanup(t1);
-    cleanup(H); cleanup(HH); cleanup(HHH); cleanup(q);
 }
 
 void gep256_add(gep256 out, gep256 p, gep256 q) {
@@ -299,67 +244,14 @@ void gep256_scalarmult(gep256 o, gep256 q, const unsigned char *a) {
     cleanup(p); cleanup(t); cleanup(sp); cleanup(e);
 }
 
-static gep256_precomp base[33][8] = {
-#include "gep256.base"
-};
 
-static unsigned char isnegative(signed char b) {
+static gep256 baseq = {
+  { 0xd898c296,0xf4a13945,0x2deb33a0,0x77037d81,0x63a440f2,0xf8bce6e5,0xe12c4247,0x6b17d1f2 },
+  { 0x37bf51f5,0xcbb64068,0x6b315ece,0x2bce3357,0x7c0f9e16,0x8ee7eb4a,0xfe1a7f9b,0x4fe342e2 },
+  { 0x00000001,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000 },
+ };
 
-    crypto_uint32 x = b;
-    x >>= 31;
-    return x;
-}
-
-static void select(gep256_precomp t, long long pos, signed char b) {
-
-    gep256_precomp minust;
-    unsigned char bnegative = isnegative(b);
-    unsigned char babs = b - (((-bnegative) & b) << 1);
-    long long i;
-
-    neutral_precomp(t);
-    for (i = 0; i < 8; ++i) cmov_precomp(t, base[pos][i], equal(babs, i + 1));
-    fe_copy(minust[0], t[0]);
-    fep256_neg(minust[1], t[1]);
-    cmov_precomp(t, minust, bnegative);
-}
-
-/*
-base-point multiplication using precomputed tables
-*/
 void gep256_scalarmult_base(gep256 p, const unsigned char *a) {
 
-    long long i;
-    gep256_precomp sp;
-    signed char e[65], carry;
-
-    neutral(p);
-
-    for (i = 0; i < 32; ++i) {
-        e[2 * i + 0] = (a[31 - i] >> 0) & 0x0f;
-        e[2 * i + 1] = (a[31 - i] >> 4) & 0x0f;
-    }
-    e[64] = 0;
-
-    carry = 0;
-    for (i = 0; i < 65; ++i) {
-        e[i] += carry;
-        carry = e[i] + 8;
-        carry >>= 4;
-        e[i] -= carry << 4;
-    }
-
-    for (i = 1; i < 65; i += 2) {
-        select(sp, i / 2, e[i]);
-        madd(p, p, sp);
-    }
-
-    for (i = 0; i < 4; ++i) dbl(p, p);
-
-    for (i = 0; i < 65; i += 2) {
-        select(sp, i / 2, e[i]);
-        madd(p, p, sp);
-    }
-
-    cleanup(sp); cleanup(e);
+    gep256_scalarmult(p, baseq, a);
 }
