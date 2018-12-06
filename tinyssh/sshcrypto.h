@@ -5,15 +5,15 @@
 #include "crypto.h"
 
 /* crypto type */
-#define sshcrypto_TYPEOLDCRYPTO 0x1 /* ecdsa-sha2-nistp256, ecdh-sha2-nistp256, aes256-ctr, hmac-sha2-256 */
+#define sshcrypto_TYPEOLDCRYPTO 0x1 /* oldcrypto removed */
 #define sshcrypto_TYPENEWCRYPTO 0x2 /* ssh-ed25519, curve25519-sha256@libssh.org, chacha20-poly1305@openssh.com */
 #define sshcrypto_TYPEPQCRYPTO  0x4 /* TODO, TODO, chacha20-poly1305@openssh.com */
 
 /* kex - dh + hash */
-#define sshcrypto_dh_PUBLICKEYMAX 64 + 1 /* space for nistp256            pk */
-#define sshcrypto_dh_SECRETKEYMAX 32     /* space for nistp256/curve25519 sk */
-#define sshcrypto_dh_MAX          32     /* space for nistp256/curve25519 k  */
-#define sshcrypto_hash_MAX        64     /* space for sha512                 */
+#define sshcrypto_dh_PUBLICKEYMAX 32    /* space for curve25519 pk */
+#define sshcrypto_dh_SECRETKEYMAX 32    /* space for curve25519 sk */
+#define sshcrypto_dh_MAX          32    /* space for curve25519 k  */
+#define sshcrypto_hash_MAX        64    /* space for sha512        */
 
 struct sshcrypto_kex {
     const char *name;
@@ -53,23 +53,14 @@ extern void curve25519_putdhpk(struct buf *, const unsigned char *);
 extern void curve25519_putsharedsecret(struct buf *, const unsigned char *);
 #endif
 
-#if defined(crypto_scalarmult_nistp256_BYTES) && defined(crypto_hash_sha256_BYTES)
-/* sshcrypto_kex_nistp256.c */
-extern int nistp256_dh(unsigned char *, unsigned char *, unsigned char *);
-extern int nistp256_keypair(unsigned char *, unsigned char *);
-extern void nistp256_putdhpk(struct buf *, const unsigned char *);
-extern void nistp256_putsharedsecret(struct buf *, const unsigned char *);
-#endif
-
-
 
 /* key - sign */
-#define sshcrypto_sign_PUBLICKEYMAX 64          /* space for nistp256ecdsa         pk  */
-#define sshcrypto_sign_SECRETKEYMAX 64          /* space for nistp256ecdsa         sk  */
-#define sshcrypto_sign_MAX          64          /* space for nistp256ecdsa/ed25519 sig */
-#define sshcrypto_sign_BASE64PUBLICKEYMAX 141   /* space for nistp256ecdsa in base64 + 0-terminator */
+#define sshcrypto_sign_PUBLICKEYMAX 32          /* space for ed25519 pk  */
+#define sshcrypto_sign_SECRETKEYMAX 64          /* space for ed25519 sk  */
+#define sshcrypto_sign_MAX          64          /* space for ed25519 sig */
+#define sshcrypto_sign_BASE64PUBLICKEYMAX 69    /* space for ed25519 in base64 + 0-terminator */
 #define sshcrypto_sign_BASE64PUBLICKEYMIN 69    /* space for ed25519 in base64 + 0-terminator */
-#define sshcrypto_sign_NAMEMAX 20               /* space for string ecdsa-sha2-nistp256 + 0-terminator */
+#define sshcrypto_sign_NAMEMAX 12               /* space for string ssh-ed25519 + 0-terminator */
 
 struct sshcrypto_key {
     const char *name;
@@ -116,15 +107,6 @@ extern int ed25519_parsesignpk(unsigned char *, const unsigned char *, long long
 extern int ed25519_parsesignature(unsigned char *, const unsigned char *, long long);
 #endif
 
-#ifdef crypto_sign_nistp256ecdsa_BYTES
-/* sshcrypto_key_nistp256ecdsa.c */
-extern void nistp256ecdsa_putsignature(struct buf *, const unsigned char *);
-extern void nistp256ecdsa_putsignpk(struct buf *, const unsigned char *);
-extern void nistp256ecdsa_putsignpkbase64(struct buf *, const unsigned char *);
-extern int nistp256ecdsa_parsesignpk(unsigned char *, const unsigned char *, long long);
-extern int nistp256ecdsa_parsesignature(unsigned char *, const unsigned char *, long long);
-#endif
-
 
 /* cipher + mac */
 #define sshcrypto_cipher_KEYMAX 128     /* space for 2 x sha512 */
@@ -161,12 +143,6 @@ extern void sshcrypto_cipher_macput(struct buf *b);
 /* from sshcrypto_cipher_chachapoly.c */
 extern void chachapoly_packet_put(struct buf *);
 extern int chachapoly_packet_get(struct buf *);
-
-/* from sshcrypto_cipher_aesctr.c */
-extern void aesctr_packet_put(struct buf *);
-extern int aesctr_packet_get(struct buf *);
-/* from sshcrypto_cipher_aesctr256.c */
-extern int aesctr256_xor(unsigned char *, const unsigned char *, unsigned long long, const unsigned char *, const unsigned char *);
 
 /* init/purge */
 extern void sshcrypto_init(void);

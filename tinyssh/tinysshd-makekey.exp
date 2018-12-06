@@ -5,7 +5,6 @@
 --- tinysshd-makekey creates key-directory
 
 keydir/ed25519.pk
-keydir/nistp256ecdsa.pk
 0
 
 --- tinysshd-makekey fails when directory exists

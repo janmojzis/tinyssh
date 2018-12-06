@@ -169,32 +169,3 @@ void fe_reducesmall(fe r, const fe p, const crypto_uint64 carry) {
     for (i = 0; i < 8; ++i) r[i] ^= b & (r[i] ^ t[i]);
     fe_0(t);
 }
-
-
-/*
-if (f == 0 && g == 0 && h == 0) return 1;
-else return 0;
-*/
-int fe_iszero3(const fe f, const fe g, const fe h) {
-
-    long long i;
-    crypto_uint32 x = 0;
-
-    for (i = 0; i < 8; ++i) x |= f[i];
-    for (i = 0; i < 8; ++i) x |= g[i];
-    for (i = 0; i < 8; ++i) x |= h[i];
-    return (4294967296ULL - (crypto_uint64)x) >> 32;
-}
-/*
-if (f == 0 && g == 0) return 1;
-else return 0;
-*/
-int fe_iszero2(const fe f, const fe g) {
-
-    long long i;
-    crypto_uint32 x = 0;
-
-    for (i = 0; i < 8; ++i) x |= f[i];
-    for (i = 0; i < 8; ++i) x |= g[i];
-    return (4294967296ULL - (crypto_uint64)x) >> 32;
-}
