@@ -23,10 +23,10 @@ static char *basename(char *str) {
     return ret;
 }
 
-int main(int argc, char **argv) {
+static char *x;
+static long long xlen;
 
-    char *x;
-    long long xlen;
+int main(int argc, char **argv) {
 
     if (argc < 1) _exit(100);
     if (!argv[0]) _exit(100);
@@ -34,7 +34,6 @@ int main(int argc, char **argv) {
     x = basename(argv[0]);
     if (!x) _exit(100);
     xlen = str_len(x);
-
 
     if (str_equaln(x, xlen, "tinysshd-printkey")) {
         return main_tinysshd_printkey(argc, argv);
@@ -47,4 +46,5 @@ int main(int argc, char **argv) {
     }
 
     _exit(111);
+    return 111;
 }
