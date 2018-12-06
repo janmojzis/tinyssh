@@ -59,3 +59,6 @@ subprocess_auth.o
 subprocess_sign.o
 trymlock.o
 writeall.o
+main_tinysshd.o
+main_tinysshd_printkey.o
+main_tinysshd_makekey.o
