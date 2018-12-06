@@ -62,3 +62,6 @@ tinysshd-makekey
 tinysshd-printkey
 trymlock
 writeall
+main_tinysshd
+main_tinysshd_printkey
+main_tinysshd_makekey
