@@ -4,7 +4,6 @@
 #include "fe.h"
 
 typedef fe gep256[3];           /* X, Y, Z */
-typedef fe gep256_precomp[2];   /* X, Y    */
 
 extern void gep256_scalarmult(gep256, gep256, const unsigned char *);
 extern void gep256_scalarmult_base(gep256, const unsigned char *);

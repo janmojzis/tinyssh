@@ -24,11 +24,6 @@ static void neutral(ge25519 p) {
     fe_1(p[2]);
     fe_0(p[3]);
 }
-static void neutral_precomp(ge25519_precomp p) {
-    fe_1(p[0]);
-    fe_1(p[1]);
-    fe_0(p[2]);
-}
 
 
 /*
@@ -53,13 +48,6 @@ static void cmov(ge25519 p, ge25519 q, crypto_uint32 b) {
     fe_cmov(p[2], q[2], b);
     fe_cmov(p[3], q[3], b);
 }
-static void cmov_precomp(ge25519_precomp p, ge25519_precomp q, crypto_uint32 b) {
-
-    fe_cmov(p[0], q[0], b);
-    fe_cmov(p[1], q[1], b);
-    fe_cmov(p[2], q[2], b);
-}
-
 
 void ge25519_add(ge25519 o, ge25519 p, ge25519 q) {
 
@@ -86,30 +74,6 @@ void ge25519_add(ge25519 o, ge25519 p, ge25519 q) {
     fe25519_mul(o[3], e, h);
 
     cleanup(a); cleanup(b); cleanup(c); cleanup(d); cleanup(t);
-    cleanup(e); cleanup(f); cleanup(g); cleanup(h);
-}
-
-static void madd(ge25519 o, ge25519 p, ge25519_precomp q) {
-
-    fe a, b, c, d, e, f, g, h;
-
-    fe25519_sub(a, p[1], p[0]);
-    fe25519_mul(a, a, q[1]);
-    fe25519_add(b, p[0], p[1]);
-    fe25519_mul(b, b, q[0]);
-    fe25519_mul(c, p[3], q[2]);
-    fe25519_add(d, p[2], p[2]);
-    fe25519_sub(e, b, a);
-    fe25519_sub(f, d, c);
-    fe25519_add(g, d, c);
-    fe25519_add(h, b, a);
-
-    fe25519_mul(o[0], e, f);
-    fe25519_mul(o[1], h, g);
-    fe25519_mul(o[2], g, f);
-    fe25519_mul(o[3], e, h);
-
-    cleanup(a); cleanup(b); cleanup(c); cleanup(d);
     cleanup(e); cleanup(f); cleanup(g); cleanup(h);
 }
 
@@ -249,68 +213,14 @@ void ge25519_scalarmult(ge25519 o, ge25519 q, const unsigned char *a) {
     cleanup(p); cleanup(t); cleanup(sp); cleanup(e);
 }
 
-static ge25519_precomp base[32][8] = {
-#include "ge25519.base"
-};
+static ge25519 baseq = {
+  { 0x8f25d51a,0xc9562d60,0x9525a7b2,0x692cc760,0xfdd6dc5c,0xc0a4e231,0xcd6e53fe,0x216936d3 },
+  { 0x66666658,0x66666666,0x66666666,0x66666666,0x66666666,0x66666666,0x66666666,0x66666666 },
+  { 0x00000001,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000 },
+  { 0xa5b7dda3,0x6dde8ab3,0x775152f5,0x20f09f80,0x64abe37d,0x66ea4e8e,0xd78b7665,0x67875f0f },
+ };
 
-static unsigned char isnegative(signed char b) {
-
-    crypto_uint32 x = b;
-    x >>= 31;
-    return x;
-}
-
-static void select(ge25519_precomp t, long long pos, signed char b) {
-
-    ge25519_precomp minust;
-    unsigned char bnegative = isnegative(b);
-    unsigned char babs = b - (((-bnegative) & b) << 1);
-    long long i;
-
-    neutral_precomp(t);
-    for (i = 0; i < 8; ++i) cmov_precomp(t, base[pos][i], equal(babs, i + 1));
-    fe_copy(minust[0], t[1]);
-    fe_copy(minust[1], t[0]);
-    fe25519_neg(minust[2], t[2]);
-    cmov_precomp(t, minust, bnegative);
-}
-
-/*
-base-point multiplication using precomputed tables
-*/
 void ge25519_scalarmult_base(ge25519 p, const unsigned char *a) {
 
-    long long i;
-    ge25519_precomp sp;
-    signed char e[64], carry;
-
-    neutral(p);
-
-    for (i = 0; i < 32; ++i) {
-        e[2 * i + 0] = (a[i] >> 0) & 0x0f;
-        e[2 * i + 1] = (a[i] >> 4) & 0x0f;
-    }
-
-    carry = 0;
-    for (i = 0; i < 63; ++i) {
-        e[i] += carry;
-        carry = e[i] + 8;
-        carry >>= 4;
-        e[i] -= carry << 4;
-    }
-    e[63] += carry;
-
-    for (i = 1; i < 64; i += 2) {
-        select(sp, i / 2, e[i]);
-        madd(p, p, sp);
-    }
-
-    for (i = 0; i < 4; ++i) dbl(p, p);
-
-    for (i = 0; i < 64; i += 2) {
-        select(sp, i / 2, e[i]);
-        madd(p, p, sp);
-    }
-
-    cleanup(sp); cleanup(e);
+    ge25519_scalarmult(p, baseq, a);
 }

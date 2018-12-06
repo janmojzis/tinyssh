@@ -15,3 +15,4 @@
 -fstack-protector-strong
 -fwrapv
 -fno-strict-overflow
+-Os
