@@ -19,6 +19,9 @@ load
 log
 loginshell
 logsys
+main_tinysshd
+main_tinysshd_makekey
+main_tinysshd_printkey
 newenv
 numtostr
 open
@@ -32,11 +35,11 @@ packet_get
 packet_hello
 packet_kex
 packet_kexdh
-packetparser
 packet_put
 packet_recv
 packet_send
 packet_unimplemented
+packetparser
 porttostr
 randommod
 readall
@@ -62,6 +65,3 @@ tinysshd-makekey
 tinysshd-printkey
 trymlock
 writeall
-main_tinysshd
-main_tinysshd_printkey
-main_tinysshd_makekey
