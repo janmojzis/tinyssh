@@ -47,15 +47,11 @@ savesync
 ssh
 sshcrypto
 sshcrypto_cipher
-sshcrypto_cipher_aesctr
-sshcrypto_cipher_aesctr256
 sshcrypto_cipher_chachapoly
 sshcrypto_kex
 sshcrypto_kex_curve25519
-sshcrypto_kex_nistp256
 sshcrypto_key
 sshcrypto_key_ed25519
-sshcrypto_key_nistp256ecdsa
 str
 stringparser
 subprocess_auth

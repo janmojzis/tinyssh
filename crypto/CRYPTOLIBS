@@ -1,6 +1,4 @@
 crypto_onetimeauth_poly1305.o
-aes.o
-crypto_core_aes256encrypt.o
 randombytes.o
 uint32_pack.o
 uint32_unpack.o
@@ -11,18 +9,11 @@ verify.o
 crypto_verify_16.o
 crypto_verify_32.o
 crypto_hash_sha512.o
-sha256.o
 crypto_hash_sha256.o
-crypto_auth_hmacsha256.o
 fe.o
 fe25519.o
 ge25519.o
 sc25519.o
-fep256.o
-gep256.o
-scp256.o
 crypto_scalarmult_curve25519.o
 crypto_sign_ed25519.o
-crypto_scalarmult_nistp256.o
-crypto_sign_nistp256ecdsa.o
 cleanup.o

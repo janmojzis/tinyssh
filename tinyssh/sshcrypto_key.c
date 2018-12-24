@@ -37,27 +37,6 @@ struct sshcrypto_key sshcrypto_keys[] = {
         ed25519_parsesignpk,
     },
 #endif
-#ifdef crypto_sign_nistp256ecdsa_BYTES
-    {   "ecdsa-sha2-nistp256",
-        crypto_sign_nistp256ecdsa,
-        crypto_sign_nistp256ecdsa_open,
-        crypto_sign_nistp256ecdsa_keypair,
-        {0},
-        crypto_sign_nistp256ecdsa_PUBLICKEYBYTES,
-        crypto_sign_nistp256ecdsa_SECRETKEYBYTES,
-        crypto_sign_nistp256ecdsa_BYTES,
-        "nistp256ecdsa.pk",
-        ".nistp256ecdsa.sk",
-        sshcrypto_TYPEOLDCRYPTO,
-        0,
-        0,
-        nistp256ecdsa_putsignature,
-        nistp256ecdsa_putsignpk,
-        nistp256ecdsa_putsignpkbase64,
-        nistp256ecdsa_parsesignature,
-        nistp256ecdsa_parsesignpk,
-    },
-#endif
 #if 0
     {   "pqkeyTODO",
         crypto_sign_ed25519,

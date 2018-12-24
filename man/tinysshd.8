@@ -34,12 +34,6 @@ print error messages (default)
 .B \-v
 print extra information
 .TP
-.B \-o
-enable older standardized crypto \- ecdsa\-sha2\-nistp256, ecdh\-sha2\-nistp256, aes256\-ctr, hmac\-sha2\-256
-.TP
-.B \-O
-disable older standardized crypto (default)
-.TP
 .B \-s
 enable state\-of\-the\-art crypto \- ssh\-ed25519, curve25519\-sha256@libssh.org, chacha20\-poly1305@openssh.com (default)
 .TP
@@ -69,13 +63,12 @@ supports only public-key authorization via
 .B AuthorizedKeysFile
 ~/.ssh/authorized_keys. Each line of the file contains one key in format "keytype base64-encoded-key comment".
 .B tinyssh
-supports only "ssh-ed25519" and "ecdsa-sha2-nistp256" keytypes.
+supports only "ssh-ed25519" keytype.
 .sp
 ~/.ssh/authorized_keys example:
 .nf
 .RS 2
 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILV5AGhGQ1QVXjBWhTKJP3vrqE3isL4ivisBailQ14gS comment
-ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBPqVpPptLAMlCzojDM6W2x5rmzAxmOyOW0K9K3wuClgqMeguHg82Ju6IrA2YP76vhjhU8atfjM+tsfTXgplEo4o= comment
 .RE
 .SH RUNNING
 .TP

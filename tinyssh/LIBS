@@ -47,15 +47,11 @@ savesync.o
 ssh.o
 sshcrypto.o
 sshcrypto_cipher.o
-sshcrypto_cipher_aesctr.o
-sshcrypto_cipher_aesctr256.o
 sshcrypto_cipher_chachapoly.o
 sshcrypto_kex.o
 sshcrypto_kex_curve25519.o
-sshcrypto_kex_nistp256.o
 sshcrypto_key.o
 sshcrypto_key_ed25519.o
-sshcrypto_key_nistp256ecdsa.o
 str.o
 stringparser.o
 subprocess_auth.o

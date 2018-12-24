@@ -1,6 +1,4 @@
 crypto_onetimeauth_poly1305
-aes
-crypto_core_aes256encrypt
 randombytes
 uint32_pack
 uint32_unpack
@@ -10,19 +8,12 @@ crypto_stream_chacha20
 verify
 crypto_verify_16
 crypto_verify_32
-sha256
 crypto_hash_sha256
-crypto_auth_hmacsha256
 crypto_hash_sha512
 fe
 fe25519
 ge25519
 sc25519
-fep256
-gep256
-scp256
 crypto_scalarmult_curve25519
 crypto_sign_ed25519
-crypto_scalarmult_nistp256
-crypto_sign_nistp256ecdsa
 cleanup

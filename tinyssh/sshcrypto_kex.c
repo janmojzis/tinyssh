@@ -42,21 +42,6 @@ struct sshcrypto_kex sshcrypto_kexs[] = {
         0,
     },
 #endif
-#if defined(crypto_scalarmult_nistp256_BYTES) && defined(crypto_hash_sha256_BYTES)
-    {   "ecdh-sha2-nistp256",
-        nistp256_dh,
-        nistp256_keypair,
-        crypto_scalarmult_nistp256_BYTES + 1,   /* pk */
-        crypto_scalarmult_nistp256_SCALARBYTES, /* sk */
-        crypto_scalarmult_nistp256_BYTES / 2,   /* k  */
-        crypto_hash_sha256,
-        crypto_hash_sha256_BYTES,
-        nistp256_putsharedsecret,
-        nistp256_putdhpk,
-        sshcrypto_TYPEOLDCRYPTO,
-        0,
-    },
-#endif
 #if 0
     {   "pqkexTODO",
         curve25519_dh,

@@ -5,16 +5,12 @@ crypto_uint64 0
 crypto_uint8 0
 crypto_stream_chacha20 1
 crypto_onetimeauth_poly1305 1
-crypto_auth_hmacsha256 1
 crypto_hash_sha512 1
 crypto_hash_sha256 1
 crypto_verify_16 1
 crypto_verify_32 1
-crypto_core_aes256encrypt 1
 crypto_scalarmult_curve25519 1
-crypto_scalarmult_nistp256 1
 crypto_sign_ed25519 1
-crypto_sign_nistp256ecdsa 1
 randombytes 0
 uint32_pack_big 0
 uint32_unpack_big 0

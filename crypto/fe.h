@@ -18,9 +18,4 @@ extern void fe_sq_(fel, const fe);
 
 extern void fe_reducesmall(fe, const fe, const crypto_uint64);
 
-extern int fe_iszero3(const fe, const fe, const fe);
-extern int fe_iszero2(const fe, const fe);
-
-
 #endif
-
