@@ -16,3 +16,5 @@
 -fwrapv
 -fno-strict-overflow
 -Os
+-fomit-frame-pointer
+-funroll-loops
