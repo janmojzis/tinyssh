@@ -9,50 +9,48 @@
 #define sshcrypto_TYPENEWCRYPTO 0x2 /* ssh-ed25519, curve25519-sha256@libssh.org, chacha20-poly1305@openssh.com */
 #define sshcrypto_TYPEPQCRYPTO  0x4 /* TODO, TODO, chacha20-poly1305@openssh.com */
 
-/* kex - dh + hash */
-#define sshcrypto_dh_PUBLICKEYMAX 32    /* space for curve25519 pk */
-#define sshcrypto_dh_SECRETKEYMAX 32    /* space for curve25519 sk */
-#define sshcrypto_dh_MAX          32    /* space for curve25519 k  */
-#define sshcrypto_hash_MAX        64    /* space for sha512        */
+/* kex - kem + hash */
+#define sshcrypto_kem_PUBLICKEYMAX  crypto_kem_sntrup4591761x25519_PUBLICKEYBYTES
+#define sshcrypto_kem_CIPHERTEXTMAX crypto_kem_sntrup4591761x25519_CIPHERTEXTBYTES
+#define sshcrypto_kem_MAX           crypto_kem_sntrup4591761x25519_BYTES
+#define sshcrypto_hash_MAX          crypto_hash_sha512_BYTES
 
 struct sshcrypto_kex {
     const char *name;
-    int (*dh)(unsigned char *, unsigned char *, unsigned char *);
-    int (*dh_keypair)(unsigned char *, unsigned char *);
-    long long dh_publickeybytes;
-    long long dh_secretkeybytes;
-    long long dh_bytes;
+    int (*enc)(unsigned char *, unsigned char *, const unsigned char *);
+    long long kem_publickeybytes;
+    long long kem_ciphertextbytes;
+    long long kem_bytes;
     int (*hash)(unsigned char *, const unsigned char *, unsigned long long);
     long long hash_bytes;
-    void (*buf_putsharedsecret)(struct buf *, const unsigned char *);
-    void (*buf_putdhpk)(struct buf *, const unsigned char *);
+    void (*buf_putkemkey)(struct buf *, const unsigned char *);
     unsigned int cryptotype;
     int flagenabled;
 };
 extern struct sshcrypto_kex sshcrypto_kexs[];
 
 extern const char *sshcrypto_kex_name;
-extern int (*sshcrypto_dh)(unsigned char *, unsigned char *, unsigned char *);
-extern int (*sshcrypto_dh_keypair)(unsigned char *, unsigned char *);
-extern long long sshcrypto_dh_publickeybytes;
-extern long long sshcrypto_dh_secretkeybytes;
-extern long long sshcrypto_dh_bytes;
+extern int (*sshcrypto_enc)(unsigned char *, unsigned char *, const unsigned char *);
+extern long long sshcrypto_kem_publickeybytes;
+extern long long sshcrypto_kem_ciphertextbytes;
+extern long long sshcrypto_kem_bytes;
 extern int (*sshcrypto_hash)(unsigned char *, const unsigned char *, unsigned long long);
 extern long long sshcrypto_hash_bytes;
-extern void (*sshcrypto_buf_putsharedsecret)(struct buf *, const unsigned char *);
-extern void (*sshcrypto_buf_putdhpk)(struct buf *, const unsigned char *);
+extern void (*sshcrypto_buf_putkemkey)(struct buf *, const unsigned char *);
 
 extern int sshcrypto_kex_select(const unsigned char *, long long, crypto_uint8 *);
 extern void sshcrypto_kex_put(struct buf *);
 
 #if defined(crypto_scalarmult_curve25519_BYTES) && defined(crypto_hash_sha256_BYTES)
 /* sshcrypto_kex_curve25519.c */
-extern int curve25519_dh(unsigned char *, unsigned char *, unsigned char *);
-extern int curve25519_keypair(unsigned char *, unsigned char *);
-extern void curve25519_putdhpk(struct buf *, const unsigned char *);
-extern void curve25519_putsharedsecret(struct buf *, const unsigned char *);
+extern int curve25519_enc(unsigned char *, unsigned char *, const unsigned char *);
+extern void curve25519_putkemkey(struct buf *, const unsigned char *);
 #endif
 
+#if defined(crypto_kem_sntrup4591761x25519_BYTES) && defined(crypto_hash_sha512_BYTES)
+/* sshcrypto_kex_sntrup4591761x25519.c */
+extern void sntrup4591761x25519_putkemkey(struct buf *, const unsigned char *);
+#endif
 
 /* key - sign */
 #define sshcrypto_sign_PUBLICKEYMAX 32          /* space for ed25519 pk  */

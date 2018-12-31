@@ -18,9 +18,9 @@ void sshcrypto_init(void) {
 
     /* kex */
     for (i = 0; sshcrypto_kexs[i].name; ++i) {
-        if (sshcrypto_kexs[i].dh_publickeybytes > sshcrypto_dh_PUBLICKEYMAX) bug_inval();
-        if (sshcrypto_kexs[i].dh_secretkeybytes > sshcrypto_dh_SECRETKEYMAX) bug_inval();
-        if (sshcrypto_kexs[i].dh_bytes > sshcrypto_dh_MAX) bug_inval();
+        if (sshcrypto_kexs[i].kem_publickeybytes > sshcrypto_kem_PUBLICKEYMAX) bug_inval();
+        if (sshcrypto_kexs[i].kem_ciphertextbytes > sshcrypto_kem_CIPHERTEXTMAX) bug_inval();
+        if (sshcrypto_kexs[i].kem_bytes > sshcrypto_kem_MAX) bug_inval();
         if (sshcrypto_kexs[i].hash_bytes > sshcrypto_hash_MAX) bug_inval();
     }
 

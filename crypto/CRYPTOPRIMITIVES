@@ -15,3 +15,5 @@ randombytes 0
 uint32_pack_big 0
 uint32_unpack_big 0
 cleanup 0
+crypto_kem_sntrup4591761 1
+crypto_kem_sntrup4591761x25519 1

@@ -9,13 +9,13 @@ Public domain.
 
 /* grep "define sshcrypto_" source/tinyssh/sshcrypto.h | cut -d ' ' -f2  |  while read x; do echo \#ifndef $x; echo error! ;echo \#endif; done */
 
-#ifndef sshcrypto_dh_PUBLICKEYMAX
+#ifndef sshcrypto_kem_PUBLICKEYMAX
 error!
 #endif
-#ifndef sshcrypto_dh_SECRETKEYMAX
+#ifndef sshcrypto_kem_CIPHERTEXTMAX
 error!
 #endif
-#ifndef sshcrypto_dh_MAX
+#ifndef sshcrypto_kem_MAX
 error!
 #endif
 #ifndef sshcrypto_hash_MAX

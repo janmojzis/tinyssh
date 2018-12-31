@@ -1,0 +1,22 @@
+#ifndef crypto_kem_sntrup4591761x25519_H
+#define crypto_kem_sntrup4591761x25519_H
+
+#define crypto_kem_sntrup4591761x25519_tinynacl_SECRETKEYBYTES 1632
+#define crypto_kem_sntrup4591761x25519_tinynacl_PUBLICKEYBYTES 1250
+#define crypto_kem_sntrup4591761x25519_tinynacl_CIPHERTEXTBYTES 1079
+#define crypto_kem_sntrup4591761x25519_tinynacl_BYTES 64
+extern int crypto_kem_sntrup4591761x25519_tinynacl_keypair(unsigned char *, unsigned char *);
+extern int crypto_kem_sntrup4591761x25519_tinynacl_enc(unsigned char *, unsigned char *, const unsigned char *);
+extern int crypto_kem_sntrup4591761x25519_tinynacl_dec(unsigned char *, const unsigned char *, const unsigned char *);
+
+#define crypto_kem_sntrup4591761x25519_keypair crypto_kem_sntrup4591761x25519_tinynacl_keypair
+#define crypto_kem_sntrup4591761x25519_enc crypto_kem_sntrup4591761x25519_tinynacl_enc
+#define crypto_kem_sntrup4591761x25519_dec crypto_kem_sntrup4591761x25519_tinynacl_dec
+#define crypto_kem_sntrup4591761x25519_SECRETKEYBYTES crypto_kem_sntrup4591761x25519_tinynacl_SECRETKEYBYTES
+#define crypto_kem_sntrup4591761x25519_PUBLICKEYBYTES crypto_kem_sntrup4591761x25519_tinynacl_PUBLICKEYBYTES
+#define crypto_kem_sntrup4591761x25519_CIPHERTEXTBYTES crypto_kem_sntrup4591761x25519_tinynacl_CIPHERTEXTBYTES
+#define crypto_kem_sntrup4591761x25519_BYTES crypto_kem_sntrup4591761x25519_tinynacl_BYTES
+#define crypto_kem_sntrup4591761x25519_IMPLEMENTATION "tinynacl"
+#define crypto_kem_sntrup4591761x25519_VERSION "-"
+
+#endif
