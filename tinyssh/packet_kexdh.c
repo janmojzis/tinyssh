@@ -20,10 +20,9 @@ Public domain.
 
 int packet_kexdh(const char *keydir, struct buf *b1, struct buf *b2) {
 
-    unsigned char clientpk[sshcrypto_dh_PUBLICKEYMAX];
-    unsigned char serversk[sshcrypto_dh_SECRETKEYMAX];
-    unsigned char serverpk[sshcrypto_dh_PUBLICKEYMAX];
-    unsigned char sharedsecret[sshcrypto_dh_MAX];
+    unsigned char clientpk[sshcrypto_kem_PUBLICKEYMAX];
+    unsigned char serverpk[sshcrypto_kem_CIPHERTEXTMAX];
+    unsigned char sharedsecret[sshcrypto_kem_MAX];
     unsigned char sm[sshcrypto_sign_MAX];
     unsigned char key[sshcrypto_cipher_KEYMAX];
     unsigned char hash[sshcrypto_hash_MAX];
@@ -42,7 +41,7 @@ int packet_kexdh(const char *keydir, struct buf *b1, struct buf *b2) {
     pos = packetparser_uint8(b1->buf, b1->len, pos, &ch);           /* byte      SSH_MSG_KEXDH_INIT */
     if (ch != SSH_MSG_KEXDH_INIT) bug_proto();
     pos = packetparser_uint32(b1->buf, b1->len, pos, &len);         /* string    client's public key */
-    if (len != sshcrypto_dh_publickeybytes) bug_proto();
+    if (len != sshcrypto_kem_publickeybytes) bug_proto();
     pos = packetparser_copy(b1->buf, b1->len, pos, clientpk, len);
     pos = packetparser_end(b1->buf, b1->len, pos);
     buf_purge(b1);
@@ -50,9 +49,8 @@ int packet_kexdh(const char *keydir, struct buf *b1, struct buf *b2) {
     /* generate key and compute shared secret */
     do { 
         /* XXX - workaroud for bug in OpenSSH 6.5 - 6.6 */
-        if (sshcrypto_dh_keypair(serverpk, serversk) != 0) bug_proto();
-        if (sshcrypto_dh(sharedsecret, clientpk, serversk) != 0) bug_proto();
-    } while(sharedsecret[0] == 0 && sshcrypto_dh_publickeybytes == 32);
+        if (sshcrypto_enc(serverpk, sharedsecret, clientpk) != 0) bug_proto();
+    } while(sharedsecret[0] == 0 && sshcrypto_kem_publickeybytes == 32);
 
     /* create hash */
     buf_purge(&packet.hashbuf);
@@ -61,9 +59,9 @@ int packet_kexdh(const char *keydir, struct buf *b1, struct buf *b2) {
     buf_putstringlen(&packet.hashbuf, packet.kexrecv.buf, packet.kexrecv.len);
     buf_putstringlen(&packet.hashbuf, packet.kexsend.buf, packet.kexsend.len);
     sshcrypto_buf_putsignpk(&packet.hashbuf, sshcrypto_sign_publickey);
-    sshcrypto_buf_putdhpk(&packet.hashbuf, clientpk);
-    sshcrypto_buf_putdhpk(&packet.hashbuf, serverpk);
-    sshcrypto_buf_putsharedsecret(&packet.hashbuf, sharedsecret);
+    buf_putstringlen(&packet.hashbuf, clientpk, sshcrypto_kem_publickeybytes);
+    buf_putstringlen(&packet.hashbuf, serverpk, sshcrypto_kem_ciphertextbytes);
+    sshcrypto_buf_putkemkey(&packet.hashbuf, sharedsecret);
     sshcrypto_hash(hash, packet.hashbuf.buf, packet.hashbuf.len);
 
     /* session id */
@@ -75,10 +73,10 @@ int packet_kexdh(const char *keydir, struct buf *b1, struct buf *b2) {
     buf_purge(b1); buf_purge(b2);
 
     /* send server kex_ecdh_reply */
-    buf_putnum8(b2, SSH_MSG_KEXDH_REPLY);                                  /* SSH_MSG_KEXDH_REPLY */
-    sshcrypto_buf_putsignpk(b2, sshcrypto_sign_publickey);                 /* public key */
-    sshcrypto_buf_putdhpk(b2, serverpk);                                   /* servers's public key */
-    sshcrypto_buf_putsignature(b2, sm);                                    /* signature */
+    buf_putnum8(b2, SSH_MSG_KEXDH_REPLY);                           /* SSH_MSG_KEXDH_REPLY */
+    sshcrypto_buf_putsignpk(b2, sshcrypto_sign_publickey);          /* public key */
+    buf_putstringlen(b2, serverpk, sshcrypto_kem_ciphertextbytes);  /* servers's public key */
+    sshcrypto_buf_putsignature(b2, sm);                             /* signature */
     packet_put(b2);
 
     /* send server newkeys */
@@ -96,7 +94,7 @@ int packet_kexdh(const char *keydir, struct buf *b1, struct buf *b2) {
     /* key derivation */
     for(i = 0; i < 6; ++i) {
         buf_purge(b1);
-        sshcrypto_buf_putsharedsecret(b1, sharedsecret);
+        sshcrypto_buf_putkemkey(b1, sharedsecret);
         buf_put(b1, hash, sshcrypto_hash_bytes);
         buf_putnum8(b1, 'A' + i);
         buf_put(b1, packet.sessionid, sshcrypto_hash_bytes);
@@ -104,7 +102,7 @@ int packet_kexdh(const char *keydir, struct buf *b1, struct buf *b2) {
 
         /* one extend */
         buf_purge(b1);
-        sshcrypto_buf_putsharedsecret(b1, sharedsecret);
+        sshcrypto_buf_putkemkey(b1, sharedsecret);
         buf_put(b1, hash, sshcrypto_hash_bytes);
         buf_put(b1, key, sshcrypto_hash_bytes);
         sshcrypto_hash(key + sshcrypto_hash_bytes, b1->buf, b1->len);
@@ -118,7 +116,6 @@ int packet_kexdh(const char *keydir, struct buf *b1, struct buf *b2) {
     }
 
     purge(clientpk, sizeof clientpk);
-    purge(serversk, sizeof serversk);
     purge(serverpk, sizeof serverpk);
     purge(sharedsecret, sizeof sharedsecret);
     purge(sm, sizeof sm);

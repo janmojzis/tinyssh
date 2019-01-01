@@ -29,7 +29,7 @@ Public domain.
 
 #define USAGE "usage: tinysshd [options] keydir"
 
-static unsigned int cryptotypeselected = sshcrypto_TYPENEWCRYPTO;
+static unsigned int cryptotypeselected = sshcrypto_TYPENEWCRYPTO | sshcrypto_TYPEPQCRYPTO;
 static int flagverbose = 1;
 static int fdwd;
 static int flaglogger = 0;
