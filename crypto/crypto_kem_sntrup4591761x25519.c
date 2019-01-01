@@ -5,6 +5,7 @@ Public domain.
 */
 
 #include "randombytes.h"
+#include "cleanup.h"
 #include "crypto_hash_sha512.h"
 #include "crypto_scalarmult_curve25519.h"
 #include "crypto_kem_sntrup4591761.h"
@@ -57,6 +58,10 @@ int crypto_kem_sntrup4591761x25519_tinynacl_enc(unsigned char *c,
 
     /* hash together sntrup459176 KEM-key and x25519 shared secret */
     crypto_hash_sha512(k, buf, sizeof buf);
+
+    /* cleanup */
+    cleanup(buf);
+    cleanup(onetimesk);
     return r;
 }
 
@@ -86,6 +91,9 @@ int crypto_kem_sntrup4591761x25519_tinynacl_dec(unsigned char *k,
 
     /* hash together sntrup459176 KEM-key and x25519 shared secret */
     crypto_hash_sha512(k, buf, sizeof buf);
+
+    /* cleanup */
+    cleanup(buf);
     return r;
 }
 
