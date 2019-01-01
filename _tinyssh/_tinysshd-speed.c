@@ -9,7 +9,7 @@ static unsigned char pk[2560];
 static unsigned char c[2560];
 static unsigned char a[16];
 static unsigned char n[8];
-static unsigned char k[32];
+static unsigned char k[64];
 static unsigned char h[64];
 static unsigned char space[10240];
 static unsigned char m[51200];
@@ -68,6 +68,19 @@ int main(void) {
         ++count;
     }
     printf("crypto_onetimeauth_poly1305: %lld MB/s (%s)\n", count/100, crypto_onetimeauth_poly1305_IMPLEMENTATION);
+#endif
+
+#ifdef crypto_scalarmult_curve25519_IMPLEMENTATION
+    /* x25519 test */
+	randombytes(sk, crypto_scalarmult_curve25519_SCALARBYTES);
+    crypto_scalarmult_curve25519_base(pk, sk);
+
+    alarm(1); flagtimeout = 0; count = 0;
+    while (!flagtimeout) {
+        if (crypto_scalarmult_curve25519(k, sk, pk) != 0) return 111;
+        ++count;
+    }
+    printf("crypto_scalarmult_curve25519: %lld dh/s (%s)\n", count, crypto_scalarmult_curve25519_IMPLEMENTATION);
 #endif
 
 #ifdef crypto_sign_ed25519_IMPLEMENTATION
