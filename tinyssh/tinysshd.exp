@@ -16,7 +16,7 @@
 
 --- tinysshd default setup
 
-_tinysshd-printkex: info: kex algorithms: curve25519-sha256,curve25519-sha256@libssh.org 
+_tinysshd-printkex: info: kex algorithms: curve25519-sha256,curve25519-sha256@libssh.org,sntrup4591761x25519-sha512@tinyssh.org 
 _tinysshd-printkex: info: server host key algorithms: ssh-ed25519 
 _tinysshd-printkex: info: encryption algorithms client to server: chacha20-poly1305@openssh.com 
 _tinysshd-printkex: info: encryption algorithms server to client: chacha20-poly1305@openssh.com 
