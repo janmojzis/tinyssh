@@ -1,0 +1,65 @@
+This document describes the sntrup4591761x25519-sha512@tinyssh.org key-exchange
+method implemented in TinySSH. This key-exchange is intended to be secure
+against attacks using quantum computers. But also is intended to be at least
+as secure as elliptic-curve algorithms when postquantum part fails.
+
+New KEM key-exchange
+====================
+There are many postquantum public key encryption candidates (lattice based,
+code based, ...) and all of them can be converted to KEM (key encapsulation
+mechanism). E.g. NIST PQC competition uses KEM and appropriate crypto_kem
+API. KEM means that the sender takes a public key as input and produces
+a ciphertext and session key as output. And receiver takes a ciphertext
+and a secret key as input and produces session key as output.
+Therefore first step is modification of SSH protocol to allow KEM key-exchange:
+
+Client:
+- generate clients keypair using crypto_kem_keypair(client-pk, client-sk)
+- send client-pk to the server (in SSH_MSG_KEX_KEM_INIT message)
+
+Server:
+- generate ciphertext server-c and secret kem-k using crypto_kem_enc(server-c, kem-k, client-pk)
+- compute the exchange HASH using kem-k, derive keys, etc ...
+- send signed ciphertext server-c to the server (in SSH_MSG_KEX_KEM_REPLY message)
+
+Client:
+- compute secret kem-k using crypto_kem_dec(kem-k, server-c, client-sk)
+- compute the exchange HASH using kem-k, derive keys, etc ...
+
+For comparsion: ECDH Key Echange
+================================
+
+Client:
+- generate clients keypair using crypto_dh_keypair(client-pk, client-sk)
+- send client-pk to the server (in SSH_MSG_KEX_ECDH_INIT message)
+
+Server:
+- generate servers keypair using crypto_dh_keypair(server-pk, server-sk)
+- compute shared_secret using crypto_dh(shared_secret, client-pk, server-sk)
+- compute the exchange HASH using shared_secret, derive keys, etc ...
+- send signed publickey server-pk to the server (in SSH_MSG_KEX_ECDH_REPLY message)
+
+Client:
+- compute shared_secret using crypto_dh(shared_secret, server-pk, client-sk)
+- compute the exchange HASH using shared_secret, derive keys, etc ...
+
+Selected primitives
+====================
+sntrup4591761x25519-sha512@tinyssh.org is designed to use a post-quantum and
+elliptic-curve primitive concurrently. Security is not worst than
+e.g. in elliptic-curve-only curve25519-sha256, even if the post-quantum part
+is not secure.
+sntrup4591761x25519-sha512@tinyssh.org uses two primitives:
+- Latice based, Streamlined NTRU Prime 4591761
+- ECC X25519
+
+Streamlined NTRU Prime 4591761 https://ntruprime.cr.yp.to
+---------------------------------------------------------
+- NTRU has a long history, NTRU Prime is reducing attack surface (prime-degree
+large-Galois-group inert-modulus)
+- constant-time implementation
+- short publickey, short ciphertext (~1kB)
+- submited to NIST PQC competition
+- internaly KEM use SHA512 -> no need to implement e.g. SHA3 (This is
+big benefit for TinySSH)
+
