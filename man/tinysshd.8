@@ -35,13 +35,25 @@ print error messages (default)
 print extra information
 .TP
 .B \-s
-enable state\-of\-the\-art crypto \- ssh\-ed25519, curve25519\-sha256, chacha20\-poly1305@openssh.com (default)
+enable state\-of\-the\-art crypto (default)
+.sp
+signing \- ssh\-ed25519
+.sp
+key-exchange \- curve25519\-sha256
+.sp
+symmetric \- chacha20\-poly1305@openssh.com
 .TP
 .B \-S
 disable state\-of\-the\-art crypto
 .TP
 .B \-p
-enable post\-quantum crypto \- TODO, sntrup4591761x25519-sha512@tinyssh.org, chacha20\-poly1305@openssh.com (default)
+enable post\-quantum crypto (default)
+.sp
+signing \- TODO (not implemented yet)
+.sp
+key-exchange \- sntrup4591761x25519\-sha512@tinyssh.org
+.sp
+symmetric \-  chacha20\-poly1305@openssh.com
 .TP
 .B \-P
 disable post\-quantum crypto
