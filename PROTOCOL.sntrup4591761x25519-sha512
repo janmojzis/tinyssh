@@ -20,7 +20,7 @@ Client:
 Server:
 - generate ciphertext server-c and secret kem-k using crypto_kem_enc(server-c, kem-k, client-pk)
 - compute the exchange HASH using kem-k, derive keys, etc ...
-- send signed ciphertext server-c to the server (in SSH_MSG_KEX_KEM_REPLY message)
+- send signed ciphertext server-c to the client (in SSH_MSG_KEX_KEM_REPLY message)
 
 Client:
 - compute secret kem-k using crypto_kem_dec(kem-k, server-c, client-sk)
@@ -37,7 +37,7 @@ Server:
 - generate servers keypair using crypto_dh_keypair(server-pk, server-sk)
 - compute shared_secret using crypto_dh(shared_secret, client-pk, server-sk)
 - compute the exchange HASH using shared_secret, derive keys, etc ...
-- send signed publickey server-pk to the server (in SSH_MSG_KEX_ECDH_REPLY message)
+- send signed publickey server-pk to the client (in SSH_MSG_KEX_ECDH_REPLY message)
 
 Client:
 - compute shared_secret using crypto_dh(shared_secret, server-pk, client-sk)
