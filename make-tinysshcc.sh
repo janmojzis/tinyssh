@@ -189,28 +189,17 @@ log1 "finishing"
 rm -rf "${work}"
 mkdir -p "${work}"
 cp -pr tinyssh/* "${work}"
-cp -pr _tinyssh/* "${work}" 2>/dev/null || :
 (
   cd "${work}"
   log1 "starting tinyssh objects"
-  touch SOURCES TARGETS _TARGETS
-  cat SOURCES TARGETS _TARGETS\
+  touch SOURCES TARGETS
+  cat SOURCES TARGETS\
   | while read x
   do
     ${compiler} "-DCOMPILER=\"${compilerorig}\"" "-DVERSION=\"${version}\"" -I"${include}" -c "${x}.c" || { log2 "${x}.o failed ... see the log ${log}"; exit 111; }
     log2 "${x}.o ok"
   done || exit 111
   ar cr libtinyssh.a `cat LIBS` || exit 111
-  log1 "finishing"
-
-  log1 "starting _tinyssh"
-  cat _TARGETS \
-  | while read x
-  do
-    ${compiler} -I"${include}" -o "${x}" "${x}.o" libtinyssh.a ${libs} || { log2 "${x} failed ... see the log ${log}"; exit 111; }
-    cp -p "${x}" "${bin}/${x}"
-    log2 "${x} ok"
-  done || exit 111
   log1 "finishing"
 
   log1 "starting tinyssh"
