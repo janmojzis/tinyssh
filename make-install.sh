@@ -1,4 +1,5 @@
-#!/bin/sh -e
+#!/bin/sh
+set -e
 
 build="`pwd`/build"
 source="`pwd`"
@@ -20,15 +21,24 @@ confbin="`head -1 conf-bin`"
 bindir=`echo "$1/${confbin}" | sed 's,//,/,g'`
 echo "=== `date` === installing bin directory ${bindir}"
 mkdir -p "${bindir}" || exit 111
-cat "${source}/tinyssh/TARGETS" |\
-while read x
+cat "${source}/tinyssh/LINKS" |\
+while read x y
 do
-  cp "${bin}/${x}" "${bindir}/${x}.tmp"
-  (
-    cd "${bindir}"
-    chmod 755 "${x}.tmp"
-    mv -f "${x}.tmp" "${x}"
-  )
+  rm -f "${x}.tmp"
+  if [ "_${y}" = "_" ]; then
+    cp "${bin}/${x}" "${bindir}/${x}.tmp"
+    (
+      cd "${bindir}"
+      chmod 755 "${x}.tmp"
+      mv -f "${x}.tmp" "${x}"
+    )
+  else
+    (
+      cd "${bindir}"
+      ln -s "${y}" "${x}.tmp"
+      mv -f "${x}.tmp" "${x}"
+    )
+  fi
   echo "=== `date` ===   installing ${bin}/${x} -> ${bindir}/${x}"
 done || exit 111
 echo "=== `date` === finishing"
