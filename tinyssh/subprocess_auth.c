@@ -87,14 +87,14 @@ int subprocess_auth_authorizedkeys_(const char *keyname, const char *key, const 
 
     fd = open_read("authorized_keys");
     if (fd == -1) {
-        log_w3("auth: unable to open file: ", dir, "/authorized_keys");
+        log_w3("auth: unable to open file: ", dir, "/.ssh/authorized_keys");
         return 0;
     }
 
     do {
         r = getln(fd, buf, bufmax);
         if (r == -1) {
-            log_w3("auth: unable to read from file ", dir, "/authorized_keys");
+            log_w3("auth: unable to read from file ", dir, "/.ssh/authorized_keys");
             return 0;
         }
         if (findnameandkey(keyname, key, buf)) return 1; /* authorized */
