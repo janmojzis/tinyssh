@@ -155,7 +155,6 @@ authorized:
     log_i7("auth: ", packet.name, ": ", pkname, " ", (char *)b->buf, " accepted");
     buf_purge(b);
     buf_putnum8(b, SSH_MSG_USERAUTH_SUCCESS);
-    buf_putstring(b,"ssh-connection");
     packet_put(b);
     if (!packet_sendall()) bug();
 
