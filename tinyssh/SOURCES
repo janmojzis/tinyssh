@@ -51,6 +51,7 @@ sshcrypto_cipher_chachapoly
 sshcrypto_kex
 sshcrypto_kex_curve25519
 sshcrypto_kex_sntrup4591761x25519
+sshcrypto_kex_sntrup761x25519
 sshcrypto_key
 sshcrypto_key_ed25519
 str

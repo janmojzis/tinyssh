@@ -51,6 +51,10 @@ extern void curve25519_putkemkey(struct buf *, const unsigned char *);
 /* sshcrypto_kex_sntrup4591761x25519.c */
 extern void sntrup4591761x25519_putkemkey(struct buf *, const unsigned char *);
 #endif
+#if defined(crypto_kem_sntrup761x25519_BYTES) && defined(crypto_hash_sha512_BYTES)
+/* sshcrypto_kex_sntrup761x25519.c */
+extern void sntrup761x25519_putkemkey(struct buf *, const unsigned char *);
+#endif
 
 /* key - sign */
 #define sshcrypto_sign_PUBLICKEYMAX 32          /* space for ed25519 pk  */
