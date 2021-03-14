@@ -16,7 +16,5 @@ uint32_pack_big 0
 uint32_unpack_big 0
 cleanup 0
 crypto_sort_uint32 1
-crypto_kem_sntrup4591761 1
 crypto_kem_sntrup761 1
-crypto_kem_sntrup4591761x25519 1
 crypto_kem_sntrup761x25519 1

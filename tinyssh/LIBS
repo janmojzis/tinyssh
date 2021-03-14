@@ -50,7 +50,6 @@ sshcrypto_cipher.o
 sshcrypto_cipher_chachapoly.o
 sshcrypto_kex.o
 sshcrypto_kex_curve25519.o
-sshcrypto_kex_sntrup4591761x25519.o
 sshcrypto_kex_sntrup761x25519.o
 sshcrypto_key.o
 sshcrypto_key_ed25519.o

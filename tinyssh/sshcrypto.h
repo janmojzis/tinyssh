@@ -10,9 +10,9 @@
 #define sshcrypto_TYPEPQCRYPTO  0x4 /* TODO, TODO, chacha20-poly1305@openssh.com */
 
 /* kex - kem + hash */
-#define sshcrypto_kem_PUBLICKEYMAX  crypto_kem_sntrup4591761x25519_PUBLICKEYBYTES
-#define sshcrypto_kem_CIPHERTEXTMAX crypto_kem_sntrup4591761x25519_CIPHERTEXTBYTES
-#define sshcrypto_kem_MAX           crypto_kem_sntrup4591761x25519_BYTES
+#define sshcrypto_kem_PUBLICKEYMAX  crypto_kem_sntrup761x25519_PUBLICKEYBYTES
+#define sshcrypto_kem_CIPHERTEXTMAX crypto_kem_sntrup761x25519_CIPHERTEXTBYTES
+#define sshcrypto_kem_MAX           crypto_kem_sntrup761x25519_BYTES
 #define sshcrypto_hash_MAX          crypto_hash_sha512_BYTES
 
 struct sshcrypto_kex {
@@ -47,10 +47,6 @@ extern int curve25519_enc(unsigned char *, unsigned char *, const unsigned char 
 extern void curve25519_putkemkey(struct buf *, const unsigned char *);
 #endif
 
-#if defined(crypto_kem_sntrup4591761x25519_BYTES) && defined(crypto_hash_sha512_BYTES)
-/* sshcrypto_kex_sntrup4591761x25519.c */
-extern void sntrup4591761x25519_putkemkey(struct buf *, const unsigned char *);
-#endif
 #if defined(crypto_kem_sntrup761x25519_BYTES) && defined(crypto_hash_sha512_BYTES)
 /* sshcrypto_kex_sntrup761x25519.c */
 extern void sntrup761x25519_putkemkey(struct buf *, const unsigned char *);
