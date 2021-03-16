@@ -17,5 +17,6 @@ sc25519
 crypto_scalarmult_curve25519
 crypto_sign_ed25519
 cleanup
-crypto_kem_sntrup4591761
-crypto_kem_sntrup4591761x25519
+crypto_sort_uint32
+crypto_kem_sntrup761
+crypto_kem_sntrup761x25519

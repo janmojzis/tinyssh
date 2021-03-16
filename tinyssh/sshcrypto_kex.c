@@ -38,15 +38,15 @@ struct sshcrypto_kex sshcrypto_kexs[] = {
         0,
     },
 #endif
-#if defined(crypto_kem_sntrup4591761x25519_BYTES) && defined(crypto_hash_sha512_BYTES)
-    {   "sntrup4591761x25519-sha512@tinyssh.org",
-        crypto_kem_sntrup4591761x25519_enc,
-        crypto_kem_sntrup4591761x25519_PUBLICKEYBYTES,   /* pk */
-        crypto_kem_sntrup4591761x25519_CIPHERTEXTBYTES,  /* c */
-        crypto_kem_sntrup4591761x25519_BYTES,            /* k */
+#if defined(crypto_kem_sntrup761x25519_BYTES) && defined(crypto_hash_sha512_BYTES)
+    {   "sntrup761x25519-sha512@openssh.com",
+        crypto_kem_sntrup761x25519_enc,
+        crypto_kem_sntrup761x25519_PUBLICKEYBYTES,   /* pk */
+        crypto_kem_sntrup761x25519_CIPHERTEXTBYTES,  /* c */
+        crypto_kem_sntrup761x25519_BYTES,            /* k */
         crypto_hash_sha512,
         crypto_hash_sha512_BYTES,
-        sntrup4591761x25519_putkemkey,
+        sntrup761x25519_putkemkey,
         sshcrypto_TYPEPQCRYPTO,
         0,
     },

@@ -1,5 +1,5 @@
 /*
-20181225
+20210314
 Jan Mojzis
 Public domain.
 */
@@ -8,17 +8,17 @@ Public domain.
 #include "cleanup.h"
 #include "crypto_hash_sha512.h"
 #include "crypto_scalarmult_curve25519.h"
-#include "crypto_kem_sntrup4591761.h"
-#include "crypto_kem_sntrup4591761x25519.h"
+#include "crypto_kem_sntrup761.h"
+#include "crypto_kem_sntrup761x25519.h"
 
-#define sntrup4591761_BYTES crypto_kem_sntrup4591761_BYTES
+#define sntrup761_BYTES crypto_kem_sntrup761_BYTES
 #define x25519_BYTES crypto_scalarmult_curve25519_BYTES
 #define x25519_SCALARBYTES crypto_scalarmult_curve25519_SCALARBYTES
-#define sx_BYTES sntrup4591761_BYTES + x25519_BYTES
-#define sntrup4591761_PUBLICKEYBYTES crypto_kem_sntrup4591761_PUBLICKEYBYTES
-#define sntrup4591761_SECRETKEYBYTES crypto_kem_sntrup4591761_SECRETKEYBYTES
-#define sx_PUBLICKEYBYTES sntrup4591761_PUBLICKEYBYTES + x25519_BYTES
-#define sx_SECRETKEYBYTES sntrup4591761_SECRETKEYBYTES + x25519_SCALARBYTES
+#define sx_BYTES sntrup761_BYTES + x25519_BYTES
+#define sntrup761_PUBLICKEYBYTES crypto_kem_sntrup761_PUBLICKEYBYTES
+#define sntrup761_SECRETKEYBYTES crypto_kem_sntrup761_SECRETKEYBYTES
+#define sx_PUBLICKEYBYTES sntrup761_PUBLICKEYBYTES + x25519_BYTES
+#define sx_SECRETKEYBYTES sntrup761_SECRETKEYBYTES + x25519_SCALARBYTES
 
 static unsigned char returnmask(int x) {
 
@@ -29,9 +29,9 @@ static unsigned char returnmask(int x) {
     return ret - 1;
 }
 
-int crypto_kem_sntrup4591761x25519_tinynacl_enc(unsigned char *c,
-                                                unsigned char *k,
-                                                const unsigned char *pk) {
+int crypto_kem_sntrup761x25519_tinynacl_enc(unsigned char *c,
+                                            unsigned char *k,
+                                            const unsigned char *pk) {
 
     int r = 0;
     long long i;
@@ -40,15 +40,15 @@ int crypto_kem_sntrup4591761x25519_tinynacl_enc(unsigned char *c,
     unsigned char tmp[sx_BYTES];
     unsigned char b;
 
-    /* sntrup4591761 */
-    r |= crypto_kem_sntrup4591761_enc(c, buf, pk);
-    pk += crypto_kem_sntrup4591761_PUBLICKEYBYTES;
-    c += crypto_kem_sntrup4591761_CIPHERTEXTBYTES;
+    /* sntrup761 */
+    r |= crypto_kem_sntrup761_enc(c, buf, pk);
+    pk += crypto_kem_sntrup761_PUBLICKEYBYTES;
+    c += crypto_kem_sntrup761_CIPHERTEXTBYTES;
 
     /* x25519 */
     randombytes(onetimesk, sizeof onetimesk);
     r |= crypto_scalarmult_curve25519_base(/*onetimepk*/ c, onetimesk);
-    r |= crypto_scalarmult_curve25519(buf + sntrup4591761_BYTES, onetimesk, pk);
+    r |= crypto_scalarmult_curve25519(buf + sntrup761_BYTES, onetimesk, pk);
 
     /* if something fails, fill the buffer with random data */
     randombytes(tmp, sizeof tmp);
@@ -65,9 +65,9 @@ int crypto_kem_sntrup4591761x25519_tinynacl_enc(unsigned char *c,
     return r;
 }
 
-int crypto_kem_sntrup4591761x25519_tinynacl_dec(unsigned char *k,
-                                                const unsigned char *c,
-                                                const unsigned char *sk) {
+int crypto_kem_sntrup761x25519_tinynacl_dec(unsigned char *k,
+                                            const unsigned char *c,
+                                            const unsigned char *sk) {
 
     int r = 0;
     long long i;
@@ -75,13 +75,13 @@ int crypto_kem_sntrup4591761x25519_tinynacl_dec(unsigned char *k,
     unsigned char tmp[sx_BYTES];
     unsigned char b;
 
-    /* sntrup4591761 */
-    r |= crypto_kem_sntrup4591761_dec(buf, c, sk);
-    sk += crypto_kem_sntrup4591761_SECRETKEYBYTES;
-    c += crypto_kem_sntrup4591761_CIPHERTEXTBYTES;
+    /* sntrup761 */
+    r |= crypto_kem_sntrup761_dec(buf, c, sk);
+    sk += crypto_kem_sntrup761_SECRETKEYBYTES;
+    c += crypto_kem_sntrup761_CIPHERTEXTBYTES;
 
     /* x25519 */
-    r |= crypto_scalarmult_curve25519(buf + sntrup4591761_BYTES, sk, c);
+    r |= crypto_scalarmult_curve25519(buf + sntrup761_BYTES, sk, c);
 
     /* if something fails, fill the buffer with random data */
     randombytes(tmp, sizeof tmp);
@@ -97,20 +97,20 @@ int crypto_kem_sntrup4591761x25519_tinynacl_dec(unsigned char *k,
     return r;
 }
 
-int crypto_kem_sntrup4591761x25519_tinynacl_keypair(unsigned char *pk,
-                                                    unsigned char *sk) {
+int crypto_kem_sntrup761x25519_tinynacl_keypair(unsigned char *pk,
+                                                unsigned char *sk) {
 
     int r = 0;
     long long i;
     unsigned char b;
 
-    /* sntrup4591761 */
-    r |= crypto_kem_sntrup4591761_keypair(pk, sk);
+    /* sntrup761 */
+    r |= crypto_kem_sntrup761_keypair(pk, sk);
 
     /* x25519 */
-    randombytes(sk + sntrup4591761_SECRETKEYBYTES, x25519_SCALARBYTES);
-    r |= crypto_scalarmult_curve25519_base(pk + sntrup4591761_PUBLICKEYBYTES,
-                                           sk + sntrup4591761_SECRETKEYBYTES);
+    randombytes(sk + sntrup761_SECRETKEYBYTES, x25519_SCALARBYTES);
+    r |= crypto_scalarmult_curve25519_base(pk + sntrup761_PUBLICKEYBYTES,
+                                           sk + sntrup761_SECRETKEYBYTES);
 
     b = ~returnmask(r);
     for (i = 0; i < sx_PUBLICKEYBYTES; ++i) pk[i] &= b;
