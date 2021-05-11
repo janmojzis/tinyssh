@@ -201,12 +201,44 @@ static int homedir(void) {
     return 1 + stat(pw->pw_dir, &st);
 }
 
+static int shell(void) {
+
+    pid_t pid;
+    int status;
+
+    pid = fork();
+    if (pid == -1) return 0;
+    if (pid == 0) {
+        struct passwd *pw;
+        char *run[4];
+        pw = getpwuid(geteuid());
+        if (!pw) _exit(1);
+        run[0] = pw->pw_shell;
+        run[1] = (char *)"-c";
+        run[2] = (char *)"exit 0";
+        run[3] = (char *)0;
+        execvp(run[0], run);
+        _exit(1);
+    }
+
+    while (waitpid(pid, &status, 0) != pid) {};
+    if (!WIFEXITED(status)) return 0;
+    if (WEXITSTATUS(status)) return 0;
+    return 1;
+}
+
 
 int main(void) {
 
     /* don't run check when homedir not exist */
     if (!homedir()) {
         warn("homedir not exist - skipping tests")
+        _exit(0);
+    }
+
+    /* don't run check when shell returns non-zero */
+    if (!shell()) {
+        warn("shell returns non-zero - skipping tests")
         _exit(0);
     }
 
