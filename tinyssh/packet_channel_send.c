@@ -15,12 +15,19 @@ Public domain.
 void packet_channel_send_data(struct buf *b) {
 
     long long r;
+    long long limit = PACKET_LIMIT;
+
+    if (channel.maxpacket > 0) {
+        if (channel.maxpacket < PACKET_LIMIT) {
+            limit = channel.maxpacket;
+        }
+    }
 
     buf_purge(b);
 
     if (b->alloc <= PACKET_LIMIT) bug_nomem();
     if (!packet_putisready()) return;
-    r = channel_read(b->buf + 9, PACKET_LIMIT - 9);
+    r = channel_read(b->buf + 9, limit - 9);
     if (r == 0) return;
     b->len = r + 9;
     b->buf[0] = SSH_MSG_CHANNEL_DATA;                   /* byte      SSH_MSG_CHANNEL_DATA */
@@ -34,12 +41,19 @@ void packet_channel_send_data(struct buf *b) {
 void packet_channel_send_extendeddata(struct buf *b) {
 
     long long r;
+    long long limit = PACKET_LIMIT;
+
+    if (channel.maxpacket > 0) {
+        if (channel.maxpacket < PACKET_LIMIT) {
+            limit = channel.maxpacket;
+        }
+    }
 
     buf_purge(b);
 
     if (b->alloc <= PACKET_LIMIT) bug_nomem();
     if (!packet_putisready()) return;
-    r = channel_extendedread(b->buf + 13, PACKET_LIMIT - 13);
+    r = channel_extendedread(b->buf + 13, limit - 13);
     if (r == 0) return;
     b->len = r + 13;
     b->buf[0] = SSH_MSG_CHANNEL_EXTENDED_DATA;          /* byte      SSH_MSG_CHANNEL_EXTENDED_DATA */
