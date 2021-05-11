@@ -33,11 +33,11 @@ int packet_kexdh(const char *keydir, struct buf *b1, struct buf *b2) {
 
     if (packet.kex_packet_follows && !packet.kex_guess) {
         buf_purge(b1);
-        if (!packet_getall(b1, SSH_MSG_KEXDH_INIT)) bug_proto();
+        if (!packet_getall(b1, SSH_MSG_KEXDH_INIT)) return 0;
     }
 
     buf_purge(b1);
-    if (!packet_getall(b1, SSH_MSG_KEXDH_INIT)) bug_proto();
+    if (!packet_getall(b1, SSH_MSG_KEXDH_INIT)) return 0;
     pos = packetparser_uint8(b1->buf, b1->len, pos, &ch);           /* byte      SSH_MSG_KEXDH_INIT */
     if (ch != SSH_MSG_KEXDH_INIT) bug_proto();
     pos = packetparser_uint32(b1->buf, b1->len, pos, &len);         /* string    client's public key */
@@ -69,7 +69,7 @@ int packet_kexdh(const char *keydir, struct buf *b1, struct buf *b2) {
     packet.flagrekeying = 1;
 
     /* signature */
-    if (subprocess_sign(sm, sshcrypto_sign_bytes, keydir, hash, sshcrypto_hash_bytes) != 0) bug();
+    if (subprocess_sign(sm, sshcrypto_sign_bytes, keydir, hash, sshcrypto_hash_bytes) != 0) return 0;
     buf_purge(b1); buf_purge(b2);
 
     /* send server kex_ecdh_reply */
@@ -83,12 +83,12 @@ int packet_kexdh(const char *keydir, struct buf *b1, struct buf *b2) {
     buf_purge(b2);
     buf_putnum8(b2, SSH_MSG_NEWKEYS);
     packet_put(b2);
-    if (!packet_sendall()) bug();
+    if (!packet_sendall()) return 0;
 
     /* receive new keys */
     do {
         buf_purge(b2);
-        if (!packet_getall(b2, 0)) bug();
+        if (!packet_getall(b2, 0)) return 0;
     } while (b2->buf[0] != SSH_MSG_NEWKEYS);
 
     /* key derivation */

@@ -35,7 +35,7 @@ int packet_auth(struct buf *b, struct buf *b2) {
 
     /* parse "ssh-userauth" */
     pos = 0;
-    if (!packet_getall(b, SSH_MSG_SERVICE_REQUEST)) bug();
+    if (!packet_getall(b, SSH_MSG_SERVICE_REQUEST)) return 0;
     pos = packetparser_uint8(b->buf, b->len, pos, &ch);       /* SSH_MSG_SERVICE_REQUEST */
     if (ch != SSH_MSG_SERVICE_REQUEST) bug_proto();
     pos = packetparser_uint32(b->buf, b->len, pos, &len);     /* "ssh-userauth" */
@@ -46,7 +46,7 @@ int packet_auth(struct buf *b, struct buf *b2) {
     /* send service accept */
     b->buf[0] = SSH_MSG_SERVICE_ACCEPT;
     packet_put(b);
-    if (!packet_sendall()) bug();
+    if (!packet_sendall()) return 0;
 
 
     for (count = 0; count < 32; ++count) {
@@ -104,7 +104,7 @@ int packet_auth(struct buf *b, struct buf *b2) {
                     buf_putstring(b, pkname);
                     putsignpk(b, pk);
                     packet_put(b);
-                    if (!packet_sendall()) bug();
+                    if (!packet_sendall()) return 0;
                     continue;
                 }
 
@@ -144,7 +144,7 @@ int packet_auth(struct buf *b, struct buf *b2) {
         buf_putstring(b,"publickey");
         buf_putnum8(b, 0);
         packet_put(b);
-        if (!packet_sendall()) bug();
+        if (!packet_sendall()) return 0;
     }
     log_w1("auth: too many authentication tries");
     return 0;
@@ -156,7 +156,7 @@ authorized:
     buf_purge(b);
     buf_putnum8(b, SSH_MSG_USERAUTH_SUCCESS);
     packet_put(b);
-    if (!packet_sendall()) bug();
+    if (!packet_sendall()) return 0;
 
     purge(pk, sizeof pk);
     purge(sig, sizeof sig);

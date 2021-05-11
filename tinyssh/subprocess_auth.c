@@ -49,7 +49,7 @@ static void check(uid_t uid, const char *d, const char *f, long long *err) {
         if (stat(d, &st) == -1) { log_w4("auth: unable to stat directory: ", d, "/", f); e = 1; }
         if (e == 0 && !S_ISDIR(st.st_mode)) { errno = ENOTDIR; log_w4("auth: unable to stat directory: ", d, "/", f); e = 1; }
     }
-    if (e == 0 && (st.st_mode & 022) != 0) { errno = EACCES; log_w4("auth: bad mode: ", d, "/", f); e = 1; }
+    if (e == 0 && (st.st_mode & 022) != 0) { errno = EACCES; log_w4("auth: bad mode: directory writable by group or others: ", d, "/", f); e = 1; }
     if (e == 0 && st.st_uid != uid && st.st_uid != 0) { errno = EACCES; log_w4("auth: bad owner: ", d, "/", f); e = 1; }
 
     if (e) *err = 1;

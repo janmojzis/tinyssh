@@ -157,7 +157,7 @@ rekeying:
     }
 
     /* send and receive kexdh */
-    if (!packet_kexdh(keydir, &b1, &b2)) die_fatal("unable to subprocess kexdh", 0, 0);
+    if (!packet_kexdh(keydir, &b1, &b2)) die_fatal("unable to process kexdh", 0, 0);
 
     if (packet.flagkeys) log_d1("rekeying: done");
     packet.flagkeys = 1;
