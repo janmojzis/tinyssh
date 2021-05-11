@@ -54,7 +54,7 @@ int packet_auth(struct buf *b, struct buf *b2) {
         pkname = "unknown";
         pos = 0;
         buf_purge(b);
-        if (!packet_getall(b, SSH_MSG_USERAUTH_REQUEST)) bug();
+        if (!packet_getall(b, SSH_MSG_USERAUTH_REQUEST)) return 0;
         pos = packetparser_uint8(b->buf, b->len, pos, &ch);         /* SSH_MSG_USERAUTH_REQUEST */
         if (ch != SSH_MSG_USERAUTH_REQUEST) bug_proto();
         pos = packetparser_uint32(b->buf, b->len, pos, &len);       /* name */
