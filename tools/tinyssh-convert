@@ -42,7 +42,7 @@ class Parser:
                 """
 
                 if (4 > len(self.data)):
-                        raise Exception("unable to parse OpenSSH key: bad ssh-num {text}")
+                        raise Exception(f"unable to parse OpenSSH key: bad ssh-num {text}")
 
                 num = struct.unpack('>I', self.data[:4])[0]
                 self.data = self.data[4:]
@@ -55,7 +55,7 @@ class Parser:
                 num = self.parse_num(text)
 
                 if (num > len(self.data)):
-                        raise Exception("unable to parse OpenSSH key: bad ssh-string {text}")
+                        raise Exception(f"unable to parse OpenSSH key: bad ssh-string {text}")
 
                 ret = self.data[:num]
                 self.data = self.data[num:]
@@ -145,9 +145,9 @@ if __name__ == "__main__":
         if sklen != 64:
                 raise Exception(f"unable to parse OpenSSH key: secret-key length={sklen}: not 64")
 
-        os.umask(0o022)
+        os.umask(0o0022)
         os.mkdir(d)
         os.chdir(d)
         writesync("ed25519.pk", pk)
-        os.umask(0o077)
+        os.umask(0o0077)
         writesync(".ed25519.sk", sk)
