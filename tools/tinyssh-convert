@@ -1,0 +1,153 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import base64
+import struct
+
+
+"""
+        byte[]        AUTH_MAGIC = "openssh-key-v1\x00"
+        string        ciphername
+        string        kdfname
+        string        kdfoptions
+        int        number of keys N
+        string        publickey1
+        string        publickey2
+        ...
+        string        publickeyN
+        string        encrypted, padded list of private keys
+"""
+
+class Parser:
+        """
+        """
+
+        def __init__(self, data = b""):
+                """
+                """
+
+                self.data = data 
+
+        def parse_magic(self):
+                """
+                """
+
+                if len(self.data) < 15 or not self.data.startswith(b"openssh-key-v1\x00"):
+                        raise Exception("unable to parse OpenSSH key: magic 'openssh-key-v1' not found")
+                self.data = self.data[15:]
+
+        def parse_num(self, text):
+                """
+                """
+
+                if (4 > len(self.data)):
+                        raise Exception("unable to parse OpenSSH key: bad ssh-num {text}")
+
+                num = struct.unpack('>I', self.data[:4])[0]
+                self.data = self.data[4:]
+                return num
+
+        def parse_string(self, text):
+                """
+                """
+
+                num = self.parse_num(text)
+
+                if (num > len(self.data)):
+                        raise Exception("unable to parse OpenSSH key: bad ssh-string {text}")
+
+                ret = self.data[:num]
+                self.data = self.data[num:]
+                return ret
+
+def usage(f = ""):
+        """
+        """
+
+        if len(f) != 0:
+                print("tinyssh-convert: fatal: %s" % (f))
+        print("tinyssh-convert: usage: tinyssh-convert out-tinysshkeydir < in-opensshfile")
+        print()
+        exit(100)
+
+def writesync(fn = "", data = b""):
+        """
+        """
+
+        f = open(fn, 'wb')
+        f.write(data)
+        f.flush()
+        os.fsync(f.fileno())
+        f.close()
+
+
+if __name__ == "__main__":
+
+        if len(sys.argv) != 2:
+                usage("")
+        d=sys.argv[1]
+
+        if os.path.exists(d):
+                usage("out-tinysshkeydir exist")
+
+        lines = sys.stdin.readlines()
+        data = ""
+        flagbegin = 0
+        for line in lines:
+                if line.startswith("-----BEGIN OPENSSH PRIVATE KEY-----"):
+                        flagbegin = 1
+                        continue
+                if line.startswith("-----END OPENSSH PRIVATE KEY-----"):
+                        break
+                if flagbegin:
+                        data += line
+
+        if flagbegin == 0:
+                raise Exception("unable to parse OpenSSH key: no line -----BEGIN OPENSSH PRIVATE KEY----- found")
+
+        data = base64.b64decode(data)
+
+        # parse key
+        p = Parser(data)
+        p.parse_magic()
+        ciphername = p.parse_string("ciphername")
+        if ciphername != b'none':
+                raise Exception("unable to parse OpenSSH key: can't convert encrypted key: ciphername != none")
+        kdfname = p.parse_string("kdfname")
+        if kdfname != b'none':
+                raise Exception("unable to parse OpenSSH key: can't convert encrypted key: kdfname != none")
+        kdfoptions = p.parse_string("kdfoptions")
+        if kdfoptions != b'':
+                raise Exception("unable to parse OpenSSH key: can't convert encrypted key: kdfoptions != ''")
+        pklen = p.parse_num("publickeys")
+        if (pklen != 1):
+                raise Exception("unable to parse OpenSSH key: more than one key in the file")
+
+        pkssh = p.parse_string("publickey")
+        skssh = p.parse_string("secretkeys")
+
+        # parse secret key
+        p = Parser(skssh)
+        p.parse_num("checkint")
+        p.parse_num("checkint")
+        sk = []
+        t = p.parse_string("secret-key type")
+        if t != b'ssh-ed25519':
+                raise Exception(f"unable to parse OpenSSH key: secret-key type={t}: not ssh-ed25519 key")
+        pk = p.parse_string("public-key")
+        pklen = len(pk)
+        sk = p.parse_string("secret-key")
+        sklen = len(sk)
+        p.parse_string("comment")
+        if pklen != 32:
+                raise Exception(f"unable to parse OpenSSH key: public-key length={pklen}: not 32")
+        if sklen != 64:
+                raise Exception(f"unable to parse OpenSSH key: secret-key length={sklen}: not 64")
+
+        os.umask(0o022)
+        os.mkdir(d)
+        os.chdir(d)
+        writesync("ed25519.pk", pk)
+        os.umask(0o077)
+        writesync(".ed25519.sk", sk)
