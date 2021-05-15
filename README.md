@@ -1,20 +1,10 @@
 ### Introduction ###
-
-TinySSH is a minimalistic SSH server which implements only a subset of SSHv2 features.
-
-### Features ###
-* easy auditable - TinySSH has less than 100000 words of code
-* no dynamic memory allocation - TinySSH has all memory statically allocated (less than 1MB)
-* simple configuration - TinySSH can't be misconfigured
-* reusing code - TinySSH is reusing libraries from CurveCP implementation
-* reusing software - TinySSH is using systemd.socket/inetd/tcpserver/... for TCP connection
-* limited amount of features - TinySSH doesn't have features such: SSH1 protocol, compression, port forwarding, agent forwarding, X11 forwarding ...
-* no older cryptographic primitives - rsa, dsa, classic diffie-hellman, hmac-md5, hmac-sha1, 3des, arcfour, ...
-* no copyright restrictions - TinySSH is in the public domain ([see the licence](LICENCE))
-
-### Security features ###
-* cryptographic library (minimum 128-bit security, side-channel attack resistant, state-of-the-art crypto, ...)
-* public-key authentication only (no password or hostbased authentication)
+* tinysshd is a minimalistic SSH server which implements only a subset of SSHv2 features.
+* tinysshd supports only secure cryptography (minimum 128-bit security, protected against cache-timing attacks)
+* tinysshd doesn't implement older crypto (such as RSA, DSA, HMAC-MD5, HMAC-SHA1, 3DES, RC4, ...)
+* tinysshd doesn't implement unsafe features (such as password or hostbased authentication)
+* tinysshd doesn't have features such: SSH1 protocol, compression, port forwarding, agent forwarding, X11 forwarding ...
+* tinysshd doesn't use dynamic memory allocation (no allocation failures, etc.)
 
 ### Crypto primitives ###
 * State-of-the-art crypto: ssh-ed25519, curve25519-sha256@libssh.org, chacha20-poly1305@openssh.com
@@ -30,5 +20,47 @@ TinySSH is a minimalistic SSH server which implements only a subset of SSHv2 fea
 ### Current release (20210319) ###
 * has 61950 words of code
 * beta release
+
+### How-to run ###
+~~~
+       TCPSERVER
+              tcpserver -HRDl0 0.0.0.0 22 /usr/sbin/tinysshd -v /etc/tinyssh/sshkeydir &
+
+       BUSYBOX
+              busybox tcpsvd 0 22 tinysshd -v /etc/tinyssh/sshkeydir &
+
+       INETD
+           /etc/inetd.conf:
+               ssh stream tcp nowait root /usr/sbin/tinysshd tinysshd -l -v /etc/tinyssh/sshkeydir
+
+       SYSTEMD
+           tinysshd.socket:
+               [Unit]
+               Description=TinySSH server socket
+               ConditionPathExists=!/etc/tinyssh/disable_tinysshd
+
+               [Socket]
+               ListenStream=22
+               Accept=yes
+
+               [Install]
+               WantedBy=sockets.target
+
+           tinysshd@.service:
+               [Unit]
+               Description=Tiny SSH server
+               After=network.target auditd.service
+
+               [Service]
+               ExecStartPre=-/usr/sbin/tinysshd-makekey -q /etc/tinyssh/sshkeydir
+               EnvironmentFile=-/etc/default/tinysshd
+               ExecStart=/usr/sbin/tinysshd ${TINYSSHDOPTS} -- /etc/tinyssh/sshkeydir
+               KillMode=process
+               StandardInput=socket
+               StandardError=journal
+
+               [Install]
+               WantedBy=multi-user.target
+~~~
 
 [![TravisCI status](https://travis-ci.org/janmojzis/tinyssh.svg?branch=master)](https://travis-ci.org/janmojzis/tinyssh)
