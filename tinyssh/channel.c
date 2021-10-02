@@ -54,8 +54,8 @@ int channel_open(const char *user, crypto_uint32 id, crypto_uint32 remotewindow,
     if (!localwindow) bug_inval();
     if (!maxpacket) bug_inval();
     if (!remotewindow) bug_inval();
-    if (channel.maxpacket != 0) bug_proto();
-    if (channel.pid != 0) bug_proto();
+    if (channel.maxpacket != 0) return 0;
+    if (channel.pid != 0) return 0;
 
     /* copy user-name */
     if (!str_copyn(channel.user, sizeof channel.user, user)) bug_nomem();

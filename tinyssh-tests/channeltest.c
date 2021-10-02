@@ -32,8 +32,12 @@ static char *name(void) {
 
 /* channel can't be opened 2x */
 static void testopen1(void) {
-    channel_open(user, id, remotewindow, maxpacket, &localwindow);
-    channel_open(user, id, remotewindow, maxpacket, &localwindow);
+    int r;
+    r = channel_open(user, id, remotewindow, maxpacket, &localwindow);
+    if (r != 1) fail("first channel_open not returns 1");
+    r = channel_open(user, id, remotewindow, maxpacket, &localwindow);
+    if (r != 0) fail("first channel_open not returns 0");
+    _exit(0);
 }
 
 /* *localwindow can't be 0 */
@@ -242,7 +246,7 @@ int main(void) {
         _exit(0);
     }
 
-    run_mustfail(testopen1);
+    run_mustpass(testopen1);
     run_mustfail(testopen2);
     run_mustfail(testopen3);
     run_mustfail(testopen4);
