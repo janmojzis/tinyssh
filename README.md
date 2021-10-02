@@ -7,7 +7,7 @@
 * tinysshd doesn't use dynamic memory allocation (no allocation failures, etc.)
 
 ### Crypto primitives ###
-* State-of-the-art crypto: ssh-ed25519, curve25519-sha256@libssh.org, chacha20-poly1305@openssh.com
+* State-of-the-art crypto: ssh-ed25519, curve25519-sha256, chacha20-poly1305@openssh.com
 * Older standard: <strike>ecdsa-sha2-nistp256, ecdh-sha2-nistp256, aes256-ctr, hmac-sha2-256</strike> removed in version 20190101
 * Postquantum crypto: sntrup761x25519-sha512@openssh.com, chacha20-poly1305@openssh.com
 
