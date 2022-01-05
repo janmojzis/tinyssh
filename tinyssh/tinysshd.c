@@ -41,8 +41,11 @@ int main(int argc, char **argv) {
     else if (str_equaln(x, xlen, "tinysshd-makekey")){
         return main_tinysshd_makekey(argc, argv);
     }
+    else if (str_equaln(x, xlen, "tinysshnoneauthd")){
+        return main_tinysshd(argc, argv, "tinysshnoneauthd");
+    }
     else {
-        return main_tinysshd(argc, argv);
+        return main_tinysshd(argc, argv, "tinysshd");
     }
 
     _exit(111);

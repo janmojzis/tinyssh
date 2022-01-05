@@ -104,7 +104,7 @@ extern int packet_kex_receive(void);
 extern int packet_kexdh(const char *, struct buf *, struct buf *);
 
 /* packet_auth.c */
-extern int packet_auth(struct buf *, struct buf *);
+extern int packet_auth(struct buf *, struct buf *, int);
 
 /* packet_channel_open.c */
 extern int packet_channel_open(struct buf *, struct buf *);

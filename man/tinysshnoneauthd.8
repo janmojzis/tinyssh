@@ -1,0 +1,49 @@
+.TH tinysshnoneauthd 8
+.SH NAME
+tinysshnoneauthd \- Tiny SSH daemon with 'none' auth. enabled
+.SH SYNOPSIS
+.B tinysshnoneauthd
+[ options ]
+.I keydir
+.SH DESCRIPTION
+.B tinysshnoneauthd
+creates encrypted (but not auhenticated) SSH connection.
+It's used to protect older protocols which uses e.g. telnet etc.
+.SH OPTIONS
+.TP
+.B \-q
+no error messages
+.TP
+.B \-Q
+print error messages (default)
+.TP
+.B \-v
+print extra information
+.TP
+.B \-l
+use syslog instead of standard error output (useful for running from inetd)
+.TP
+.B \-L
+don't use syslog, use standard error output (default)
+.TP
+.B \-e \fIcommand
+execute the given command instead of spawning the shell (disables \fIexec\fR/\fIsubsystem\fR channel requests)
+.TP
+.I keydir
+directory containing TinySSH keys, typically /etc/tinyssh/sshkeydir
+.SH EXAMPLES
+.TP
+.B TCPSERVER
+useradd tinysshnoneauth
+mkdir -p /home/tinysshnoneauth/
+tinysshd-makekey /home/tinysshnoneauth/sshkeydir
+chown -R tinysshnoneauth /home/tinysshnoneauth/sshkeydir
+envuidgid tinysshnoneauth tcpserver -UHRDl0 0 2222 /usr/sbin/tinysshnoneauthd -vv -e 'cat /etc/motd' /home/tinysshnoneauth/sshkeydir
+.SH SEE ALSO
+.BR tinysshd (8),
+.BR tinysshd\-makekey (8),
+.BR tinysshd\-printkey (8)
+.sp
+.nf
+https://tinyssh.org/
+.fi
