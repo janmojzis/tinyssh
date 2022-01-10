@@ -33,6 +33,7 @@ static unsigned int cryptotypeselected = sshcrypto_TYPENEWCRYPTO | sshcrypto_TYP
 static int flagverbose = 1;
 static int fdwd;
 static int flaglogger = 0;
+static const char *customcmd = 0;
 
 static struct buf b1 = {global_bspace1, 0, sizeof global_bspace1};
 static struct buf b2 = {global_bspace2, 0, sizeof global_bspace2};
@@ -93,6 +94,10 @@ int main_tinysshd(int argc, char **argv) {
             if (*x == 'x') {
                 if (x[1]) { channel_subsystem_add(x + 1); break; }
                 if (argv[1]) { channel_subsystem_add(*++argv); break; }
+            }
+            if (*x == 'e') {
+                if (x[1]) { customcmd = x + 1; break; }
+                if (argv[1]) { customcmd = *++argv; break; }
             }
 
             die_usage(USAGE);
@@ -259,7 +264,7 @@ rekeying:
                     if (!packet_channel_open(&b1, &b2)) die_fatal("unable to open channel", 0, 0);
                     break;
                 case SSH_MSG_CHANNEL_REQUEST:
-                    if (!packet_channel_request(&b1, &b2)) die_fatal("unable to handle channel-request", 0, 0);
+                    if (!packet_channel_request(&b1, &b2, customcmd)) die_fatal("unable to handle channel-request", 0, 0);
                     break;
                 case SSH_MSG_CHANNEL_DATA:
                     if (!packet_channel_recv_data(&b1)) die_fatal("unable to handle channel-data", 0, 0);

@@ -110,7 +110,7 @@ extern int packet_auth(struct buf *, struct buf *);
 extern int packet_channel_open(struct buf *, struct buf *);
 
 /* packet_channel_request.c */
-extern int packet_channel_request(struct buf *, struct buf *);
+extern int packet_channel_request(struct buf *, struct buf *, const char *);
 
 /* packet_channel_recv.c */
 extern int packet_channel_recv_data(struct buf *);
