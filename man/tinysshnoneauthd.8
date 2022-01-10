@@ -34,11 +34,13 @@ directory containing TinySSH keys, typically /etc/tinyssh/sshkeydir
 .SH EXAMPLES
 .TP
 .B TCPSERVER
+.nf
 useradd tinysshnoneauth
 mkdir -p /home/tinysshnoneauth/
 tinysshd-makekey /home/tinysshnoneauth/sshkeydir
 chown -R tinysshnoneauth /home/tinysshnoneauth/sshkeydir
 envuidgid tinysshnoneauth tcpserver -UHRDl0 0 2222 /usr/sbin/tinysshnoneauthd -vv -e 'cat /etc/motd' /home/tinysshnoneauth/sshkeydir
+.fi
 .SH SEE ALSO
 .BR tinysshd (8),
 .BR tinysshd\-makekey (8),
