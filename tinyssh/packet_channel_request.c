@@ -102,7 +102,7 @@ int packet_channel_request(struct buf *b1, struct buf *b2, const char *customcmd
 
         if (customcmd) {
             if (!channel_exec(customcmd)) bug();
-            log_d2("packet=SSH_MSG_CHANNEL_REQUEST, shell, accepted, executing custom shell ", customcmd);
+            log_d3("packet=SSH_MSG_CHANNEL_REQUEST, shell, accepted, executing custom shell '", customcmd, "'");
         } 
         else {
             if (!channel_exec(0)) bug();
