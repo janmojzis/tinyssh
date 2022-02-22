@@ -2,7 +2,7 @@
 Original code: supercop-20210125/crypto_kem/sntrup761/ref
 Modifications (Jan Mojzis):
 - source code merged into single file
-- crypto_kem renamed to crypto_kem_sntrup761_tinynacl
+- crypto_kem renamed to crypto_kem_sntrup761_tinyssh
 */
 
 /* See https://ntruprime.cr.yp.to/software.html for detailed documentation. */
@@ -1159,22 +1159,22 @@ static void Decap(unsigned char *k,const unsigned char *c,const unsigned char *s
   HashSession(k,1+mask,r_enc,c);
 }
 
-/* ----- crypto_kem_sntrup761_tinynacl API */
+/* ----- crypto_kem_sntrup761_tinyssh API */
 
 
-int crypto_kem_sntrup761_tinynacl_keypair(unsigned char *pk,unsigned char *sk)
+int crypto_kem_sntrup761_tinyssh_keypair(unsigned char *pk,unsigned char *sk)
 {
   KEM_KeyGen(pk,sk);
   return 0;
 }
 
-int crypto_kem_sntrup761_tinynacl_enc(unsigned char *c,unsigned char *k,const unsigned char *pk)
+int crypto_kem_sntrup761_tinyssh_enc(unsigned char *c,unsigned char *k,const unsigned char *pk)
 {
   Encap(c,k,pk);
   return 0;
 }
 
-int crypto_kem_sntrup761_tinynacl_dec(unsigned char *k,const unsigned char *c,const unsigned char *sk)
+int crypto_kem_sntrup761_tinyssh_dec(unsigned char *k,const unsigned char *c,const unsigned char *sk)
 {
   Decap(k,c,sk);
   return 0;
@@ -1195,7 +1195,7 @@ rm crypto_kem_sntrup761.c || :
   echo 'Original code: supercop-20210125/crypto_kem/sntrup761/ref'
   echo 'Modifications (Jan Mojzis):'
   echo '- source code merged into single file'
-  echo '- crypto_kem renamed to crypto_kem_sntrup761_tinynacl'
+  echo '- crypto_kem renamed to crypto_kem_sntrup761_tinyssh'
   echo '*/'
   echo
   echo '/* See https://ntruprime.cr.yp.to/software.html for detailed documentation. */'
@@ -1233,7 +1233,7 @@ rm crypto_kem_sntrup761.c || :
     echo '/* kem.c */'
     cat kem.c
     echo
-  ) | grep -v '#include' | sed 's/crypto_kem/crypto_kem_sntrup761_tinynacl/g'
+  ) | grep -v '#include' | sed 's/crypto_kem/crypto_kem_sntrup761_tinyssh/g'
 
   echo
   echo '#if 0'

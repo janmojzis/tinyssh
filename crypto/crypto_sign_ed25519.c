@@ -6,7 +6,7 @@
 #include "sc25519.h"
 #include "crypto_sign_ed25519.h"
 
-int crypto_sign_ed25519_tinynacl(unsigned char *sm, unsigned long long *smlen, const unsigned char *m, unsigned long long n, const unsigned char *skorig) {
+int crypto_sign_ed25519_tinyssh(unsigned char *sm, unsigned long long *smlen, const unsigned char *m, unsigned long long n, const unsigned char *skorig) {
 
     long long i;
     unsigned char nonce[64], hram[64], sk[64], pk[32];
@@ -47,7 +47,7 @@ int crypto_sign_ed25519_tinynacl(unsigned char *sm, unsigned long long *smlen, c
     return 0;
 }
 
-int crypto_sign_ed25519_tinynacl_open(unsigned char *m, unsigned long long *mlen, const unsigned char *sm, unsigned long long n, const unsigned char *pk) {
+int crypto_sign_ed25519_tinyssh_open(unsigned char *m, unsigned long long *mlen, const unsigned char *sm, unsigned long long n, const unsigned char *pk) {
 
     long long i;
     unsigned char pkcopy[32], rcopy[32], scopy[32], hram[64], rcheck[32];
@@ -100,7 +100,7 @@ cleanup:
     return ret;
 }
 
-int crypto_sign_ed25519_tinynacl_keypair(unsigned char *pk, unsigned char *sk) {
+int crypto_sign_ed25519_tinyssh_keypair(unsigned char *pk, unsigned char *sk) {
 
     unsigned char h[64];
     ge25519 A;

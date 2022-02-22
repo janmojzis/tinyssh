@@ -17,7 +17,7 @@ static void minmax(crypto_uint32 *x, crypto_uint32 *y) {
     *y = yi ^ c;
 }
 
-void crypto_sort_uint32_tinynacl(void *xv, long long n) {
+void crypto_sort_uint32_tinyssh(void *xv, long long n) {
 
     long long top, p, q, i;
     crypto_uint32 *x = xv;

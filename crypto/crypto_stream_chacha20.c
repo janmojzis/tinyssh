@@ -86,7 +86,7 @@ static inline void pack32(unsigned char *x, uint32_t u) {
     pack32(o + 56, (x14 + n2) ^ unpack32(i + 56));  \
     pack32(o + 60, (x15 + n3) ^ unpack32(i + 60));
 
-int crypto_stream_chacha20_tinynacl_xor(unsigned char *c, const unsigned char *m, unsigned long long l, const unsigned char *n, const unsigned char *k) {
+int crypto_stream_chacha20_tinyssh_xor(unsigned char *c, const unsigned char *m, unsigned long long l, const unsigned char *n, const unsigned char *k) {
 
     register uint32_t x0, x1, x2, x3, x4, x5, x6, x7;
     register uint32_t x8, x9, x10, x11, x12, x13, x14, x15;
@@ -132,7 +132,7 @@ int crypto_stream_chacha20_tinynacl_xor(unsigned char *c, const unsigned char *m
     return 0;
 }
 
-int crypto_stream_chacha20_tinynacl(unsigned char *c, unsigned long long l, const unsigned char *n, const unsigned char *k) {
+int crypto_stream_chacha20_tinyssh(unsigned char *c, unsigned long long l, const unsigned char *n, const unsigned char *k) {
 
     unsigned long long j;
     unsigned char ncopy[8], kcopy[32];
@@ -140,6 +140,6 @@ int crypto_stream_chacha20_tinynacl(unsigned char *c, unsigned long long l, cons
     for (j = 0; j < 32; ++j) kcopy[j] = k[j];
     for (j = 0; j <  8; ++j) ncopy[j] = n[j];
     for (j = 0; j <  l; ++j) c[j] = 0;
-    return crypto_stream_chacha20_tinynacl_xor(c, c, l, ncopy, kcopy);
+    return crypto_stream_chacha20_tinyssh_xor(c, c, l, ncopy, kcopy);
 }
 /* clang-format on */

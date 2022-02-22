@@ -164,15 +164,15 @@ cp -pr crypto/* "${work}"
   cat CRYPTOSOURCES\
   | while read x
   do
-    ${compiler} -I"${include}" -c "${x}.c" || { log2 "libtinynacl.a failed ... see the log ${log}"; exit 111; }
+    ${compiler} -I"${include}" -c "${x}.c" || { log2 "libtinysshcrypto.a failed ... see the log ${log}"; exit 111; }
   done || exit 111
-  ar cr "${lib}/libtinynacl.a" `cat CRYPTOLIBS` || exit 0
+  ar cr "${lib}/libtinysshcrypto.a" `cat CRYPTOLIBS` || exit 0
 )
-log2 "libtinynacl.a ok"
+log2 "libtinysshcrypto.a ok"
 log1 "finishing"
 
-origlibs="${origlibs} ${lib}/libtinynacl.a"
-libs="${libs} ${lib}/libtinynacl.a"
+origlibs="${origlibs} ${lib}/libtinysshcrypto.a"
+libs="${libs} ${lib}/libtinysshcrypto.a"
 
 log1 "starting crypto headers"
 rm -rf "${work}"

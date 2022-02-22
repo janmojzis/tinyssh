@@ -2,7 +2,7 @@
 #include "fe25519.h"
 #include "crypto_scalarmult_curve25519.h"
 
-int crypto_scalarmult_curve25519_tinynacl(unsigned char *q, const unsigned char *n, const unsigned char *p) {
+int crypto_scalarmult_curve25519_tinyssh(unsigned char *q, const unsigned char *n, const unsigned char *p) {
 
     unsigned char e[32];
     fe x1, x2, z2, x3, z3, tmp0, tmp1;
@@ -68,6 +68,6 @@ int crypto_scalarmult_curve25519_tinynacl(unsigned char *q, const unsigned char 
 
 static const unsigned char basepoint[32] = {9};
 
-int crypto_scalarmult_curve25519_tinynacl_base(unsigned char *q, const unsigned char *n) {
-    return crypto_scalarmult_curve25519_tinynacl(q, n, basepoint);
+int crypto_scalarmult_curve25519_tinyssh_base(unsigned char *q, const unsigned char *n) {
+    return crypto_scalarmult_curve25519_tinyssh(q, n, basepoint);
 }

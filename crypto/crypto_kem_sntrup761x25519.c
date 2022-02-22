@@ -29,7 +29,7 @@ static unsigned char returnmask(int x) {
     return ret - 1;
 }
 
-int crypto_kem_sntrup761x25519_tinynacl_enc(unsigned char *c,
+int crypto_kem_sntrup761x25519_tinyssh_enc(unsigned char *c,
                                             unsigned char *k,
                                             const unsigned char *pk) {
 
@@ -65,7 +65,7 @@ int crypto_kem_sntrup761x25519_tinynacl_enc(unsigned char *c,
     return r;
 }
 
-int crypto_kem_sntrup761x25519_tinynacl_dec(unsigned char *k,
+int crypto_kem_sntrup761x25519_tinyssh_dec(unsigned char *k,
                                             const unsigned char *c,
                                             const unsigned char *sk) {
 
@@ -97,7 +97,7 @@ int crypto_kem_sntrup761x25519_tinynacl_dec(unsigned char *k,
     return r;
 }
 
-int crypto_kem_sntrup761x25519_tinynacl_keypair(unsigned char *pk,
+int crypto_kem_sntrup761x25519_tinyssh_keypair(unsigned char *pk,
                                                 unsigned char *sk) {
 
     int r = 0;

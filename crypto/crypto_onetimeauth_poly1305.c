@@ -22,7 +22,7 @@ static void pack(unsigned char *x, unsigned long u) {
     x[3] = u;
 }
 
-int crypto_onetimeauth_poly1305_tinynacl(unsigned char *o, const unsigned char *m, unsigned long long n, const unsigned char *k) {
+int crypto_onetimeauth_poly1305_tinyssh(unsigned char *o, const unsigned char *m, unsigned long long n, const unsigned char *k) {
 
     unsigned long h0, h1, h2, h3, h4;
     unsigned long r0, r1, r2, r3, r4;
@@ -140,7 +140,7 @@ int crypto_onetimeauth_poly1305_tinynacl(unsigned char *o, const unsigned char *
     return 0;
 }
 
-int crypto_onetimeauth_poly1305_tinynacl_verify(const unsigned char *h, const unsigned char *in, unsigned long long l, const unsigned char *k) {
+int crypto_onetimeauth_poly1305_tinyssh_verify(const unsigned char *h, const unsigned char *in, unsigned long long l, const unsigned char *k) {
 
     unsigned char correct[16];
     unsigned int d = 0;

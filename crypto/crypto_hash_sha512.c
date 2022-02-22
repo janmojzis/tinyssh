@@ -81,7 +81,7 @@ static void blocks(unsigned long long *z, const unsigned char *m, unsigned long 
     }
 }
 
-int crypto_hash_sha512_tinynacl(unsigned char *o,const unsigned char *m, unsigned long long n) {
+int crypto_hash_sha512_tinyssh(unsigned char *o,const unsigned char *m, unsigned long long n) {
 
     long long i;
     unsigned char x[256];
