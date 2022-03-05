@@ -49,7 +49,12 @@ int packet_channel_open(struct buf *b1, struct buf *b2) {
             buf_putnum32(b2, id);                                   /* uint32    recipient channel */
             buf_putnum32(b2, id);                                   /* uint32    sender channel */
             buf_putnum32(b2, localwindow);                          /* uint32    initial window size */
-            buf_putnum32(b2, PACKET_LIMIT);                         /* uint32    maximum packet size */
+            /*
+            XXX
+            use PACKET_LIMIT/2 as maximum packet size,
+            workaround for miscalculated packet_length
+            */
+            buf_putnum32(b2, PACKET_LIMIT / 2);                     /* uint32    maximum packet size */
             packet_put(b2);
             buf_purge(b2);
             return 1;
