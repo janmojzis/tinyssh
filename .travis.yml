@@ -1,22 +1,36 @@
 language: c
 
-os:
-  - linux
-  - osx
-osx_image: xcode7.3
-
-cache:
-  ccache: true
-
-# opt-in Ubuntu Trusty
-sudo: required
-dist: trusty
-
+jobs:
+  include:
+    -
+      os: linux
+      dist: focal
+      arch: amd64
+      addons:
+        apt:
+          packages:
+            - build-essential
+            - curl
+    -
+      os: linux
+      dist: focal
+      arch: s390x
+      addons:
+        apt:
+          packages:
+            - build-essential
+            - curl
+    -
+      os: osx
+    -
+      os: freebsd
+      addons:
+        pkg:
+          - curl
 
 script:
   - cd "$TRAVIS_BUILD_DIR"
+  - $CC -dM -E - < /dev/null
   - make
 
-after_success:
-  - cd "$TRAVIS_BUILD_DIR"
-  - sudo make install
+install: skip
