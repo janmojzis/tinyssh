@@ -1,5 +1,5 @@
 /*
-20180104
+20200202
 */
 /*
 Based on poly1305-donna (https://github.com/floodyberry/poly1305-opt/blob/master/extensions/poly1305_ref-32.c)
@@ -8,14 +8,15 @@ Based on poly1305-donna (https://github.com/floodyberry/poly1305-opt/blob/master
 
 #include "crypto_onetimeauth_poly1305.h"
 
-static unsigned long unpack(const unsigned char *x) {
+/* clang-format off */
+static inline unsigned long unpack32(const unsigned char *x) {
     return
         (unsigned long) (x[0])                  \
     | (((unsigned long) (x[1])) << 8)           \
     | (((unsigned long) (x[2])) << 16)          \
     | (((unsigned long) (x[3])) << 24);
 }
-static void pack(unsigned char *x, unsigned long u) {
+static inline void pack32(unsigned char *x, unsigned long u) {
     x[0] = u; u >>= 8;
     x[1] = u; u >>= 8;
     x[2] = u; u >>= 8;
@@ -34,11 +35,11 @@ int crypto_onetimeauth_poly1305_tinyssh(unsigned char *o, const unsigned char *m
 
 
     /* r &= 0xffffffc0ffffffc0ffffffc0fffffff */
-    r0 = (unpack(k +  0)     ) & 0x3ffffff;
-    r1 = (unpack(k +  3) >> 2) & 0x3ffff03;
-    r2 = (unpack(k +  6) >> 4) & 0x3ffc0ff;
-    r3 = (unpack(k +  9) >> 6) & 0x3f03fff;
-    r4 = (unpack(k + 12) >> 8) & 0x00fffff;
+    r0 = (unpack32(k +  0)     ) & 0x3ffffff;
+    r1 = (unpack32(k +  3) >> 2) & 0x3ffff03;
+    r2 = (unpack32(k +  6) >> 4) & 0x3ffc0ff;
+    r3 = (unpack32(k +  9) >> 6) & 0x3f03fff;
+    r4 = (unpack32(k + 12) >> 8) & 0x00fffff;
 
     s1 = r1 * 5;
     s2 = r2 * 5;
@@ -48,26 +49,28 @@ int crypto_onetimeauth_poly1305_tinyssh(unsigned char *o, const unsigned char *m
     /* h = 0 */
     h0 = h1 = h2 = h3 = h4 = 0;
 
-    while ((long long)n > 0) {
-
+    while (n > 0) {
         /* h += m[i] */
         if (n >= 16) {
-            h0 += (unpack(m     )     ) & 0x3ffffff;
-            h1 += (unpack(m +  3) >> 2) & 0x3ffffff;
-            h2 += (unpack(m +  6) >> 4) & 0x3ffffff;
-            h3 += (unpack(m +  9) >> 6) & 0x3ffffff;
-            h4 += (unpack(m + 12) >> 8) | 16777216;
+            h0 += (unpack32(m     )     ) & 0x3ffffff;
+            h1 += (unpack32(m +  3) >> 2) & 0x3ffffff;
+            h2 += (unpack32(m +  6) >> 4) & 0x3ffffff;
+            h3 += (unpack32(m +  9) >> 6) & 0x3ffffff;
+            h4 += (unpack32(m + 12) >> 8) | 16777216;
+            m += 16;
+            n -= 16;
         }
         else {
             unsigned char mm[16];
             for (i = 0; i < 16; ++i) mm[i] = 0;
             for (i = 0; i <  n; ++i) mm[i] = m[i];
             mm[i] = 1;
-            h0 += (unpack(mm     )     ) & 0x3ffffff;
-            h1 += (unpack(mm +  3) >> 2) & 0x3ffffff;
-            h2 += (unpack(mm +  6) >> 4) & 0x3ffffff;
-            h3 += (unpack(mm +  9) >> 6) & 0x3ffffff;
-            h4 += (unpack(mm + 12) >> 8);
+            h0 += (unpack32(mm     )     ) & 0x3ffffff;
+            h1 += (unpack32(mm +  3) >> 2) & 0x3ffffff;
+            h2 += (unpack32(mm +  6) >> 4) & 0x3ffffff;
+            h3 += (unpack32(mm +  9) >> 6) & 0x3ffffff;
+            h4 += (unpack32(mm + 12) >> 8);
+            n = 0;
         }
 
         /* h *= r */
@@ -85,9 +88,6 @@ int crypto_onetimeauth_poly1305_tinyssh(unsigned char *o, const unsigned char *m
         d4 += c;      c = (unsigned long)(d4 >> 26); h4 = (unsigned long)d4 & 0x3ffffff;
         h0 += c * 5;  c =                (h0 >> 26); h0 =                h0 & 0x3ffffff;
         h1 += c;
-
-        m += 16;
-        n -= 16;
     }
 
 
@@ -127,15 +127,15 @@ int crypto_onetimeauth_poly1305_tinyssh(unsigned char *o, const unsigned char *m
     h3 = ((h3 >> 18) | (h4 <<  8)) & 0xffffffff;
 
     /* mac = (h + pad) % (2^128) */
-    f = (unsigned long long)h0 + unpack(k + 16)            ; h0 = (unsigned long)f;
-    f = (unsigned long long)h1 + unpack(k + 20) + (f >> 32); h1 = (unsigned long)f;
-    f = (unsigned long long)h2 + unpack(k + 24) + (f >> 32); h2 = (unsigned long)f;
-    f = (unsigned long long)h3 + unpack(k + 28) + (f >> 32); h3 = (unsigned long)f;
+    f = (unsigned long long)h0 + unpack32(k + 16)            ; h0 = (unsigned long)f;
+    f = (unsigned long long)h1 + unpack32(k + 20) + (f >> 32); h1 = (unsigned long)f;
+    f = (unsigned long long)h2 + unpack32(k + 24) + (f >> 32); h2 = (unsigned long)f;
+    f = (unsigned long long)h3 + unpack32(k + 28) + (f >> 32); h3 = (unsigned long)f;
 
-    pack(o +  0, h0);
-    pack(o +  4, h1);
-    pack(o +  8, h2);
-    pack(o + 12, h3);
+    pack32(o +  0, h0);
+    pack32(o +  4, h1);
+    pack32(o +  8, h2);
+    pack32(o + 12, h3);
 
     return 0;
 }
@@ -151,3 +151,4 @@ int crypto_onetimeauth_poly1305_tinyssh_verify(const unsigned char *h, const uns
     for (i = 0; i < 16; ++i) d |= correct[i] ^ h[i];
     return (1 & ((d - 1) >> 8)) - 1;
 }
+/* clang-format on */
