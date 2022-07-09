@@ -120,7 +120,7 @@ if [ x"${LIBS}" != x ]; then
     for i in ${LIBS}; do
       echo 'int main(void) { return 0; }' > try.c
       ${compiler} ${i} -o try try.c || { log2 "${i} failed"; continue; }
-      syslibs="${i} ${syslibs}"
+      syslibs="${syslibs} ${i}"
       log2 "${i} ok"
     done
     echo ${syslibs} > syslibs
@@ -171,8 +171,8 @@ cp -pr crypto/* "${work}"
 log2 "libtinysshcrypto.a ok"
 log1 "finishing"
 
-origlibs="${origlibs} ${lib}/libtinysshcrypto.a"
-libs="${libs} ${lib}/libtinysshcrypto.a"
+origlibs="${lib}/libtinysshcrypto.a ${origlibs}"
+libs="${lib}/libtinysshcrypto.a ${libs}"
 
 log1 "starting crypto headers"
 rm -rf "${work}"

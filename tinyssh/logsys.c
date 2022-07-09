@@ -69,15 +69,20 @@ static void logsys_utmpx(const char *user, const char *host, const char *name, l
     str_copyn(ut.ut_line, sizeof ut.ut_line, name);
 
     /* host */
-    str_copyn(ut.ut_host, sizeof ut.ut_host, host);
+    if (flaglogin)
+      str_copyn(ut.ut_host, sizeof ut.ut_host, host);
+    else
+      byte_zero(ut.ut_host, sizeof ut.ut_host);
 #ifdef HASUTMPXSYSLEN
     ut.ut_syslen = str_len(ut.ut_host) + 1;
 #endif
 
     /* user */
-    str_copyn(ut.ut_user, sizeof ut.ut_user, user);
+    if (flaglogin)
+      str_copyn(ut.ut_user, sizeof ut.ut_user, user);
+    else
+      byte_zero(ut.ut_user, sizeof ut.ut_user);
 
-    /* time */
     gettimeofday(&tv, 0);
     ut.ut_tv.tv_sec = tv.tv_sec;
     ut.ut_tv.tv_usec = tv.tv_usec;
@@ -96,8 +101,12 @@ static void logsys_utmpx(const char *user, const char *host, const char *name, l
     endutxent();
 
     /* update wtmpx */
-#if defined(_PATH_WTMPX) && defined(HASUTMPXUPDWTMPX)
+#ifdef HASUTMPXUPDWTMPX
+#if defined(_PATH_WTMPX)
     updwtmpx(_PATH_WTMPX, &ut);
+#elif defined (WTMPX_FILE)
+    updwtmpx(WTMPX_FILE, &ut);
+#endif
 #endif
 
 #endif
