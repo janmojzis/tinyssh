@@ -48,7 +48,7 @@ int getln(int fd, void *xv, long long xmax) {
     for (;;) {
         if (xlen >= xmax - 1) { x[xmax - 1] = 0; errno = ENOMEM; return -1; }
         r = getch(fd, &ch);
-        if (r != 1) { close(fd); fd = -1; break; }
+        if (r != 1) break;
         if (ch == 0) ch = '\n';
         x[xlen++] = ch;
         if (ch == '\n') break;
