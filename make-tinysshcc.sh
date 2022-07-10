@@ -187,8 +187,8 @@ cp -pr crypto/* "${work}"
 log2 "libtinysshcrypto.a ok"
 log1 "finishing"
 
-origlibs="${origlibs} ${lib}/libtinysshcrypto.a"
-libs="${libs} ${lib}/libtinysshcrypto.a"
+origlibs="${lib}/libtinysshcrypto.a ${origlibs}"
+libs="${lib}/libtinysshcrypto.a ${libs}"
 
 log1 "starting crypto headers"
 rm -rf "${work}"
