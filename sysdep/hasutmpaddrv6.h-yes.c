@@ -6,6 +6,6 @@
 int main(void) {
 
     struct utmp ut;
-    if (sizeof ut.ut_addr_v6 < 16) return 111;
-    return 0;
+    int x[sizeof(ut.ut_addr_v6) < 16 ? -1 : 1] = {0};
+    return x[0];
 }
