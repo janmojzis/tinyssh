@@ -27,6 +27,8 @@ echo 'hasutmpxupdwtmpx.h hasutmpxupdwtmpx.h-yes'
 echo 'hasutmpxupdwtmpx.h default.h-no'
 echo 'hasutmpxsyslen.h hasutmpxsyslen.h-yes'
 echo 'hasutmpxsyslen.h default.h-no'
+echo 'hasutmpxaddrv6.h hasutmpxaddrv6.h-yes'
+echo 'hasutmpxaddrv6.h default.h-no'
 
 #utmp
 echo 'hasutmp.h hasutmp.h-yes'
@@ -49,6 +51,8 @@ echo 'hasutmplogwtmp.h hasutmplogwtmp.h-yes'
 echo 'hasutmplogwtmp.h default.h-no'
 echo 'hasutmploginlogout.h hasutmploginlogout.h-yes'
 echo 'hasutmploginlogout.h default.h-no'
+echo 'hasutmpaddrv6.h hasutmpaddrv6.h-yes'
+echo 'hasutmpaddrv6.h default.h-no'
 
 #limits
 echo 'haslimits.h haslimits.h-yes'

@@ -23,6 +23,7 @@ SunOS 5.11
 #include <time.h>
 #include <sys/time.h>
 #include <paths.h>
+#include <arpa/inet.h>
 
 #include "hasutilh.h"
 #ifdef HASUTILH
@@ -35,6 +36,7 @@ SunOS 5.11
 #endif
 #include "hasutmpxupdwtmpx.h"
 #include "hasutmpxsyslen.h"
+#include "hasutmpxaddrv6.h"
 
 #include "hasutmp.h"
 #ifdef HASUTMP
@@ -49,6 +51,7 @@ SunOS 5.11
 #include "hasutmpuser.h"
 #include "hasutmplogwtmp.h"
 #include "hasutmploginlogout.h"
+#include "hasutmpaddrv6.h"
 
 #include "str.h"
 #include "byte.h"
@@ -75,6 +78,11 @@ static void logsys_utmpx(const char *user, const char *host, const char *name, l
       byte_zero(ut.ut_host, sizeof ut.ut_host);
 #ifdef HASUTMPXSYSLEN
     ut.ut_syslen = str_len(ut.ut_host) + 1;
+#endif
+
+#ifdef HASUTMPXADDRV6
+    if (inet_pton(AF_INET6, ut.ut_host, &ut.ut_addr_v6) <= 0)
+      inet_pton(AF_INET, ut.ut_host, &ut.ut_addr_v6[0]) ;
 #endif
 
     /* user */
@@ -129,6 +137,10 @@ static void logsys_utmp(const char *user, const char *host, const char *name, lo
     /* host */
 #ifdef HASUTMPHOST
     str_copyn(ut.ut_host, sizeof ut.ut_host, host);
+# ifdef HASUTMPADDRV6
+    if (inet_pton(AF_INET6, ut.ut_host, &ut.ut_addr_v6) <= 0)
+      inet_pton(AF_INET, ut.ut_host, &ut.ut_addr_v6[0]) ;
+# endif
 #endif
 
     /* user */
