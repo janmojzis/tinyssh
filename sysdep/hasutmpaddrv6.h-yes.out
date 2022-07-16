@@ -1,0 +1,1 @@
+#define HASUTMPADDRV6 1
