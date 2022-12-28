@@ -10,6 +10,8 @@ static void foo(void) {
     openpty(&master, &slave, 0, 0, 0);
 }
 
-int main(void) {
+int main(int argc, char **argv) {
+    if (!argc)
+        foo();
     return 0;
 }

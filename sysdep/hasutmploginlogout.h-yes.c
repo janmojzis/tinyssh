@@ -12,6 +12,8 @@ static void foo(void) {
     logout(ut.ut_line);
 }
 
-int main(void) {
+int main(int argc, char **argv) {
+    if (!argc)
+      foo();
     return 0;
 }
