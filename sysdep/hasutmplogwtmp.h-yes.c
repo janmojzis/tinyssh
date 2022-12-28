@@ -6,6 +6,8 @@ static void foo(void) {
     logwtmp("", "", "");
 }
 
-int main(void) {
+int main(int argc, char **argv) {
+    if (!argc)
+        foo();
     return 0;
 }

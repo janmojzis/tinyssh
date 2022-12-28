@@ -15,6 +15,8 @@ static void foo(void) {
     endutxent();
 }
 
-int main(void) {
+int main(int argc, char **argv) {
+    if (!argc)
+        foo();
     return 0;
 }
