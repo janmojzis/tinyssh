@@ -63,5 +63,3 @@
                [Install]
                WantedBy=multi-user.target
 ~~~
-
-[![TravisCI status](https://travis-ci.com/janmojzis/tinyssh.svg?branch=master)](https://travis-ci.com/janmojzis/tinyssh)
