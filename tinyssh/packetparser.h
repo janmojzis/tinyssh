@@ -10,11 +10,10 @@ extern long long packetparser_copy_(const char *, unsigned long long, const unsi
 extern long long packetparser_skip_(const char *, unsigned long long, const unsigned char *, long long, long long, long long);
 extern long long packetparser_end_(const char *, unsigned long long, const unsigned char *, long long, long long);
 
-#define packetparser_uint8(a, b, c, d)  packetparser_uint8_(__FILE__, __LINE__, (a), (b), (c), (d)) 
-#define packetparser_uint32(a, b, c, d) packetparser_uint32_(__FILE__, __LINE__, (a), (b), (c), (d)) 
-#define packetparser_copy(a, b, c, d, e)packetparser_copy_(__FILE__, __LINE__, (a), (b), (c), (d), (e)) 
-#define packetparser_skip(a, b, c, d) packetparser_skip_(__FILE__, __LINE__, (a), (b), (c), (d)) 
-#define packetparser_end(a, b, c) packetparser_end_(__FILE__, __LINE__, (a), (b), (c)) 
+#define packetparser_uint8(a, b, cc, d)  packetparser_uint8_(__FILE__, __LINE__, (a), (b), (cc), (d))
+#define packetparser_uint32(a, b, cc, d) packetparser_uint32_(__FILE__, __LINE__, (a), (b), (cc), (d))
+#define packetparser_copy(a, b, cc, d, e) packetparser_copy_(__FILE__, __LINE__, (a), (b), (cc), (d), (e))
+#define packetparser_skip(a, b, cc, d) packetparser_skip_(__FILE__, __LINE__, (a), (b), (cc), (d))
+#define packetparser_end(a, b, cc) packetparser_end_(__FILE__, __LINE__, (a), (b), (cc))
 
 #endif
-
