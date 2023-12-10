@@ -4,7 +4,6 @@ Jan Mojzis
 Public domain.
 */
 
-#include <poll.h>
 #include <unistd.h>
 #if defined(sun) || defined(__hpux)
 #include <sys/stropts.h>
@@ -28,9 +27,9 @@ extern int openpty(int *, int *, char *, struct termios *, struct winsize *);
 extern int login_tty(int);
 #endif
 
+#include "e.h"
 #include "coe.h"
 #include "blocking.h"
-#include "open.h"
 #include "global.h"
 #include "channel.h"
 
@@ -120,12 +119,12 @@ fd[2] is always -1
 
 long long channel_forkpty(int fd[3], int master, int slave) {
 
-    long long pid;
-    struct pollfd p[1];
+    long long pid, r;
+    char ch;
     int pi[2];
 
     if (!ttyname(slave)) return -1;
-    if (open_pipe(pi) == -1) return -1;
+    if (pipe(pi) == -1) return -1;
     
     fd[0] = fd[1] = master;
     fd[2] = -1;
@@ -142,13 +141,14 @@ long long channel_forkpty(int fd[3], int master, int slave) {
             close(master);
             close(pi[0]);
 #ifdef HASLOGINTTY
-            if (!ttyname(slave)) global_die(111);
             if (login_tty(slave) == -1) global_die(111);
 #else
             if (_login_tty(slave) == -1) global_die(111);
 #endif
             /* Trigger a read event on the other side of the pipe. */
-            write(pi[1], "", 1);
+            do {
+                r = write(pi[1], "", 1);
+            } while (r == -1 && errno == EINTR);
             close(pi[1]);
 
             return 0;
@@ -162,11 +162,9 @@ long long channel_forkpty(int fd[3], int master, int slave) {
             close(slave). Fixes race condition between close(slave) in parent
             and login_tty(slave) in child process.
             */
-            p[0].fd = pi[0];
-            p[0].events = POLLIN;
-            for (;;) {
-                if (poll(p, 1, -1) > 0) break;
-            }
+            do {
+                r = read(pi[0], &ch, sizeof ch);
+            } while (r == -1 && errno == EINTR);
             close(pi[0]);
 
             close(slave);
