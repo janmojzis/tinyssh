@@ -233,7 +233,7 @@ void channel_puteof(void) {
     if (channel.fd0 == -1) bug_proto();
 
     channel.remoteeof = 1;
-    if (channel.len0 == 0) {
+    if (channel.len0 == 0 && !channel.flagterminal) {
         close(channel.fd0);
         channel.fd0 = -1;
     }
@@ -367,7 +367,7 @@ int channel_write(void) {
     byte_copy(channel.buf0, channel.len0 - w, channel.buf0 + w);
     purge(channel.buf0 + channel.len0 - w, w);
     channel.len0 -= w;
-    if (channel.remoteeof && channel.len0 == 0) { close(channel.fd0); channel.fd0 = -1; }
+    if (channel.remoteeof && channel.len0 == 0 && !channel.flagterminal) { close(channel.fd0); channel.fd0 = -1; }
     return 1;
 }
 
