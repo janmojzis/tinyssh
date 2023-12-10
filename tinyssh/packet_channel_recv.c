@@ -69,6 +69,7 @@ int packet_channel_recv_eof(struct buf *b) {
     if (id != channel_getid()) bug_proto();
     pos = packetparser_end(b->buf, b->len, pos);
 
+    log_d1("packet=SSH_MSG_CHANNEL_EOF received");
     channel_puteof();
     buf_purge(b);
     return 1;
@@ -87,6 +88,7 @@ int packet_channel_recv_close(struct buf *b) {
     if (id != channel_getid()) bug_proto();
     pos = packetparser_end(b->buf, b->len, pos);
 
+    log_d1("packet=SSH_MSG_CHANNEL_CLOSE received");
     packet_channel_send_eof(b);
     packet.flagchanneleofreceived = 1;
     buf_purge(b);
