@@ -20,7 +20,7 @@ The 'log' library also supports syslog.
 
 static const char *logtext = "x";
 static char logstring[9] = "________";
-static int loglevel = 1;
+int loglevel = 1;
 
 static int logflagfnln = 1;
 static int logflagsyslog = 0;
@@ -129,6 +129,9 @@ void log_9_(
             break;
         case  3:
             m = "debug";
+            break;
+        case  4:
+            m = "tracing";
             break;
         default:
             m = "unknown";

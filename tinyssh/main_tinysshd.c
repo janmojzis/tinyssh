@@ -89,7 +89,7 @@ int main_tinysshd(int argc, char **argv, const char *binaryname) {
         while (*++x) {
             if (*x == 'q') { flagverbose = 0; continue; }
             if (*x == 'Q') { flagverbose = 1; continue; }
-            if (*x == 'v') { if (flagverbose >= 2) flagverbose = 3; else flagverbose = 2; continue; }
+            if (*x == 'v') { ++flagverbose; if (flagverbose >= 4) flagverbose = 4; continue; }
             if (*x == 'o') { cryptotypeselected |= sshcrypto_TYPEOLDCRYPTO; continue; }
             if (*x == 'O') { cryptotypeselected &= ~sshcrypto_TYPEOLDCRYPTO; continue; }
             if (*x == 's') { cryptotypeselected |= sshcrypto_TYPENEWCRYPTO; continue; }
@@ -218,7 +218,6 @@ rekeying:
             watchtochild = watchfromchild1 = watchfromchild2 = 0;
             watchselfpipe = 0;
         }
-
         else {
             if (watch0) if (!watch0->revents) watch0 = 0;
             if (watch1) if (!watch1->revents) watch1 = 0;
