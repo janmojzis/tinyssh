@@ -15,6 +15,8 @@
 #define sshcrypto_kem_MAX           crypto_kem_sntrup761x25519_BYTES
 #define sshcrypto_hash_MAX          crypto_hash_sha512_BYTES
 
+#define sshcrypto_FLAGSTRICTKEX 0x1
+
 struct sshcrypto_kex {
     const char *name;
     int (*enc)(unsigned char *, unsigned char *, const unsigned char *);
@@ -29,6 +31,14 @@ struct sshcrypto_kex {
 };
 extern struct sshcrypto_kex sshcrypto_kexs[];
 
+struct sshcrypto_pseudokex {
+    const char *name;
+    const char *cname;
+    int flag;
+};
+extern struct sshcrypto_pseudokex sshcrypto_pseudokexs[];
+
+extern int sshcrypto_kex_flags;
 extern const char *sshcrypto_kex_name;
 extern int (*sshcrypto_enc)(unsigned char *, unsigned char *, const unsigned char *);
 extern long long sshcrypto_kem_publickeybytes;

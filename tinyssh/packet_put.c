@@ -6,6 +6,9 @@ Public domain.
 
 #include "uint32_pack_big.h"
 #include "buf.h"
+#include "sshcrypto.h"
+#include "ssh.h"
+#include "log.h"
 #include "packet.h"
 
 static void packet_put_plain_(struct buf *b) {
@@ -42,5 +45,16 @@ void packet_put(struct buf *b) {
     }
     else {
         packet_put_plain_(b);
+    }
+
+    /* overflow check */
+    if (!packet.sendpacketid) {
+        log_f1("sendpacketid overflow");
+        global_die(111);
+    }
+
+    /* strict kex - reset sendpacketid */
+    if (b->buf[0] == SSH_MSG_NEWKEYS && sshcrypto_kex_flags & sshcrypto_FLAGSTRICTKEX) {
+        packet.sendpacketid = 0;
     }
 }

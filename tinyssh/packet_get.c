@@ -63,6 +63,12 @@ static int packet_get_(struct buf *b) {
     else {
         return packet_get_plain_(b);
     }
+
+    /* overflow check */
+    if (!packet.receivepacketid) {
+        log_f1("receivepacketid overflow");
+        global_die(111);
+    }
 }
 
 
@@ -83,8 +89,17 @@ int packet_get(struct buf *b, crypto_uint8 x) {
             return 0;
         case SSH_MSG_IGNORE:
         case SSH_MSG_DEBUG:
+            if (!packet.flagkeys) {
+                log_f1("SSH_MSG_IGNORE/SSH_MSG_DEBUG packet rejected in plain-text mode");
+                global_die(111);
+            }
             buf_purge(b);
             break;
+        case SSH_MSG_NEWKEYS:
+            /* strict kex - reset receivepacketid */
+            if (sshcrypto_kex_flags & sshcrypto_FLAGSTRICTKEX) {
+                packet.receivepacketid = 0;
+            }
         default:
             if (x && x != b->buf[0]) {
                 char buf1[NUMTOSTR_LEN];

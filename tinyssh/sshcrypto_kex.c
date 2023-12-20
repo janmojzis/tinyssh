@@ -54,6 +54,15 @@ struct sshcrypto_kex sshcrypto_kexs[] = {
     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 };
 
+struct sshcrypto_pseudokex sshcrypto_pseudokexs[] = {
+    {   "kex-strict-s-v00@openssh.com",
+        "kex-strict-c-v00@openssh.com",
+        sshcrypto_FLAGSTRICTKEX,
+    },
+    { 0, 0 }
+};
+
+int sshcrypto_kex_flags = 0;
 const char *sshcrypto_kex_name = 0;
 int (*sshcrypto_enc)(unsigned char *, unsigned char *, const unsigned char *) = 0;
 long long sshcrypto_kem_publickeybytes = 0;
@@ -66,7 +75,7 @@ void (*sshcrypto_buf_putkemkey)(struct buf *, const unsigned char *) = 0;
 
 int sshcrypto_kex_select(const unsigned char *buf, long long len, crypto_uint8 *kex_guess) {
 
-    long long i, pos = 0;
+    long long i, pos;
     unsigned char *x;
     long long xlen;
 
@@ -77,6 +86,19 @@ int sshcrypto_kex_select(const unsigned char *buf, long long len, crypto_uint8 *
 
     *kex_guess = 1;
 
+    pos = 0;
+    for (;;) {
+        pos = stringparser(buf, len, pos, &x, &xlen);
+        if (!pos) break;
+        for (i = 0; sshcrypto_pseudokexs[i].name; ++i) {
+            if (str_equaln((char *)x, xlen, sshcrypto_pseudokexs[i].cname)) {
+                log_d2("kex: pseudokex selected: ", sshcrypto_pseudokexs[i].name);
+                sshcrypto_kex_flags |= sshcrypto_pseudokexs[i].flag;
+            }
+        }
+    }
+
+    pos = 0;
     for (;;) {
         pos = stringparser(buf, len, pos, &x, &xlen);
         if (!pos) break;
@@ -114,6 +136,10 @@ void sshcrypto_kex_put(struct buf *b) {
         if (j++) ++len;
         len += str_len(sshcrypto_kexs[i].name);
     }
+    for (i = 0; sshcrypto_pseudokexs[i].name; ++i) {
+        if (j++) ++len;
+        len += str_len(sshcrypto_pseudokexs[i].name);
+    }
 
     buf_putnum32(b, len);
     start = b->len;
@@ -123,6 +149,10 @@ void sshcrypto_kex_put(struct buf *b) {
         if (!sshcrypto_kexs[i].flagenabled) continue;
         if (j++) buf_puts(b, ",");
         buf_puts(b, sshcrypto_kexs[i].name);
+    }
+    for (i = 0; sshcrypto_pseudokexs[i].name; ++i) {
+        if (j++) buf_puts(b, ",");
+        buf_puts(b, sshcrypto_pseudokexs[i].name);
     }
     b->buf[b->len] = 0;
     log_d2("kex: server: kex algorithms: ", (char *)b->buf + start);
