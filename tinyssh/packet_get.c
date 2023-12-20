@@ -63,6 +63,12 @@ static int packet_get_(struct buf *b) {
     else {
         return packet_get_plain_(b);
     }
+
+    /* overflow check */
+    if (!packet.receivepacketid) {
+        log_f1("receivepacketid overflow");
+        global_die(111);
+    }
 }
 
 
