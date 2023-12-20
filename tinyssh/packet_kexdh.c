@@ -91,6 +91,7 @@ int packet_kexdh(const char *keydir, struct buf *b1, struct buf *b2) {
         if (!packet_getall(b2, 0)) return 0;
     } while (b2->buf[0] != SSH_MSG_NEWKEYS);
 
+
     /* key derivation */
     for(i = 0; i < 6; ++i) {
         buf_purge(b1);
