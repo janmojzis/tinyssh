@@ -17,8 +17,8 @@
 * beta(updated): 2018.01.01 - ????.??.?? (ready for production use)
 * stable: expected ????.??.?? - (ready for production use - including post-quantum crypto)
 
-### Current release (20230101) ###
-* has 62989 words of code
+### Current release (20240101) ###
+* has 63899 words of code
 * beta release
 
 ### How-to run ###
