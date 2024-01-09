@@ -6,6 +6,7 @@ Public domain.
 
 #include "uint32_pack_big.h"
 #include "buf.h"
+#include "bug.h"
 #include "sshcrypto.h"
 #include "ssh.h"
 #include "log.h"
