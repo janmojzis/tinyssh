@@ -96,6 +96,7 @@ int main_tinysshd(int argc, char **argv, const char *binaryname) {
             if (*x == 'S') { cryptotypeselected &= ~sshcrypto_TYPENEWCRYPTO; continue; }
             if (*x == 'p') { cryptotypeselected |= sshcrypto_TYPEPQCRYPTO; continue; }
             if (*x == 'P') { cryptotypeselected &= ~sshcrypto_TYPEPQCRYPTO; continue; }
+            if (*x == 'k') { flaglogger = 2; continue; }
             if (*x == 'l') { flaglogger = 1; continue; }
             if (*x == 'L') { flaglogger = 0; continue; }
             if (*x == 'x') {

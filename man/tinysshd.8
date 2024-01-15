@@ -58,11 +58,14 @@ symmetric \-  chacha20\-poly1305@openssh.com
 .B \-P
 disable post\-quantum crypto
 .TP
+.B \-k
+use Linux kernel format on standard error output (useful for redirecting to /dev/kmsg)
+.TP
 .B \-l
 use syslog instead of standard error output (useful for running from inetd)
 .TP
 .B \-L
-don't use syslog, use standard error output (default)
+don't use syslog nor Linux kernel format, use standard error output (default)
 .TP
 .B \-x \fIname=command
 add subsystem command (e.g.: sftp=/usr/libexec/openssh/sftp\-server)

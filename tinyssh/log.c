@@ -11,6 +11,7 @@ The 'log' library also supports syslog.
 */
 
 #include <syslog.h>
+#include <stdio.h>
 #include "writeall.h"
 #include "randommod.h"
 #include "purge.h"
@@ -24,10 +25,18 @@ int loglevel = 1;
 
 static int logflagfnln = 1;
 static int logflagsyslog = 0;
+static int logflagkernelfmt = 0;
 
 static char chars[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRTSUVWXYZ0123456789";
 
-void log_init(int level, const char *text, int line, int flagsyslog) {
+static char kfmtfatal[5] = "____";
+static char kfmtbug[5] = "____";
+static char kfmtwarning[5] = "____";
+static char kfmtnotice[5] = "____";
+static char kfmtinfo[5] = "____";
+static char kfmtdebug[5] = "____";
+
+void log_init(int level, const char *text, int line, int flaglogger) {
 
     long long i;
 
@@ -40,9 +49,20 @@ void log_init(int level, const char *text, int line, int flagsyslog) {
     }
     logstring[sizeof logstring - 1] = 0;
 
-    if (flagsyslog) {
-        openlog(text, 0, LOG_DAEMON);
-        logflagsyslog = 1;
+    switch (flaglogger) {
+        case 1:
+            openlog(text, 0, LOG_DAEMON);
+            logflagsyslog = 1;
+            break;
+        case 2:
+            logflagkernelfmt = 1;
+            snprintf(kfmtfatal, sizeof kfmtfatal, "<%d>", LOG_DAEMON|LOG_EMERG);
+            snprintf(kfmtbug, sizeof kfmtbug, "<%d>", LOG_DAEMON|LOG_ALERT);
+            snprintf(kfmtwarning, sizeof kfmtwarning, "<%d>", LOG_DAEMON|LOG_WARNING);
+            snprintf(kfmtnotice, sizeof kfmtnotice, "<%d>", LOG_DAEMON|LOG_NOTIC            snprintf(kfmtinfo, sizeof kfmtinfo, "<%d>", LOG_DAEMON|LOG_INFO);
+            snprintf(kfmtdebug, sizeof kfmtdebug, "<%d>", LOG_DAEMON|LOG_DEBUG);
+E);
+            break;
     }
 
     errno = 0;
@@ -115,31 +135,42 @@ void log_9_(
 
     switch (level) {
         case -1:
-            m = "BUG";
+            m = logflagkernelfmt ? kfmtbug : "BUG";
             break;
         case 0:
             m = "usage";
             break;
         case  1:
-            m = "fatal";
+            m = logflagkernelfmt ? kfmtfatal : "fatal";
             break;
-        case  2: 
-            if (!ignoreerrno) m = "warning";
-            else m = "info";
+        case  2:
+            if (!ignoreerrno) m = logflagkernelfmt ? kfmtwarning : "warning";
+            else m = logflagkernelfmt ? kfmtinfo : "info";
             break;
         case  3:
-            m = "debug";
+            m = logflagkernelfmt ? kfmtdebug : "debug";
             break;
         case  4:
-            m = "tracing";
+            m = logflagkernelfmt ? kfmtdebug : "tracing";
             break;
         default:
-            m = "unknown";
+            m = logflagkernelfmt ? kfmtnotice : "unknown";
             break;
     }
 
 
-    /* name: session: level: message (error){file:line} */
+    /*
+    Default format:
+    name: session: level: message (error){file:line}
+    Linux kernel format:
+    <kern_level>name: session: message (error){file:line}
+    */
+
+    do {
+        if (level == 0)   break; /* don't print in usage level */
+        if (!logflagkernelfmt) break; /* print only in kernelfmt mode */
+        outs(m);
+    } while (0);
 
     /* 'name:' */
     do {
@@ -158,6 +189,7 @@ void log_9_(
     /* 'level:' */
     do {
         if (level == 0) break; /* don't print in usage level */
+        if (logflagkernelfmt) break; /* don't print in kernelfmt mode */
         outs(m); outs(": ");
     } while (0);
 
