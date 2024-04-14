@@ -65,10 +65,13 @@ extern void sntrup761x25519_putkemkey(struct buf *, const unsigned char *);
 /* key - sign */
 #define sshcrypto_sign_PUBLICKEYMAX 32          /* space for ed25519 pk  */
 #define sshcrypto_sign_SECRETKEYMAX 64          /* space for ed25519 sk  */
-#define sshcrypto_sign_MAX          64          /* space for ed25519 sig */
-#define sshcrypto_sign_BASE64PUBLICKEYMAX 69    /* space for ed25519 in base64 + 0-terminator */
+//#define sshcrypto_sign_MAX          64          /* space for ed25519 sig */
+#define sshcrypto_sign_MAX          (64+1+4)          /* space for ed25519 sig + 1 byte flags + 4 byte counter*/
+#define sshcrypto_sign_BASE64PUBLICKEYMAX 97    /* space for sk-ed25519 with application "ssh:" in base64 + 0-terminator */
 #define sshcrypto_sign_BASE64PUBLICKEYMIN 69    /* space for ed25519 in base64 + 0-terminator */
-#define sshcrypto_sign_NAMEMAX 12               /* space for string ssh-ed25519 + 0-terminator */
+//#define sshcrypto_sign_NAMEMAX 12               /* space for string ssh-ed25519 + 0-terminator */
+#define sshcrypto_sign_NAMEMAX 27               /* space for string sk-ssh-ed25519@openssh.com + 0-terminator */
+
 
 struct sshcrypto_key {
     const char *name;
@@ -113,6 +116,15 @@ extern void ed25519_putsignpk(struct buf *, const unsigned char *);
 extern void ed25519_putsignpkbase64(struct buf *, const unsigned char *);
 extern int ed25519_parsesignpk(unsigned char *, const unsigned char *, long long);
 extern int ed25519_parsesignature(unsigned char *, const unsigned char *, long long);
+#endif
+#ifdef crypto_sign_ed25519_BYTES
+/* sshcrypto_key_sk_ed25519.c */
+extern int sk_ed25519_open(unsigned char *, unsigned long long *, const unsigned char *, unsigned long long, const unsigned char *);
+extern void sk_ed25519_putsignature(struct buf *, const unsigned char *);
+extern void sk_ed25519_putsignpk(struct buf *, const unsigned char *);
+extern void sk_ed25519_putsignpkbase64(struct buf *, const unsigned char *);
+extern int sk_ed25519_parsesignpk(unsigned char *, const unsigned char *, long long);
+extern int sk_ed25519_parsesignature(unsigned char *, const unsigned char *, long long);
 #endif
 
 

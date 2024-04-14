@@ -37,6 +37,27 @@ struct sshcrypto_key sshcrypto_keys[] = {
         ed25519_parsesignpk,
     },
 #endif
+#ifdef crypto_sign_ed25519_BYTES
+    {   "sk-ssh-ed25519@openssh.com",
+        0,
+        sk_ed25519_open,
+        0,
+        {0},
+        crypto_sign_ed25519_PUBLICKEYBYTES,
+        0,
+        crypto_sign_ed25519_BYTES + 5,
+        "",
+        "",
+        sshcrypto_TYPENEWCRYPTO,
+        1,
+        0,
+        sk_ed25519_putsignature,
+        sk_ed25519_putsignpk,
+        sk_ed25519_putsignpkbase64,
+        sk_ed25519_parsesignature,
+        sk_ed25519_parsesignpk,
+    },
+#endif
 #if 0
     {   "pqkeyTODO",
         crypto_sign_ed25519,

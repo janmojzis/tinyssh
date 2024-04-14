@@ -55,6 +55,7 @@ int main_tinysshd_makekey(int argc, char **argv) {
     if (chdir(x) == -1) die_fatal("unable to chdir to directory", x, 0);
 
     for (i = 0; sshcrypto_keys[i].name; ++i) {
+        if (sshcrypto_keys[i].sign_flagserver) continue;
         if (sshcrypto_keys[i].sign_keypair(pk, sk) != 0) die_fatal("unable to generate key pair", x, 0);
         umask(022);
         create(x, sshcrypto_keys[i].sign_publickeyfilename, pk, sshcrypto_keys[i].sign_publickeybytes);

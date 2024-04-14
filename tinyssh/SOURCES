@@ -53,6 +53,7 @@ sshcrypto_kex_curve25519
 sshcrypto_kex_sntrup761x25519
 sshcrypto_key
 sshcrypto_key_ed25519
+sshcrypto_key_sk_ed25519
 str
 stringparser
 subprocess_auth

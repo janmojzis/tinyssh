@@ -41,7 +41,8 @@ int main(void) {
     if (mkdir(keydir, 0755) == -1) fail("unable to create test directory");
     if (chdir(keydir) == -1) fail("unable to chdir to directory");
     for (i = 0; sshcrypto_keys[i].name; ++i) {
-
+        
+        if (sshcrypto_keys[i].sign_flagserver) continue;
         if (sshcrypto_keys[i].sign_keypair(sshcrypto_keys[i].sign_publickey, sk) != 0) fail("unable to generate key pair");
         umask(022);
         create(sshcrypto_keys[i].sign_publickeyfilename, sshcrypto_keys[i].sign_publickey, sshcrypto_keys[i].sign_publickeybytes);
@@ -53,6 +54,8 @@ int main(void) {
     if (fchdir(fd) == -1) fail("fchdir() failure");
 
     for (i = 0; sshcrypto_keys[i].name; ++i) {
+
+        if (sshcrypto_keys[i].sign_flagserver) continue;
 
         /* set globals */
         sshcrypto_key_name = sshcrypto_keys[i].name;
