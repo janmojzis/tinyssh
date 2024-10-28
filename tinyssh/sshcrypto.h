@@ -63,11 +63,12 @@ extern void sntrup761x25519_putkemkey(struct buf *, const unsigned char *);
 #endif
 
 /* key - sign */
-#define sshcrypto_sign_PUBLICKEYMAX 32          /* space for ed25519 pk  */
+#define sshcrypto_sign_APPLICATIONMAX 32      /* space for sk application id */
+#define sshcrypto_sign_PUBLICKEYMAX (32+sshcrypto_sign_APPLICATIONMAX)  /* space for ed25519 pk  */
 #define sshcrypto_sign_SECRETKEYMAX 64          /* space for ed25519 sk  */
 //#define sshcrypto_sign_MAX          64          /* space for ed25519 sig */
 #define sshcrypto_sign_MAX          (64+1+4)          /* space for ed25519 sig + 1 byte flags + 4 byte counter*/
-#define sshcrypto_sign_BASE64PUBLICKEYMAX 97    /* space for sk-ed25519 with application "ssh:" in base64 + 0-terminator */
+#define sshcrypto_sign_BASE64PUBLICKEYMAX 118    /* space for sk-ed25519 with 32 byte application id in base64 + 0-terminator */
 #define sshcrypto_sign_BASE64PUBLICKEYMIN 69    /* space for ed25519 in base64 + 0-terminator */
 //#define sshcrypto_sign_NAMEMAX 12               /* space for string ssh-ed25519 + 0-terminator */
 #define sshcrypto_sign_NAMEMAX 27               /* space for string sk-ssh-ed25519@openssh.com + 0-terminator */

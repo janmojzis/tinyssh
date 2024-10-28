@@ -25,7 +25,7 @@ int sk_ed25519_open(unsigned char *m, unsigned long long *mlen, const unsigned c
     byte_copy(buf, crypto_sign_ed25519_BYTES, sm);
 
     // application
-    crypto_hash_sha256(buf + crypto_sign_ed25519_BYTES, (const unsigned char *)"ssh:", 4);  // TODO extract from pk once it is actually parsed
+    crypto_hash_sha256(buf + crypto_sign_ed25519_BYTES, pk+crypto_sign_ed25519_PUBLICKEYBYTES, str_len(pk+crypto_sign_ed25519_PUBLICKEYBYTES));
 
     // flags + counter
     byte_copy(buf + crypto_sign_ed25519_BYTES + crypto_hash_sha256_BYTES, 1 + 4, sm + crypto_sign_ed25519_BYTES);
@@ -61,18 +61,20 @@ void sk_ed25519_putsignpk(struct buf *b, const unsigned char *x) {
     buf_putnum32(b, len + str_len(name) + 16);
     buf_putstring(b, name);
     buf_putstringlen(b, x, len);
-    // TODO deal with applications other than "ssh:"
-    buf_putstringlen(b, (const unsigned char *)"ssh:", 4);
+    len = str_len(x+crypto_sign_ed25519_PUBLICKEYBYTES);
+    buf_putstringlen(b, x+crypto_sign_ed25519_PUBLICKEYBYTES, len);
 }
 void sk_ed25519_putsignpkbase64(struct buf *b, const unsigned char *x) {
 
-    unsigned char buf[34 + crypto_sign_ed25519_PUBLICKEYBYTES + 8];
+    unsigned char buf[34 + crypto_sign_ed25519_PUBLICKEYBYTES + 4 + sshcrypto_sign_APPLICATIONMAX];
+    unsigned application_len = str_len(x+crypto_sign_ed25519_PUBLICKEYBYTES);
 
     byte_copy(buf, 34, "\0\0\0\032sk-ssh-ed25519@openssh.com\0\0\0\040");
     byte_copy(buf + 34, crypto_sign_ed25519_PUBLICKEYBYTES, x);
-    // TODO deal with applications other than "ssh:"
-    byte_copy(buf + 34 + crypto_sign_ed25519_PUBLICKEYBYTES, 8, "\0\0\0\04ssh:");
-    buf_putbase64(b, buf, sizeof buf);
+    byte_copy(buf + 34 + crypto_sign_ed25519_PUBLICKEYBYTES, 3, "\0\0\0");
+    buf[34 + crypto_sign_ed25519_PUBLICKEYBYTES + 3] = application_len;
+    byte_copy(buf + 34 + crypto_sign_ed25519_PUBLICKEYBYTES + 4, application_len, x+crypto_sign_ed25519_PUBLICKEYBYTES);
+    buf_putbase64(b, buf, 34 + crypto_sign_ed25519_PUBLICKEYBYTES + 4 + application_len);
     purge(buf, sizeof buf);
 }
 int sk_ed25519_parsesignpk(unsigned char *buf, const unsigned char *x, long long xlen) {
@@ -90,10 +92,11 @@ int sk_ed25519_parsesignpk(unsigned char *buf, const unsigned char *x, long long
     pos = packetparser_copy(x, xlen, pos, buf, len);
 
     // string		application (user-specified, but typically "ssh:")
-    // TODO deal with applications other than "ssh:"
     pos = packetparser_uint32(x, xlen, pos, &len);
-    pos = packetparser_skip(x, xlen, pos, len);
-    if (!str_equaln((char *)x + pos - len, len, "ssh:")) return 0;
+    // only a maximum size of sshcrypto_sign_APPLICATIONMAX allowed
+    if (len >= sshcrypto_sign_APPLICATIONMAX) return 0;
+    pos = packetparser_copy(x, xlen, pos, buf+crypto_sign_ed25519_PUBLICKEYBYTES, len);
+    buf[crypto_sign_ed25519_PUBLICKEYBYTES+len] = '\0';
 
     pos = packetparser_end(x, xlen, pos);
     return 1;
