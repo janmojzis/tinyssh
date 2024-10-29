@@ -9,7 +9,7 @@
 #define fail(x) fail_(__FILE__, __LINE__, (x))
 
 
-static void fail_printdata(char *text, unsigned char *data, long long len) {
+static void fail_printdata(const char *text, const unsigned char *data, long long len) {
 
     long long i;
 
