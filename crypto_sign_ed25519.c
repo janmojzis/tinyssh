@@ -49,7 +49,8 @@ int crypto_sign_ed25519_tinyssh(unsigned char *sm, unsigned long long *smlen, co
 
 int crypto_sign_ed25519_tinyssh_open(unsigned char *m, unsigned long long *mlen, const unsigned char *sm, unsigned long long n, const unsigned char *pk) {
 
-    long long i;
+    unsigned long long i;
+    long long j;
     unsigned char pkcopy[32], rcopy[32], scopy[32], hram[64], rcheck[32];
     ge25519 R, S, A;
     int ret = -1;
@@ -67,7 +68,7 @@ int crypto_sign_ed25519_tinyssh_open(unsigned char *m, unsigned long long *mlen,
     for (i = 0; i < 32; ++i) scopy[i]  = sm[i + 32];
 
     /* copy sm to m and copy pk to m */
-    for (i = n - 1; i >= 0; --i) m[i] = sm[i];
+    for (j = n - 1; j >= 0; --j) m[j] = sm[j];
     for (i = 0; i < 32; ++i) m[i + 32] = pkcopy[i];
 
     /* calculate hram = H(r, a, m) */
