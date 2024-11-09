@@ -100,6 +100,7 @@ int packet_get(struct buf *b, crypto_uint8 x) {
             if (sshcrypto_kex_flags & sshcrypto_FLAGSTRICTKEX) {
                 packet.receivepacketid = 0;
             }
+            break;
         default:
             if (x && x != b->buf[0]) {
                 char buf1[NUMTOSTR_LEN];
