@@ -29,7 +29,7 @@ static char chars[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRTSUVWXYZ01234
 
 void log_init(int level, const char *text, int line, int flagsyslog) {
 
-    long long i;
+    unsigned long long i;
 
     loglevel = level;
     logtext  = text;
@@ -54,7 +54,7 @@ char *log_string(void) {
 }
 
 static char buf[257];
-static long long buflen = 0;
+static unsigned long long buflen = 0;
 
 static void flush(void) {
 
