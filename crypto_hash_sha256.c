@@ -84,7 +84,7 @@ static void blocks(crypto_uint32 *z, const unsigned char *m, unsigned long long 
 
 int crypto_hash_sha256_tinyssh(unsigned char *o, const unsigned char *m, unsigned long long n) {
 
-    long long i;
+    unsigned long long i;
     unsigned char x[128];
     unsigned long long b = n;
     crypto_uint32 h[8] = {
