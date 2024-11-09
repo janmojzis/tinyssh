@@ -1,1 +1,1 @@
-tinysshd.c
+../../tinysshd-makekey.c

@@ -1,1 +1,1 @@
-tinysshd.c
+../../tinysshnoneauthd.c
