@@ -1,8 +1,13 @@
 #!/bin/sh
 
-rm -rf keydir
-mkdir keydir
+cleanup() {
+  ex=$?
+  rm -rf -- keydir -r
+  exit "${ex}"
+}
+trap "cleanup" EXIT TERM INT
 
+mkdir keydir
 
 echo '--- tinysshd-printkey prints help'
 echo
@@ -44,13 +49,13 @@ echo $?
 echo
 
 
-./tinysshd-makekey 2>/dev/null || :
-
 echo "--- tinysshd-printkey handles '-r' parameter (prints help)"
 echo
 ./tinysshd-printkey -r 2>/dev/null
 echo $?
 echo
+
+./tinysshd-makekey -- -r 2>/dev/null || :
 
 echo "--- tinysshd-printkey prints keys from '-r' key-directory"
 echo

@@ -6,7 +6,12 @@ export LANG
 LC_ALL=C
 export LC_ALL
 
-rm -rf -- keydir -r
+cleanup() {
+  ex=$?
+  rm -rf -- keydir -r
+  exit "${ex}"
+}
+trap "cleanup" EXIT TERM INT
 
 echo '--- tinysshd-makekey prints help'
 echo
