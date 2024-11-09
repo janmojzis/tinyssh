@@ -31,7 +31,7 @@ int crypto_onetimeauth_poly1305_tinyssh(unsigned char *o, const unsigned char *m
     unsigned long long d0, d1, d2, d3, d4;
     unsigned long c, mask;
     unsigned long long f;
-    long long i;
+    unsigned long long i;
 
 
     /* r &= 0xffffffc0ffffffc0ffffffc0fffffff */
@@ -144,7 +144,7 @@ int crypto_onetimeauth_poly1305_tinyssh_verify(const unsigned char *h, const uns
 
     unsigned char correct[16];
     unsigned int d = 0;
-    long long i;
+    unsigned long long i;
 
     crypto_onetimeauth_poly1305(correct, in, l, k);
 
