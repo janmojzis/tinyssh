@@ -73,12 +73,8 @@
       echo
     done
 
-    echo "libs: trylib.sh"
-    echo "	rm -f libs"
-    echo "	env CC=\"\$(CC)\" ./trylib.sh -lsocket -lnsl >>libs"
-    echo "	env CC=\"\$(CC)\" ./trylib.sh -lutil >>libs"
-    #echo "	env CC=\"\$(CC)\" ./trylib.sh -lrandombytes >>libs"
-    #echo "	env CC=\"\$(CC)\" ./trylib.sh -l25519 >>libs"
+    echo "libs: trylibs.sh"
+    echo "	env CC=\"\$(CC)\" ./trylibs.sh -lsocket -lnsl -lutil >libs"
     echo "	cat libs"
     echo
 

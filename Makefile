@@ -695,10 +695,8 @@ hasutmpxupdwtmpx.h: tryfeature.sh hasutmpxupdwtmpx.c libs
 	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh hasutmpxupdwtmpx.c > hasutmpxupdwtmpx.h
 	cat hasutmpxupdwtmpx.h
 
-libs: trylib.sh
-	rm -f libs
-	env CC="$(CC)" ./trylib.sh -lsocket -lnsl >>libs
-	env CC="$(CC)" ./trylib.sh -lutil >>libs
+libs: trylibs.sh
+	env CC="$(CC)" ./trylibs.sh -lsocket -lnsl -lutil >libs
 	cat libs
 
 tinysshd-makekey: tinysshd
