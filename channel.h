@@ -53,9 +53,9 @@ extern struct channel channel;
 /* channel_drop.c */
 extern int channel_droppriv(char *, char **);
 /* channel_fork.c */
-extern long long channel_fork(int *);
+extern long long channel_fork(int [3]);
 /* channel_forkpty.c */
-extern long long channel_forkpty(int *, int, int);
+extern long long channel_forkpty(int [3], int, int);
 extern int channel_openpty(int *, int *);
 
 /* channel.c */
