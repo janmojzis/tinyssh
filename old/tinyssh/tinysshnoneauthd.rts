@@ -1,2 +1,1 @@
-#!/bin/sh
-exit 0
+../../test-tinysshnoneauthd.sh

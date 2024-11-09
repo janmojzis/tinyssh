@@ -705,6 +705,10 @@ tinysshd-makekey: tinysshd
 tinysshd-printkey: tinysshd
 	ln -s tinysshd tinysshd-printkey
 
+test: $(BINARIES) tinysshd-makekey tinysshd-printkey
+	sh runtest.sh test-tinysshd-makekey.sh test-tinysshd-makekey.out test-tinysshd-makekey.exp
+	sh runtest.sh test-tinysshd-printkey.sh test-tinysshd-printkey.out test-tinysshd-printkey.exp
+
 clean:
-	rm -f *.o has*.h $(BINARIES) libs tinysshd tinysshd-makekey tinysshd-printkey
+	rm -f *.o *.log has*.h $(BINARIES) libs tinysshd tinysshd-makekey tinysshd-printkey
 

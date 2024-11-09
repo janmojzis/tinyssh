@@ -1,0 +1,21 @@
+--- tinysshd-makekey prints help
+
+100
+
+--- tinysshd-makekey creates key-directory
+
+keydir/ed25519.pk
+0
+
+--- tinysshd-makekey fails when directory exists
+
+tinysshd-makekey: fatal: unable to create directory keydir (file already exists)
+111
+--- tinysshd-makekey handles '-r' parameter (prints help)
+
+100
+
+--- tinysshd-makekey creates '-r' key-directory
+
+0
+
