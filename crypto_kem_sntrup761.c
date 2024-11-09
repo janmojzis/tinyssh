@@ -1059,6 +1059,7 @@ static void ZDecrypt(Inputs r,const unsigned char *c,const unsigned char *sk)
 /* h = HashConfirm(r,pk,cache); cache is Hash4(pk) */
 static void HashConfirm(unsigned char *h,const unsigned char *r,const unsigned char *pk,const unsigned char *cache)
 {
+  (void) pk;
 #ifndef LPR
   unsigned char x[Hash_bytes*2];
   int i;
