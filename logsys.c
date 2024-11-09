@@ -194,6 +194,12 @@ static void logsys_utmp(const char *user, const char *host, const char *name, lo
 #endif
     }
 
+#else
+    (void) user;
+    (void) host;
+    (void) name;
+    (void) pid;
+    (void) flaglogin;
 #endif
 }
 
