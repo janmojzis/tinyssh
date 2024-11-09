@@ -34,6 +34,7 @@ extern int login_tty(int);
 #include "channel.h"
 
 
+#ifndef HASLOGINTTY
 static int _login_tty(int fd) {
 
     char *name;
@@ -60,7 +61,9 @@ static int _login_tty(int fd) {
     if (fd > 2) close(fd);
     return 0;
 }
+#endif
 
+#ifndef HASOPENPTY
 static int _openpty(int *amaster, int *aslave) {
 
     int master = -1, slave = -1;
@@ -92,6 +95,7 @@ static int _openpty(int *amaster, int *aslave) {
     if (aslave)  *aslave  = slave;
     return 0;
 }
+#endif
 
 int channel_openpty(int *amaster, int *aslave) {
 
