@@ -3,7 +3,7 @@
 (
   (
     echo "CC?=cc"
-    echo "CFLAGS+=-W -Wall -Os -fPIC -fwrapv"
+    echo "CFLAGS+=-W -Wall -Os -fPIC -fwrapv -Werror=deprecated-declarations"
     echo "LDFLAGS?="
     echo "CPPFLAGS?="
     echo "DESTDIR?="
