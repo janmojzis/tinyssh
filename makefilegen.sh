@@ -66,9 +66,10 @@
 
     for cfile in `ls -1 has*.c`; do
       hfile=`echo ${cfile} | sed 's/\.c/.h/'`
+      lfile=`echo ${cfile} | sed 's/\.c/.log/'`
       touch "${hfile}"
       echo "${hfile}: tryfeature.sh ${cfile} libs"
-      echo "	env CC=\"\$(CC)\" CFLAGS=\"\$(CFLAGS)\" LDFLAGS=\"\$(LDFLAGS) \`cat libs\`\" ./tryfeature.sh ${cfile} > ${hfile}"
+      echo "	env CC=\"\$(CC)\" CFLAGS=\"\$(CFLAGS)\" LDFLAGS=\"\$(LDFLAGS) \`cat libs\`\" ./tryfeature.sh ${cfile} >${hfile} 2>${lfile}"
       echo "	cat ${hfile}"
       echo
     done
@@ -87,7 +88,7 @@
     echo
 
     echo "clean:"
-    echo "	rm -f *.o has*.h \$(BINARIES) libs tinysshd tinysshd-makekey tinysshd-printkey"
+    echo "	rm -f *.o *.log has*.h \$(BINARIES) libs tinysshd tinysshd-makekey tinysshd-printkey"
     echo 
 
   ) > Makefile
