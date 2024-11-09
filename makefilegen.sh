@@ -24,7 +24,7 @@
     done
     echo
 
-    echo "all: \$(BINARIES) tinysshd-makekey tinysshd-printkey"
+    echo "all: \$(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd"
     echo 
 
     for file in `ls -1 has*.c`; do
@@ -87,14 +87,19 @@
     echo "	ln -s tinysshd tinysshd-printkey"
     echo
 
-    echo "test: \$(BINARIES) tinysshd-makekey tinysshd-printkey"
-    #echo "	sh runtest.sh test-tinysshd.sh test-tinysshd.out test-tinysshd.exp"
+    echo "tinysshnoneauthd: tinysshd"
+    echo "	ln -s tinysshd tinysshnoneauthd"
+    echo
+
+    echo "test: \$(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd"
+    echo "	sh runtest.sh test-tinysshd.sh test-tinysshd.out test-tinysshd.exp"
     echo "	sh runtest.sh test-tinysshd-makekey.sh test-tinysshd-makekey.out test-tinysshd-makekey.exp"
     echo "	sh runtest.sh test-tinysshd-printkey.sh test-tinysshd-printkey.out test-tinysshd-printkey.exp"
+    echo "	sh runtest.sh test-tinysshnoneauthd.sh test-tinysshnoneauthd.out test-tinysshnoneauthd.exp"
     echo
 
     echo "clean:"
-    echo "	rm -f *.o *.log has*.h \$(BINARIES) libs tinysshd tinysshd-makekey tinysshd-printkey"
+    echo "	rm -f *.o *.out *.log has*.h \$(BINARIES) libs tinysshd tinysshd-makekey tinysshd-printkey tinysshnoneauthd"
     echo 
 
   ) > Makefile

@@ -5,8 +5,15 @@ CPPFLAGS?=
 DESTDIR?=
 
 BINARIES=tinysshd
+BINARIES+=_tinysshd-printkex
+BINARIES+=_tinysshd-speed
+BINARIES+=_tinysshd-test-hello1
+BINARIES+=_tinysshd-test-hello2
+BINARIES+=_tinysshd-test-kex1
+BINARIES+=_tinysshd-test-kex2
+BINARIES+=_tinysshd-unauthenticated
 
-all: $(BINARIES) tinysshd-makekey tinysshd-printkey
+all: $(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd
 
 blocking.o: blocking.c blocking.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c blocking.c
@@ -497,6 +504,74 @@ subprocess_sign.o: subprocess_sign.c load.h log.h open.h writeall.h \
 tinysshd.o: tinysshd.c str.h main.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c tinysshd.c
 
+_tinysshd-printkex.o: _tinysshd-printkex.c log.h packet.h buf.h \
+ crypto_uint8.h crypto_uint32.h sshcrypto.h crypto.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h crypto_int16.h crypto_int32.h crypto_int64.h \
+ crypto_int8.h crypto_kem_sntrup761.h crypto_kem_sntrup761x25519.h \
+ crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
+ crypto_sign_ed25519.h crypto_sort_uint32.h crypto_stream_chacha20.h \
+ crypto_uint16.h crypto_uint64.h crypto_verify_16.h crypto_verify_32.h \
+ randombytes.h limit.h haslimits.h channel.h iptostr.h porttostr.h ssh.h \
+ bug.h global.h e.h packetparser.h
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c _tinysshd-printkex.c
+
+_tinysshd-speed.o: _tinysshd-speed.c crypto.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h crypto_int16.h crypto_int32.h crypto_int64.h \
+ crypto_int8.h crypto_kem_sntrup761.h crypto_kem_sntrup761x25519.h \
+ crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
+ crypto_sign_ed25519.h crypto_sort_uint32.h crypto_stream_chacha20.h \
+ crypto_uint16.h crypto_uint32.h crypto_uint64.h crypto_uint8.h \
+ crypto_verify_16.h crypto_verify_32.h randombytes.h
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c _tinysshd-speed.c
+
+_tinysshd-test-hello1.o: _tinysshd-test-hello1.c
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c _tinysshd-test-hello1.c
+
+_tinysshd-test-hello2.o: _tinysshd-test-hello2.c log.h packet.h buf.h \
+ crypto_uint8.h crypto_uint32.h sshcrypto.h crypto.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h crypto_int16.h crypto_int32.h crypto_int64.h \
+ crypto_int8.h crypto_kem_sntrup761.h crypto_kem_sntrup761x25519.h \
+ crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
+ crypto_sign_ed25519.h crypto_sort_uint32.h crypto_stream_chacha20.h \
+ crypto_uint16.h crypto_uint64.h crypto_verify_16.h crypto_verify_32.h \
+ randombytes.h limit.h haslimits.h channel.h iptostr.h porttostr.h \
+ global.h str.h writeall.h
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c _tinysshd-test-hello2.c
+
+_tinysshd-test-kex1.o: _tinysshd-test-kex1.c log.h packet.h buf.h \
+ crypto_uint8.h crypto_uint32.h sshcrypto.h crypto.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h crypto_int16.h crypto_int32.h crypto_int64.h \
+ crypto_int8.h crypto_kem_sntrup761.h crypto_kem_sntrup761x25519.h \
+ crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
+ crypto_sign_ed25519.h crypto_sort_uint32.h crypto_stream_chacha20.h \
+ crypto_uint16.h crypto_uint64.h crypto_verify_16.h crypto_verify_32.h \
+ randombytes.h limit.h haslimits.h channel.h iptostr.h porttostr.h ssh.h \
+ bug.h global.h e.h packetparser.h
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c _tinysshd-test-kex1.c
+
+_tinysshd-test-kex2.o: _tinysshd-test-kex2.c log.h packet.h buf.h \
+ crypto_uint8.h crypto_uint32.h sshcrypto.h crypto.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h crypto_int16.h crypto_int32.h crypto_int64.h \
+ crypto_int8.h crypto_kem_sntrup761.h crypto_kem_sntrup761x25519.h \
+ crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
+ crypto_sign_ed25519.h crypto_sort_uint32.h crypto_stream_chacha20.h \
+ crypto_uint16.h crypto_uint64.h crypto_verify_16.h crypto_verify_32.h \
+ randombytes.h limit.h haslimits.h channel.h iptostr.h porttostr.h ssh.h \
+ bug.h global.h e.h packetparser.h
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c _tinysshd-test-kex2.c
+
+_tinysshd-unauthenticated.o: _tinysshd-unauthenticated.c log.h packet.h \
+ buf.h crypto_uint8.h crypto_uint32.h sshcrypto.h crypto.h \
+ crypto_hash_sha256.h crypto_hash_sha512.h crypto_int16.h crypto_int32.h \
+ crypto_int64.h crypto_int8.h crypto_kem_sntrup761.h \
+ crypto_kem_sntrup761x25519.h crypto_onetimeauth_poly1305.h \
+ crypto_scalarmult_curve25519.h crypto_sign_ed25519.h \
+ crypto_sort_uint32.h crypto_stream_chacha20.h crypto_uint16.h \
+ crypto_uint64.h crypto_verify_16.h crypto_verify_32.h randombytes.h \
+ limit.h haslimits.h channel.h iptostr.h porttostr.h ssh.h bug.h global.h \
+ e.h packetparser.h
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c _tinysshd-unauthenticated.c
+
 trymlock.o: trymlock.c hasmlock.h trymlock.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c trymlock.c
 
@@ -606,6 +681,27 @@ OBJECTS+=writeall.o
 tinysshd: tinysshd.o $(OBJECTS) libs
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o tinysshd tinysshd.o $(OBJECTS) $(LDFLAGS) `cat libs`
 
+_tinysshd-printkex: _tinysshd-printkex.o $(OBJECTS) libs
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-printkex _tinysshd-printkex.o $(OBJECTS) $(LDFLAGS) `cat libs`
+
+_tinysshd-speed: _tinysshd-speed.o $(OBJECTS) libs
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-speed _tinysshd-speed.o $(OBJECTS) $(LDFLAGS) `cat libs`
+
+_tinysshd-test-hello1: _tinysshd-test-hello1.o $(OBJECTS) libs
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-test-hello1 _tinysshd-test-hello1.o $(OBJECTS) $(LDFLAGS) `cat libs`
+
+_tinysshd-test-hello2: _tinysshd-test-hello2.o $(OBJECTS) libs
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-test-hello2 _tinysshd-test-hello2.o $(OBJECTS) $(LDFLAGS) `cat libs`
+
+_tinysshd-test-kex1: _tinysshd-test-kex1.o $(OBJECTS) libs
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-test-kex1 _tinysshd-test-kex1.o $(OBJECTS) $(LDFLAGS) `cat libs`
+
+_tinysshd-test-kex2: _tinysshd-test-kex2.o $(OBJECTS) libs
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-test-kex2 _tinysshd-test-kex2.o $(OBJECTS) $(LDFLAGS) `cat libs`
+
+_tinysshd-unauthenticated: _tinysshd-unauthenticated.o $(OBJECTS) libs
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-unauthenticated _tinysshd-unauthenticated.o $(OBJECTS) $(LDFLAGS) `cat libs`
+
 
 hasasmvolatilememory.h: tryfeature.sh hasasmvolatilememory.c libs
 	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh hasasmvolatilememory.c >hasasmvolatilememory.h 2>hasasmvolatilememory.log
@@ -705,10 +801,15 @@ tinysshd-makekey: tinysshd
 tinysshd-printkey: tinysshd
 	ln -s tinysshd tinysshd-printkey
 
-test: $(BINARIES) tinysshd-makekey tinysshd-printkey
+tinysshnoneauthd: tinysshd
+	ln -s tinysshd tinysshnoneauthd
+
+test: $(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd
+	sh runtest.sh test-tinysshd.sh test-tinysshd.out test-tinysshd.exp
 	sh runtest.sh test-tinysshd-makekey.sh test-tinysshd-makekey.out test-tinysshd-makekey.exp
 	sh runtest.sh test-tinysshd-printkey.sh test-tinysshd-printkey.out test-tinysshd-printkey.exp
+	sh runtest.sh test-tinysshnoneauthd.sh test-tinysshnoneauthd.out test-tinysshnoneauthd.exp
 
 clean:
-	rm -f *.o *.log has*.h $(BINARIES) libs tinysshd tinysshd-makekey tinysshd-printkey
+	rm -f *.o *.out *.log has*.h $(BINARIES) libs tinysshd tinysshd-makekey tinysshd-printkey tinysshnoneauthd
 

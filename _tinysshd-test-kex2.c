@@ -46,6 +46,7 @@ static int _packet_disconnect(struct buf *b) {
 }
 
 
+#if 0
 static int _packet_debug(struct buf *b) {
     buf_purge(b);
     buf_putnum8(b, SSH_MSG_DEBUG);              /* SSH_MSG_DEBUG  */
@@ -55,6 +56,7 @@ static int _packet_debug(struct buf *b) {
     packet_put(b);
     return packet_sendall();
 }
+#endif
 
 
 static int _packet_kex_receive(void) {

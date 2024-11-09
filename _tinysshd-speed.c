@@ -6,7 +6,6 @@
 
 static unsigned char sk[2560];
 static unsigned char pk[2560];
-static unsigned char c[2560];
 static unsigned char a[16];
 static unsigned char n[8];
 static unsigned char k[64];
