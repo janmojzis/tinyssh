@@ -59,7 +59,7 @@ struct sshcrypto_pseudokex sshcrypto_pseudokexs[] = {
         "kex-strict-c-v00@openssh.com",
         sshcrypto_FLAGSTRICTKEX,
     },
-    { 0, 0 }
+    { 0, 0, 0 }
 };
 
 int sshcrypto_kex_flags = 0;
