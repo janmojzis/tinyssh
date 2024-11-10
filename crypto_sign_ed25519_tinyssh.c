@@ -1,3 +1,6 @@
+#include "haslib25519.h"
+#ifndef HASLIB25519
+
 #include "randombytes.h"
 #include "cleanup.h"
 #include "crypto_hash_sha512.h"
@@ -120,3 +123,4 @@ int crypto_sign_ed25519_tinyssh_keypair(unsigned char *pk, unsigned char *sk) {
     cleanup(h); cleanup(A);
     return 0;
 }
+#endif
