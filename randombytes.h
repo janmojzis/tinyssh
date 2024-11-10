@@ -1,10 +1,11 @@
 #ifndef _RANDOMBYTES_H____
 #define _RANDOMBYTES_H____
 
-extern void randombytes(unsigned char *, unsigned long long);
-
-#ifndef randombytes_implementation
-#define randombytes_implementation "tinyssh"
+#include "haslibrandombytes.h"
+#ifdef HASLIBRANDOMBYTES
+#include <randombytes.h>
+#else
+extern void randombytes(void *, long long);
 #endif
 
 #endif
