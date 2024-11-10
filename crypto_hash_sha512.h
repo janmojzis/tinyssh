@@ -15,10 +15,11 @@ extern int crypto_hash_sha512_tinyssh(unsigned char *, const unsigned char *, un
 #else
 
 #include <lib25519.h>
+#define crypto_hash_sha512_lib25519_BYTES lib25519_hash_sha512_BYTES
 extern int crypto_hash_sha512_lib25519(unsigned char *, const unsigned char *, unsigned long long);
 
 #define crypto_hash_sha512 crypto_hash_sha512_lib25519
-#define crypto_hash_sha512_BYTES lib25519_hash_sha512_BYTES
+#define crypto_hash_sha512_BYTES crypto_hash_sha512_lib25519_BYTES
 #define crypto_hash_sha512_IMPLEMENTATION "lib25519"
 #define crypto_hash_sha512_VERSION lib25519_version
 

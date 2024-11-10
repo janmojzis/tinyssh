@@ -6,6 +6,9 @@
 - slightly modified
 */
 
+#include "haslib25519.h"
+#ifndef HASLIB25519
+
 #include "crypto_hash_sha512.h"
 
 static void store64_bigendian(unsigned char *y, unsigned long long x) {
@@ -108,3 +111,4 @@ int crypto_hash_sha512_tinyssh(unsigned char *o,const unsigned char *m, unsigned
     for (i = 0; i < 8; ++i) store64_bigendian(o + 8 * i, h[i]);
     return 0;
 }
+#endif

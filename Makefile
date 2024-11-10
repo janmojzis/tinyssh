@@ -67,8 +67,8 @@ crypto_hash_sha512_lib25519.o: crypto_hash_sha512_lib25519.c \
  crypto_hash_sha512.h haslib25519.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_hash_sha512_lib25519.c
 
-crypto_hash_sha512_tinyssh.o: crypto_hash_sha512_tinyssh.c \
- crypto_hash_sha512.h haslib25519.h
+crypto_hash_sha512_tinyssh.o: crypto_hash_sha512_tinyssh.c haslib25519.h \
+ crypto_hash_sha512.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_hash_sha512_tinyssh.c
 
 crypto_kem_sntrup761_libntruprime.o: crypto_kem_sntrup761_libntruprime.c \

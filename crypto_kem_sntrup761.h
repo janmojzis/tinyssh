@@ -25,6 +25,10 @@ extern int crypto_kem_sntrup761_tinyssh_dec(unsigned char *, const unsigned char
 #else
 
 #include <ntruprime.h>
+#define crypto_kem_sntrup761_libntruprime_SECRETKEYBYTES sntrup761_SECRETKEYBYTES
+#define crypto_kem_sntrup761_libntruprime_PUBLICKEYBYTES sntrup761_PUBLICKEYBYTES
+#define crypto_kem_sntrup761_libntruprime_CIPHERTEXTBYTES sntrup761_CIPHERTEXTBYTES
+#define crypto_kem_sntrup761_libntruprime_BYTES sntrup761_BYTES
 extern int crypto_kem_sntrup761_libntruprime_keypair(unsigned char *, unsigned char *);
 extern int crypto_kem_sntrup761_libntruprime_enc(unsigned char *, unsigned char *, const unsigned char *);
 extern int crypto_kem_sntrup761_libntruprime_dec(unsigned char *, const unsigned char *, const unsigned char *);
@@ -32,10 +36,10 @@ extern int crypto_kem_sntrup761_libntruprime_dec(unsigned char *, const unsigned
 #define crypto_kem_sntrup761_keypair crypto_kem_sntrup761_libntruprime_keypair
 #define crypto_kem_sntrup761_enc crypto_kem_sntrup761_libntruprime_enc
 #define crypto_kem_sntrup761_dec crypto_kem_sntrup761_libntruprime_dec
-#define crypto_kem_sntrup761_SECRETKEYBYTES sntrup761_SECRETKEYBYTES
-#define crypto_kem_sntrup761_PUBLICKEYBYTES sntrup761_PUBLICKEYBYTES
-#define crypto_kem_sntrup761_CIPHERTEXTBYTES sntrup761_CIPHERTEXTBYTES
-#define crypto_kem_sntrup761_BYTES sntrup761_BYTES
+#define crypto_kem_sntrup761_SECRETKEYBYTES crypto_kem_sntrup761_libntruprime_SECRETKEYBYTES
+#define crypto_kem_sntrup761_PUBLICKEYBYTES crypto_kem_sntrup761_libntruprime_PUBLICKEYBYTES
+#define crypto_kem_sntrup761_CIPHERTEXTBYTES crypto_kem_sntrup761_libntruprime_CIPHERTEXTBYTES
+#define crypto_kem_sntrup761_BYTES crypto_kem_sntrup761_libntruprime_BYTES
 #define crypto_kem_sntrup761_IMPLEMENTATION "libntruprime"
 #define crypto_kem_sntrup761_VERSION "-"
 
