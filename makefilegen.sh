@@ -75,7 +75,7 @@
     done
 
     echo "libs: trylibs.sh"
-    echo "	env CC=\"\$(CC)\" ./trylibs.sh -lsocket -lnsl -lutil -lrandombytes -l25519 >libs"
+    echo "	env CC=\"\$(CC)\" ./trylibs.sh -lsocket -lnsl -lutil -lrandombytes -l25519 -lntruprime >libs"
     echo "	cat libs"
     echo
 

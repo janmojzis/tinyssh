@@ -1,3 +1,5 @@
+#include "haslibntruprime.h"
+#ifndef HASLIBNTRUPRIME
 /*
 Original code: supercop-20210125/crypto_kem/sntrup761/ref
 Modifications (Jan Mojzis):
@@ -1247,4 +1249,5 @@ rm crypto_kem_sntrup761.c || :
 ) > crypto_kem_sntrup761.c.tmp
 mv -f crypto_kem_sntrup761.c.tmp crypto_kem_sntrup761.c
 
+#endif
 #endif
