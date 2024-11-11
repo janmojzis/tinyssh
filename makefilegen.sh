@@ -11,11 +11,15 @@
     echo "PREFIX?=/usr/local"
     echo
 
-    # binaries
+    # binaries + objects
     binaries=''
+    binobj=''
     for cfile in `ls -1 *.c | grep -v '^has'`; do
       if grep '^int main(' "${cfile}" >/dev/null; then
         binaries="${binaries} `echo ${cfile} | sed 's/\.c$//'`"
+        binobj="${binobj} `echo ${cfile} | sed 's/\.c$/.o/'`"
+      else
+        objects="${objects} `echo ${cfile} | sed 's/\.c$/.o/'`"
       fi
     done
     echo "`echo BINARIES=${binaries} | fold -s | sed 's/^/ /' | sed 's/^ BINARIES= /BINARIES=/' | sed 's/ $/ \\\\/'`"
@@ -27,6 +31,12 @@
 
     echo "all: \$(BINARIES) \$(LINKS)"
     echo 
+
+    echo "`echo OBJECTS=${objects} | fold -s | sed 's/^/ /' | sed 's/^ OBJECTS= /OBJECTS=/' | sed 's/ $/ \\\\/'`"
+    echo
+
+    echo "`echo BINOBJ=${binobj} | fold -s | sed 's/^/ /' | sed 's/^ BINOBJ= /BINOBJ=/' | sed 's/ $/ \\\\/'`"
+    echo
 
     # autoheaders
     autoheaders=''
@@ -51,20 +61,6 @@
       hfile=`echo ${cfile} | sed 's/\.c/.h/'`
       rm -f "${hfile}"
     done
-
-    i=0
-    for file in `ls *.c`; do
-      if ! grep '^int main(' "${file}" >/dev/null; then
-        x=`echo "${file}" | sed 's/\.c$/.o/'`
-        if [ $i -eq 0 ]; then
-          echo "OBJECTS=${x}"
-        else
-          echo "OBJECTS+=${x}"
-        fi
-        i=`expr $i + 1`
-      fi
-    done
-    echo
 
     for file in `ls -1 *.c | grep -v '^has'`; do
       if grep '^int main(' "${file}" >/dev/null; then
@@ -124,7 +120,7 @@
     echo
 
     echo "clean:"
-    echo "	rm -f *.out *.log libs \$(OBJECTS) \$(BINARIES) \$(LINKS) \$(AUTOHEADERS)"
+    echo "	rm -f *.out *.log libs \$(OBJECTS) \$(BINOBJ) \$(BINARIES) \$(LINKS) \$(AUTOHEADERS)"
     echo 
 
   ) > Makefile

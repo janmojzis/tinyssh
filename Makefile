@@ -14,6 +14,31 @@ LINKS=tinysshd-makekey tinysshd-printkey tinysshnoneauthd
 
 all: $(BINARIES) $(LINKS)
 
+OBJECTS=blocking.o buf.o byte.o channel.o channel_drop.o channel_fork.o \
+ channel_forkpty.o channel_subsystem.o cleanup.o coe.o connectioninfo.o \
+ crypto_hash_sha256.o crypto_hash_sha512_lib25519.o crypto_hash_sha512_tinyssh.o \
+ crypto_kem_sntrup761_libntruprime.o crypto_kem_sntrup761_tinyssh.o \
+ crypto_kem_sntrup761x25519.o crypto_onetimeauth_poly1305.o \
+ crypto_scalarmult_curve25519_lib25519.o crypto_scalarmult_curve25519_tinyssh.o \
+ crypto_sign_ed25519_lib25519.o crypto_sign_ed25519_tinyssh.o \
+ crypto_sort_uint32.o crypto_stream_chacha20.o crypto_verify_16.o \
+ crypto_verify_32.o die.o dropuidgid.o e.o env.o fe25519.o fe.o ge25519.o \
+ getln.o global.o iptostr.o load.o log.o loginshell.o logsys.o main_tinysshd.o \
+ main_tinysshd_makekey.o main_tinysshd_printkey.o newenv.o numtostr.o open.o \
+ packet_auth.o packet.o packet_channel_open.o packet_channel_recv.o \
+ packet_channel_request.o packet_channel_send.o packet_get.o packet_hello.o \
+ packet_kex.o packet_kexdh.o packetparser.o packet_put.o packet_recv.o \
+ packet_send.o packet_unimplemented.o porttostr.o randombytes.o randommod.o \
+ readall.o savesync.o sc25519.o ssh.o sshcrypto.o sshcrypto_cipher.o \
+ sshcrypto_cipher_chachapoly.o sshcrypto_kex.o sshcrypto_kex_curve25519.o \
+ sshcrypto_kex_sntrup761x25519.o sshcrypto_key.o sshcrypto_key_ed25519.o str.o \
+ stringparser.o subprocess_auth.o subprocess_sign.o trymlock.o uint32_pack_big.o \
+ uint32_pack.o uint32_unpack_big.o uint32_unpack.o verify.o writeall.o
+
+BINOBJ=tinysshd.o _tinysshd-printkex.o _tinysshd-speed.o \
+ _tinysshd-test-hello1.o _tinysshd-test-hello2.o _tinysshd-test-kex1.o \
+ _tinysshd-test-kex2.o _tinysshd-unauthenticated.o
+
 AUTOHEADERS=hasasmvolatilememory.h haslib25519.h haslibntruprime.h \
  haslibrandombytes.h haslibutilh.h haslimits.h haslogintty.h hasmlock.h \
  hasopenpty.h hasutilh.h hasutmpaddrv6.h hasutmp.h hasutmphost.h \
@@ -646,94 +671,6 @@ verify.o: verify.c verify.h
 writeall.o: writeall.c e.h writeall.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c writeall.c
 
-OBJECTS=blocking.o
-OBJECTS+=buf.o
-OBJECTS+=byte.o
-OBJECTS+=channel.o
-OBJECTS+=channel_drop.o
-OBJECTS+=channel_fork.o
-OBJECTS+=channel_forkpty.o
-OBJECTS+=channel_subsystem.o
-OBJECTS+=cleanup.o
-OBJECTS+=coe.o
-OBJECTS+=connectioninfo.o
-OBJECTS+=crypto_hash_sha256.o
-OBJECTS+=crypto_hash_sha512_lib25519.o
-OBJECTS+=crypto_hash_sha512_tinyssh.o
-OBJECTS+=crypto_kem_sntrup761_libntruprime.o
-OBJECTS+=crypto_kem_sntrup761_tinyssh.o
-OBJECTS+=crypto_kem_sntrup761x25519.o
-OBJECTS+=crypto_onetimeauth_poly1305.o
-OBJECTS+=crypto_scalarmult_curve25519_lib25519.o
-OBJECTS+=crypto_scalarmult_curve25519_tinyssh.o
-OBJECTS+=crypto_sign_ed25519_lib25519.o
-OBJECTS+=crypto_sign_ed25519_tinyssh.o
-OBJECTS+=crypto_sort_uint32.o
-OBJECTS+=crypto_stream_chacha20.o
-OBJECTS+=crypto_verify_16.o
-OBJECTS+=crypto_verify_32.o
-OBJECTS+=die.o
-OBJECTS+=dropuidgid.o
-OBJECTS+=e.o
-OBJECTS+=env.o
-OBJECTS+=fe25519.o
-OBJECTS+=fe.o
-OBJECTS+=ge25519.o
-OBJECTS+=getln.o
-OBJECTS+=global.o
-OBJECTS+=iptostr.o
-OBJECTS+=load.o
-OBJECTS+=log.o
-OBJECTS+=loginshell.o
-OBJECTS+=logsys.o
-OBJECTS+=main_tinysshd.o
-OBJECTS+=main_tinysshd_makekey.o
-OBJECTS+=main_tinysshd_printkey.o
-OBJECTS+=newenv.o
-OBJECTS+=numtostr.o
-OBJECTS+=open.o
-OBJECTS+=packet_auth.o
-OBJECTS+=packet.o
-OBJECTS+=packet_channel_open.o
-OBJECTS+=packet_channel_recv.o
-OBJECTS+=packet_channel_request.o
-OBJECTS+=packet_channel_send.o
-OBJECTS+=packet_get.o
-OBJECTS+=packet_hello.o
-OBJECTS+=packet_kex.o
-OBJECTS+=packet_kexdh.o
-OBJECTS+=packetparser.o
-OBJECTS+=packet_put.o
-OBJECTS+=packet_recv.o
-OBJECTS+=packet_send.o
-OBJECTS+=packet_unimplemented.o
-OBJECTS+=porttostr.o
-OBJECTS+=randombytes.o
-OBJECTS+=randommod.o
-OBJECTS+=readall.o
-OBJECTS+=savesync.o
-OBJECTS+=sc25519.o
-OBJECTS+=ssh.o
-OBJECTS+=sshcrypto.o
-OBJECTS+=sshcrypto_cipher.o
-OBJECTS+=sshcrypto_cipher_chachapoly.o
-OBJECTS+=sshcrypto_kex.o
-OBJECTS+=sshcrypto_kex_curve25519.o
-OBJECTS+=sshcrypto_kex_sntrup761x25519.o
-OBJECTS+=sshcrypto_key.o
-OBJECTS+=sshcrypto_key_ed25519.o
-OBJECTS+=str.o
-OBJECTS+=stringparser.o
-OBJECTS+=subprocess_auth.o
-OBJECTS+=subprocess_sign.o
-OBJECTS+=trymlock.o
-OBJECTS+=uint32_pack_big.o
-OBJECTS+=uint32_pack.o
-OBJECTS+=uint32_unpack_big.o
-OBJECTS+=uint32_unpack.o
-OBJECTS+=verify.o
-OBJECTS+=writeall.o
-
 tinysshd: tinysshd.o $(OBJECTS) libs
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o tinysshd tinysshd.o $(OBJECTS) $(LDFLAGS) `cat libs`
 
@@ -891,5 +828,5 @@ test: $(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd
 	sh runtest.sh test-tinysshnoneauthd.sh test-tinysshnoneauthd.out test-tinysshnoneauthd.exp
 
 clean:
-	rm -f *.out *.log libs $(OBJECTS) $(BINARIES) $(LINKS) $(AUTOHEADERS)
+	rm -f *.out *.log libs $(OBJECTS) $(BINOBJ) $(BINARIES) $(LINKS) $(AUTOHEADERS)
 
