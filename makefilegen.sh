@@ -1,5 +1,8 @@
 #!/bin/sh
 
+LANG=C
+export LANG
+
 (
   (
     echo "CC?=cc"
@@ -14,7 +17,7 @@
     # binaries + objects
     binaries=''
     binobj=''
-    for cfile in `ls -1 *.c | grep -v '^has'`; do
+    for cfile in `ls -1 *.c | sort | grep -v '^has'`; do
       if grep '^int main(' "${cfile}" >/dev/null; then
         binaries="${binaries} `echo ${cfile} | sed 's/\.c$//'`"
         binobj="${binobj} `echo ${cfile} | sed 's/\.c$/.o/'`"
@@ -37,7 +40,7 @@
 
     # autoheaders
     autoheaders=''
-    for cfile in `ls -1 has*.c || :`; do
+    for cfile in `ls -1 has*.c | sort`; do
       autoheaders="${autoheaders} `echo ${cfile} | sed 's/\.c/.h/'`"
     done
     echo "`echo AUTOHEADERS=${autoheaders} | fold -s | sed 's/^/ /' | sed 's/^ AUTOHEADERS= /AUTOHEADERS=/' | sed 's/ $/ \\\\/'`"
@@ -46,23 +49,23 @@
     echo "all: \$(AUTOHEADERS) \$(BINARIES) \$(LINKS)"
     echo
 
-    for cfile in `ls -1 has*.c`; do
+    for cfile in `ls -1 has*.c | sort`; do
       hfile=`echo ${cfile} | sed 's/\.c/.h/'`
       touch "${hfile}"
     done
-    for file in `ls -1 *.c | grep -v '^has'`; do
+    for file in `ls -1 *.c | sort | grep -v '^has'`; do
       (
         gcc -MM "${file}"
         echo "	\$(CC) \$(CFLAGS) \$(CPPFLAGS) -c ${file}"
         echo
       )
     done
-    for cfile in `ls -1 has*.c`; do
+    for cfile in `ls -1 has*.c | sort`; do
       hfile=`echo ${cfile} | sed 's/\.c/.h/'`
       rm -f "${hfile}"
     done
 
-    for file in `ls -1 *.c | grep -v '^has'`; do
+    for file in `ls -1 *.c | sort | grep -v '^has'`; do
       if grep '^int main(' "${file}" >/dev/null; then
         x=`echo "${file}" | sed 's/\.c$//'`
         echo "${x}: ${x}.o \$(OBJECTS) libs"
@@ -72,7 +75,7 @@
     done
     echo
 
-    for cfile in `ls -1 has*.c`; do
+    for cfile in `ls -1 has*.c | sort`; do
       hfile=`echo ${cfile} | sed 's/\.c/.h/'`
       lfile=`echo ${cfile} | sed 's/\.c/.log/'`
       touch "${hfile}"
