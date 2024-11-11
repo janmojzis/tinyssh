@@ -12,24 +12,18 @@
     echo
 
     # binaries
-    i=0
-    for file in `ls -1 *.c | grep -v '^has'`; do
-      if grep '^int main(' "${file}" >/dev/null; then
-        x=`echo "${file}" | sed 's/\.c$//'`
-        if [ $i -eq 0 ]; then
-          echo "BINARIES=${x}"
-        else
-          echo "BINARIES+=${x}"
-        fi
-        i=`expr $i + 1`
+    binaries=''
+    for cfile in `ls -1 *.c | grep -v '^has'`; do
+      if grep '^int main(' "${cfile}" >/dev/null; then
+        binaries="${binaries} `echo ${cfile} | sed 's/\.c$//'`"
       fi
     done
+    echo "`echo BINARIES=${binaries} | fold -s | sed 's/^/ /' | sed 's/^ BINARIES= /BINARIES=/' | sed 's/ $/ \\\\/'`"
     echo
 
     # links
     echo "LINKS=tinysshd-makekey tinysshd-printkey tinysshnoneauthd"
     echo
-
 
     echo "all: \$(BINARIES) \$(LINKS)"
     echo 

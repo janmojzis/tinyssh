@@ -6,14 +6,9 @@ CPPFLAGS?=
 DESTDIR?=
 PREFIX?=/usr/local
 
-BINARIES=tinysshd
-BINARIES+=_tinysshd-printkex
-BINARIES+=_tinysshd-speed
-BINARIES+=_tinysshd-test-hello1
-BINARIES+=_tinysshd-test-hello2
-BINARIES+=_tinysshd-test-kex1
-BINARIES+=_tinysshd-test-kex2
-BINARIES+=_tinysshd-unauthenticated
+BINARIES=tinysshd _tinysshd-printkex _tinysshd-speed _tinysshd-test-hello1 \
+ _tinysshd-test-hello2 _tinysshd-test-kex1 _tinysshd-test-kex2 \
+ _tinysshd-unauthenticated
 
 LINKS=tinysshd-makekey tinysshd-printkey tinysshnoneauthd
 
