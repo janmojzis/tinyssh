@@ -13,6 +13,8 @@ export LANG
     echo "DESTDIR?="
     echo "PREFIX?=/usr/local"
     echo
+    echo "INSTALL?=install"
+    echo
 
     # binaries + objects
     binaries=''
@@ -107,14 +109,14 @@ export LANG
     echo "install: \$(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd"
     echo "	mkdir -p \$(DESTDIR)\$(PREFIX)/sbin"
     echo "	mkdir -p \$(DESTDIR)\$(PREFIX)/share/man/man8"
-    echo "	install -m 0755 tinysshd \$(DESTDIR)\$(PREFIX)/sbin/tinysshd"
-    echo "	install -m 0755 tinysshd-makekey \$(DESTDIR)\$(PREFIX)/sbin/tinysshd-makekey"
-    echo "	install -m 0755 tinysshd-printkey \$(DESTDIR)\$(PREFIX)/sbin/tinysshd-printkey"
-    echo "	install -m 0755 tinysshnoneauthd \$(DESTDIR)\$(PREFIX)/sbin/tinysshnoneauthd"
-    echo "	install -m 0644 man/tinysshd.8 \$(DESTDIR)\$(PREFIX)/share/man/man8/tinysshd.8"
-    echo "	install -m 0644 man/tinysshd-makekey.8 \$(DESTDIR)\$(PREFIX)/share/man/man8/tinysshd-makekey.8"
-    echo "	install -m 0644 man/tinysshd-printkey.8 \$(DESTDIR)\$(PREFIX)/share/man/man8/tinysshd-printkey.8"
-    echo "	install -m 0644 man/tinysshnoneauthd.8 \$(DESTDIR)\$(PREFIX)/share/man/man8/tinysshnoneauthd.8"
+    echo "	\$(INSTALL) -m 0755 tinysshd \$(DESTDIR)\$(PREFIX)/sbin/tinysshd"
+    echo "	\$(INSTALL) -m 0755 tinysshd-makekey \$(DESTDIR)\$(PREFIX)/sbin/tinysshd-makekey"
+    echo "	\$(INSTALL) -m 0755 tinysshd-printkey \$(DESTDIR)\$(PREFIX)/sbin/tinysshd-printkey"
+    echo "	\$(INSTALL) -m 0755 tinysshnoneauthd \$(DESTDIR)\$(PREFIX)/sbin/tinysshnoneauthd"
+    echo "	\$(INSTALL) -m 0644 man/tinysshd.8 \$(DESTDIR)\$(PREFIX)/share/man/man8/tinysshd.8"
+    echo "	\$(INSTALL) -m 0644 man/tinysshd-makekey.8 \$(DESTDIR)\$(PREFIX)/share/man/man8/tinysshd-makekey.8"
+    echo "	\$(INSTALL) -m 0644 man/tinysshd-printkey.8 \$(DESTDIR)\$(PREFIX)/share/man/man8/tinysshd-printkey.8"
+    echo "	\$(INSTALL) -m 0644 man/tinysshnoneauthd.8 \$(DESTDIR)\$(PREFIX)/share/man/man8/tinysshnoneauthd.8"
     echo
 
     echo "test: \$(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd"

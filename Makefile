@@ -6,6 +6,8 @@ CPPFLAGS?=
 DESTDIR?=
 PREFIX?=/usr/local
 
+INSTALL?=install
+
 BINARIES=tinysshd _tinysshd-printkex _tinysshd-speed _tinysshd-test-hello1 \
  _tinysshd-test-hello2 _tinysshd-test-kex1 _tinysshd-test-kex2 \
  _tinysshd-unauthenticated
@@ -845,14 +847,14 @@ tinysshnoneauthd: tinysshd
 install: $(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd
 	mkdir -p $(DESTDIR)$(PREFIX)/sbin
 	mkdir -p $(DESTDIR)$(PREFIX)/share/man/man8
-	install -m 0755 tinysshd $(DESTDIR)$(PREFIX)/sbin/tinysshd
-	install -m 0755 tinysshd-makekey $(DESTDIR)$(PREFIX)/sbin/tinysshd-makekey
-	install -m 0755 tinysshd-printkey $(DESTDIR)$(PREFIX)/sbin/tinysshd-printkey
-	install -m 0755 tinysshnoneauthd $(DESTDIR)$(PREFIX)/sbin/tinysshnoneauthd
-	install -m 0644 man/tinysshd.8 $(DESTDIR)$(PREFIX)/share/man/man8/tinysshd.8
-	install -m 0644 man/tinysshd-makekey.8 $(DESTDIR)$(PREFIX)/share/man/man8/tinysshd-makekey.8
-	install -m 0644 man/tinysshd-printkey.8 $(DESTDIR)$(PREFIX)/share/man/man8/tinysshd-printkey.8
-	install -m 0644 man/tinysshnoneauthd.8 $(DESTDIR)$(PREFIX)/share/man/man8/tinysshnoneauthd.8
+	$(INSTALL) -m 0755 tinysshd $(DESTDIR)$(PREFIX)/sbin/tinysshd
+	$(INSTALL) -m 0755 tinysshd-makekey $(DESTDIR)$(PREFIX)/sbin/tinysshd-makekey
+	$(INSTALL) -m 0755 tinysshd-printkey $(DESTDIR)$(PREFIX)/sbin/tinysshd-printkey
+	$(INSTALL) -m 0755 tinysshnoneauthd $(DESTDIR)$(PREFIX)/sbin/tinysshnoneauthd
+	$(INSTALL) -m 0644 man/tinysshd.8 $(DESTDIR)$(PREFIX)/share/man/man8/tinysshd.8
+	$(INSTALL) -m 0644 man/tinysshd-makekey.8 $(DESTDIR)$(PREFIX)/share/man/man8/tinysshd-makekey.8
+	$(INSTALL) -m 0644 man/tinysshd-printkey.8 $(DESTDIR)$(PREFIX)/share/man/man8/tinysshd-printkey.8
+	$(INSTALL) -m 0644 man/tinysshnoneauthd.8 $(DESTDIR)$(PREFIX)/share/man/man8/tinysshnoneauthd.8
 
 test: $(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd
 	sh runtest.sh test-tinysshd.sh test-tinysshd.out test-tinysshd.exp
