@@ -1,5 +1,5 @@
-#ifndef _LIMIT_H____
-#define _LIMIT_H____
+#ifndef LIMIT_H____
+#define LIMIT_H____
 
 #include "haslimits.h"
 #ifdef HASLIMITS

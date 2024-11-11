@@ -1,5 +1,5 @@
-#ifndef _ENV_H____
-#define _ENV_H____
+#ifndef ENV_H____
+#define ENV_H____
 
 /*
 The environment 'environ', is a 0-terminated array

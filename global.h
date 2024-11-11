@@ -1,5 +1,5 @@
-#ifndef _GLOBAL_H____
-#define _GLOBAL_H____
+#ifndef GLOBAL_H____
+#define GLOBAL_H____
 
 #define GLOBAL_BSIZE 65536
 extern unsigned char global_bspace1[GLOBAL_BSIZE];

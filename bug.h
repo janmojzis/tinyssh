@@ -1,5 +1,5 @@
-#ifndef _BUG_H____
-#define _BUG_H____
+#ifndef BUG_H____
+#define BUG_H____
 
 #include <unistd.h>
 #include "global.h"

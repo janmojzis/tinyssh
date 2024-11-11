@@ -1,5 +1,5 @@
-#ifndef _SUBPROCESS_H____
-#define _SUBPROCESS_H____
+#ifndef SUBPROCESS_H____
+#define SUBPROCESS_H____
 
 #include <sys/types.h>
 

@@ -1,5 +1,5 @@
-#ifndef _FE_H____
-#define _FE_H____
+#ifndef FE_H____
+#define FE_H____
 
 #include "crypto_uint32.h"
 #include "crypto_uint64.h"

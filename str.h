@@ -1,5 +1,5 @@
-#ifndef _STR_H____
-#define _STR_H____
+#ifndef STR_H____
+#define STR_H____
 
 extern long long str_len(const char *);
 extern int str_start(const char *, const char *);

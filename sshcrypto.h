@@ -1,5 +1,5 @@
-#ifndef _SSHCRYPTO_H____
-#define _SSHCRYPTO_H____
+#ifndef SSHCRYPTO_H____
+#define SSHCRYPTO_H____
 
 #include "buf.h"
 #include "crypto.h"

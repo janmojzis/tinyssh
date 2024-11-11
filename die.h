@@ -1,5 +1,5 @@
-#ifndef _DIE_H____
-#define _DIE_H____
+#ifndef DIE_H____
+#define DIE_H____
 
 extern void die_usage(const char *);
 extern void die_fatal_(const char *, unsigned long long, const char *, const char *, const char *);

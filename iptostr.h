@@ -1,5 +1,5 @@
-#ifndef _IPTOSTR_H____
-#define _IPTOSTR_H____
+#ifndef IPTOSTR_H____
+#define IPTOSTR_H____
 
 #define IPTOSTR_LEN 46
 

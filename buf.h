@@ -4,8 +4,8 @@ Jan Mojzis
 Public domain.
 */
 
-#ifndef _BUF_H____
-#define _BUF_H____
+#ifndef BUF_H____
+#define BUF_H____
 
 #include "crypto_uint8.h"
 #include "crypto_uint32.h"

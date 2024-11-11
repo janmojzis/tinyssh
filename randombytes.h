@@ -1,5 +1,5 @@
-#ifndef _RANDOMBYTES_H____
-#define _RANDOMBYTES_H____
+#ifndef RANDOMBYTES_H____
+#define RANDOMBYTES_H____
 
 #include "haslibrandombytes.h"
 #ifdef HASLIBRANDOMBYTES

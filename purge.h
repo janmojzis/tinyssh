@@ -1,5 +1,5 @@
-#ifndef _PURGE_H____
-#define _PURGE_H____
+#ifndef PURGE_H____
+#define PURGE_H____
 
 #include "cleanup.h"
 #define purge cleanup_

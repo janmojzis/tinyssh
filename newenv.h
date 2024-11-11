@@ -1,5 +1,5 @@
-#ifndef _NEWENV_H____
-#define _NEWENV_H____
+#ifndef NEWENV_H____
+#define NEWENV_H____
 
 extern int newenv_env_(int, const char *, const char *);
 

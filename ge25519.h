@@ -1,5 +1,5 @@
-#ifndef _GE25519_H____
-#define _GE25519_H____
+#ifndef GE25519_H____
+#define GE25519_H____
 
 #include "fe.h"
 
