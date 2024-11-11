@@ -69,7 +69,8 @@ export LANG
       if grep '^int main(' "${file}" >/dev/null; then
         x=`echo "${file}" | sed 's/\.c$//'`
         echo "${x}: ${x}.o \$(OBJECTS) libs"
-        echo "	\$(CC) \$(CFLAGS) \$(CPPFLAGS) -o ${x} ${x}.o \$(OBJECTS) \$(LDFLAGS) \`cat libs\`"
+        echo "	\$(CC) \$(CFLAGS) \$(CPPFLAGS) -o ${x} ${x}.o \\"
+        echo "	\$(OBJECTS) \$(LDFLAGS) \`cat libs\`"
         echo 
       fi
     done
@@ -80,7 +81,8 @@ export LANG
       lfile=`echo ${cfile} | sed 's/\.c/.log/'`
       touch "${hfile}"
       echo "${hfile}: tryfeature.sh ${cfile} libs"
-      echo "	env CC=\"\$(CC)\" CFLAGS=\"\$(CFLAGS)\" LDFLAGS=\"\$(LDFLAGS) \`cat libs\`\" ./tryfeature.sh ${cfile} >${hfile} 2>${lfile}"
+      echo "	env CC=\"\$(CC)\" CFLAGS=\"\$(CFLAGS)\" LDFLAGS=\"\$(LDFLAGS) \`cat libs\`\" \\"
+      echo "	./tryfeature.sh ${cfile} >${hfile} 2>${lfile}"
       echo "	cat ${hfile}"
       echo
     done

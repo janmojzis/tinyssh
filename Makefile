@@ -672,128 +672,161 @@ writeall.o: writeall.c e.h writeall.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c writeall.c
 
 tinysshd: tinysshd.o $(OBJECTS) libs
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o tinysshd tinysshd.o $(OBJECTS) $(LDFLAGS) `cat libs`
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o tinysshd tinysshd.o \
+	$(OBJECTS) $(LDFLAGS) `cat libs`
 
 _tinysshd-printkex: _tinysshd-printkex.o $(OBJECTS) libs
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-printkex _tinysshd-printkex.o $(OBJECTS) $(LDFLAGS) `cat libs`
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-printkex _tinysshd-printkex.o \
+	$(OBJECTS) $(LDFLAGS) `cat libs`
 
 _tinysshd-speed: _tinysshd-speed.o $(OBJECTS) libs
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-speed _tinysshd-speed.o $(OBJECTS) $(LDFLAGS) `cat libs`
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-speed _tinysshd-speed.o \
+	$(OBJECTS) $(LDFLAGS) `cat libs`
 
 _tinysshd-test-hello1: _tinysshd-test-hello1.o $(OBJECTS) libs
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-test-hello1 _tinysshd-test-hello1.o $(OBJECTS) $(LDFLAGS) `cat libs`
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-test-hello1 _tinysshd-test-hello1.o \
+	$(OBJECTS) $(LDFLAGS) `cat libs`
 
 _tinysshd-test-hello2: _tinysshd-test-hello2.o $(OBJECTS) libs
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-test-hello2 _tinysshd-test-hello2.o $(OBJECTS) $(LDFLAGS) `cat libs`
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-test-hello2 _tinysshd-test-hello2.o \
+	$(OBJECTS) $(LDFLAGS) `cat libs`
 
 _tinysshd-test-kex1: _tinysshd-test-kex1.o $(OBJECTS) libs
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-test-kex1 _tinysshd-test-kex1.o $(OBJECTS) $(LDFLAGS) `cat libs`
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-test-kex1 _tinysshd-test-kex1.o \
+	$(OBJECTS) $(LDFLAGS) `cat libs`
 
 _tinysshd-test-kex2: _tinysshd-test-kex2.o $(OBJECTS) libs
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-test-kex2 _tinysshd-test-kex2.o $(OBJECTS) $(LDFLAGS) `cat libs`
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-test-kex2 _tinysshd-test-kex2.o \
+	$(OBJECTS) $(LDFLAGS) `cat libs`
 
 _tinysshd-unauthenticated: _tinysshd-unauthenticated.o $(OBJECTS) libs
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-unauthenticated _tinysshd-unauthenticated.o $(OBJECTS) $(LDFLAGS) `cat libs`
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-unauthenticated _tinysshd-unauthenticated.o \
+	$(OBJECTS) $(LDFLAGS) `cat libs`
 
 
 hasasmvolatilememory.h: tryfeature.sh hasasmvolatilememory.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh hasasmvolatilememory.c >hasasmvolatilememory.h 2>hasasmvolatilememory.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh hasasmvolatilememory.c >hasasmvolatilememory.h 2>hasasmvolatilememory.log
 	cat hasasmvolatilememory.h
 
 haslib25519.h: tryfeature.sh haslib25519.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh haslib25519.c >haslib25519.h 2>haslib25519.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh haslib25519.c >haslib25519.h 2>haslib25519.log
 	cat haslib25519.h
 
 haslibntruprime.h: tryfeature.sh haslibntruprime.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh haslibntruprime.c >haslibntruprime.h 2>haslibntruprime.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh haslibntruprime.c >haslibntruprime.h 2>haslibntruprime.log
 	cat haslibntruprime.h
 
 haslibrandombytes.h: tryfeature.sh haslibrandombytes.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh haslibrandombytes.c >haslibrandombytes.h 2>haslibrandombytes.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh haslibrandombytes.c >haslibrandombytes.h 2>haslibrandombytes.log
 	cat haslibrandombytes.h
 
 haslibutilh.h: tryfeature.sh haslibutilh.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh haslibutilh.c >haslibutilh.h 2>haslibutilh.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh haslibutilh.c >haslibutilh.h 2>haslibutilh.log
 	cat haslibutilh.h
 
 haslimits.h: tryfeature.sh haslimits.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh haslimits.c >haslimits.h 2>haslimits.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh haslimits.c >haslimits.h 2>haslimits.log
 	cat haslimits.h
 
 haslogintty.h: tryfeature.sh haslogintty.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh haslogintty.c >haslogintty.h 2>haslogintty.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh haslogintty.c >haslogintty.h 2>haslogintty.log
 	cat haslogintty.h
 
 hasmlock.h: tryfeature.sh hasmlock.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh hasmlock.c >hasmlock.h 2>hasmlock.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh hasmlock.c >hasmlock.h 2>hasmlock.log
 	cat hasmlock.h
 
 hasopenpty.h: tryfeature.sh hasopenpty.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh hasopenpty.c >hasopenpty.h 2>hasopenpty.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh hasopenpty.c >hasopenpty.h 2>hasopenpty.log
 	cat hasopenpty.h
 
 hasutilh.h: tryfeature.sh hasutilh.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh hasutilh.c >hasutilh.h 2>hasutilh.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh hasutilh.c >hasutilh.h 2>hasutilh.log
 	cat hasutilh.h
 
 hasutmpaddrv6.h: tryfeature.sh hasutmpaddrv6.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh hasutmpaddrv6.c >hasutmpaddrv6.h 2>hasutmpaddrv6.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh hasutmpaddrv6.c >hasutmpaddrv6.h 2>hasutmpaddrv6.log
 	cat hasutmpaddrv6.h
 
 hasutmp.h: tryfeature.sh hasutmp.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh hasutmp.c >hasutmp.h 2>hasutmp.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh hasutmp.c >hasutmp.h 2>hasutmp.log
 	cat hasutmp.h
 
 hasutmphost.h: tryfeature.sh hasutmphost.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh hasutmphost.c >hasutmphost.h 2>hasutmphost.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh hasutmphost.c >hasutmphost.h 2>hasutmphost.log
 	cat hasutmphost.h
 
 hasutmploginlogout.h: tryfeature.sh hasutmploginlogout.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh hasutmploginlogout.c >hasutmploginlogout.h 2>hasutmploginlogout.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh hasutmploginlogout.c >hasutmploginlogout.h 2>hasutmploginlogout.log
 	cat hasutmploginlogout.h
 
 hasutmplogwtmp.h: tryfeature.sh hasutmplogwtmp.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh hasutmplogwtmp.c >hasutmplogwtmp.h 2>hasutmplogwtmp.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh hasutmplogwtmp.c >hasutmplogwtmp.h 2>hasutmplogwtmp.log
 	cat hasutmplogwtmp.h
 
 hasutmpname.h: tryfeature.sh hasutmpname.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh hasutmpname.c >hasutmpname.h 2>hasutmpname.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh hasutmpname.c >hasutmpname.h 2>hasutmpname.log
 	cat hasutmpname.h
 
 hasutmppid.h: tryfeature.sh hasutmppid.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh hasutmppid.c >hasutmppid.h 2>hasutmppid.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh hasutmppid.c >hasutmppid.h 2>hasutmppid.log
 	cat hasutmppid.h
 
 hasutmptime.h: tryfeature.sh hasutmptime.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh hasutmptime.c >hasutmptime.h 2>hasutmptime.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh hasutmptime.c >hasutmptime.h 2>hasutmptime.log
 	cat hasutmptime.h
 
 hasutmptv.h: tryfeature.sh hasutmptv.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh hasutmptv.c >hasutmptv.h 2>hasutmptv.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh hasutmptv.c >hasutmptv.h 2>hasutmptv.log
 	cat hasutmptv.h
 
 hasutmptype.h: tryfeature.sh hasutmptype.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh hasutmptype.c >hasutmptype.h 2>hasutmptype.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh hasutmptype.c >hasutmptype.h 2>hasutmptype.log
 	cat hasutmptype.h
 
 hasutmpuser.h: tryfeature.sh hasutmpuser.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh hasutmpuser.c >hasutmpuser.h 2>hasutmpuser.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh hasutmpuser.c >hasutmpuser.h 2>hasutmpuser.log
 	cat hasutmpuser.h
 
 hasutmpxaddrv6.h: tryfeature.sh hasutmpxaddrv6.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh hasutmpxaddrv6.c >hasutmpxaddrv6.h 2>hasutmpxaddrv6.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh hasutmpxaddrv6.c >hasutmpxaddrv6.h 2>hasutmpxaddrv6.log
 	cat hasutmpxaddrv6.h
 
 hasutmpx.h: tryfeature.sh hasutmpx.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh hasutmpx.c >hasutmpx.h 2>hasutmpx.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh hasutmpx.c >hasutmpx.h 2>hasutmpx.log
 	cat hasutmpx.h
 
 hasutmpxsyslen.h: tryfeature.sh hasutmpxsyslen.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh hasutmpxsyslen.c >hasutmpxsyslen.h 2>hasutmpxsyslen.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh hasutmpxsyslen.c >hasutmpxsyslen.h 2>hasutmpxsyslen.log
 	cat hasutmpxsyslen.h
 
 hasutmpxupdwtmpx.h: tryfeature.sh hasutmpxupdwtmpx.c libs
-	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" ./tryfeature.sh hasutmpxupdwtmpx.c >hasutmpxupdwtmpx.h 2>hasutmpxupdwtmpx.log
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh hasutmpxupdwtmpx.c >hasutmpxupdwtmpx.h 2>hasutmpxupdwtmpx.log
 	cat hasutmpxupdwtmpx.h
 
 libs: trylibs.sh
