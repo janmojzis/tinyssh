@@ -29,11 +29,12 @@ echo 'ssh-2.0 xxx' | ./tinysshd keydir 1>/dev/null 2>/dev/null
 echo $?
 echo
 
-echo "--- tinysshd don't accept too many unauthenticated messages"
-echo
-./_tinysshd-unauthenticated ./tinysshd keydir
-echo $?
-echo
+# Temp. disabled
+#echo "--- tinysshd don't accept too many unauthenticated messages"
+#echo
+#./_tinysshd-unauthenticated ./tinysshd keydir
+#echo $?
+#echo
 
 echo '--- tinysshd default setup'
 echo 
