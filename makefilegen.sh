@@ -6,8 +6,10 @@
     echo "CFLAGS+=-W -Wall -Os -fPIC -fwrapv -Werror=deprecated-declarations"
     echo "LDFLAGS?="
     echo "CPPFLAGS?="
+    echo
     echo "DESTDIR?="
-    echo 
+    echo "PREFIX?=/usr/local"
+    echo
 
     # binaries
     i=0
@@ -92,16 +94,16 @@
     echo
 
     echo "install: \$(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd"
-    echo "	mkdir -p \$(DESTDIR)/usr/sbin"
-    echo "	install -m 0755 tinysshd \$(DESTDIR)/usr/sbin/tinysshd"
-    echo "	install -m 0755 tinysshd-makekey \$(DESTDIR)/usr/sbin/tinysshd-makekey"
-    echo "	install -m 0755 tinysshd-printkey \$(DESTDIR)/usr/sbin/tinysshd-printkey"
-    echo "	install -m 0755 tinysshnoneauthd \$(DESTDIR)/usr/sbin/tinysshnoneauthd"
-    echo "	mkdir -p \$(DESTDIR)/usr/share/man/man8"
-    echo "	install -m 0644 man/tinysshd.8 \$(DESTDIR)/usr/share/man/man8/tinysshd.8"
-    echo "	install -m 0644 man/tinysshd-makekey.8 \$(DESTDIR)/usr/share/man/man8/tinysshd-makekey.8"
-    echo "	install -m 0644 man/tinysshd-printkey.8 \$(DESTDIR)/usr/share/man/man8/tinysshd-printkey.8"
-    echo "	install -m 0644 man/tinysshnoneauthd.8 \$(DESTDIR)/usr/share/man/man8/tinysshnoneauthd.8"
+    echo "	mkdir -p \$(DESTDIR)\$(PREFIX)/sbin"
+    echo "	mkdir -p \$(DESTDIR)\$(PREFIX)/share/man/man8"
+    echo "	install -m 0755 tinysshd \$(DESTDIR)\$(PREFIX)/sbin/tinysshd"
+    echo "	install -m 0755 tinysshd-makekey \$(DESTDIR)\$(PREFIX)/sbin/tinysshd-makekey"
+    echo "	install -m 0755 tinysshd-printkey \$(DESTDIR)\$(PREFIX)/sbin/tinysshd-printkey"
+    echo "	install -m 0755 tinysshnoneauthd \$(DESTDIR)\$(PREFIX)/sbin/tinysshnoneauthd"
+    echo "	install -m 0644 man/tinysshd.8 \$(DESTDIR)\$(PREFIX)/share/man/man8/tinysshd.8"
+    echo "	install -m 0644 man/tinysshd-makekey.8 \$(DESTDIR)\$(PREFIX)/share/man/man8/tinysshd-makekey.8"
+    echo "	install -m 0644 man/tinysshd-printkey.8 \$(DESTDIR)\$(PREFIX)/share/man/man8/tinysshd-printkey.8"
+    echo "	install -m 0644 man/tinysshnoneauthd.8 \$(DESTDIR)\$(PREFIX)/share/man/man8/tinysshnoneauthd.8"
     echo
 
     echo "test: \$(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd"
