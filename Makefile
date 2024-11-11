@@ -14,6 +14,13 @@ LINKS=tinysshd-makekey tinysshd-printkey tinysshnoneauthd
 
 all: $(BINARIES) $(LINKS)
 
+AUTOHEADERS=hasasmvolatilememory.h haslib25519.h haslibntruprime.h \
+ haslibrandombytes.h haslibutilh.h haslimits.h haslogintty.h hasmlock.h \
+ hasopenpty.h hasutilh.h hasutmpaddrv6.h hasutmp.h hasutmphost.h \
+ hasutmploginlogout.h hasutmplogwtmp.h hasutmpname.h hasutmppid.h hasutmptime.h \
+ hasutmptv.h hasutmptype.h hasutmpuser.h hasutmpxaddrv6.h hasutmpx.h \
+ hasutmpxsyslen.h hasutmpxupdwtmpx.h
+
 blocking.o: blocking.c blocking.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c blocking.c
 
@@ -884,5 +891,5 @@ test: $(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd
 	sh runtest.sh test-tinysshnoneauthd.sh test-tinysshnoneauthd.out test-tinysshnoneauthd.exp
 
 clean:
-	rm -f *.o *.out *.log has*.h libs $(BINARIES) $(LINKS)
+	rm -f *.out *.log libs $(OBJECTS) $(BINARIES) $(LINKS) $(AUTOHEADERS)
 

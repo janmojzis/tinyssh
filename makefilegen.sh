@@ -28,8 +28,16 @@
     echo "all: \$(BINARIES) \$(LINKS)"
     echo 
 
-    for file in `ls -1 has*.c`; do
-      hfile=`echo ${file} | sed 's/\.c/.h/'`
+    # autoheaders
+    autoheaders=''
+    for cfile in `ls -1 has*.c || :`; do
+      autoheaders="${autoheaders} `echo ${cfile} | sed 's/\.c/.h/'`"
+    done
+    echo "`echo AUTOHEADERS=${autoheaders} | fold -s | sed 's/^/ /' | sed 's/^ AUTOHEADERS= /AUTOHEADERS=/' | sed 's/ $/ \\\\/'`"
+    echo
+
+    for cfile in `ls -1 has*.c`; do
+      hfile=`echo ${cfile} | sed 's/\.c/.h/'`
       touch "${hfile}"
     done
     for file in `ls -1 *.c | grep -v '^has'`; do
@@ -39,7 +47,10 @@
         echo
       )
     done
-    rm has*.h
+    for cfile in `ls -1 has*.c`; do
+      hfile=`echo ${cfile} | sed 's/\.c/.h/'`
+      rm -f "${hfile}"
+    done
 
     i=0
     for file in `ls *.c`; do
@@ -113,7 +124,7 @@
     echo
 
     echo "clean:"
-    echo "	rm -f *.o *.out *.log has*.h libs \$(BINARIES) \$(LINKS)"
+    echo "	rm -f *.out *.log libs \$(OBJECTS) \$(BINARIES) \$(LINKS) \$(AUTOHEADERS)"
     echo 
 
   ) > Makefile
