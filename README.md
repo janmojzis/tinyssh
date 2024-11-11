@@ -21,7 +21,17 @@
 * has 63899 words of code
 * beta release
 
+### How-to compile and install ###
+~~~
+make
+sudo make install
+~~~
+
 ### How-to run ###
+~~~
+       mkdir -p /etc/tinyssh
+       tinysshd-makekey /etc/tinyssh/sshkeydir
+~~~
 ~~~
        TCPSERVER
               tcpserver -HRDl0 0.0.0.0 22 /usr/sbin/tinysshd -v /etc/tinyssh/sshkeydir &
