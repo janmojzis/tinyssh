@@ -12,8 +12,6 @@ BINARIES=tinysshd _tinysshd-printkex _tinysshd-speed _tinysshd-test-hello1 \
 
 LINKS=tinysshd-makekey tinysshd-printkey tinysshnoneauthd
 
-all: $(BINARIES) $(LINKS)
-
 OBJECTS=blocking.o buf.o byte.o channel.o channel_drop.o channel_fork.o \
  channel_forkpty.o channel_subsystem.o cleanup.o coe.o connectioninfo.o \
  crypto_hash_sha256.o crypto_hash_sha512_lib25519.o crypto_hash_sha512_tinyssh.o \
@@ -45,6 +43,8 @@ AUTOHEADERS=hasasmvolatilememory.h haslib25519.h haslibntruprime.h \
  hasutmploginlogout.h hasutmplogwtmp.h hasutmpname.h hasutmppid.h hasutmptime.h \
  hasutmptv.h hasutmptype.h hasutmpuser.h hasutmpxaddrv6.h hasutmpx.h \
  hasutmpxsyslen.h hasutmpxupdwtmpx.h
+
+all: $(AUTOHEADERS) $(BINARIES) $(LINKS)
 
 blocking.o: blocking.c blocking.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c blocking.c
@@ -797,7 +797,7 @@ hasutmpxupdwtmpx.h: tryfeature.sh hasutmpxupdwtmpx.c libs
 	cat hasutmpxupdwtmpx.h
 
 libs: trylibs.sh
-	env CC="$(CC)" ./trylibs.sh -lsocket -lnsl -lutil -lrandombytes -l25519 -lntruprime >libs
+	env CC="$(CC)" ./trylibs.sh -lsocket -lnsl -lutil -lrandombytes -l25519 -lntruprime >libs 2>libs.log
 	cat libs
 
 tinysshd-makekey: tinysshd

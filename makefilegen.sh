@@ -29,9 +29,6 @@
     echo "LINKS=tinysshd-makekey tinysshd-printkey tinysshnoneauthd"
     echo
 
-    echo "all: \$(BINARIES) \$(LINKS)"
-    echo 
-
     echo "`echo OBJECTS=${objects} | fold -s | sed 's/^/ /' | sed 's/^ OBJECTS= /OBJECTS=/' | sed 's/ $/ \\\\/'`"
     echo
 
@@ -44,6 +41,9 @@
       autoheaders="${autoheaders} `echo ${cfile} | sed 's/\.c/.h/'`"
     done
     echo "`echo AUTOHEADERS=${autoheaders} | fold -s | sed 's/^/ /' | sed 's/^ AUTOHEADERS= /AUTOHEADERS=/' | sed 's/ $/ \\\\/'`"
+    echo
+
+    echo "all: \$(AUTOHEADERS) \$(BINARIES) \$(LINKS)"
     echo
 
     for cfile in `ls -1 has*.c`; do
@@ -83,7 +83,7 @@
     done
 
     echo "libs: trylibs.sh"
-    echo "	env CC=\"\$(CC)\" ./trylibs.sh -lsocket -lnsl -lutil -lrandombytes -l25519 -lntruprime >libs"
+    echo "	env CC=\"\$(CC)\" ./trylibs.sh -lsocket -lnsl -lutil -lrandombytes -l25519 -lntruprime >libs 2>libs.log"
     echo "	cat libs"
     echo
 
