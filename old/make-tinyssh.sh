@@ -133,7 +133,7 @@ log1 "finishing"
 log1 "building sysdep headers"
 rm -rf "${work}"
 mkdir -p "${work}"
-cp -pr sysdep/* "${work}"
+cp -prL sysdep/* "${work}"
 (
   cd "${work}"
   sh list | (
@@ -158,7 +158,7 @@ log1 "finishing"
 log1 "starting crypto lib"
 rm -rf "${work}"
 mkdir -p "${work}"
-cp -pr crypto/* "${work}"
+cp -prL crypto/* "${work}"
 (
   cd "${work}"
   cat CRYPTOSOURCES\
@@ -178,9 +178,9 @@ log1 "starting crypto headers"
 rm -rf "${work}"
 mkdir -p "${work}"
 cp -p crypto/CRYPTOPRIMITIVES "${work}"
-cp -pr crypto-tests/*test.c "${work}"
-cp -pr crypto-tests/*.h "${work}"
-cp -pr crypto-tests/*.data "${work}" 2>/dev/null || :
+cp -prL crypto-tests/*test.c "${work}"
+cp -prL crypto-tests/*.h "${work}"
+cp -prL crypto-tests/*.data "${work}" 2>/dev/null || :
 (
   cd "${work}"
   cat CRYPTOPRIMITIVES\
@@ -245,10 +245,10 @@ log1 "finishing"
 
 rm -rf "${work}"
 mkdir -p "${work}"
-cp -pr tinyssh/* "${work}"
-cp -pr tinyssh-tests/*test.c "${work}"
-cp -pr tinyssh-tests/*.h "${work}"
-cp -pr _tinyssh/* "${work}" 2>/dev/null || :
+cp -prL tinyssh/* "${work}"
+cp -prL tinyssh-tests/*test.c "${work}"
+cp -prL tinyssh-tests/*.h "${work}"
+cp -prL _tinyssh/* "${work}" 2>/dev/null || :
 (
   cd "${work}"
   log1 "starting tinyssh objects"
@@ -310,7 +310,7 @@ cp -pr _tinyssh/* "${work}" 2>/dev/null || :
 ) || exit 111
 
 log1 "starting manpages"
-cp -pr man/* "${man}"
+cp -prL man/* "${man}"
 log1 "finishing"
 
 log1 "counting words of code - tests"

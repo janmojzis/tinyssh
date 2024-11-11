@@ -154,7 +154,7 @@ log1 "finishing"
 log1 "building sysdep headers"
 rm -rf "${work}"
 mkdir -p "${work}"
-cp -pr sysdep/* "${work}"
+cp -prL sysdep/* "${work}"
 (
   cd "${work}"
   sh list | (
@@ -174,7 +174,7 @@ log1 "finishing"
 log1 "starting crypto lib"
 rm -rf "${work}"
 mkdir -p "${work}"
-cp -pr crypto/* "${work}"
+cp -prL crypto/* "${work}"
 (
   cd "${work}"
   cat CRYPTOSOURCES\
@@ -210,7 +210,7 @@ log1 "finishing"
 
 rm -rf "${work}"
 mkdir -p "${work}"
-cp -pr tinyssh/* "${work}"
+cp -prL tinyssh/* "${work}"
 (
   cd "${work}"
   log1 "starting tinyssh objects"
@@ -237,7 +237,7 @@ cp -pr tinyssh/* "${work}"
 ) || exit 111
 
 log1 "starting manpages"
-cp -pr man/* "${man}"
+cp -prL man/* "${man}"
 log1 "finishing"
 
 exit 0

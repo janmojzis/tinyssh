@@ -1,1 +1,1 @@
-../../crypto_hash_sha512.c
+../../crypto_hash_sha512_tinyssh.c

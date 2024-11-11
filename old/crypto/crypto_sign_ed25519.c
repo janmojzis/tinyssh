@@ -1,1 +1,1 @@
-../../crypto_sign_ed25519.c
+../../crypto_sign_ed25519_tinyssh.c

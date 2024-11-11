@@ -1,1 +1,1 @@
-../../crypto_kem_sntrup761.c
+../../crypto_kem_sntrup761_tinyssh.c

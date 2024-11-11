@@ -57,3 +57,9 @@ echo 'hasutmpaddrv6.h default.h-no'
 #limits
 echo 'haslimits.h haslimits.h-yes'
 echo 'haslimits.h default.h-no'
+
+# XXX
+echo 'haslibrandombytes.h default.h-no'
+echo 'haslib25519.h default.h-no'
+echo 'haslibrandombytes.h default.h-no'
+echo 'haslibntruprime.h default.h-no'

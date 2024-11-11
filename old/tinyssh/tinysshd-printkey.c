@@ -1,1 +1,1 @@
-../../tinysshd-printkey.c
+../../tinysshd.c
