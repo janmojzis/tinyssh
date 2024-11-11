@@ -91,6 +91,17 @@
     echo "	ln -s tinysshd tinysshnoneauthd"
     echo
 
+    echo "install: \$(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd"
+    echo "	install -D -m 0755 tinysshd \$(DESTDIR)/usr/sbin/tinysshd"
+    echo "	install -D -m 0755 tinysshd-makekey \$(DESTDIR)/usr/sbin/tinysshd-makekey"
+    echo "	install -D -m 0755 tinysshd-printkey \$(DESTDIR)/usr/sbin/tinysshd-printkey"
+    echo "	install -D -m 0755 tinysshnoneauthd \$(DESTDIR)/usr/sbin/tinysshnoneauthd"
+    echo "	install -D -m 0644 man/tinysshd.8 \$(DESTDIR)/usr/share/man/man8/tinysshd.8"
+    echo "	install -D -m 0644 man/tinysshd-makekey.8 \$(DESTDIR)/usr/share/man/man8/tinysshd-makekey.8"
+    echo "	install -D -m 0644 man/tinysshd-printkey.8 \$(DESTDIR)/usr/share/man/man8/tinysshd-printkey.8"
+    echo "	install -D -m 0644 man/tinysshnoneauthd.8 \$(DESTDIR)/usr/share/man/man8/tinysshnoneauthd.8"
+    echo
+
     echo "test: \$(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd"
     echo "	sh runtest.sh test-tinysshd.sh test-tinysshd.out test-tinysshd.exp"
     echo "	sh runtest.sh test-tinysshd-makekey.sh test-tinysshd-makekey.out test-tinysshd-makekey.exp"
