@@ -1,5 +1,5 @@
-#ifndef _PACKETPARSER_H____
-#define _PACKETPARSER_H____
+#ifndef PACKETPARSER_H____
+#define PACKETPARSER_H____
 
 #include "crypto_uint32.h"
 #include "crypto_uint8.h"

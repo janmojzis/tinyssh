@@ -1,5 +1,5 @@
-#ifndef _LOG_H____
-#define _LOG_H____
+#ifndef LOG_H____
+#define LOG_H____
 
 extern void log_init(int, const char *, int, int);
 extern char *log_string(void);

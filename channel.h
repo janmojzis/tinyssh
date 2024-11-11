@@ -1,5 +1,5 @@
-#ifndef _CHANNEL_H____
-#define _CHANNEL_H____
+#ifndef CHANNEL_H____
+#define CHANNEL_H____
 
 #include "crypto_uint32.h"
 #include "iptostr.h"

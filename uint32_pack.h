@@ -1,5 +1,5 @@
-#ifndef _UINT32_PACK_H____
-#define _UINT32_PACK_H____
+#ifndef UINT32_PACK_H____
+#define UINT32_PACK_H____
 
 #include "crypto_uint32.h"
 

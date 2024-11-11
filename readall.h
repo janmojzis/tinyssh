@@ -1,5 +1,5 @@
-#ifndef _READALL_H____
-#define _READALL_H____
+#ifndef READALL_H____
+#define READALL_H____
 
 extern int readall(int, void *, long long);
 

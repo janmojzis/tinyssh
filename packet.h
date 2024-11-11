@@ -4,8 +4,8 @@ Jan Mojzis
 Public domain.
 */
 
-#ifndef _PACKET_H____
-#define _PACKET_H____
+#ifndef PACKET_H____
+#define PACKET_H____
 
 #include "buf.h"
 #include "crypto_uint32.h"

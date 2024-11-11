@@ -1,5 +1,5 @@
-#ifndef _SSH_H____
-#define _SSH_H____
+#ifndef SSH_H____
+#define SSH_H____
 
 extern const char *ssh_sigstr(int);
 extern const char *ssh_sigstrlong(int);

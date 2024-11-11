@@ -1,5 +1,5 @@
-#ifndef _LOGINSHELL_H____
-#define _LOGINSHELL_H____
+#ifndef LOGINSHELL_H____
+#define LOGINSHELL_H____
 
 extern int loginshell(char *, long long, const char *);
 
