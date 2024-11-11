@@ -15,7 +15,9 @@ BINARIES+=_tinysshd-test-kex1
 BINARIES+=_tinysshd-test-kex2
 BINARIES+=_tinysshd-unauthenticated
 
-all: $(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd
+LINKS=tinysshd-makekey tinysshd-printkey tinysshnoneauthd
+
+all: $(BINARIES) $(LINKS)
 
 blocking.o: blocking.c blocking.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c blocking.c
@@ -887,5 +889,5 @@ test: $(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd
 	sh runtest.sh test-tinysshnoneauthd.sh test-tinysshnoneauthd.out test-tinysshnoneauthd.exp
 
 clean:
-	rm -f *.o *.out *.log has*.h $(BINARIES) libs tinysshd tinysshd-makekey tinysshd-printkey tinysshnoneauthd
+	rm -f *.o *.out *.log has*.h libs $(BINARIES) $(LINKS)
 

@@ -26,7 +26,12 @@
     done
     echo
 
-    echo "all: \$(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd"
+    # links
+    echo "LINKS=tinysshd-makekey tinysshd-printkey tinysshnoneauthd"
+    echo
+
+
+    echo "all: \$(BINARIES) \$(LINKS)"
     echo 
 
     for file in `ls -1 has*.c`; do
@@ -114,7 +119,7 @@
     echo
 
     echo "clean:"
-    echo "	rm -f *.o *.out *.log has*.h \$(BINARIES) libs tinysshd tinysshd-makekey tinysshd-printkey tinysshnoneauthd"
+    echo "	rm -f *.o *.out *.log has*.h libs \$(BINARIES) \$(LINKS)"
     echo 
 
   ) > Makefile
