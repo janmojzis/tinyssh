@@ -5,7 +5,7 @@
 
 const char *e_str(int i)
 {
-  X(0,"no error");
+  X(0,"no error")
   X(EINTR,"interrupted system call")
   X(ENOMEM,"out of memory")
   X(ENOENT,"file does not exist")
