@@ -64,7 +64,7 @@ crypto_hash_sha256.o: crypto_hash_sha256.c crypto_uint32.h \
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_hash_sha256.c
 
 crypto_hash_sha512_lib25519.o: crypto_hash_sha512_lib25519.c \
- crypto_hash_sha512.h haslib25519.h
+ haslib25519.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_hash_sha512_lib25519.c
 
 crypto_hash_sha512_tinyssh.o: crypto_hash_sha512_tinyssh.c haslib25519.h \
@@ -867,14 +867,16 @@ tinysshnoneauthd: tinysshd
 	ln -s tinysshd tinysshnoneauthd
 
 install: $(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd
-	install -D -m 0755 tinysshd $(DESTDIR)/usr/sbin/tinysshd
-	install -D -m 0755 tinysshd-makekey $(DESTDIR)/usr/sbin/tinysshd-makekey
-	install -D -m 0755 tinysshd-printkey $(DESTDIR)/usr/sbin/tinysshd-printkey
-	install -D -m 0755 tinysshnoneauthd $(DESTDIR)/usr/sbin/tinysshnoneauthd
-	install -D -m 0644 man/tinysshd.8 $(DESTDIR)/usr/share/man/man8/tinysshd.8
-	install -D -m 0644 man/tinysshd-makekey.8 $(DESTDIR)/usr/share/man/man8/tinysshd-makekey.8
-	install -D -m 0644 man/tinysshd-printkey.8 $(DESTDIR)/usr/share/man/man8/tinysshd-printkey.8
-	install -D -m 0644 man/tinysshnoneauthd.8 $(DESTDIR)/usr/share/man/man8/tinysshnoneauthd.8
+	mkdir -p $(DESTDIR)/usr/sbin
+	install -m 0755 tinysshd $(DESTDIR)/usr/sbin/tinysshd
+	install -m 0755 tinysshd-makekey $(DESTDIR)/usr/sbin/tinysshd-makekey
+	install -m 0755 tinysshd-printkey $(DESTDIR)/usr/sbin/tinysshd-printkey
+	install -m 0755 tinysshnoneauthd $(DESTDIR)/usr/sbin/tinysshnoneauthd
+	mkdir -p $(DESTDIR)/usr/share/man/man8
+	install -m 0644 man/tinysshd.8 $(DESTDIR)/usr/share/man/man8/tinysshd.8
+	install -m 0644 man/tinysshd-makekey.8 $(DESTDIR)/usr/share/man/man8/tinysshd-makekey.8
+	install -m 0644 man/tinysshd-printkey.8 $(DESTDIR)/usr/share/man/man8/tinysshd-printkey.8
+	install -m 0644 man/tinysshnoneauthd.8 $(DESTDIR)/usr/share/man/man8/tinysshnoneauthd.8
 
 test: $(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd
 	sh runtest.sh test-tinysshd.sh test-tinysshd.out test-tinysshd.exp
