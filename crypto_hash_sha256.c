@@ -5,14 +5,14 @@ static void store64_bigendian(unsigned char *y, unsigned long long x) {
 
     long long i;
 
-    for (i = 7; i >= 0; --i) { y[i] = x; x >>= 8; }
+    for (i = 7; i >= 0; --i) { y[i] = (unsigned char) x; x >>= 8; }
 }
 
 static void store32_bigendian(unsigned char *y, crypto_uint32 x) {
 
     long long i;
 
-    for (i = 3; i >= 0; --i) { y[i] = x; x >>= 8; }
+    for (i = 3; i >= 0; --i) { y[i] = (unsigned char) x; x >>= 8; }
 }
 
 
