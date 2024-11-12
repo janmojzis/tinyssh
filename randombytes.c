@@ -1,10 +1,11 @@
+#include "randombytes.h"
+
 #include "haslibrandombytes.h"
 #ifndef HASLIBRANDOMBYTES
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include "randombytes.h"
 
 static int fd = -1;
 
@@ -43,6 +44,4 @@ void randombytes(void *xv, long long xlen) {
     }
     __asm__ __volatile__("" : : "r"(xv) : "memory");
 }
-#else
-__attribute__((unused)) static void _randombytes_dummy(void) {}
 #endif
