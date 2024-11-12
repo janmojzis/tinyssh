@@ -5,11 +5,10 @@
 - based on tweetnacl 20140427 (http://tweetnacl.cr.yp.to/software.html)
 - slightly modified
 */
+#include "crypto_hash_sha512.h"
 
 #include "haslib25519.h"
 #ifndef HASLIB25519
-
-#include "crypto_hash_sha512.h"
 
 static void store64_bigendian(unsigned char *y, unsigned long long x) {
 
