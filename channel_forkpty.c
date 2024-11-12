@@ -35,7 +35,7 @@ extern int login_tty(int);
 
 
 #ifndef HASLOGINTTY
-static int _login_tty(int fd) {
+static int login_tty_(int fd) {
 
     char *name;
 
@@ -64,7 +64,7 @@ static int _login_tty(int fd) {
 #endif
 
 #ifndef HASOPENPTY
-static int _openpty(int *amaster, int *aslave) {
+static int openpty_(int *amaster, int *aslave) {
 
     int master = -1, slave = -1;
     char *slave_name;
@@ -102,7 +102,7 @@ int channel_openpty(int *amaster, int *aslave) {
 #ifdef HASOPENPTY
     if (openpty(amaster, aslave, 0, 0, 0) == -1) return 0;
 #else
-    if (_openpty(amaster, aslave) == -1) return 0;
+    if (openpty_(amaster, aslave) == -1) return 0;
 #endif
 
    if (!ttyname(*aslave)) {
@@ -147,7 +147,7 @@ long long channel_forkpty(int fd[3], int master, int slave) {
 #ifdef HASLOGINTTY
             if (login_tty(slave) == -1) global_die(111);
 #else
-            if (_login_tty(slave) == -1) global_die(111);
+            if (login_tty_(slave) == -1) global_die(111);
 #endif
             /* Trigger a read event on the other side of the pipe. */
             do {
