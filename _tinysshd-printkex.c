@@ -33,7 +33,7 @@ static void die_fatal(const char *trouble, const char *d, const char *fn) {
     _exit(111);
 }
 
-static int _packet_kex_receive(void) {
+static int packet_kex_receive_(void) {
 
     struct buf *b = &packet.kexrecv;
     long long pos = 0;
@@ -131,7 +131,7 @@ int main(int argc, char **argv) {
 
     if (!packet_hello_receive()) die_fatal("unable to receive hello-string", 0, 0);
     if (!packet_hello_send()) die_fatal("unable to send hello-string", 0, 0);
-    if (!_packet_kex_receive()) die_fatal("unable to receive kex-message", 0, 0);
+    if (!packet_kex_receive_()) die_fatal("unable to receive kex-message", 0, 0);
 
     _exit(111);
 }
