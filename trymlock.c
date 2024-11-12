@@ -10,7 +10,6 @@ Public domain.
 #endif
 #include "trymlock.h"
 
-
 /*
 The 'trymlock' function tries to
 lock the memory to make it unswappable.
