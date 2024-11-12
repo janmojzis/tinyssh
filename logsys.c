@@ -117,6 +117,12 @@ static void logsys_utmpx(const char *user, const char *host, const char *name, l
 #endif
 #endif
 
+#else
+    (void) user;
+    (void) host;
+    (void) name;
+    (void) pid;
+    (void) flaglogin;
 #endif
 }
 
