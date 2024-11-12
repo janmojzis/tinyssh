@@ -33,7 +33,7 @@ static void die_fatal(const char *trouble, const char *d, const char *fn) {
     _exit(111);
 }
 
-static int _packet_debug(struct buf *b) {
+static int packet_debug_(struct buf *b) {
     buf_purge(b);
     buf_putnum8(b, SSH_MSG_DEBUG);              /* SSH_MSG_DEBUG  */
     buf_putnum8(b, 1);                          /* always_display */
@@ -92,7 +92,7 @@ int main(int argc, char **argv) {
     if (!packet_hello_send()) die_fatal("unable to send hello-string", 0, 0);
 
     for (i = 1; i < 100 * PACKET_UNAUTHENTICATED_MESSAGES; ++i) {
-        if (!_packet_debug(&b)) {
+        if (!packet_debug_(&b)) {
             if (i < PACKET_UNAUTHENTICATED_MESSAGES) die_fatal("unable to send debug message - parent died too early", 0, 0);
             _exit(0); /* limitation works */
         }
