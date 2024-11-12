@@ -44,7 +44,7 @@ AUTOHEADERS=hasasmvolatilememory.h haslib25519.h haslibntruprime.h \
  hasopenpty.h hasutilh.h hasutmpaddrv6.h hasutmp.h hasutmphost.h \
  hasutmploginlogout.h hasutmplogwtmp.h hasutmpname.h hasutmppid.h hasutmptime.h \
  hasutmptv.h hasutmptype.h hasutmpuser.h hasutmpxaddrv6.h hasutmpx.h \
- hasutmpxsyslen.h hasutmpxupdwtmpx.h
+ hasutmpxsyslen.h hasutmpxupdwtmpx.h hasvalgrind.h
 
 all: $(AUTOHEADERS) $(BINARIES) $(LINKS)
 
@@ -830,6 +830,11 @@ hasutmpxupdwtmpx.h: tryfeature.sh hasutmpxupdwtmpx.c libs
 	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
 	./tryfeature.sh hasutmpxupdwtmpx.c >hasutmpxupdwtmpx.h 2>hasutmpxupdwtmpx.log
 	cat hasutmpxupdwtmpx.h
+
+hasvalgrind.h: tryfeature.sh hasvalgrind.c libs
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh hasvalgrind.c >hasvalgrind.h 2>hasvalgrind.log
+	cat hasvalgrind.h
 
 libs: trylibs.sh
 	env CC="$(CC)" ./trylibs.sh -lsocket -lnsl -lutil -lrandombytes -l25519 -lntruprime >libs 2>libs.log
