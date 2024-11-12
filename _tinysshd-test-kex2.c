@@ -35,7 +35,7 @@ static void die_fatal(const char *trouble, const char *d, const char *fn) {
 
 
 
-static int _packet_disconnect(struct buf *b) {
+static int packet_disconnect_(struct buf *b) {
     buf_purge(b);
     buf_putnum8(b, SSH_MSG_DISCONNECT); /* byte      SSH_MSG_DISCONNECT */
     buf_putnum32(b, 0);                 /* uint32    reason code */
@@ -59,7 +59,7 @@ static int _packet_debug(struct buf *b) {
 #endif
 
 
-static int _packet_kex_receive(void) {
+static int packet_kex_receive_(void) {
 
     struct buf *b = &packet.kexrecv;
     long long pos = 0;
@@ -160,8 +160,8 @@ int main(int argc, char **argv) {
 
     if (!packet_hello_receive()) die_fatal("unable to receive hello-string", 0, 0);
     if (!packet_hello_send()) die_fatal("unable to send hello-string", 0, 0);
-    if (!_packet_kex_receive()) die_fatal("unable to receive kex-message", 0, 0);
-    if (!_packet_disconnect(&b)) die_fatal("unable to send disconnect-message", 0, 0);
+    if (!packet_kex_receive_()) die_fatal("unable to receive kex-message", 0, 0);
+    if (!packet_disconnect_(&b)) die_fatal("unable to send disconnect-message", 0, 0);
 
     _exit(111);
 }
