@@ -100,8 +100,8 @@ crypto_hash_sha512_lib25519.o: crypto_hash_sha512_lib25519.c \
  haslib25519.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_hash_sha512_lib25519.c
 
-crypto_hash_sha512_tinyssh.o: crypto_hash_sha512_tinyssh.c haslib25519.h \
- crypto_hash_sha512.h
+crypto_hash_sha512_tinyssh.o: crypto_hash_sha512_tinyssh.c \
+ crypto_hash_sha512.h haslib25519.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_hash_sha512_tinyssh.c
 
 crypto_kem_sntrup761_libntruprime.o: crypto_kem_sntrup761_libntruprime.c \
@@ -433,7 +433,7 @@ packet_unimplemented.o: packet_unimplemented.c buf.h crypto_uint8.h \
 porttostr.o: porttostr.c crypto_uint16.h porttostr.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c porttostr.c
 
-randombytes.o: randombytes.c haslibrandombytes.h randombytes.h
+randombytes.o: randombytes.c randombytes.h haslibrandombytes.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c randombytes.c
 
 randommod.o: randommod.c randombytes.h haslibrandombytes.h randommod.h
