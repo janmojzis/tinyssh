@@ -184,7 +184,7 @@ point multiplication using windowed method
 void ge25519_scalarmult(ge25519 o, ge25519 q, const unsigned char *a) {
 
     long long i, j;
-    ge25519 t[16], sp, p;
+    ge25519 t[16], p, sp = {0};
     unsigned char e[64];
 
     for (i = 0; i < 32; ++i) {
