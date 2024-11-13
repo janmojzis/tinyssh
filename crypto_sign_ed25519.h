@@ -22,6 +22,8 @@ extern int crypto_sign_ed25519_tinyssh_keypair(unsigned char *,unsigned char *);
 
 #else
 
+#include <lib25519.h>
+
 #define crypto_sign_ed25519_lib25519_SECRETKEYBYTES lib25519_sign_ed25519_SECRETKEYBYTES
 #define crypto_sign_ed25519_lib25519_PUBLICKEYBYTES lib25519_sign_ed25519_PUBLICKEYBYTES
 #define crypto_sign_ed25519_lib25519_BYTES lib25519_sign_ed25519_BYTES
