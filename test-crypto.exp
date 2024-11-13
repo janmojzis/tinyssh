@@ -1,0 +1,10 @@
+--- _crypto-test
+hash_sha256 offset 0
+hash_sha256 offset 1
+hash_sha512 offset 0
+hash_sha512 offset 1
+sign_ed25519 offset 0
+sign_ed25519 offset 1
+all tests succeeded
+0
+

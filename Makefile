@@ -8,9 +8,9 @@ PREFIX?=/usr/local
 
 INSTALL?=install
 
-BINARIES=tinysshd _tinysshd-printkex _tinysshd-speed _tinysshd-test-hello1 \
- _tinysshd-test-hello2 _tinysshd-test-kex1 _tinysshd-test-kex2 \
- _tinysshd-unauthenticated
+BINARIES=_crypto-test tinysshd _tinysshd-printkex _tinysshd-speed \
+ _tinysshd-test-hello1 _tinysshd-test-hello2 _tinysshd-test-kex1 \
+ _tinysshd-test-kex2 _tinysshd-unauthenticated
 
 LINKS=tinysshd-makekey tinysshd-printkey tinysshnoneauthd
 
@@ -35,7 +35,7 @@ OBJECTS=blocking.o buf.o byte.o channel.o channel_drop.o channel_fork.o \
  stringparser.o subprocess_auth.o subprocess_sign.o trymlock.o uint32_pack_big.o \
  uint32_pack.o uint32_unpack_big.o uint32_unpack.o verify.o writeall.o
 
-BINOBJ=tinysshd.o _tinysshd-printkex.o _tinysshd-speed.o \
+BINOBJ=_crypto-test.o tinysshd.o _tinysshd-printkex.o _tinysshd-speed.o \
  _tinysshd-test-hello1.o _tinysshd-test-hello2.o _tinysshd-test-kex1.o \
  _tinysshd-test-kex2.o _tinysshd-unauthenticated.o
 
@@ -151,6 +151,13 @@ crypto_sort_uint32.o: crypto_sort_uint32.c crypto_uint32.h \
 crypto_stream_chacha20.o: crypto_stream_chacha20.c \
  crypto_stream_chacha20.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_stream_chacha20.c
+
+_crypto-test.o: _crypto-test.c crypto_uint8.h crypto_uint32.h \
+ crypto_uint64.h crypto_declassify.h hasvalgrind.h \
+ _crypto-test_hash_sha256.inc crypto_hash_sha256.h \
+ _crypto-test_hash_sha512.inc crypto_hash_sha512.h haslib25519.h \
+ _crypto-test_sign_ed25519.inc crypto_sign_ed25519.h
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c _crypto-test.c
 
 crypto_verify_16.o: crypto_verify_16.c verify.h crypto_verify_16.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_verify_16.c
@@ -673,6 +680,10 @@ verify.o: verify.c verify.h
 writeall.o: writeall.c e.h writeall.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c writeall.c
 
+_crypto-test: _crypto-test.o $(OBJECTS) libs
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o _crypto-test _crypto-test.o \
+	$(OBJECTS) $(LDFLAGS) `cat libs`
+
 tinysshd: tinysshd.o $(OBJECTS) libs
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o tinysshd tinysshd.o \
 	$(OBJECTS) $(LDFLAGS) `cat libs`
@@ -866,6 +877,7 @@ test: $(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd
 	sh runtest.sh test-tinysshd-makekey.sh test-tinysshd-makekey.out test-tinysshd-makekey.exp
 	sh runtest.sh test-tinysshd-printkey.sh test-tinysshd-printkey.out test-tinysshd-printkey.exp
 	sh runtest.sh test-tinysshnoneauthd.sh test-tinysshnoneauthd.out test-tinysshnoneauthd.exp
+	sh runtest.sh test-crypto.sh test-crypto.out test-crypto.exp
 
 clean:
 	rm -f *.out *.log libs $(OBJECTS) $(BINOBJ) $(BINARIES) $(LINKS) $(AUTOHEADERS)

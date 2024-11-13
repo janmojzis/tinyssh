@@ -124,6 +124,7 @@ export LANG
     echo "	sh runtest.sh test-tinysshd-makekey.sh test-tinysshd-makekey.out test-tinysshd-makekey.exp"
     echo "	sh runtest.sh test-tinysshd-printkey.sh test-tinysshd-printkey.out test-tinysshd-printkey.exp"
     echo "	sh runtest.sh test-tinysshnoneauthd.sh test-tinysshnoneauthd.out test-tinysshnoneauthd.exp"
+    echo "	sh runtest.sh test-crypto.sh test-crypto.out test-crypto.exp"
     echo
 
     echo "clean:"
