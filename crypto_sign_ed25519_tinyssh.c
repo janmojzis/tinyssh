@@ -12,18 +12,22 @@
 int crypto_sign_ed25519_tinyssh(unsigned char *sm, unsigned long long *smlen, const unsigned char *m, unsigned long long n, const unsigned char *skorig) {
 
     long long i;
-    unsigned char nonce[64], hram[64], sk[64], pk[32];
+    unsigned char nonce[64], hram[64], sk[96], pk[32];
     ge25519 R;
+
+    /* copy public key*/
+    for (i = 31; i >= 0; --i) pk[i] = skorig[i + 32];
 
     /* compute secret key from seed sk = H(skorig), H = sha512 */
     crypto_hash_sha512(sk, skorig, 32);
     sk[0] &= 248;
     sk[31] &= 63;
     sk[31] |= 64;
+    randombytes(sk + 64, 32);
+    crypto_hash_sha512(sk + 32, sk + 32, 64);
 
-    /* copy m to sm, copy secret key and public key */
+    /* copy m to sm, copy secret key */
     *smlen = n + 64;
-    for (i = 31; i >= 0; --i) pk[i     ] = skorig[i + 32];
     for (i = n - 1; i >= 0; --i) sm[i + 64] = m[i];
     for (i = 31; i >= 0; --i) sm[i + 32] = sk[i + 32];
 
