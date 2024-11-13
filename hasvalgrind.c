@@ -33,7 +33,8 @@ int main(int argc, char **argv) {
     (void) argv;
 
     secret(buf, sizeof buf);
-    for (i = 0; i < sizeof buf; ++i) ret ^= buf[i];
+    for (i = 0; i < sizeof buf; ++i) ret |= z(buf[i]);
     public(buf, sizeof buf);
-    return z(ret);
+    for (i = 0; i < sizeof buf; ++i) ret |= z(buf[i]);
+    return ret;
 }
