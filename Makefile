@@ -154,6 +154,7 @@ crypto_stream_chacha20.o: crypto_stream_chacha20.c \
 
 _crypto-test.o: _crypto-test.c crypto_uint8.h crypto_uint32.h \
  crypto_uint64.h crypto_declassify.h hasvalgrind.h \
+ _crypto-test_verify_32.inc crypto_verify_32.h \
  _crypto-test_hash_sha256.inc crypto_hash_sha256.h \
  _crypto-test_hash_sha512.inc crypto_hash_sha512.h haslib25519.h \
  _crypto-test_sign_ed25519.inc crypto_sign_ed25519.h

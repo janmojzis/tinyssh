@@ -481,6 +481,7 @@ void forked(void (*test)(long long),long long impl)
 }
 
 
+#include "_crypto-test_verify_32.inc"
 #include "_crypto-test_hash_sha256.inc"
 #include "_crypto-test_hash_sha512.inc"
 #include "_crypto-test_sign_ed25519.inc"
@@ -521,11 +522,11 @@ int main(int argc,char **argv)
     }
   }
 
+  test_verify_32();
   test_hash_sha256();
   test_hash_sha512();
   test_sign_ed25519();
 #if 0
-  test_verify_32();
   test_hashblocks_sha512();
   test_pow_inv25519();
   test_powbatch_inv25519();

@@ -1,4 +1,6 @@
 --- _crypto-test
+verify_32 offset 0
+verify_32 offset 1
 hash_sha256 offset 0
 hash_sha256 offset 1
 hash_sha512 offset 0
