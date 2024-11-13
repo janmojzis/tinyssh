@@ -1,5 +1,8 @@
 /*
-derived from tests from lib25519/libntruprime
+derived from djb work from lib25519/libntruprime
+mj modifications:
+- files renamed to _crypto_-test.c and _crypto_<>.<>.inc
+- fixed compiler warnings
 */
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,5 +1,12 @@
 /* ----- sign/ed25519, derived from supercop/crypto_sign/try.c */
 
+/*
+derived from djb work from lib25519/libntruprime
+mj modifications:
+- rename files to _crypto_-test.c and _crypto_<>.<>.inc
+- fix compiler warnings
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
