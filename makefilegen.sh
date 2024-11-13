@@ -106,7 +106,7 @@ export LANG
     echo "	ln -s tinysshd tinysshnoneauthd"
     echo
 
-    echo "install: \$(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd"
+    echo "install: \$(BINARIES) \$(LINKS)"
     echo "	mkdir -p \$(DESTDIR)\$(PREFIX)/sbin"
     echo "	mkdir -p \$(DESTDIR)\$(PREFIX)/share/man/man8"
     echo "	\$(INSTALL) -m 0755 tinysshd \$(DESTDIR)\$(PREFIX)/sbin/tinysshd"
@@ -119,12 +119,16 @@ export LANG
     echo "	\$(INSTALL) -m 0644 man/tinysshnoneauthd.8 \$(DESTDIR)\$(PREFIX)/share/man/man8/tinysshnoneauthd.8"
     echo
 
-    echo "test: \$(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd"
+    echo "test: \$(BINARIES) \$(LINKS)"
     echo "	sh runtest.sh test-tinysshd.sh test-tinysshd.out test-tinysshd.exp"
     echo "	sh runtest.sh test-tinysshd-makekey.sh test-tinysshd-makekey.out test-tinysshd-makekey.exp"
     echo "	sh runtest.sh test-tinysshd-printkey.sh test-tinysshd-printkey.out test-tinysshd-printkey.exp"
     echo "	sh runtest.sh test-tinysshnoneauthd.sh test-tinysshnoneauthd.out test-tinysshnoneauthd.exp"
     echo "	sh runtest.sh test-crypto.sh test-crypto.out test-crypto.exp"
+    echo
+
+    echo "valgrindtest: \$(BINARIES) \$(LINKS)"
+    echo "	sh runtest.sh valgrindtest-crypto.sh valgrindtest-crypto.out valgrindtest-crypto.exp"
     echo
 
     echo "clean:"

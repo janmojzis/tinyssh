@@ -860,7 +860,7 @@ tinysshd-printkey: tinysshd
 tinysshnoneauthd: tinysshd
 	ln -s tinysshd tinysshnoneauthd
 
-install: $(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd
+install: $(BINARIES) $(LINKS)
 	mkdir -p $(DESTDIR)$(PREFIX)/sbin
 	mkdir -p $(DESTDIR)$(PREFIX)/share/man/man8
 	$(INSTALL) -m 0755 tinysshd $(DESTDIR)$(PREFIX)/sbin/tinysshd
@@ -872,12 +872,15 @@ install: $(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd
 	$(INSTALL) -m 0644 man/tinysshd-printkey.8 $(DESTDIR)$(PREFIX)/share/man/man8/tinysshd-printkey.8
 	$(INSTALL) -m 0644 man/tinysshnoneauthd.8 $(DESTDIR)$(PREFIX)/share/man/man8/tinysshnoneauthd.8
 
-test: $(BINARIES) tinysshd-makekey tinysshd-printkey tinysshnoneauthd
+test: $(BINARIES) $(LINKS)
 	sh runtest.sh test-tinysshd.sh test-tinysshd.out test-tinysshd.exp
 	sh runtest.sh test-tinysshd-makekey.sh test-tinysshd-makekey.out test-tinysshd-makekey.exp
 	sh runtest.sh test-tinysshd-printkey.sh test-tinysshd-printkey.out test-tinysshd-printkey.exp
 	sh runtest.sh test-tinysshnoneauthd.sh test-tinysshnoneauthd.out test-tinysshnoneauthd.exp
 	sh runtest.sh test-crypto.sh test-crypto.out test-crypto.exp
+
+valgrindtest: $(BINARIES) $(LINKS)
+	sh runtest.sh valgrindtest-crypto.sh valgrindtest-crypto.out valgrindtest-crypto.exp
 
 clean:
 	rm -f *.out *.log libs $(OBJECTS) $(BINOBJ) $(BINARIES) $(LINKS) $(AUTOHEADERS)
