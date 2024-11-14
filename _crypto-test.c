@@ -510,6 +510,7 @@ void endianness(unsigned char *e,unsigned long long words,unsigned long long byt
 #include "_crypto-test_hash_sha512.inc"
 #include "_crypto-test_sign_ed25519.inc"
 #include "_crypto-test_kem_sntrup761.inc"
+#include "_crypto-test_dh_x25519.inc"
 
 
 /* ----- top level */
@@ -554,6 +555,7 @@ int main(int argc,char **argv)
   test_hash_sha512();
   test_sign_ed25519();
   test_kem_sntrup761();
+  test_dh_x25519();
 #if 0
   test_hashblocks_sha512();
   test_pow_inv25519();
@@ -564,7 +566,6 @@ int main(int argc,char **argv)
   test_nG_montgomery25519();
   test_mGnP_ed25519();
   test_multiscalar_ed25519();
-  test_dh_x25519();
 #endif
 
   if (!ok) {
