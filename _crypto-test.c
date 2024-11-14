@@ -480,8 +480,31 @@ void forked(void (*test)(long long),long long impl)
   fflush(stdout);
 }
 
+/* ----- endianness */
+
+/* on big-endian machines, flip into little-endian */
+/* other types of endianness are not supported */
+void endianness(unsigned char *e,unsigned long long words,unsigned long long bytesperword)
+{
+  unsigned long long i = 1;
+
+  if (1 == *(unsigned char *) &i) return;
+
+  while (words > 0) {
+    for (i = 0;2 * i < bytesperword;++i) {
+      long long j = bytesperword - 1 - i;
+      unsigned char ei = e[i];
+      e[i] = e[j];
+      e[j] = ei;
+    }
+    e += bytesperword;
+    words -= 1;
+  }
+}
+
 
 #include "_crypto-test_verify_32.inc"
+#include "_crypto-test_sort_uint32.inc"
 #include "_crypto-test_hash_sha256.inc"
 #include "_crypto-test_hash_sha512.inc"
 #include "_crypto-test_sign_ed25519.inc"
@@ -524,6 +547,7 @@ int main(int argc,char **argv)
   }
 
   test_verify_32();
+  test_sort_uint32();
   test_hash_sha256();
   test_hash_sha512();
   test_sign_ed25519();
