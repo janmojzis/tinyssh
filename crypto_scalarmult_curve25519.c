@@ -1,6 +1,3 @@
-#include "haslib25519.h"
-#ifndef HASLIB25519
-
 #include "cleanup.h"
 #include "fe25519.h"
 #include "crypto_scalarmult_curve25519.h"
@@ -74,4 +71,3 @@ static const unsigned char basepoint[32] = {9};
 int crypto_scalarmult_curve25519_tinyssh_base(unsigned char *q, const unsigned char *n) {
     return crypto_scalarmult_curve25519_tinyssh(q, n, basepoint);
 }
-#endif

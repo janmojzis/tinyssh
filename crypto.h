@@ -25,6 +25,7 @@
 #include "crypto_kem_sntrup761x25519.h"
 #include "crypto_onetimeauth_poly1305.h"
 #include "crypto_scalarmult_curve25519.h"
+#include "crypto_dh_x25519.h"
 #include "crypto_sign_ed25519.h"
 #include "crypto_sort_uint32.h"
 #include "crypto_stream_chacha20.h"

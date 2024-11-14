@@ -1,9 +1,6 @@
 #ifndef crypto_scalarmult_curve25519_H
 #define crypto_scalarmult_curve25519_H
 
-#include "haslib25519.h"
-#ifndef HASLIB25519
-
 #define crypto_scalarmult_curve25519_tinyssh_BYTES 32
 #define crypto_scalarmult_curve25519_tinyssh_SCALARBYTES 32
 extern int crypto_scalarmult_curve25519_tinyssh(unsigned char *,const unsigned char *,const unsigned char *);
@@ -15,21 +12,5 @@ extern int crypto_scalarmult_curve25519_tinyssh_base(unsigned char *,const unsig
 #define crypto_scalarmult_curve25519_SCALARBYTES crypto_scalarmult_curve25519_tinyssh_SCALARBYTES
 #define crypto_scalarmult_curve25519_IMPLEMENTATION "tinyssh"
 #define crypto_scalarmult_curve25519_VERSION "-"
-
-#else
-
-#include <lib25519.h>
-#define crypto_scalarmult_curve25519_lib25519_BYTES lib25519_nP_montgomery25519_POINTBYTES
-#define crypto_scalarmult_curve25519_lib25519_SCALARBYTES lib25519_nP_montgomery25519_SCALARBYTES
-extern int crypto_scalarmult_curve25519_lib25519(unsigned char *,const unsigned char *,const unsigned char *);
-extern int crypto_scalarmult_curve25519_lib25519_base(unsigned char *,const unsigned char *);
-
-#define crypto_scalarmult_curve25519 crypto_scalarmult_curve25519_lib25519
-#define crypto_scalarmult_curve25519_base crypto_scalarmult_curve25519_lib25519_base
-#define crypto_scalarmult_curve25519_BYTES crypto_scalarmult_curve25519_lib25519_BYTES
-#define crypto_scalarmult_curve25519_SCALARBYTES crypto_scalarmult_curve25519_lib25519_SCALARBYTES
-#define crypto_scalarmult_curve25519_IMPLEMENTATION "lib25519"
-#define crypto_scalarmult_curve25519_VERSION lib25519_version
-#endif
 
 #endif
