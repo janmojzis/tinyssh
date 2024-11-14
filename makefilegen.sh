@@ -16,70 +16,73 @@ export LANG
     echo "INSTALL?=install"
     echo
 
-    # binaries + objects
+    links='tinysshd-makekey tinysshd-printkey tinysshnoneauthd'
+    autoheaders=''
     binaries=''
-    binobj=''
-    for cfile in `ls -1 *.c | sort | grep -v '^has'`; do
-      if grep '^int main(' "${cfile}" >/dev/null; then
-        binaries="${binaries} `echo ${cfile} | sed 's/\.c$//'`"
-        binobj="${binobj} `echo ${cfile} | sed 's/\.c$/.o/'`"
-      else
-        objects="${objects} `echo ${cfile} | sed 's/\.c$/.o/'`"
-      fi
+    objlib=''
+    objall=''
+    objbin=''
+    for file in `ls -1`; do
+      ofile=`echo ${file} | sed 's/\.c$/.o/'`
+      hfile=`echo ${file} | sed 's/\.c$/.h/'`
+      case "${file}" in
+        has*\.c)
+          autoheaders="${autoheaders} `echo ${file} | sed 's/\.c/.h/'`"
+        ;;
+        *\.c)
+          if grep '^int main(' "${file}" >/dev/null; then
+            binaries="${binaries} `echo ${file} | sed 's/\.c$//'`"
+            objbin="${objbin} ${ofile}"
+          else
+            objlib="${objlib} ${ofile}"
+          fi
+          objall="${objall} ${ofile}"
+        ;;
+        *)
+        ;;
+      esac
     done
+
+    echo "LINKS=${links}"
+    echo
+
     echo "`echo BINARIES=${binaries} | fold -s | sed 's/^/ /' | sed 's/^ BINARIES= /BINARIES=/' | sed 's/ $/ \\\\/'`"
     echo
 
-    # links
-    echo "LINKS=tinysshd-makekey tinysshd-printkey tinysshnoneauthd"
+    echo "`echo OBJLIB=${objlib} | fold -s | sed 's/^/ /' | sed 's/^ OBJLIB= /OBJLIB=/' | sed 's/ $/ \\\\/'`"
     echo
 
-    echo "`echo OBJECTS=${objects} | fold -s | sed 's/^/ /' | sed 's/^ OBJECTS= /OBJECTS=/' | sed 's/ $/ \\\\/'`"
+    echo "`echo OBJBIN=${objbin} | fold -s | sed 's/^/ /' | sed 's/^ OBJBIN= /OBJBIN=/' | sed 's/ $/ \\\\/'`"
     echo
 
-    echo "`echo BINOBJ=${binobj} | fold -s | sed 's/^/ /' | sed 's/^ BINOBJ= /BINOBJ=/' | sed 's/ $/ \\\\/'`"
-    echo
-
-    # autoheaders
-    autoheaders=''
-    for cfile in `ls -1 has*.c | sort`; do
-      autoheaders="${autoheaders} `echo ${cfile} | sed 's/\.c/.h/'`"
-    done
     echo "`echo AUTOHEADERS=${autoheaders} | fold -s | sed 's/^/ /' | sed 's/^ AUTOHEADERS= /AUTOHEADERS=/' | sed 's/ $/ \\\\/'`"
     echo
 
     echo "all: \$(AUTOHEADERS) \$(BINARIES) \$(LINKS)"
     echo
 
-    for cfile in `ls -1 has*.c | sort`; do
-      hfile=`echo ${cfile} | sed 's/\.c/.h/'`
-      touch "${hfile}"
-    done
-    for file in `ls -1 *.c | sort | grep -v '^has'`; do
+    touch ${autoheaders}
+    for ofile in ${objall}; do
       (
-        gcc -MM "${file}"
-        echo "	\$(CC) \$(CFLAGS) \$(CPPFLAGS) -c ${file}"
+        cfile=`echo ${ofile} | sed 's/\.o/.c/'`
+        gcc -MM "${cfile}"
+        echo "	\$(CC) \$(CFLAGS) \$(CPPFLAGS) -c ${cfile}"
         echo
       )
     done
-    for cfile in `ls -1 has*.c | sort`; do
-      hfile=`echo ${cfile} | sed 's/\.c/.h/'`
-      rm -f "${hfile}"
-    done
+    rm -f ${autoheaders}
 
-    for file in `ls -1 *.c | sort | grep -v '^has'`; do
-      if grep '^int main(' "${file}" >/dev/null; then
-        x=`echo "${file}" | sed 's/\.c$//'`
-        echo "${x}: ${x}.o \$(OBJECTS) libs"
-        echo "	\$(CC) \$(CFLAGS) \$(CPPFLAGS) -o ${x} ${x}.o \\"
-        echo "	\$(OBJECTS) \$(LDFLAGS) \`cat libs\`"
-        echo 
-      fi
+    for ofile in ${objbin}; do
+      file=`echo ${ofile} | sed 's/\.o//'`
+      echo "${file}: ${ofile} \$(OBJLIB) libs"
+      echo "	\$(CC) \$(CFLAGS) \$(CPPFLAGS) -o ${file} ${ofile} \\"
+      echo "	\$(OBJLIB) \$(LDFLAGS) \`cat libs\`"
+      echo
     done
     echo
 
-    for cfile in `ls -1 has*.c | sort`; do
-      hfile=`echo ${cfile} | sed 's/\.c/.h/'`
+    for hfile in ${autoheaders}; do
+      cfile=`echo ${hfile} | sed 's/\.h/.c/'`
       lfile=`echo ${cfile} | sed 's/\.c/.log/'`
       touch "${hfile}"
       echo "${hfile}: tryfeature.sh ${cfile} libs"
@@ -132,7 +135,7 @@ export LANG
     echo
 
     echo "clean:"
-    echo "	rm -f *.out *.log libs \$(OBJECTS) \$(BINOBJ) \$(BINARIES) \$(LINKS) \$(AUTOHEADERS)"
+    echo "	rm -f *.out *.log libs \$(OBJLIB) \$(OBJBIN) \$(BINARIES) \$(LINKS) \$(AUTOHEADERS)"
     echo 
 
   ) > Makefile

@@ -8,13 +8,13 @@ PREFIX?=/usr/local
 
 INSTALL?=install
 
+LINKS=tinysshd-makekey tinysshd-printkey tinysshnoneauthd
+
 BINARIES=_crypto-test tinysshd _tinysshd-printkex _tinysshd-speed \
  _tinysshd-test-hello1 _tinysshd-test-hello2 _tinysshd-test-kex1 \
  _tinysshd-test-kex2 _tinysshd-unauthenticated
 
-LINKS=tinysshd-makekey tinysshd-printkey tinysshnoneauthd
-
-OBJECTS=blocking.o buf.o byte.o channel.o channel_drop.o channel_fork.o \
+OBJLIB=blocking.o buf.o byte.o channel.o channel_drop.o channel_fork.o \
  channel_forkpty.o channel_subsystem.o cleanup.o coe.o connectioninfo.o \
  crypto_hash_sha256.o crypto_hash_sha512_lib25519.o crypto_hash_sha512_tinyssh.o \
  crypto_kem_sntrup761_libntruprime.o crypto_kem_sntrup761_tinyssh.o \
@@ -36,7 +36,7 @@ OBJECTS=blocking.o buf.o byte.o channel.o channel_drop.o channel_fork.o \
  subprocess_sign.o trymlock.o uint32_pack_big.o uint32_pack.o \
  uint32_unpack_big.o uint32_unpack.o writeall.o
 
-BINOBJ=_crypto-test.o tinysshd.o _tinysshd-printkex.o _tinysshd-speed.o \
+OBJBIN=_crypto-test.o tinysshd.o _tinysshd-printkex.o _tinysshd-speed.o \
  _tinysshd-test-hello1.o _tinysshd-test-hello2.o _tinysshd-test-kex1.o \
  _tinysshd-test-kex2.o _tinysshd-unauthenticated.o
 
@@ -685,41 +685,41 @@ uint32_unpack.o: uint32_unpack.c uint32_unpack.h crypto_uint32.h
 writeall.o: writeall.c e.h writeall.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c writeall.c
 
-_crypto-test: _crypto-test.o $(OBJECTS) libs
+_crypto-test: _crypto-test.o $(OBJLIB) libs
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o _crypto-test _crypto-test.o \
-	$(OBJECTS) $(LDFLAGS) `cat libs`
+	$(OBJLIB) $(LDFLAGS) `cat libs`
 
-tinysshd: tinysshd.o $(OBJECTS) libs
+tinysshd: tinysshd.o $(OBJLIB) libs
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o tinysshd tinysshd.o \
-	$(OBJECTS) $(LDFLAGS) `cat libs`
+	$(OBJLIB) $(LDFLAGS) `cat libs`
 
-_tinysshd-printkex: _tinysshd-printkex.o $(OBJECTS) libs
+_tinysshd-printkex: _tinysshd-printkex.o $(OBJLIB) libs
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-printkex _tinysshd-printkex.o \
-	$(OBJECTS) $(LDFLAGS) `cat libs`
+	$(OBJLIB) $(LDFLAGS) `cat libs`
 
-_tinysshd-speed: _tinysshd-speed.o $(OBJECTS) libs
+_tinysshd-speed: _tinysshd-speed.o $(OBJLIB) libs
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-speed _tinysshd-speed.o \
-	$(OBJECTS) $(LDFLAGS) `cat libs`
+	$(OBJLIB) $(LDFLAGS) `cat libs`
 
-_tinysshd-test-hello1: _tinysshd-test-hello1.o $(OBJECTS) libs
+_tinysshd-test-hello1: _tinysshd-test-hello1.o $(OBJLIB) libs
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-test-hello1 _tinysshd-test-hello1.o \
-	$(OBJECTS) $(LDFLAGS) `cat libs`
+	$(OBJLIB) $(LDFLAGS) `cat libs`
 
-_tinysshd-test-hello2: _tinysshd-test-hello2.o $(OBJECTS) libs
+_tinysshd-test-hello2: _tinysshd-test-hello2.o $(OBJLIB) libs
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-test-hello2 _tinysshd-test-hello2.o \
-	$(OBJECTS) $(LDFLAGS) `cat libs`
+	$(OBJLIB) $(LDFLAGS) `cat libs`
 
-_tinysshd-test-kex1: _tinysshd-test-kex1.o $(OBJECTS) libs
+_tinysshd-test-kex1: _tinysshd-test-kex1.o $(OBJLIB) libs
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-test-kex1 _tinysshd-test-kex1.o \
-	$(OBJECTS) $(LDFLAGS) `cat libs`
+	$(OBJLIB) $(LDFLAGS) `cat libs`
 
-_tinysshd-test-kex2: _tinysshd-test-kex2.o $(OBJECTS) libs
+_tinysshd-test-kex2: _tinysshd-test-kex2.o $(OBJLIB) libs
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-test-kex2 _tinysshd-test-kex2.o \
-	$(OBJECTS) $(LDFLAGS) `cat libs`
+	$(OBJLIB) $(LDFLAGS) `cat libs`
 
-_tinysshd-unauthenticated: _tinysshd-unauthenticated.o $(OBJECTS) libs
+_tinysshd-unauthenticated: _tinysshd-unauthenticated.o $(OBJLIB) libs
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o _tinysshd-unauthenticated _tinysshd-unauthenticated.o \
-	$(OBJECTS) $(LDFLAGS) `cat libs`
+	$(OBJLIB) $(LDFLAGS) `cat libs`
 
 
 hasasmvolatilememory.h: tryfeature.sh hasasmvolatilememory.c libs
@@ -888,5 +888,5 @@ valgrindtest: $(BINARIES) $(LINKS)
 	sh runtest.sh valgrindtest-crypto.sh valgrindtest-crypto.out valgrindtest-crypto.exp
 
 clean:
-	rm -f *.out *.log libs $(OBJECTS) $(BINOBJ) $(BINARIES) $(LINKS) $(AUTOHEADERS)
+	rm -f *.out *.log libs $(OBJLIB) $(OBJBIN) $(BINARIES) $(LINKS) $(AUTOHEADERS)
 
