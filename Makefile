@@ -112,7 +112,8 @@ crypto_kem_sntrup761_tinyssh.o: crypto_kem_sntrup761_tinyssh.c \
  haslibntruprime.h crypto_uint64.h crypto_uint32.h crypto_uint16.h \
  crypto_int32.h crypto_int16.h crypto_int8.h randombytes.h \
  haslibrandombytes.h crypto_verify_32.h crypto_sort_uint32.h \
- crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h
+ crypto_hash_sha512.h haslib25519.h crypto_declassify.h hasvalgrind.h \
+ crypto_kem_sntrup761.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_kem_sntrup761_tinyssh.c
 
 crypto_kem_sntrup761x25519.o: crypto_kem_sntrup761x25519.c randombytes.h \

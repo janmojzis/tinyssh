@@ -5,6 +5,7 @@ Original code: supercop-20210125/crypto_kem/sntrup761/ref
 Modifications (Jan Mojzis):
 - source code merged into single file
 - crypto_kem renamed to crypto_kem_sntrup761_tinyssh
+- crypto_declassify added
 */
 
 /* See https://ntruprime.cr.yp.to/software.html for detailed documentation. */
@@ -20,6 +21,7 @@ Modifications (Jan Mojzis):
 #include "crypto_verify_32.h"
 #include "crypto_sort_uint32.h"
 #include "crypto_hash_sha512.h"
+#include "crypto_declassify.h"
 #include "crypto_kem_sntrup761.h"
 
 #define uint64 crypto_uint64
@@ -652,8 +654,11 @@ static void KeyGen(Fq *h,small *f,small *ginv)
   Fq finv[p];
   
   for (;;) {
+    int result;
     Small_random(g);
-    if (R3_recip(ginv,g) == 0) break;
+    result = R3_recip(ginv,g);
+    crypto_declassify(&result, sizeof result);
+    if (result == 0) break;
   }
   Short_random(f);
   Rq_recip3(finv,f); /* always works */
