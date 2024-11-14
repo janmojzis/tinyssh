@@ -1,4 +1,6 @@
 --- _crypto-test
+verify_16 offset 0
+verify_16 offset 1
 verify_32 offset 0
 verify_32 offset 1
 sort_uint32 offset 0

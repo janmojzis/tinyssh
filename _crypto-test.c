@@ -503,6 +503,7 @@ void endianness(unsigned char *e,unsigned long long words,unsigned long long byt
 }
 
 
+#include "_crypto-test_verify_16.inc"
 #include "_crypto-test_verify_32.inc"
 #include "_crypto-test_sort_uint32.inc"
 #include "_crypto-test_hash_sha256.inc"
@@ -546,6 +547,7 @@ int main(int argc,char **argv)
     }
   }
 
+  test_verify_16();
   test_verify_32();
   test_sort_uint32();
   test_hash_sha256();

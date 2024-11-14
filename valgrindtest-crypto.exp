@@ -1,5 +1,6 @@
 --- env valgrind_multiplier=1 valgrind -q --error-exitcode=99 ./_crypto-test
 valgrind 1 declassify 1
+verify_16 offset 0
 verify_32 offset 0
 sort_uint32 offset 0
 hash_sha256 offset 0
