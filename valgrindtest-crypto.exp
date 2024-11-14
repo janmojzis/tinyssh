@@ -4,6 +4,7 @@ verify_32 offset 0
 hash_sha256 offset 0
 hash_sha512 offset 0
 sign_ed25519 offset 0
+kem_sntrup761 offset 0
 all tests succeeded
 0
 

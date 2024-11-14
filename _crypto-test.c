@@ -485,6 +485,7 @@ void forked(void (*test)(long long),long long impl)
 #include "_crypto-test_hash_sha256.inc"
 #include "_crypto-test_hash_sha512.inc"
 #include "_crypto-test_sign_ed25519.inc"
+#include "_crypto-test_kem_sntrup761.inc"
 
 
 /* ----- top level */
@@ -526,6 +527,7 @@ int main(int argc,char **argv)
   test_hash_sha256();
   test_hash_sha512();
   test_sign_ed25519();
+  test_kem_sntrup761();
 #if 0
   test_hashblocks_sha512();
   test_pow_inv25519();

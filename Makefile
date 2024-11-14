@@ -157,7 +157,8 @@ _crypto-test.o: _crypto-test.c crypto_uint8.h crypto_uint32.h \
  _crypto-test_verify_32.inc crypto_verify_32.h \
  _crypto-test_hash_sha256.inc crypto_hash_sha256.h \
  _crypto-test_hash_sha512.inc crypto_hash_sha512.h haslib25519.h \
- _crypto-test_sign_ed25519.inc crypto_sign_ed25519.h
+ _crypto-test_sign_ed25519.inc crypto_sign_ed25519.h \
+ _crypto-test_kem_sntrup761.inc crypto_kem_sntrup761.h haslibntruprime.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c _crypto-test.c
 
 crypto_verify_16.o: crypto_verify_16.c verify.h crypto_verify_16.h
