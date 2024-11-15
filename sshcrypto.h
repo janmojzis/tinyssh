@@ -51,7 +51,7 @@ extern void (*sshcrypto_buf_putkemkey)(struct buf *, const unsigned char *);
 extern int sshcrypto_kex_select(const unsigned char *, long long, crypto_uint8 *);
 extern void sshcrypto_kex_put(struct buf *);
 
-#if defined(crypto_scalarmult_curve25519_BYTES) && defined(crypto_hash_sha256_BYTES)
+#if defined(crypto_dh_x25519_BYTES) && defined(crypto_hash_sha256_BYTES)
 /* sshcrypto_kex_curve25519.c */
 extern int curve25519_enc(unsigned char *, unsigned char *, const unsigned char *);
 extern void curve25519_putkemkey(struct buf *, const unsigned char *);

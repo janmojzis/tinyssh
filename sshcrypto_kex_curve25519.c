@@ -1,33 +1,31 @@
 /*
-20140203
+20241114
 Jan Mojzis
 Public domain.
 */
 
 #include "buf.h"
 #include "crypto.h"
-#include "randombytes.h"
 #include "purge.h"
+#include "crypto_int16.h"
 #include "sshcrypto.h"
 
-#if defined(crypto_scalarmult_curve25519_BYTES) && defined(crypto_hash_sha256_BYTES)
+#if defined(crypto_dh_x25519_BYTES) && defined(crypto_hash_sha256_BYTES)
 int curve25519_enc(unsigned char *c, unsigned char *k, const unsigned char *pk) {
 
-    unsigned char onetimesk[crypto_scalarmult_curve25519_SCALARBYTES];
-    int r = 0;
+    unsigned char onetimesk[crypto_dh_x25519_SECRETKEYBYTES];
     long long i;
     unsigned int d = 0;
 
-    randombytes(onetimesk, sizeof onetimesk);
-    r |= crypto_scalarmult_curve25519_base(/*onetimepk*/ c, onetimesk);
-    r |= crypto_scalarmult_curve25519(k, onetimesk, pk);
-    for (i = 0; i < crypto_scalarmult_curve25519_BYTES; ++i) d |= k[i];
-    r |= -(1 & ((d - 1) >> 8));
+    crypto_dh_x25519_keypair(/*onetimepk*/ c, onetimesk);
+    crypto_dh_x25519(k, pk, onetimesk);
     purge(onetimesk, sizeof onetimesk);
-    return r;
+
+    for (i = 0; i < crypto_dh_x25519_BYTES; ++i) d |= k[i];
+    return crypto_int16_nonzero_mask(d);
 }
 
 void curve25519_putkemkey(struct buf *b, const unsigned char *x) {
-    buf_putsharedsecret(b, x, crypto_scalarmult_curve25519_BYTES);
+    buf_putsharedsecret(b, x, crypto_dh_x25519_BYTES);
 }
 #endif
