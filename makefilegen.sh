@@ -19,20 +19,28 @@ export LANG
     links='tinysshd-makekey tinysshd-printkey tinysshnoneauthd'
     autoheaders=''
     binaries=''
+    testbinaries=''
     objlib=''
     objall=''
-    objbin=''
     for file in `ls -1`; do
       ofile=`echo ${file} | sed 's/\.c$/.o/'`
       hfile=`echo ${file} | sed 's/\.c$/.h/'`
       case "${file}" in
+        randombytes\.c)
+          objall="${objall} ${ofile}"
+        ;;
         has*\.c)
           autoheaders="${autoheaders} `echo ${file} | sed 's/\.c/.h/'`"
+        ;;
+        _*\.c)
+          if grep '^int main(' "${file}" >/dev/null; then
+            testbinaries="${testbinaries} `echo ${file} | sed 's/\.c$//'`"
+          fi
+          objall="${objall} ${ofile}"
         ;;
         *\.c)
           if grep '^int main(' "${file}" >/dev/null; then
             binaries="${binaries} `echo ${file} | sed 's/\.c$//'`"
-            objbin="${objbin} ${ofile}"
           else
             objlib="${objlib} ${ofile}"
           fi
@@ -49,10 +57,13 @@ export LANG
     echo "`echo BINARIES=${binaries} | fold -s | sed 's/^/ /' | sed 's/^ BINARIES= /BINARIES=/' | sed 's/ $/ \\\\/'`"
     echo
 
+    echo "`echo TESTBINARIES=${testbinaries} | fold -s | sed 's/^/ /' | sed 's/^ TESTBINARIES= /TESTBINARIES=/' | sed 's/ $/ \\\\/'`"
+    echo
+
     echo "`echo OBJLIB=${objlib} | fold -s | sed 's/^/ /' | sed 's/^ OBJLIB= /OBJLIB=/' | sed 's/ $/ \\\\/'`"
     echo
 
-    echo "`echo OBJBIN=${objbin} | fold -s | sed 's/^/ /' | sed 's/^ OBJBIN= /OBJBIN=/' | sed 's/ $/ \\\\/'`"
+    echo "`echo OBJALL=${objall} | fold -s | sed 's/^/ /' | sed 's/^ OBJALL= /OBJALL=/' | sed 's/ $/ \\\\/'`"
     echo
 
     echo "`echo AUTOHEADERS=${autoheaders} | fold -s | sed 's/^/ /' | sed 's/^ AUTOHEADERS= /AUTOHEADERS=/' | sed 's/ $/ \\\\/'`"
@@ -72,8 +83,17 @@ export LANG
     done
     rm -f ${autoheaders}
 
-    for ofile in ${objbin}; do
-      file=`echo ${ofile} | sed 's/\.o//'`
+    for file in ${binaries}; do
+      ofile="${file}.o"
+      echo "${file}: ${ofile} \$(OBJLIB) randombytes.o libs"
+      echo "	\$(CC) \$(CFLAGS) \$(CPPFLAGS) -o ${file} ${ofile} \\"
+      echo "	\$(OBJLIB) \$(LDFLAGS) \`cat libs\`" randombytes.o
+      echo
+    done
+    echo
+
+    for file in ${testbinaries}; do
+      ofile="${file}.o"
       echo "${file}: ${ofile} \$(OBJLIB) libs"
       echo "	\$(CC) \$(CFLAGS) \$(CPPFLAGS) -o ${file} ${ofile} \\"
       echo "	\$(OBJLIB) \$(LDFLAGS) \`cat libs\`"
@@ -135,7 +155,7 @@ export LANG
     echo
 
     echo "clean:"
-    echo "	rm -f *.out *.log libs \$(OBJLIB) \$(OBJBIN) \$(BINARIES) \$(LINKS) \$(AUTOHEADERS)"
+    echo "	rm -f *.out *.log libs \$(OBJLIB) \$(OBJALL) \$(BINARIES) \$(TESTBINARIES) \$(LINKS) \$(AUTOHEADERS)"
     echo 
 
   ) > Makefile

@@ -10,7 +10,9 @@ INSTALL?=install
 
 LINKS=tinysshd-makekey tinysshd-printkey tinysshnoneauthd
 
-BINARIES=_crypto-test tinysshd _tinysshd-printkex _tinysshd-speed \
+BINARIES=tinysshd
+
+TESTBINARIES=_crypto-test _tinysshd-printkex _tinysshd-speed \
  _tinysshd-test-hello1 _tinysshd-test-hello2 _tinysshd-test-kex1 \
  _tinysshd-test-kex2 _tinysshd-unauthenticated
 
@@ -29,16 +31,35 @@ OBJLIB=blocking.o buf.o byte.o channel.o channel_drop.o channel_fork.o \
  packet_channel_recv.o packet_channel_request.o packet_channel_send.o \
  packet_get.o packet_hello.o packet_kex.o packet_kexdh.o packetparser.o \
  packet_put.o packet_recv.o packet_send.o packet_unimplemented.o porttostr.o \
+ randommod.o readall.o savesync.o sc25519.o ssh.o sshcrypto.o sshcrypto_cipher.o \
+ sshcrypto_cipher_chachapoly.o sshcrypto_kex.o sshcrypto_kex_curve25519.o \
+ sshcrypto_kex_sntrup761x25519.o sshcrypto_key.o sshcrypto_key_ed25519.o str.o \
+ stringparser.o subprocess_auth.o subprocess_sign.o trymlock.o uint32_pack_big.o \
+ uint32_pack.o uint32_unpack_big.o uint32_unpack.o writeall.o
+
+OBJALL=blocking.o buf.o byte.o channel.o channel_drop.o channel_fork.o \
+ channel_forkpty.o channel_subsystem.o cleanup.o coe.o connectioninfo.o \
+ crypto_hash_sha256.o crypto_hash_sha512_lib25519.o crypto_hash_sha512_tinyssh.o \
+ crypto_kem_sntrup761_libntruprime.o crypto_kem_sntrup761_tinyssh.o \
+ crypto_kem_sntrup761x25519.o crypto_onetimeauth_poly1305.o \
+ crypto_scalarmult_curve25519_lib25519.o crypto_scalarmult_curve25519_tinyssh.o \
+ crypto_sign_ed25519_lib25519.o crypto_sign_ed25519_tinyssh.o \
+ crypto_sort_uint32.o crypto_stream_chacha20.o _crypto-test.o crypto_verify_16.o \
+ crypto_verify_32.o die.o dropuidgid.o e.o env.o fe25519.o fe.o ge25519.o \
+ getln.o global.o int16_optblocker.o iptostr.o load.o log.o loginshell.o \
+ logsys.o main_tinysshd.o main_tinysshd_makekey.o main_tinysshd_printkey.o \
+ newenv.o numtostr.o open.o packet_auth.o packet.o packet_channel_open.o \
+ packet_channel_recv.o packet_channel_request.o packet_channel_send.o \
+ packet_get.o packet_hello.o packet_kex.o packet_kexdh.o packetparser.o \
+ packet_put.o packet_recv.o packet_send.o packet_unimplemented.o porttostr.o \
  randombytes.o randommod.o readall.o savesync.o sc25519.o ssh.o sshcrypto.o \
  sshcrypto_cipher.o sshcrypto_cipher_chachapoly.o sshcrypto_kex.o \
  sshcrypto_kex_curve25519.o sshcrypto_kex_sntrup761x25519.o sshcrypto_key.o \
  sshcrypto_key_ed25519.o str.o stringparser.o subprocess_auth.o \
- subprocess_sign.o trymlock.o uint32_pack_big.o uint32_pack.o \
- uint32_unpack_big.o uint32_unpack.o writeall.o
-
-OBJBIN=_crypto-test.o tinysshd.o _tinysshd-printkex.o _tinysshd-speed.o \
+ subprocess_sign.o tinysshd.o _tinysshd-printkex.o _tinysshd-speed.o \
  _tinysshd-test-hello1.o _tinysshd-test-hello2.o _tinysshd-test-kex1.o \
- _tinysshd-test-kex2.o _tinysshd-unauthenticated.o
+ _tinysshd-test-kex2.o _tinysshd-unauthenticated.o trymlock.o uint32_pack_big.o \
+ uint32_pack.o uint32_unpack_big.o uint32_unpack.o writeall.o
 
 AUTOHEADERS=hasasmvolatilememory.h haslib25519.h haslibntruprime.h \
  haslibrandombytes.h haslibutilh.h haslimits.h haslogintty.h hasmlock.h \
@@ -685,12 +706,13 @@ uint32_unpack.o: uint32_unpack.c uint32_unpack.h crypto_uint32.h
 writeall.o: writeall.c e.h writeall.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c writeall.c
 
+tinysshd: tinysshd.o $(OBJLIB) randombytes.o libs
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o tinysshd tinysshd.o \
+	$(OBJLIB) $(LDFLAGS) `cat libs` randombytes.o
+
+
 _crypto-test: _crypto-test.o $(OBJLIB) libs
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o _crypto-test _crypto-test.o \
-	$(OBJLIB) $(LDFLAGS) `cat libs`
-
-tinysshd: tinysshd.o $(OBJLIB) libs
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o tinysshd tinysshd.o \
 	$(OBJLIB) $(LDFLAGS) `cat libs`
 
 _tinysshd-printkex: _tinysshd-printkex.o $(OBJLIB) libs
@@ -888,5 +910,5 @@ valgrindtest: $(BINARIES) $(LINKS)
 	sh runtest.sh valgrindtest-crypto.sh valgrindtest-crypto.out valgrindtest-crypto.exp
 
 clean:
-	rm -f *.out *.log libs $(OBJLIB) $(OBJBIN) $(BINARIES) $(LINKS) $(AUTOHEADERS)
+	rm -f *.out *.log libs $(OBJLIB) $(OBJALL) $(BINARIES) $(TESTBINARIES) $(LINKS) $(AUTOHEADERS)
 
