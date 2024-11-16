@@ -1,4 +1,4 @@
---- _crypto-test
+--- test-crypto
 verify_16 offset 0
 verify_16 offset 1
 verify_32 offset 0

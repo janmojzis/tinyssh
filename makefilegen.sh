@@ -19,7 +19,7 @@ export LANG
     links='tinysshd-makekey tinysshd-printkey tinysshnoneauthd'
     autoheaders=''
     binaries=''
-    testbinaries=''
+    testcryptobinaries=''
     objlib=''
     objall=''
     for file in `ls -1`; do
@@ -32,9 +32,9 @@ export LANG
         has*\.c)
           autoheaders="${autoheaders} `echo ${file} | sed 's/\.c/.h/'`"
         ;;
-        _*\.c)
+        test-crypto.c)
           if grep '^int main(' "${file}" >/dev/null; then
-            testbinaries="${testbinaries} `echo ${file} | sed 's/\.c$//'`"
+            testcryptobinaries="${testcryptobinaries} `echo ${file} | sed 's/\.c$//'`"
           fi
           objall="${objall} ${ofile}"
         ;;
@@ -57,7 +57,7 @@ export LANG
     echo "`echo BINARIES=${binaries} | fold -s | sed 's/^/ /' | sed 's/^ BINARIES= /BINARIES=/' | sed 's/ $/ \\\\/'`"
     echo
 
-    echo "`echo TESTBINARIES=${testbinaries} | fold -s | sed 's/^/ /' | sed 's/^ TESTBINARIES= /TESTBINARIES=/' | sed 's/ $/ \\\\/'`"
+    echo "`echo TESTCRYPTOBINARIES=${testcryptobinaries} | fold -s | sed 's/^/ /' | sed 's/^ TESTCRYPTOBINARIES= /TESTCRYPTOBINARIES=/' | sed 's/ $/ \\\\/'`"
     echo
 
     echo "`echo OBJLIB=${objlib} | fold -s | sed 's/^/ /' | sed 's/^ OBJLIB= /OBJLIB=/' | sed 's/ $/ \\\\/'`"
@@ -92,7 +92,7 @@ export LANG
     done
     echo
 
-    for file in ${testbinaries}; do
+    for file in ${testcryptobinaries}; do
       ofile="${file}.o"
       echo "${file}: ${ofile} \$(OBJLIB) libs"
       echo "	\$(CC) \$(CFLAGS) \$(CPPFLAGS) -o ${file} ${ofile} \\"
@@ -142,7 +142,7 @@ export LANG
     echo "	\$(INSTALL) -m 0644 man/tinysshnoneauthd.8 \$(DESTDIR)\$(PREFIX)/share/man/man8/tinysshnoneauthd.8"
     echo
 
-    echo "test: \$(TESTBINARIES) \$(LINKS)"
+    echo "test: \$(BINARIES) \$(TESTCRYPTOBINARIES) \$(LINKS)"
     echo "	sh runtest.sh test-tinysshd.sh test-tinysshd.out test-tinysshd.exp"
     echo "	sh runtest.sh test-tinysshd-makekey.sh test-tinysshd-makekey.out test-tinysshd-makekey.exp"
     echo "	sh runtest.sh test-tinysshd-printkey.sh test-tinysshd-printkey.out test-tinysshd-printkey.exp"
@@ -150,12 +150,12 @@ export LANG
     echo "	sh runtest.sh test-crypto.sh test-crypto.out test-crypto.exp"
     echo
 
-    echo "valgrindtest: \$(TESTBINARIES) \$(LINKS)"
+    echo "valgrindtest: \$(TESTCRYPTOBINARIES) \$(LINKS)"
     echo "	sh runtest.sh valgrindtest-crypto.sh valgrindtest-crypto.out valgrindtest-crypto.exp"
     echo
 
     echo "clean:"
-    echo "	rm -f *.out *.log libs \$(OBJLIB) \$(OBJALL) \$(BINARIES) \$(TESTBINARIES) \$(LINKS) \$(AUTOHEADERS)"
+    echo "	rm -f *.out *.log libs \$(OBJLIB) \$(OBJALL) \$(BINARIES) \$(TESTCRYPTOBINARIES) \$(LINKS) \$(AUTOHEADERS)"
     echo 
 
   ) > Makefile

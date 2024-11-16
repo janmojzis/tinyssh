@@ -1,7 +1,7 @@
 /*
 derived from djb work from lib25519/libntruprime
 mj modifications:
-- rename files to _crypto-test.c and _crypto_<>.<>.inc
+- rename files to test-crypto.c and test-crypto_<>.<>.inc
 - fix compiler warnings
 - include crypto.h
 */
@@ -555,18 +555,6 @@ int main(int argc,char **argv)
   test_hash_sha512();
   test_sign_ed25519();
   test_kem_sntrup761();
-#if 0
-  test_hashblocks_sha512();
-  test_pow_inv25519();
-  test_powbatch_inv25519();
-  test_nP_montgomery25519();
-  test_nPbatch_montgomery25519();
-  test_nG_merged25519();
-  test_nG_montgomery25519();
-  test_mGnP_ed25519();
-  test_multiscalar_ed25519();
-  test_dh_x25519();
-#endif
 
   if (!ok) {
     printf("some tests failed\n");

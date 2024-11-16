@@ -1,7 +1,7 @@
 #!/bin/sh
 
-echo '--- _crypto-test'
-./_crypto-test
+echo '--- test-crypto'
+./test-crypto
 echo $?
 echo
 exit 0
