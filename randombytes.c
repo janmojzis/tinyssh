@@ -42,6 +42,8 @@ void randombytes(void *xv, long long xlen) {
         x += i;
         xlen -= i;
     }
+#ifdef __GNUC__
     __asm__ __volatile__("" : : "r"(xv) : "memory");
+#endif
 }
 #endif
