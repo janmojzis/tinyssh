@@ -6,6 +6,7 @@
 #include <randombytes.h>
 #else
 extern void randombytes(void *, long long);
+extern const char *randombytes_source(void);
 #endif
 
 #endif

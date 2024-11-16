@@ -9,11 +9,11 @@
 
 static int fd = -1;
 
-void randombytes(void *xv, long long xlen) {
-
-    long long i;
-    unsigned char *x = xv;
-
+#ifdef __GNUC__
+__attribute__((constructor)) static void init(void) {
+#else
+static void init(void) {
+#endif
     if (fd == -1) {
         for (;;) {
 #ifdef O_CLOEXEC
@@ -26,6 +26,14 @@ void randombytes(void *xv, long long xlen) {
             sleep(1);
         }
     }
+}
+
+void randombytes(void *xv, long long xlen) {
+
+    long long i;
+    unsigned char *x = xv;
+
+    if (fd == -1) init();
 
     while (xlen > 0) {
         if (xlen < 1048576)
@@ -46,4 +54,7 @@ void randombytes(void *xv, long long xlen) {
     __asm__ __volatile__("" : : "r"(xv) : "memory");
 #endif
 }
+
+const char *randombytes_source(void) { return "kernel-devurandom"; }
+
 #endif
