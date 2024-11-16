@@ -3,15 +3,16 @@
 /*
 derived from djb work from lib25519/libntruprime
 mj modifications:
-- rename files to _crypto_-test.c and _crypto_<>.<>.inc
+- rename files to _crypto-test.c and _crypto_<>.<>.inc
 - fix compiler warnings
+- include crypto.h
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
-#include "crypto_sort_uint32.h"
+#include "crypto.h"
 
 #define fail ((ok = 0),printf)
 static const char *sort_uint32_checksums[] = {

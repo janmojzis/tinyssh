@@ -1,4 +1,3 @@
-/* XXX */
 #include "crypto_hash_sha256.h"
 #include "crypto_hash_sha512.h"
 #include "crypto_int16.h"

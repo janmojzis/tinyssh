@@ -1,8 +1,9 @@
 /*
 derived from djb work from lib25519/libntruprime
 mj modifications:
-- files renamed to _crypto_-test.c and _crypto_<>.<>.inc
-- fixed compiler warnings
+- rename files to _crypto-test.c and _crypto_<>.<>.inc
+- fix compiler warnings
+- include crypto.h
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,7 +22,7 @@ mj modifications:
 #include "crypto_uint32.h"
 #include "crypto_uint64.h"
 #include "crypto_declassify.h"
-#include <randombytes.h>
+#include "crypto.h"
 
 const char *targeto = 0;
 const char *targetp = 0;

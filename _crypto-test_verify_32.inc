@@ -3,15 +3,16 @@
 /*
 derived from djb work from lib25519/libntruprime
 mj modifications:
-- rename files to _crypto_-test.c and _crypto_<>.<>.inc
+- rename files to _crypto-test.c and _crypto_<>.<>.inc
 - fix compiler warnings
+- include crypto.h
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
-#include "crypto_verify_32.h"
+#include "crypto.h"
 
 static unsigned char *test_verify_32_x;
 static unsigned char *test_verify_32_y;
