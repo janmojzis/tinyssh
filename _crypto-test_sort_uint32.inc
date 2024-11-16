@@ -41,6 +41,7 @@ static void test_sort_uint32_impl(long long impl)
     long long loops = checksumbig ? 4096 : 1024;
     long long maxtest = checksumbig ? 4096 : 128;
 
+    if (checksumbig && valgrind) break;
     checksum_clear();
 
     for (long long loop = 0;loop < loops;++loop) {

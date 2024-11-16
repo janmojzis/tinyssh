@@ -74,6 +74,7 @@ static void test_kem_sntrup761_impl(long long impl)
   for (long long checksumbig = 0;checksumbig < 2;++checksumbig) {
     long long loops = checksumbig ? 64 : 8;
 
+    if (checksumbig && valgrind) break;
     checksum_clear();
 
     for (long long loop = 0;loop < loops;++loop) {
