@@ -899,14 +899,14 @@ install: $(BINARIES) $(LINKS)
 	$(INSTALL) -m 0644 man/tinysshd-printkey.8 $(DESTDIR)$(PREFIX)/share/man/man8/tinysshd-printkey.8
 	$(INSTALL) -m 0644 man/tinysshnoneauthd.8 $(DESTDIR)$(PREFIX)/share/man/man8/tinysshnoneauthd.8
 
-test: $(BINARIES) $(LINKS)
+test: $(TESTBINARIES) $(LINKS)
 	sh runtest.sh test-tinysshd.sh test-tinysshd.out test-tinysshd.exp
 	sh runtest.sh test-tinysshd-makekey.sh test-tinysshd-makekey.out test-tinysshd-makekey.exp
 	sh runtest.sh test-tinysshd-printkey.sh test-tinysshd-printkey.out test-tinysshd-printkey.exp
 	sh runtest.sh test-tinysshnoneauthd.sh test-tinysshnoneauthd.out test-tinysshnoneauthd.exp
 	sh runtest.sh test-crypto.sh test-crypto.out test-crypto.exp
 
-valgrindtest: $(BINARIES) $(LINKS)
+valgrindtest: $(TESTBINARIES) $(LINKS)
 	sh runtest.sh valgrindtest-crypto.sh valgrindtest-crypto.out valgrindtest-crypto.exp
 
 clean:
