@@ -68,6 +68,11 @@ AUTOHEADERS=haslib25519.h haslibntruprime.h haslibrandombytes.h haslibutilh.h \
  hasutmppid.h hasutmptime.h hasutmptv.h hasutmptype.h hasutmpuser.h \
  hasutmpxaddrv6.h hasutmpx.h hasutmpxsyslen.h hasutmpxupdwtmpx.h hasvalgrind.h
 
+TESTOUT=test-crypto-dh.out test-crypto-hash.out test-crypto-kem.out \
+ test-crypto-sign.out test-crypto-sort.out test-crypto-verify.out \
+ test-tinysshd-makekey.out test-tinysshd-printkey.out test-tinysshd.out \
+ test-tinysshnoneauthd.out
+
 all: $(AUTOHEADERS) $(BINARIES) $(LINKS)
 
 blocking.o: blocking.c blocking.h
@@ -907,6 +912,38 @@ hasvalgrind.h: tryfeature.sh hasvalgrind.c libs
 	./tryfeature.sh hasvalgrind.c >hasvalgrind.h 2>hasvalgrind.log
 	cat hasvalgrind.h
 
+test-crypto-dh.out: $(BINARIES) $(TESTCRYPTOBINARIES) $(LINKS) runtest.sh test-crypto-dh.sh test-crypto-dh.exp
+	sh runtest.sh test-crypto-dh.sh test-crypto-dh.out test-crypto-dh.exp
+
+test-crypto-hash.out: $(BINARIES) $(TESTCRYPTOBINARIES) $(LINKS) runtest.sh test-crypto-hash.sh test-crypto-hash.exp
+	sh runtest.sh test-crypto-hash.sh test-crypto-hash.out test-crypto-hash.exp
+
+test-crypto-kem.out: $(BINARIES) $(TESTCRYPTOBINARIES) $(LINKS) runtest.sh test-crypto-kem.sh test-crypto-kem.exp
+	sh runtest.sh test-crypto-kem.sh test-crypto-kem.out test-crypto-kem.exp
+
+test-crypto-sign.out: $(BINARIES) $(TESTCRYPTOBINARIES) $(LINKS) runtest.sh test-crypto-sign.sh test-crypto-sign.exp
+	sh runtest.sh test-crypto-sign.sh test-crypto-sign.out test-crypto-sign.exp
+
+test-crypto-sort.out: $(BINARIES) $(TESTCRYPTOBINARIES) $(LINKS) runtest.sh test-crypto-sort.sh test-crypto-sort.exp
+	sh runtest.sh test-crypto-sort.sh test-crypto-sort.out test-crypto-sort.exp
+
+test-crypto-verify.out: $(BINARIES) $(TESTCRYPTOBINARIES) $(LINKS) runtest.sh test-crypto-verify.sh test-crypto-verify.exp
+	sh runtest.sh test-crypto-verify.sh test-crypto-verify.out test-crypto-verify.exp
+
+test-tinysshd-makekey.out: $(BINARIES) $(TESTCRYPTOBINARIES) $(LINKS) runtest.sh test-tinysshd-makekey.sh test-tinysshd-makekey.exp
+	sh runtest.sh test-tinysshd-makekey.sh test-tinysshd-makekey.out test-tinysshd-makekey.exp
+
+test-tinysshd-printkey.out: $(BINARIES) $(TESTCRYPTOBINARIES) $(LINKS) runtest.sh test-tinysshd-printkey.sh test-tinysshd-printkey.exp
+	sh runtest.sh test-tinysshd-printkey.sh test-tinysshd-printkey.out test-tinysshd-printkey.exp
+
+test-tinysshd.out: $(BINARIES) $(TESTCRYPTOBINARIES) $(LINKS) runtest.sh test-tinysshd.sh test-tinysshd.exp
+	sh runtest.sh test-tinysshd.sh test-tinysshd.out test-tinysshd.exp
+
+test-tinysshnoneauthd.out: $(BINARIES) $(TESTCRYPTOBINARIES) $(LINKS) runtest.sh test-tinysshnoneauthd.sh test-tinysshnoneauthd.exp
+	sh runtest.sh test-tinysshnoneauthd.sh test-tinysshnoneauthd.out test-tinysshnoneauthd.exp
+
+test: $(TESTOUT)
+
 libs: trylibs.sh
 	env CC="$(CC)" ./trylibs.sh -lsocket -lnsl -lutil -lrandombytes -l25519 -lntruprime >libs 2>libs.log
 	cat libs
@@ -932,16 +969,6 @@ install: $(BINARIES) $(LINKS)
 	$(INSTALL) -m 0644 man/tinysshd-printkey.8 $(DESTDIR)$(PREFIX)/share/man/man8/tinysshd-printkey.8
 	$(INSTALL) -m 0644 man/tinysshnoneauthd.8 $(DESTDIR)$(PREFIX)/share/man/man8/tinysshnoneauthd.8
 
-test: $(BINARIES) $(TESTCRYPTOBINARIES) $(LINKS)
-	sh runtest.sh test-tinysshd.sh test-tinysshd.out test-tinysshd.exp
-	sh runtest.sh test-tinysshd-makekey.sh test-tinysshd-makekey.out test-tinysshd-makekey.exp
-	sh runtest.sh test-tinysshd-printkey.sh test-tinysshd-printkey.out test-tinysshd-printkey.exp
-	sh runtest.sh test-tinysshnoneauthd.sh test-tinysshnoneauthd.out test-tinysshnoneauthd.exp
-	sh runtest.sh test-crypto.sh test-crypto.out test-crypto.exp
-
-valgrindtest: $(TESTCRYPTOBINARIES) $(LINKS)
-	sh runtest.sh valgrindtest-crypto.sh valgrindtest-crypto.out valgrindtest-crypto.exp
-
 clean:
-	rm -f *.out *.log libs $(OBJLIB) $(OBJALL) $(BINARIES) $(TESTCRYPTOBINARIES) $(LINKS) $(AUTOHEADERS)
+	rm -f *.log libs $(OBJLIB) $(OBJALL) $(BINARIES) $(TESTCRYPTOBINARIES) $(LINKS) $(AUTOHEADERS) $(TESTOUT)
 

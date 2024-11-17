@@ -1,0 +1,6 @@
+--- test-crypto dh
+dh_x25519 offset 0
+dh_x25519 offset 1
+all tests succeeded
+0
+

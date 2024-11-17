@@ -1,0 +1,8 @@
+--- test-crypto hash
+hash_sha256 offset 0
+hash_sha256 offset 1
+hash_sha512 offset 0
+hash_sha512 offset 1
+all tests succeeded
+0
+

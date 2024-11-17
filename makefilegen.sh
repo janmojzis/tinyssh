@@ -22,6 +22,7 @@ export LANG
     testcryptobinaries=''
     objlib=''
     objall=''
+    outfiles=''
     for file in `ls -1`; do
       ofile=`echo ${file} | sed 's/\.c$/.o/'`
       hfile=`echo ${file} | sed 's/\.c$/.h/'`
@@ -31,6 +32,9 @@ export LANG
         ;;
         has*\.c)
           autoheaders="${autoheaders} `echo ${file} | sed 's/\.c/.h/'`"
+        ;;
+        test-*\.sh)
+          outfiles="${outfiles} `echo ${file} | sed 's/\.sh/.out/'`"
         ;;
         test-crypto.c)
           if grep '^int main(' "${file}" >/dev/null; then
@@ -51,6 +55,7 @@ export LANG
       esac
     done
 
+
     echo "LINKS=${links}"
     echo
 
@@ -67,6 +72,9 @@ export LANG
     echo
 
     echo "`echo AUTOHEADERS=${autoheaders} | fold -s | sed 's/^/ /' | sed 's/^ AUTOHEADERS= /AUTOHEADERS=/' | sed 's/ $/ \\\\/'`"
+    echo
+
+    echo "`echo TESTOUT=${outfiles} | fold -s | sed 's/^/ /' | sed 's/^ TESTOUT= /TESTOUT=/' | sed 's/ $/ \\\\/'`"
     echo
 
     echo "all: \$(AUTOHEADERS) \$(BINARIES) \$(LINKS)"
@@ -112,6 +120,17 @@ export LANG
       echo
     done
 
+    for outfile in ${outfiles}; do
+      expfile=`echo ${outfile} | sed 's/\.out/.exp/'`
+      shfile=`echo ${outfile} | sed 's/\.out/.sh/'`
+      echo "${outfile}: \$(BINARIES) \$(TESTCRYPTOBINARIES) \$(LINKS) runtest.sh ${shfile} ${expfile}"
+      echo "	sh runtest.sh ${shfile} ${outfile} ${expfile}"
+      echo
+    done
+
+    echo "test: \$(TESTOUT)"
+    echo
+
     echo "libs: trylibs.sh"
     echo "	env CC=\"\$(CC)\" ./trylibs.sh -lsocket -lnsl -lutil -lrandombytes -l25519 -lntruprime >libs 2>libs.log"
     echo "	cat libs"
@@ -142,20 +161,8 @@ export LANG
     echo "	\$(INSTALL) -m 0644 man/tinysshnoneauthd.8 \$(DESTDIR)\$(PREFIX)/share/man/man8/tinysshnoneauthd.8"
     echo
 
-    echo "test: \$(BINARIES) \$(TESTCRYPTOBINARIES) \$(LINKS)"
-    echo "	sh runtest.sh test-tinysshd.sh test-tinysshd.out test-tinysshd.exp"
-    echo "	sh runtest.sh test-tinysshd-makekey.sh test-tinysshd-makekey.out test-tinysshd-makekey.exp"
-    echo "	sh runtest.sh test-tinysshd-printkey.sh test-tinysshd-printkey.out test-tinysshd-printkey.exp"
-    echo "	sh runtest.sh test-tinysshnoneauthd.sh test-tinysshnoneauthd.out test-tinysshnoneauthd.exp"
-    echo "	sh runtest.sh test-crypto.sh test-crypto.out test-crypto.exp"
-    echo
-
-    echo "valgrindtest: \$(TESTCRYPTOBINARIES) \$(LINKS)"
-    echo "	sh runtest.sh valgrindtest-crypto.sh valgrindtest-crypto.out valgrindtest-crypto.exp"
-    echo
-
     echo "clean:"
-    echo "	rm -f *.out *.log libs \$(OBJLIB) \$(OBJALL) \$(BINARIES) \$(TESTCRYPTOBINARIES) \$(LINKS) \$(AUTOHEADERS)"
+    echo "	rm -f *.log libs \$(OBJLIB) \$(OBJALL) \$(BINARIES) \$(TESTCRYPTOBINARIES) \$(LINKS) \$(AUTOHEADERS) \$(TESTOUT)"
     echo 
 
   ) > Makefile

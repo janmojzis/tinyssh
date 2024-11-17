@@ -1,0 +1,6 @@
+--- test-crypto sign
+sign_ed25519 offset 0
+sign_ed25519 offset 1
+all tests succeeded
+0
+

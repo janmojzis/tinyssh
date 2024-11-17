@@ -2,12 +2,12 @@
 
 cleanup() {
   ex=$?
-  rm -rf -- keydir -r
+  rm -rf -- keydirp -r
   exit "${ex}"
 }
 trap "cleanup" EXIT TERM INT
 
-mkdir keydir
+mkdir keydirp
 
 echo '--- tinysshd-printkey prints help'
 echo
@@ -21,30 +21,30 @@ echo
 ) | (
   while read name key
   do
-    echo ${key} > "keydir/${name}"
+    echo ${key} > "keydirp/${name}"
   done
 )
 
 echo '--- tinysshd-printkey prints keys'
 echo
-./tinysshd-printkey keydir
+./tinysshd-printkey keydirp
 echo $?
 echo
 
-mv keydir/nistp256ecdsa.pk keydir/nistp256ecdsa.pk.bk
+mv keydirp/nistp256ecdsa.pk keydirp/nistp256ecdsa.pk.bk
 
 echo '--- tinysshd-printkey prints only ssh-ed25519 key'
 echo
-./tinysshd-printkey keydir
+./tinysshd-printkey keydirp
 echo $?
 echo
 
-mv keydir/nistp256ecdsa.pk.bk keydir/nistp256ecdsa.pk
-mv keydir/ed25519.pk keydir/ed25519.pk.bk
+mv keydirp/nistp256ecdsa.pk.bk keydirp/nistp256ecdsa.pk
+mv keydirp/ed25519.pk keydirp/ed25519.pk.bk
 
 echo '--- tinysshd-printkey prints only ecdsa-sha2-nistp256 key'
 echo
-./tinysshd-printkey keydir
+./tinysshd-printkey keydirp
 echo $?
 echo
 

@@ -1,0 +1,8 @@
+--- test-crypto verify
+verify_16 offset 0
+verify_16 offset 1
+verify_32 offset 0
+verify_32 offset 1
+all tests succeeded
+0
+

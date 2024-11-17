@@ -14,16 +14,17 @@ expfile="$3"
 sh "${script}" > "${outfile}"
 
 # compare
-if cmp "${expfile}" "${outfile}"; then
-  exit 0
-fi
-
-# try to print diff
-if [ x"`which diff`" != x ]; then
-  diff -u "${expfile}" "${outfile}"
+if ! cmp "${expfile}" "${outfile}"; then
+  echo "${script} FAILED"
+  if [ x"`which diff`" != x ]; then
+    # print diff
+    diff -u "${expfile}" "${outfile}"
+  else
+    # print output file
+    cat "${outfile}"
+  fi
   exit 1
 fi
 
-# print output file
-cat "${outfile}"
-exit 1
+echo "${script} OK"
+exit 0

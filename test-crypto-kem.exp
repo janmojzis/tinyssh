@@ -1,0 +1,6 @@
+--- test-crypto kem
+kem_sntrup761 offset 0
+kem_sntrup761 offset 1
+all tests succeeded
+0
+

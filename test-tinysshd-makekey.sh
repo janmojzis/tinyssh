@@ -8,7 +8,7 @@ export LC_ALL
 
 cleanup() {
   ex=$?
-  rm -rf -- keydir -r
+  rm -rf -- keydirm -m
   exit "${ex}"
 }
 trap "cleanup" EXIT TERM INT
@@ -21,27 +21,27 @@ echo
 
 echo '--- tinysshd-makekey creates key-directory'
 echo
-rm -rf keydir
-./tinysshd-makekey keydir 2>&1
-ls keydir/*.pk | sort
+rm -rf keydirm
+./tinysshd-makekey keydirm 2>&1
+ls keydirm/*.pk | sort
 echo $?
 echo
 
 echo '--- tinysshd-makekey fails when directory exists'
 echo
-rm -rf keydir
-mkdir keydir
-./tinysshd-makekey keydir 2>&1
+rm -rf keydirm
+mkdir keydirm
+./tinysshd-makekey keydirm 2>&1
 echo $?
 
-echo "--- tinysshd-makekey handles '-r' parameter (prints help)"
+echo "--- tinysshd-makekey handles '-m' parameter (prints help)"
 echo
-./tinysshd-makekey -r 2>/dev/null
+./tinysshd-makekey -m 2>/dev/null
 echo $?
 echo
 
-echo "--- tinysshd-makekey creates '-r' key-directory"
+echo "--- tinysshd-makekey creates '-m' key-directory"
 echo
-./tinysshd-makekey -- -r 2>&1
+./tinysshd-makekey -- -m 2>&1
 echo $?
 echo
