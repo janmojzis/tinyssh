@@ -38,7 +38,7 @@ extern int crypto_sign_ed25519_lib25519_keypair(unsigned char *,unsigned char *)
 #define crypto_sign_ed25519_PUBLICKEYBYTES crypto_sign_ed25519_lib25519_PUBLICKEYBYTES
 #define crypto_sign_ed25519_SECRETKEYBYTES crypto_sign_ed25519_lib25519_SECRETKEYBYTES
 #define crypto_sign_ed25519_IMPLEMENTATION "lib25519"
-#define crypto_sign_ed25519_VERSION "-"
+#define crypto_sign_ed25519_VERSION lib25519_version
 
 #endif
 
