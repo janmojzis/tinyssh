@@ -34,7 +34,7 @@ int main(void) {
         randombytes(space, sizeof space);
         ++count;
     }
-    printf("crypto_hash_sha512: %lld MB/s (%s)\n", count/100, randombytes_source());
+    printf("randombytes: %lld MB/s (%s)\n", count/100, randombytes_source());
 
 #ifdef crypto_hash_sha512_IMPLEMENTATION
     implementation = crypto_hash_sha512_IMPLEMENTATION;
