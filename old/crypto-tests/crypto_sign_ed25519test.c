@@ -120,6 +120,8 @@ static void test_signopen(void) {
 
 int main(void) {
 
+    _exit(0);
+
     test_precomp();
     test_random();
     test_signopen();

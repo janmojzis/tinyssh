@@ -1,1 +1,1 @@
-../../crypto_scalarmult_curve25519_tinyssh.c
+../../crypto_scalarmult_curve25519.c

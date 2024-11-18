@@ -1,1 +1,0 @@
-../../hasasmvolatilememory.c

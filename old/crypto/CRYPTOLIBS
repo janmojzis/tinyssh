@@ -5,7 +5,6 @@ uint32_unpack.o
 uint32_pack_big.o
 uint32_unpack_big.o
 crypto_stream_chacha20.o
-verify.o
 crypto_verify_16.o
 crypto_verify_32.o
 crypto_hash_sha512.o

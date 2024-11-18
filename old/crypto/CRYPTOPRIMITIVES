@@ -11,7 +11,7 @@ crypto_verify_16 1
 crypto_verify_32 1
 crypto_scalarmult_curve25519 1
 crypto_sign_ed25519 1
-randombytes 0
+randombytes 1
 uint32_pack_big 0
 uint32_unpack_big 0
 cleanup 0

@@ -1,9 +1,5 @@
 #!/bin/sh -e
 
-#__asm__ __volatile__ ...
-echo 'hasasmvolatilememory.h hasasmvolatilememory.h-yes'
-echo 'hasasmvolatilememory.h default.h-no'
-
 #mlock
 echo 'hasmlock.h hasmlock.h-yes'
 echo 'hasmlock.h default.h-no'
@@ -58,8 +54,12 @@ echo 'hasutmpaddrv6.h default.h-no'
 echo 'haslimits.h haslimits.h-yes'
 echo 'haslimits.h default.h-no'
 
-# XXX
+#valgrind
+echo 'hasvalgrind.h hasvalgrind.h-yes.c'
+echo 'hasvalgrind.h default.h-no'
+
+# librandombytes + lib25519 + libntruprime
 echo 'haslibrandombytes.h default.h-no'
 echo 'haslib25519.h default.h-no'
-echo 'haslibrandombytes.h default.h-no'
 echo 'haslibntruprime.h default.h-no'
+ 
