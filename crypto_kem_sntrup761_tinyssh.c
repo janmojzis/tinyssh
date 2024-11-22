@@ -1145,7 +1145,7 @@ static int Ciphertexts_diff_mask(const unsigned char *c,const unsigned char *c2)
   int len = Ciphertexts_bytes+Confirm_bytes;
 
   while (len-- > 0) differentbits |= (*c++)^(*c2++);
-  return (1&((differentbits-1)>>8))-1;
+  return crypto_int16_nonzero_mask(differentbits);
 }
 
 /* k = Decap(c,sk) */
