@@ -160,11 +160,11 @@ void fe_reducesmall(fe r, const fe p, const crypto_uint64 carry) {
 
     for (i = 0; i < 8; ++i) {
         pb += (crypto_uint64)p[i];
-        b = (crypto_uint64)r[i] - pb; b >>= 63;
+        b = (crypto_uint64)r[i] - pb; b = crypto_uint64_topbit_01(b);
         t[i] = (crypto_uint64)r[i] - pb + (b << 32);
         pb = b;
     }
-    b = carry - pb; b >>= 63;
+    b = carry - pb; b = crypto_uint64_topbit_01(b);
     b -= 1;
     for (i = 0; i < 8; ++i) r[i] ^= b & (r[i] ^ t[i]);
     fe_0(t);
