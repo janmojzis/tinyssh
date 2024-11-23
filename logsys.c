@@ -171,6 +171,8 @@ static void logsys_utmp(const char *user, const char *host, const char *name, lo
 #ifdef HASUTMPPID
     if (pid == 0) pid = getpid();
     ut.ut_pid = pid;
+#else
+    (void) pid;
 #endif
 
     /* type */
