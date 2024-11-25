@@ -9,11 +9,7 @@
 
 static int fd = -1;
 
-#ifdef __GNUC__
 __attribute__((constructor)) static void init(void) {
-#else
-static void init(void) {
-#endif
     if (fd == -1) {
         for (;;) {
 #ifdef O_CLOEXEC
