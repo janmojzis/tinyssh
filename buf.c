@@ -14,7 +14,7 @@ immediately exits with 111 status code.
 #include "str.h"
 #include "purge.h"
 #include "randombytes.h"
-#include "uint32_pack_big.h"
+#include "crypto_uint32.h"
 #include "bug.h"
 #include "buf.h"
 
@@ -127,7 +127,7 @@ int buf_putnum32_(const char *fn, unsigned long long line,
 
     unsigned char s[4];
 
-    uint32_pack_big(s, x);
+    crypto_uint32_store_bigendian(s, x);
     return buf_put_(fn, line, b, s, sizeof s);
 }
 

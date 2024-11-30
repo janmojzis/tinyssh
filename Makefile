@@ -36,8 +36,8 @@ OBJLIB=blocking.o buf.o byte.o channel.o channel_drop.o channel_fork.o \
  sshcrypto_cipher_chachapoly.o sshcrypto_kex.o sshcrypto_kex_curve25519.o \
  sshcrypto_kex_sntrup761x25519.o sshcrypto_key.o sshcrypto_key_ed25519.o str.o \
  stringparser.o subprocess_auth.o subprocess_sign.o trymlock.o \
- uint16_optblocker.o uint32_optblocker.o uint32_pack_big.o uint64_optblocker.o \
- uint8_optblocker.o writeall.o
+ uint16_optblocker.o uint32_optblocker.o uint64_optblocker.o uint8_optblocker.o \
+ writeall.o
 
 OBJALL=blocking.o buf.o byte.o channel.o channel_drop.o channel_fork.o \
  channel_forkpty.o channel_subsystem.o cleanup.o coe.o connectioninfo.o \
@@ -62,7 +62,7 @@ OBJALL=blocking.o buf.o byte.o channel.o channel_drop.o channel_fork.o \
  _tinysshd-printkex.o _tinysshd-speed.o _tinysshd-test-hello1.o \
  _tinysshd-test-hello2.o _tinysshd-test-kex1.o _tinysshd-test-kex2.o \
  _tinysshd-unauthenticated.o trymlock.o uint16_optblocker.o uint32_optblocker.o \
- uint32_pack_big.o uint64_optblocker.o uint8_optblocker.o writeall.o
+ uint64_optblocker.o uint8_optblocker.o writeall.o
 
 AUTOHEADERS=haslib25519.h haslibntruprime.h haslibrandombytes.h haslibutilh.h \
  haslimits.h haslogintty.h hasmlock.h hasopenpty.h hasutilh.h hasutmpaddrv6.h \
@@ -81,8 +81,8 @@ blocking.o: blocking.c blocking.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c blocking.c
 
 buf.o: buf.c byte.h str.h purge.h cleanup.h randombytes.h \
- haslibrandombytes.h uint32_pack_big.h crypto_uint32.h bug.h global.h e.h \
- log.h buf.h crypto_uint8.h
+ haslibrandombytes.h crypto_uint32.h bug.h global.h e.h log.h buf.h \
+ crypto_uint8.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c buf.c
 
 byte.o: byte.c byte.h
@@ -373,9 +373,9 @@ packet_channel_request.o: packet_channel_request.c buf.h crypto_uint8.h \
 
 packet_channel_send.o: packet_channel_send.c bug.h global.h e.h log.h \
  buf.h crypto_uint8.h crypto_uint32.h channel.h iptostr.h porttostr.h \
- limit.h haslimits.h ssh.h uint32_pack_big.h packet.h sshcrypto.h \
- crypto.h crypto_int16.h crypto_int32.h crypto_int64.h crypto_int8.h \
- crypto_uint16.h crypto_uint64.h crypto_verify_16.h crypto_verify_32.h \
+ limit.h haslimits.h ssh.h packet.h sshcrypto.h crypto.h crypto_int16.h \
+ crypto_int32.h crypto_int64.h crypto_int8.h crypto_uint16.h \
+ crypto_uint64.h crypto_verify_16.h crypto_verify_32.h \
  haslibrandombytes.h randombytes.h crypto_hash_sha256.h \
  crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
  haslibntruprime.h crypto_kem_sntrup761x25519.h \
@@ -439,13 +439,12 @@ packetparser.o: packetparser.c e.h crypto_uint32.h bug.h global.h log.h \
  byte.h packetparser.h crypto_uint8.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c packetparser.c
 
-packet_put.o: packet_put.c uint32_pack_big.h crypto_uint32.h buf.h \
- crypto_uint8.h bug.h global.h e.h log.h sshcrypto.h crypto.h \
- crypto_int16.h crypto_int32.h crypto_int64.h crypto_int8.h \
- crypto_uint16.h crypto_uint64.h crypto_verify_16.h crypto_verify_32.h \
- haslibrandombytes.h randombytes.h crypto_hash_sha256.h \
- crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
- haslibntruprime.h crypto_kem_sntrup761x25519.h \
+packet_put.o: packet_put.c crypto_uint32.h buf.h crypto_uint8.h bug.h \
+ global.h e.h log.h sshcrypto.h crypto.h crypto_int16.h crypto_int32.h \
+ crypto_int64.h crypto_int8.h crypto_uint16.h crypto_uint64.h \
+ crypto_verify_16.h crypto_verify_32.h haslibrandombytes.h randombytes.h \
+ crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
+ crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h ssh.h packet.h limit.h haslimits.h channel.h \
@@ -747,9 +746,6 @@ uint16_optblocker.o: uint16_optblocker.c crypto_uint16.h
 
 uint32_optblocker.o: uint32_optblocker.c crypto_uint32.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c uint32_optblocker.c
-
-uint32_pack_big.o: uint32_pack_big.c uint32_pack_big.h crypto_uint32.h
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c uint32_pack_big.c
 
 uint64_optblocker.o: uint64_optblocker.c crypto_uint64.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c uint64_optblocker.c

@@ -4,7 +4,7 @@ Jan Mojzis
 Public domain.
 */
 
-#include "uint32_pack_big.h"
+#include "crypto_uint32.h"
 #include "buf.h"
 #include "bug.h"
 #include "sshcrypto.h"
@@ -30,7 +30,7 @@ static void packet_put_plain_(struct buf *b) {
     sendbuf->buf[pos + 4] = paddinglen;
 
     /* add packet length */
-    uint32_pack_big(sendbuf->buf + pos, sendbuf->len - pos - 4);
+    crypto_uint32_store_bigendian(sendbuf->buf + pos, sendbuf->len - pos - 4);
 }
 
 int packet_putisready(void) {
