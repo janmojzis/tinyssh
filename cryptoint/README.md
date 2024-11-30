@@ -1,0 +1,3 @@
+Cryptoint is a library created by Daniel J. Bernstein.
+It's public-domain code used in SUPERCOP/libntruprime/libmceliece/...
+To TinySSH is imported from https://libntruprime.cr.yp.to/libntruprime-20241021/cryptoint.html.
