@@ -25,17 +25,20 @@ OBJLIB=blocking.o buf.o byte.o channel.o channel_drop.o channel_fork.o \
  crypto_sign_ed25519_lib25519.o crypto_sign_ed25519_tinyssh.o \
  crypto_sort_uint32.o crypto_stream_chacha20.o crypto_verify_16.o \
  crypto_verify_32.o die.o dropuidgid.o e.o env.o fe25519.o fe.o ge25519.o \
- getln.o global.o int16_optblocker.o iptostr.o load.o log.o loginshell.o \
- logsys.o main_tinysshd.o main_tinysshd_makekey.o main_tinysshd_printkey.o \
- newenv.o numtostr.o open.o packet_auth.o packet.o packet_channel_open.o \
- packet_channel_recv.o packet_channel_request.o packet_channel_send.o \
- packet_get.o packet_hello.o packet_kex.o packet_kexdh.o packetparser.o \
- packet_put.o packet_recv.o packet_send.o packet_unimplemented.o porttostr.o \
- randommod.o readall.o savesync.o sc25519.o ssh.o sshcrypto.o sshcrypto_cipher.o \
+ getln.o global.o int16_optblocker.o int32_optblocker.o int64_optblocker.o \
+ int8_optblocker.o iptostr.o load.o log.o loginshell.o logsys.o main_tinysshd.o \
+ main_tinysshd_makekey.o main_tinysshd_printkey.o newenv.o numtostr.o open.o \
+ packet_auth.o packet.o packet_channel_open.o packet_channel_recv.o \
+ packet_channel_request.o packet_channel_send.o packet_get.o packet_hello.o \
+ packet_kex.o packet_kexdh.o packetparser.o packet_put.o packet_recv.o \
+ packet_send.o packet_unimplemented.o porttostr.o randommod.o readall.o \
+ savesync.o sc25519.o ssh.o sshcrypto.o sshcrypto_cipher.o \
  sshcrypto_cipher_chachapoly.o sshcrypto_kex.o sshcrypto_kex_curve25519.o \
  sshcrypto_kex_sntrup761x25519.o sshcrypto_key.o sshcrypto_key_ed25519.o str.o \
- stringparser.o subprocess_auth.o subprocess_sign.o trymlock.o uint32_pack_big.o \
- uint32_pack.o uint32_unpack_big.o uint32_unpack.o uint64_optblocker.o writeall.o
+ stringparser.o subprocess_auth.o subprocess_sign.o trymlock.o \
+ uint16_optblocker.o uint32_optblocker.o uint32_pack_big.o uint32_pack.o \
+ uint32_unpack_big.o uint32_unpack.o uint64_optblocker.o uint8_optblocker.o \
+ writeall.o
 
 OBJALL=blocking.o buf.o byte.o channel.o channel_drop.o channel_fork.o \
  channel_forkpty.o channel_subsystem.o cleanup.o coe.o connectioninfo.o \
@@ -46,21 +49,22 @@ OBJALL=blocking.o buf.o byte.o channel.o channel_drop.o channel_fork.o \
  crypto_sign_ed25519_lib25519.o crypto_sign_ed25519_tinyssh.o \
  crypto_sort_uint32.o crypto_stream_chacha20.o crypto_verify_16.o \
  crypto_verify_32.o die.o dropuidgid.o e.o env.o fe25519.o fe.o ge25519.o \
- getln.o global.o int16_optblocker.o iptostr.o load.o log.o loginshell.o \
- logsys.o main_tinysshd.o main_tinysshd_makekey.o main_tinysshd_printkey.o \
- newenv.o numtostr.o open.o packet_auth.o packet.o packet_channel_open.o \
- packet_channel_recv.o packet_channel_request.o packet_channel_send.o \
- packet_get.o packet_hello.o packet_kex.o packet_kexdh.o packetparser.o \
- packet_put.o packet_recv.o packet_send.o packet_unimplemented.o porttostr.o \
- randombytes.o randommod.o readall.o savesync.o sc25519.o ssh.o sshcrypto.o \
- sshcrypto_cipher.o sshcrypto_cipher_chachapoly.o sshcrypto_kex.o \
- sshcrypto_kex_curve25519.o sshcrypto_kex_sntrup761x25519.o sshcrypto_key.o \
- sshcrypto_key_ed25519.o str.o stringparser.o subprocess_auth.o \
- subprocess_sign.o test-crypto.o tinysshd.o _tinysshd-printkex.o \
- _tinysshd-speed.o _tinysshd-test-hello1.o _tinysshd-test-hello2.o \
- _tinysshd-test-kex1.o _tinysshd-test-kex2.o _tinysshd-unauthenticated.o \
- trymlock.o uint32_pack_big.o uint32_pack.o uint32_unpack_big.o uint32_unpack.o \
- uint64_optblocker.o writeall.o
+ getln.o global.o int16_optblocker.o int32_optblocker.o int64_optblocker.o \
+ int8_optblocker.o iptostr.o load.o log.o loginshell.o logsys.o main_tinysshd.o \
+ main_tinysshd_makekey.o main_tinysshd_printkey.o newenv.o numtostr.o open.o \
+ packet_auth.o packet.o packet_channel_open.o packet_channel_recv.o \
+ packet_channel_request.o packet_channel_send.o packet_get.o packet_hello.o \
+ packet_kex.o packet_kexdh.o packetparser.o packet_put.o packet_recv.o \
+ packet_send.o packet_unimplemented.o porttostr.o randombytes.o randommod.o \
+ readall.o savesync.o sc25519.o ssh.o sshcrypto.o sshcrypto_cipher.o \
+ sshcrypto_cipher_chachapoly.o sshcrypto_kex.o sshcrypto_kex_curve25519.o \
+ sshcrypto_kex_sntrup761x25519.o sshcrypto_key.o sshcrypto_key_ed25519.o str.o \
+ stringparser.o subprocess_auth.o subprocess_sign.o test-crypto.o tinysshd.o \
+ _tinysshd-printkex.o _tinysshd-speed.o _tinysshd-test-hello1.o \
+ _tinysshd-test-hello2.o _tinysshd-test-kex1.o _tinysshd-test-kex2.o \
+ _tinysshd-unauthenticated.o trymlock.o uint16_optblocker.o uint32_optblocker.o \
+ uint32_pack_big.o uint32_pack.o uint32_unpack_big.o uint32_unpack.o \
+ uint64_optblocker.o uint8_optblocker.o writeall.o
 
 AUTOHEADERS=haslib25519.h haslibntruprime.h haslibrandombytes.h haslibutilh.h \
  haslimits.h haslogintty.h hasmlock.h hasopenpty.h hasutilh.h hasutmpaddrv6.h \
@@ -226,6 +230,15 @@ global.o: global.c newenv.h channel.h crypto_uint32.h iptostr.h \
 
 int16_optblocker.o: int16_optblocker.c crypto_int16.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c int16_optblocker.c
+
+int32_optblocker.o: int32_optblocker.c crypto_int32.h
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c int32_optblocker.c
+
+int64_optblocker.o: int64_optblocker.c crypto_int64.h
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c int64_optblocker.c
+
+int8_optblocker.o: int8_optblocker.c crypto_int8.h
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c int8_optblocker.c
 
 iptostr.o: iptostr.c byte.h iptostr.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c iptostr.c
@@ -733,6 +746,12 @@ _tinysshd-unauthenticated.o: _tinysshd-unauthenticated.c log.h packet.h \
 trymlock.o: trymlock.c hasmlock.h trymlock.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c trymlock.c
 
+uint16_optblocker.o: uint16_optblocker.c crypto_uint16.h
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c uint16_optblocker.c
+
+uint32_optblocker.o: uint32_optblocker.c crypto_uint32.h
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c uint32_optblocker.c
+
 uint32_pack_big.o: uint32_pack_big.c uint32_pack_big.h crypto_uint32.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c uint32_pack_big.c
 
@@ -748,6 +767,9 @@ uint32_unpack.o: uint32_unpack.c uint32_unpack.h crypto_uint32.h
 
 uint64_optblocker.o: uint64_optblocker.c crypto_uint64.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c uint64_optblocker.c
+
+uint8_optblocker.o: uint8_optblocker.c crypto_uint8.h
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c uint8_optblocker.c
 
 writeall.o: writeall.c e.h writeall.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c writeall.c
