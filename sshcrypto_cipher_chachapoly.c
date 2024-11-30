@@ -4,8 +4,7 @@ Jan Mojzis
 Public domain.
 */
 
-#include "uint32_pack_big.h"
-#include "uint32_unpack_big.h"
+#include "crypto_uint32.h"
 #include "crypto_verify_16.h"
 #include "randommod.h"
 #include "e.h"
@@ -34,7 +33,7 @@ void chachapoly_packet_put(struct buf *b) {
 
     /* pack nonce */
     byte_zero(n, 4);
-    uint32_pack_big(n + 4, packet.sendpacketid++);
+    crypto_uint32_store_bigendian(n + 4, packet.sendpacketid++);
 
     /* padding */
     paddinglen  = 2 * BB - ((sendbuf->len - pos - ZB) % BB) + 4;
@@ -49,7 +48,7 @@ void chachapoly_packet_put(struct buf *b) {
     sshcrypto_stream_xor(sendbuf->buf + pos, sendbuf->buf + pos, sendbuf->len - pos - AB, n, packet.serverkey);
 
     /* add packet length */
-    uint32_pack_big(sendbuf->buf + pos + ZB, sendbuf->len - pos - AB - 4 - ZB);
+    crypto_uint32_store_bigendian(sendbuf->buf + pos + ZB, sendbuf->len - pos - AB - 4 - ZB);
 
     /* encrypt the length */
     sshcrypto_stream_xor(sendbuf->buf + pos + ZB, sendbuf->buf + pos + ZB, 4, n, packet.serverkey + 32);
@@ -79,10 +78,10 @@ int chachapoly_packet_get(struct buf *b) {
 
     /* parse length */
     byte_zero(n, 4);
-    uint32_pack_big(n + 4, packet.receivepacketid);
+    crypto_uint32_store_bigendian(n + 4, packet.receivepacketid);
     if (packet.packet_length == 0) {
         sshcrypto_stream_xor(buf, recvbuf->buf + PACKET_ZEROBYTES, 4, n, packet.clientkey + 32);
-        packet.packet_length = uint32_unpack_big(buf);
+        packet.packet_length = crypto_uint32_load_bigendian(buf);
     }
 
     if (packet.packet_length > PACKET_LIMIT) bug_proto();

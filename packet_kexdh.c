@@ -7,7 +7,7 @@ Public domain.
 #include "buf.h"
 #include "ssh.h"
 #include "e.h"
-#include "uint32_unpack_big.h"
+#include "crypto_uint32.h"
 #include "byte.h"
 #include "sshcrypto.h"
 #include "packetparser.h"

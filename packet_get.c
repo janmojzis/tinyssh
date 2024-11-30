@@ -9,7 +9,7 @@ Public domain.
 #include "byte.h"
 #include "e.h"
 #include "bug.h"
-#include "uint32_unpack_big.h"
+#include "crypto_uint32.h"
 #include "purge.h"
 #include "ssh.h"
 #include "sshcrypto.h"
@@ -31,7 +31,7 @@ static int packet_get_plain_(struct buf *b) {
     if (l < 4) return 1;
 
     /* parse length */
-    packet_length = uint32_unpack_big(pp);
+    packet_length = crypto_uint32_load_bigendian(pp);
     if (packet_length > PACKET_LIMIT) {
         char buf1[NUMTOSTR_LEN];
         char buf2[NUMTOSTR_LEN];
