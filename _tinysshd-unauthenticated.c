@@ -102,5 +102,4 @@ int main(int argc, char **argv) {
     }
 
     die_fatal("limitation is not working !!!!!!!!!!", 0, 0);
-    _exit(111);
 }
