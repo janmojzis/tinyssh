@@ -78,7 +78,7 @@ int subprocess_sign(unsigned char *y, long long ylen, const char *keydir, unsign
     if (readall(fromchild[0], y, ylen) == -1) { close(fromchild[0]); return -1; }
     close(fromchild[0]);
 
-    while (waitpid(pid, &status, 0) != pid) {};
+    while (waitpid(pid, &status, 0) != pid) {}
     if (!WIFEXITED(status)) return -1;
     return WEXITSTATUS(status);
 }
