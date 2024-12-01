@@ -22,7 +22,7 @@ int curve25519_enc(unsigned char *c, unsigned char *k, const unsigned char *pk) 
     purge(onetimesk, sizeof onetimesk);
 
     for (i = 0; i < crypto_dh_x25519_BYTES; ++i) d |= k[i];
-    return crypto_int16_nonzero_mask(d);
+    return crypto_int16_zero_mask(d);
 }
 
 void curve25519_putkemkey(struct buf *b, const unsigned char *x) {
