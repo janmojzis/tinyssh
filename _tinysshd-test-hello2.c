@@ -18,6 +18,7 @@ static void cleanup(void) {
     global_purge();
 }
 
+__attribute__((noreturn))
 static void die_fatal(const char *trouble, const char *d, const char *fn) {
 
     cleanup();
