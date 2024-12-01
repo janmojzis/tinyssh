@@ -151,7 +151,7 @@ int subprocess_auth(const char *account, const char *keyname, const char *key) {
         global_die(0);
     }
 
-    while (waitpid(pid, &status, 0) != pid) {};
+    while (waitpid(pid, &status, 0) != pid) {}
     if (!WIFEXITED(status)) return -1;
     return WEXITSTATUS(status);
 }
