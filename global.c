@@ -63,6 +63,7 @@ void global_purge(void) {
 Remove sentitive data from allocated memory
 and exit with status 'x'.
 */
+__attribute__((noreturn))
 void global_die(int x) {
     global_purge();
     _exit(x);
