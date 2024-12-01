@@ -1,3 +1,4 @@
+crypto_int16 0
 crypto_int64 0
 crypto_uint16 0
 crypto_uint32 0
@@ -10,10 +11,9 @@ crypto_hash_sha256 1
 crypto_verify_16 1
 crypto_verify_32 1
 crypto_scalarmult_curve25519 1
+crypto_dh_x25519 1
 crypto_sign_ed25519 1
 randombytes 1
-uint32_pack_big 0
-uint32_unpack_big 0
 cleanup 0
 crypto_sort_uint32 1
 crypto_kem_sntrup761 1

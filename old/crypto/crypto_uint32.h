@@ -1,1 +1,1 @@
-../../crypto_uint32.h
+../../cryptoint/crypto_uint32.h

@@ -1,9 +1,5 @@
 crypto_onetimeauth_poly1305.o
 randombytes.o
-uint32_pack.o
-uint32_unpack.o
-uint32_pack_big.o
-uint32_unpack_big.o
 crypto_stream_chacha20.o
 crypto_verify_16.o
 crypto_verify_32.o
@@ -14,8 +10,13 @@ fe25519.o
 ge25519.o
 sc25519.o
 crypto_scalarmult_curve25519.o
+crypto_dh_x25519.o
 crypto_sign_ed25519.o
 cleanup.o
 crypto_sort_uint32.o
 crypto_kem_sntrup761.o
 crypto_kem_sntrup761x25519.o
+uint8_optblocker.o
+uint16_optblocker.o
+uint32_optblocker.o
+uint64_optblocker.o

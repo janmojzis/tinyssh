@@ -55,7 +55,7 @@ echo 'haslimits.h haslimits.h-yes'
 echo 'haslimits.h default.h-no'
 
 #valgrind
-echo 'hasvalgrind.h hasvalgrind.h-yes.c'
+echo 'hasvalgrind.h hasvalgrind.h-yes'
 echo 'hasvalgrind.h default.h-no'
 
 # librandombytes + lib25519 + libntruprime

@@ -1,9 +1,5 @@
 crypto_onetimeauth_poly1305
 randombytes
-uint32_pack
-uint32_unpack
-uint32_pack_big
-uint32_unpack_big
 crypto_stream_chacha20
 crypto_verify_16
 crypto_verify_32
@@ -14,8 +10,13 @@ fe25519
 ge25519
 sc25519
 crypto_scalarmult_curve25519
+crypto_dh_x25519
 crypto_sign_ed25519
 cleanup
 crypto_sort_uint32
 crypto_kem_sntrup761
 crypto_kem_sntrup761x25519
+uint8_optblocker
+uint16_optblocker
+uint32_optblocker
+uint64_optblocker

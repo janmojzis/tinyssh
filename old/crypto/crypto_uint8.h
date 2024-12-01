@@ -1,1 +1,1 @@
-../../crypto_uint8.h
+../../cryptoint/crypto_uint8.h
