@@ -1,3 +1,5 @@
+#include "crypto_kem_sntrup761.h"
+
 #include "haslibntruprime.h"
 #ifndef HASLIBNTRUPRIME
 /*
@@ -22,7 +24,6 @@ Modifications (Jan Mojzis):
 #include "crypto_sort_uint32.h"
 #include "crypto_hash_sha512.h"
 #include "crypto_declassify.h"
-#include "crypto_kem_sntrup761.h"
 
 #define uint64 crypto_uint64
 #define uint32 crypto_uint32
