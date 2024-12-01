@@ -6,7 +6,7 @@ export LANG
 (
   (
     echo "CC?=cc"
-    echo "CFLAGS+=-W -Wall -Os -fPIC -fwrapv -Werror=deprecated-declarations"
+    echo "CFLAGS+=-W -Wall -Os -fPIC -fwrapv -Werror=deprecated-declarations -Icryptoint"
     echo "LDFLAGS?="
     echo "CPPFLAGS?="
     echo
@@ -84,7 +84,7 @@ export LANG
     for ofile in ${objall}; do
       (
         cfile=`echo ${ofile} | sed 's/\.o/.c/'`
-        gcc -MM "${cfile}"
+        gcc -MM -Icryptoint "${cfile}"
         echo "	\$(CC) \$(CFLAGS) \$(CPPFLAGS) -c ${cfile}"
         echo
       )

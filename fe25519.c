@@ -1,5 +1,3 @@
-#include "uint32_pack.h"
-#include "uint32_unpack.h"
 #include "crypto_verify_32.h"
 #include "cleanup.h"
 #include "fe.h"
@@ -191,7 +189,7 @@ void fe25519_tobytes(unsigned char *out, const fe in) {
 
     fe_copy(x, in);
     fe_reducesmall(x, p, 0);
-    for (i = 0; i < 8; ++i) uint32_pack(out + 4 * i, x[i]);
+    for (i = 0; i < 8; ++i) crypto_uint32_store(out + 4 * i, x[i]);
     cleanup(x);
 }
 
@@ -202,7 +200,7 @@ void fe25519_frombytes(fe out, const unsigned char *in) {
 
     long long i;
 
-    for (i = 0; i < 8; ++i) out[i] = uint32_unpack(in + 4 * i);
+    for (i = 0; i < 8; ++i) out[i] = crypto_uint32_load(in + 4 * i);
     out[7] &= 0x7fffffff;
 }
 

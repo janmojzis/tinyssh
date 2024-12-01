@@ -9,7 +9,7 @@ Public domain.
 #include "channel.h"
 #include "ssh.h"
 #include "bug.h"
-#include "uint32_pack_big.h"
+#include "crypto_uint32.h"
 #include "packet.h"
 
 void packet_channel_send_data(struct buf *b) {
@@ -31,8 +31,8 @@ void packet_channel_send_data(struct buf *b) {
     if (r == 0) return;
     b->len = r + 9;
     b->buf[0] = SSH_MSG_CHANNEL_DATA;                   /* byte      SSH_MSG_CHANNEL_DATA */
-    uint32_pack_big(b->buf + 1, channel_getid());       /* uint32    recipient channel    */
-    uint32_pack_big(b->buf + 5, r);                     /* string    data                 */
+    crypto_uint32_store_bigendian(b->buf + 1, channel_getid());       /* uint32    recipient channel    */
+    crypto_uint32_store_bigendian(b->buf + 5, r);                     /* string    data                 */
     packet_put(b);
     buf_purge(b);
     return;
@@ -57,9 +57,9 @@ void packet_channel_send_extendeddata(struct buf *b) {
     if (r == 0) return;
     b->len = r + 13;
     b->buf[0] = SSH_MSG_CHANNEL_EXTENDED_DATA;          /* byte      SSH_MSG_CHANNEL_EXTENDED_DATA */
-    uint32_pack_big(b->buf + 1, channel_getid());       /* uint32    recipient channel             */
-    uint32_pack_big(b->buf + 5, 1);                     /* uint32    data_type_code (1 = stderr)   */
-    uint32_pack_big(b->buf + 9, r);                     /* string    data                          */
+    crypto_uint32_store_bigendian(b->buf + 1, channel_getid());       /* uint32    recipient channel             */
+    crypto_uint32_store_bigendian(b->buf + 5, 1);                     /* uint32    data_type_code (1 = stderr)   */
+    crypto_uint32_store_bigendian(b->buf + 9, r);                     /* string    data                          */
     packet_put(b);
     buf_purge(b);
     return;

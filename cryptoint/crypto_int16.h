@@ -8,7 +8,7 @@
 #define crypto_int16 int16_t
 #define crypto_int16_unsigned uint16_t
 
-#define crypto_int16_optblocker ntruprime_int16_optblocker
+#define crypto_int16_optblocker tinyssh_int16_optblocker
 extern volatile crypto_int16 crypto_int16_optblocker;
 
 __attribute__((unused))

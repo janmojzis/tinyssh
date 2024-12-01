@@ -8,7 +8,7 @@
 #define crypto_uint64 uint64_t
 #define crypto_uint64_signed int64_t
 
-#define crypto_uint64_signed_optblocker ntruprime_uint64_signed_optblocker
+#define crypto_uint64_signed_optblocker tinyssh_uint64_signed_optblocker
 extern volatile crypto_uint64_signed crypto_uint64_signed_optblocker;
 
 __attribute__((unused))

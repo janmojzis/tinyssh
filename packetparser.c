@@ -11,7 +11,7 @@ packetparser_* function immediately exits with 111 status code.
 */
 
 #include "e.h"
-#include "uint32_unpack_big.h"
+#include "crypto_uint32.h"
 #include "bug.h"
 #include "byte.h"
 #include "packetparser.h"
@@ -36,7 +36,7 @@ long long packetparser_uint32_(const char *fn, unsigned long long line,
 
     if (!buf || len < 0 || len > 1073741824 || pos < 0 || pos > 1073741824 || !out) bug_inval_(fn, line);
     if (pos + 4 > len) bug_proto_(fn, line);
-    *out = uint32_unpack_big(buf + pos);
+    *out = crypto_uint32_load_bigendian(buf + pos);
     return pos + 4;
 
 }

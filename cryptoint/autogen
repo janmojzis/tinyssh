@@ -1,0 +1,5 @@
+#!/bin/sh
+
+./create.py
+./specialize.py
+rm -rf __pycache__
