@@ -57,18 +57,23 @@ static int packet_get_plain_(struct buf *b) {
 
 static int packet_get_(struct buf *b) {
 
+    crypto_uint32 lastreceivepacketid = packet.receivepacketid;
+    int ret;
+
     if (packet.flagkeys) {
-        return sshcrypto_packet_get(b);
+        ret = sshcrypto_packet_get(b);
     }
     else {
-        return packet_get_plain_(b);
+        ret = packet_get_plain_(b);
     }
 
     /* overflow check */
-    if (!packet.receivepacketid) {
+    if (lastreceivepacketid > packet.receivepacketid) {
         log_f1("receivepacketid overflow");
         global_die(111);
     }
+
+    return ret;
 }
 
 
