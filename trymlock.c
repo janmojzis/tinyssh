@@ -17,6 +17,9 @@ lock the memory to make it unswappable.
 void trymlock(void *x, long long len) {
 #ifdef HASMLOCK
     mlock(x, len);
+#else
+    (void) x;
+    (void) len;
 #endif
 }
 
@@ -27,5 +30,8 @@ unlock the memory.
 void trymunlock(void *x, long long len) {
 #ifdef HASMLOCK
     munlock(x, len);
+#else
+    (void) x;
+    (void) len;
 #endif
 }
