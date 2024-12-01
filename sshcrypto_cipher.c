@@ -33,7 +33,6 @@ struct sshcrypto_cipher sshcrypto_ciphers[] = {
 
 const char *sshcrypto_cipher_name = 0;
 int (*sshcrypto_stream_xor)(unsigned char *, const unsigned char *, unsigned long long, const unsigned char *, const unsigned char *) = 0;
-int (*sshcrypto_stream_beforenm)(unsigned char *, const unsigned char *) = 0;
 int (*sshcrypto_auth)(unsigned char *, const unsigned char *, unsigned long long, const unsigned char *) = 0;
 long long sshcrypto_stream_keybytes = 0;
 long long sshcrypto_cipher_blockbytes = 0;
