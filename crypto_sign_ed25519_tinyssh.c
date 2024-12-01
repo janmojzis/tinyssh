@@ -1,3 +1,5 @@
+#include "crypto_sign_ed25519.h"
+
 #include "haslib25519.h"
 #ifndef HASLIB25519
 
@@ -7,7 +9,6 @@
 #include "crypto_verify_32.h"
 #include "ge25519.h"
 #include "sc25519.h"
-#include "crypto_sign_ed25519.h"
 
 int crypto_sign_ed25519_tinyssh(unsigned char *sm, unsigned long long *smlen, const unsigned char *m, unsigned long long n, const unsigned char *skorig) {
 
