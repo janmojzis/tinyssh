@@ -82,7 +82,7 @@ int sshcrypto_kex_select(const unsigned char *buf, long long len, crypto_uint8 *
     if (sshcrypto_kex_name) return 1;
 
     if (buf[len] != 0) bug_proto();
-    log_d2("kex: client: kex algorithms: ", (char *)buf); 
+    log_d2("kex: client: kex algorithms: ", (const char *)buf);
 
     *kex_guess = 1;
 
@@ -120,7 +120,7 @@ int sshcrypto_kex_select(const unsigned char *buf, long long len, crypto_uint8 *
         }
         *kex_guess = 0;
     }
-    log_d2("kex: kex not available ", (char *)buf);
+    log_d2("kex: kex not available ", (const char *)buf);
     errno = EPROTO;
     return 0;
 }
