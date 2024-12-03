@@ -44,7 +44,7 @@ int (*sshcrypto_packet_get)(struct buf *) = 0;
 int sshcrypto_cipher_select(const unsigned char *buf, long long len) {
 
     long long i, pos = 0;
-    unsigned char *x;
+    const unsigned char *x;
     long long xlen;
 
     if (sshcrypto_cipher_name) return 1;
@@ -58,7 +58,7 @@ int sshcrypto_cipher_select(const unsigned char *buf, long long len) {
 
         for (i = 0; sshcrypto_ciphers[i].name; ++i) {
             if (!sshcrypto_ciphers[i].flagenabled) continue;
-            if (str_equaln((char *)x, xlen, sshcrypto_ciphers[i].name)) {
+            if (str_equaln((const char *)x, xlen, sshcrypto_ciphers[i].name)) {
                 sshcrypto_cipher_name = sshcrypto_ciphers[i].name;
                 sshcrypto_stream_xor = sshcrypto_ciphers[i].stream_xor;
                 sshcrypto_auth = sshcrypto_ciphers[i].auth;

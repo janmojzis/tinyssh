@@ -13,7 +13,7 @@ Public domain.
 The 'stringparser' function parses items from
 comma-separated list. Empty strings are ignored.
 */
-long long stringparser(const unsigned char *buf, long long len, long long pos, unsigned char **x, long long *xlen) {
+long long stringparser(const unsigned char *buf, long long len, long long pos, const unsigned char **x, long long *xlen) {
 
     long long i;
 
@@ -25,7 +25,7 @@ long long stringparser(const unsigned char *buf, long long len, long long pos, u
         for (i = pos; i < len; ++i) {
             if (buf[i] == ',') break;
         }
-        *x = (unsigned char *)buf + pos;
+        *x = buf + pos;
         *xlen = i - pos;
         pos = i + 1;
         if (*xlen != 0) return pos;

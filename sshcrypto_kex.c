@@ -76,7 +76,7 @@ void (*sshcrypto_buf_putkemkey)(struct buf *, const unsigned char *) = 0;
 int sshcrypto_kex_select(const unsigned char *buf, long long len, crypto_uint8 *kex_guess) {
 
     long long i, pos;
-    unsigned char *x;
+    const unsigned char *x;
     long long xlen;
 
     if (sshcrypto_kex_name) return 1;
@@ -91,7 +91,7 @@ int sshcrypto_kex_select(const unsigned char *buf, long long len, crypto_uint8 *
         pos = stringparser(buf, len, pos, &x, &xlen);
         if (!pos) break;
         for (i = 0; sshcrypto_pseudokexs[i].name; ++i) {
-            if (str_equaln((char *)x, xlen, sshcrypto_pseudokexs[i].cname)) {
+            if (str_equaln((const char *)x, xlen, sshcrypto_pseudokexs[i].cname)) {
                 log_d2("kex: pseudokex selected: ", sshcrypto_pseudokexs[i].name);
                 sshcrypto_kex_flags |= sshcrypto_pseudokexs[i].flag;
             }
@@ -105,7 +105,7 @@ int sshcrypto_kex_select(const unsigned char *buf, long long len, crypto_uint8 *
 
         for (i = 0; sshcrypto_kexs[i].name; ++i) {
             if (!sshcrypto_kexs[i].flagenabled) continue;
-            if (str_equaln((char *)x, xlen, sshcrypto_kexs[i].name)) {
+            if (str_equaln((const char *)x, xlen, sshcrypto_kexs[i].name)) {
                 sshcrypto_kex_name = sshcrypto_kexs[i].name;
                 sshcrypto_enc = sshcrypto_kexs[i].enc;
                 sshcrypto_kem_publickeybytes = sshcrypto_kexs[i].kem_publickeybytes;

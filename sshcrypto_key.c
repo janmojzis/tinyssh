@@ -75,7 +75,7 @@ void (*sshcrypto_buf_putsignpk)(struct buf *, const unsigned char *) = 0;
 int sshcrypto_key_select(const unsigned char *buf, long long len) {
 
     long long i, pos = 0;
-    unsigned char *x;
+    const unsigned char *x;
     long long xlen;
 
     if (sshcrypto_key_name) return 1;
@@ -89,7 +89,7 @@ int sshcrypto_key_select(const unsigned char *buf, long long len) {
 
         for (i = 0; sshcrypto_keys[i].name; ++i) {
             if (!sshcrypto_keys[i].sign_flagserver) continue;
-            if (str_equaln((char *)x, xlen, sshcrypto_keys[i].name)) {
+            if (str_equaln((const char *)x, xlen, sshcrypto_keys[i].name)) {
                 sshcrypto_key_name = sshcrypto_keys[i].name;
                 sshcrypto_sign = sshcrypto_keys[i].sign;
                 sshcrypto_sign_publickey = sshcrypto_keys[i].sign_publickey;
