@@ -48,7 +48,7 @@ int ed25519_parsesignpk(unsigned char *buf, const unsigned char *x, long long xl
 
     pos = packetparser_uint32(x, xlen, pos, &len);
     pos = packetparser_skip(x, xlen, pos, len);
-    if (!str_equaln((char *)x + pos - len, len, "ssh-ed25519")) return 0;
+    if (!str_equaln((const char *)x + pos - len, len, "ssh-ed25519")) return 0;
 
     pos = packetparser_uint32(x, xlen, pos, &len);
     if (len != crypto_sign_ed25519_PUBLICKEYBYTES) return 0;
@@ -63,7 +63,7 @@ int ed25519_parsesignature(unsigned char *buf, const unsigned char *x, long long
 
     pos = packetparser_uint32(x, xlen, pos, &len);
     pos = packetparser_skip(x, xlen, pos, len);
-    if (!str_equaln((char *)x + pos - len, len, "ssh-ed25519")) return 0;
+    if (!str_equaln((const char *)x + pos - len, len, "ssh-ed25519")) return 0;
 
     pos = packetparser_uint32(x, xlen, pos, &len);
     if (len != crypto_sign_ed25519_BYTES) return 0;
