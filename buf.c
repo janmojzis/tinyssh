@@ -156,7 +156,7 @@ Put 0-terminated string 'x' and format it as a SSH-string.
 int buf_putstring_(const char *fn, unsigned long long line,
                    struct buf *b, const char *x) {
 
-    return buf_putstringlen_(fn, line, b, (unsigned char *)x, str_len(x));
+    return buf_putstringlen_(fn, line, b, (const unsigned char *)x, str_len(x));
 }
 
 /*
