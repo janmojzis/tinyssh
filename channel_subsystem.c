@@ -10,16 +10,16 @@ Public domain.
 #include "channel.h"
 
 static long long channel_subsystem_pos = 0;
-static char *channel_subsystem[CHANNEL_SUBSYSTEM_MAX] = {0};
+static const char *channel_subsystem[CHANNEL_SUBSYSTEM_MAX] = {0};
 
 int channel_subsystem_add(const char *x) {
 
     if (channel_subsystem_pos >= CHANNEL_SUBSYSTEM_MAX) return 0;
-    channel_subsystem[channel_subsystem_pos++] = (char *)x;
+    channel_subsystem[channel_subsystem_pos++] = x;
     return 1;
 }
 
-char *channel_subsystem_get(const char *x) {
+const char *channel_subsystem_get(const char *x) {
 
     long long len, i;
 
