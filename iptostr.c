@@ -1,5 +1,6 @@
 /*
 20130604
+20241207 - reformated using clang-format
 Jan Mojzis
 Public domain.
 */
@@ -13,7 +14,7 @@ static char *iptostr6(char *, const unsigned char *);
 /*
 The 'iptostr(strbuf,ip)' function converts IP address 'ip'
 from network byte order into the 0-terminated string.
-The 'ip' length is always 16 bytes. The caller must 
+The 'ip' length is always 16 bytes. The caller must
 allocate at least IPTOSTR_LEN bytes for 'strbuf'.
 */
 char *iptostr(char *strbuf, const unsigned char *ip) {
@@ -28,7 +29,6 @@ char *iptostr(char *strbuf, const unsigned char *ip) {
     return iptostr6(strbuf, ip);
 }
 
-
 /* convert IPv4 address */
 static char *iptostr4(char *strbuf, const unsigned char *ip) {
 
@@ -38,7 +38,8 @@ static char *iptostr4(char *strbuf, const unsigned char *ip) {
     for (i = 3; i >= 0; --i) {
         num = ip[i];
         do {
-            num /= 10; ++len;
+            num /= 10;
+            ++len;
         } while (num);
         if (i > 0) ++len;
     }
@@ -64,11 +65,11 @@ searches for largest zero-block.
 'first' ... first position of the zero-block
 'last'  ...  last position of the zero-block
 */
-static void countz(long long *first, long long *last, const unsigned long long *ip) {
+static void countz(long long *first, long long *last,
+                   const unsigned long long *ip) {
 
     long long i, j, e;
     long long count[8];
-
 
     for (i = 7; i >= 0; --i) count[i] = 0;
 
@@ -77,15 +78,17 @@ static void countz(long long *first, long long *last, const unsigned long long *
         if (!ip[i]) {
             for (j = i; j < e; ++j) ++count[j];
         }
-        else {
-            e = i;
-        }
+        else { e = i; }
     }
 
-    e = 0; j = 0;
+    e = 0;
+    j = 0;
     for (i = 7; i >= 0; --i) {
         if (count[i]) {
-            if (count[i] >= e) { e = count[i]; j = i; }
+            if (count[i] >= e) {
+                e = count[i];
+                j = i;
+            }
         }
     }
 
@@ -124,7 +127,7 @@ static char *iptostr6(char *strbuf, const unsigned char *ip) {
         if (i > 0) *--strbuf = ':';
     }
     i = strbuf - s;
-    byte_copy(s,  IPTOSTR_LEN - i, strbuf);
+    byte_copy(s, IPTOSTR_LEN - i, strbuf);
     byte_zero(s + IPTOSTR_LEN - i, i);
     return s;
 }
