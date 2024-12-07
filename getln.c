@@ -1,5 +1,6 @@
 /*
 20140323
+20241207 - reformated using clang-format
 Jan Mojzis
 Public domain.
 */
@@ -31,22 +32,32 @@ static int getch(int fd, char *x) {
 
 /*
 The function 'getln' reads line from filedescriptor 'fd' into
-buffer 'xv' of length 'xmax'. 
+buffer 'xv' of length 'xmax'.
 */
 int getln(int fd, void *xv, long long xmax) {
 
     long long xlen;
     int r;
     char ch;
-    char *x = (char *)xv;
+    char *x = (char *) xv;
 
-    if (xmax < 1) { errno = EINVAL; return -1; }
+    if (xmax < 1) {
+        errno = EINVAL;
+        return -1;
+    }
     x[0] = 0;
-    if (fd < 0) { errno = EBADF; return -1; }
+    if (fd < 0) {
+        errno = EBADF;
+        return -1;
+    }
 
     xlen = 0;
     for (;;) {
-        if (xlen >= xmax - 1) { x[xmax - 1] = 0; errno = ENOMEM; return -1; }
+        if (xlen >= xmax - 1) {
+            x[xmax - 1] = 0;
+            errno = ENOMEM;
+            return -1;
+        }
         r = getch(fd, &ch);
         if (r != 1) break;
         if (ch == 0) ch = '\n';
