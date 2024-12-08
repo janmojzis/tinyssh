@@ -1,5 +1,5 @@
-#ifndef OPEN_H
-#define OPEN_H
+#ifndef OPEN_H____
+#define OPEN_H____
 
 extern int open_read(const char *);
 extern int open_write(const char *);
