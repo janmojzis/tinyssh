@@ -1,22 +1,22 @@
 #include <lib25519.h>
 
 #if lib25519_nP_montgomery25519_SCALARBYTES != lib25519_dh_SECRETKEYBYTES
-error
+#error
 #endif
 #if lib25519_nP_montgomery25519_POINTBYTES != lib25519_dh_PUBLICKEYBYTES
-error
+#error
 #endif
 #if lib25519_nP_montgomery25519_POINTBYTES != lib25519_dh_BYTES
-error
+#error
 #endif
 #if lib25519_nG_montgomery25519_SCALARBYTES != lib25519_dh_SECRETKEYBYTES
-error
+#error
 #endif
 #if lib25519_nG_montgomery25519_POINTBYTES != lib25519_dh_PUBLICKEYBYTES
-error
+#error
 #endif
 #if lib25519_nG_montgomery25519_POINTBYTES != lib25519_dh_BYTES
-error
+#error
 #endif
 
 static unsigned char k[lib25519_dh_BYTES];
