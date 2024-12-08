@@ -1,5 +1,6 @@
 /*
 20130604
+20241208 - reformated using clang-format
 Jan Mojzis
 Public domain.
 */
@@ -21,15 +22,14 @@ char *numtostr(char *strbuf, long long n) {
     if (!strbuf) strbuf = staticbuf; /* not thread-safe */
 
     if (n < 0) {
-        n1 = n2 = -(unsigned long long)n;
+        n1 = n2 = -(unsigned long long) n;
         flagsign = 1;
     }
-    else {
-        n1 = n2 = (unsigned long long)n;
-    }
+    else { n1 = n2 = (unsigned long long) n; }
 
     do {
-        n1 /= 10; ++len;
+        n1 /= 10;
+        ++len;
     } while (n1);
     if (flagsign) ++len;
     strbuf += len;
