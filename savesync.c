@@ -1,4 +1,7 @@
-/* taken from nacl-20110221, from curvecp/savesync.c */
+/*
+taken from nacl-20110221, from curvecp/savesync.c
+- reformated using clang-format
+*/
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
