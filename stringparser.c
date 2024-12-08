@@ -1,5 +1,6 @@
 /*
 20140203
+20241208 - reformated using clang-format
 Jan Mojzis
 Public domain.
 */
@@ -13,11 +14,14 @@ Public domain.
 The 'stringparser' function parses items from
 comma-separated list. Empty strings are ignored.
 */
-long long stringparser(const unsigned char *buf, long long len, long long pos, const unsigned char **x, long long *xlen) {
+long long stringparser(const unsigned char *buf, long long len, long long pos,
+                       const unsigned char **x, long long *xlen) {
 
     long long i;
 
-    if (!buf || len < 0 || len > 1073741824 || pos < 0 || pos > 1073741824 || !x || !xlen) bug_inval();
+    if (!buf || len < 0 || len > 1073741824 || pos < 0 || pos > 1073741824 ||
+        !x || !xlen)
+        bug_inval();
 
     for (;;) {
         if (pos >= len) return 0;
