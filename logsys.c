@@ -1,5 +1,6 @@
 /*
 20140212
+20241208 - reformated using clang-format
 Jan Mojzis
 Public domain.
 
@@ -15,7 +16,7 @@ tested on:
 FreeBSD 9.2
 OpenBSD 5.3
 NetBSD 6.1.2
-Linux Debian 7.0 
+Linux Debian 7.0
 SunOS 5.11
 */
 
@@ -57,7 +58,8 @@ SunOS 5.11
 #include "byte.h"
 #include "logsys.h"
 
-static void logsys_utmpx(const char *user, const char *host, const char *name, long long pid, int flaglogin) {
+static void logsys_utmpx(const char *user, const char *host, const char *name,
+                         long long pid, int flaglogin) {
 
 #ifdef HASUTMPX
     struct timeval tv;
@@ -73,23 +75,23 @@ static void logsys_utmpx(const char *user, const char *host, const char *name, l
 
     /* host */
     if (flaglogin)
-      str_copyn(ut.ut_host, sizeof ut.ut_host, host);
+        str_copyn(ut.ut_host, sizeof ut.ut_host, host);
     else
-      byte_zero(ut.ut_host, sizeof ut.ut_host);
+        byte_zero(ut.ut_host, sizeof ut.ut_host);
 #ifdef HASUTMPXSYSLEN
     ut.ut_syslen = str_len(ut.ut_host) + 1;
 #endif
 
 #ifdef HASUTMPXADDRV6
     if (inet_pton(AF_INET6, ut.ut_host, &ut.ut_addr_v6) <= 0)
-      inet_pton(AF_INET, ut.ut_host, &ut.ut_addr_v6[0]) ;
+        inet_pton(AF_INET, ut.ut_host, &ut.ut_addr_v6[0]);
 #endif
 
     /* user */
     if (flaglogin)
-      str_copyn(ut.ut_user, sizeof ut.ut_user, user);
+        str_copyn(ut.ut_user, sizeof ut.ut_user, user);
     else
-      byte_zero(ut.ut_user, sizeof ut.ut_user);
+        byte_zero(ut.ut_user, sizeof ut.ut_user);
 
     gettimeofday(&tv, 0);
     ut.ut_tv.tv_sec = tv.tv_sec;
@@ -100,8 +102,10 @@ static void logsys_utmpx(const char *user, const char *host, const char *name, l
     ut.ut_pid = pid;
 
     /* type */
-    if (flaglogin) ut.ut_type = USER_PROCESS;
-    else ut.ut_type = DEAD_PROCESS;
+    if (flaglogin)
+        ut.ut_type = USER_PROCESS;
+    else
+        ut.ut_type = DEAD_PROCESS;
 
     /* update utmpx */
     setutxent();
@@ -112,7 +116,7 @@ static void logsys_utmpx(const char *user, const char *host, const char *name, l
 #ifdef HASUTMPXUPDWTMPX
 #if defined(_PATH_WTMPX)
     updwtmpx(_PATH_WTMPX, &ut);
-#elif defined (WTMPX_FILE)
+#elif defined(WTMPX_FILE)
     updwtmpx(WTMPX_FILE, &ut);
 #endif
 #endif
@@ -126,7 +130,8 @@ static void logsys_utmpx(const char *user, const char *host, const char *name, l
 #endif
 }
 
-static void logsys_utmp(const char *user, const char *host, const char *name, long long pid, int flaglogin) {
+static void logsys_utmp(const char *user, const char *host, const char *name,
+                        long long pid, int flaglogin) {
 
 #ifdef HASUTMP
     struct timeval tv;
@@ -143,13 +148,13 @@ static void logsys_utmp(const char *user, const char *host, const char *name, lo
     /* host */
 #ifdef HASUTMPHOST
     str_copyn(ut.ut_host, sizeof ut.ut_host, host);
-# ifdef HASUTMPADDRV6
+#ifdef HASUTMPADDRV6
     if (inet_pton(AF_INET6, ut.ut_host, &ut.ut_addr_v6) <= 0)
-      inet_pton(AF_INET, ut.ut_host, &ut.ut_addr_v6[0]) ;
-# endif
+        inet_pton(AF_INET, ut.ut_host, &ut.ut_addr_v6[0]);
+#endif
 #endif
 
-    /* user */
+        /* user */
 #ifdef HASUTMPNAME
     str_copyn(ut.ut_name, sizeof ut.ut_name, user);
 #endif
@@ -177,8 +182,10 @@ static void logsys_utmp(const char *user, const char *host, const char *name, lo
 
     /* type */
 #ifdef HASUTMPTYPE
-    if (flaglogin) ut.ut_type = USER_PROCESS;
-    else ut.ut_type = DEAD_PROCESS;
+    if (flaglogin)
+        ut.ut_type = USER_PROCESS;
+    else
+        ut.ut_type = DEAD_PROCESS;
 #endif
     if (flaglogin) {
 #ifdef HASUTMPLOGINLOGOUT
@@ -211,11 +218,13 @@ static void logsys_utmp(const char *user, const char *host, const char *name, lo
 #endif
 }
 
-void logsys_login(const char *user, const char *host, const char *name, long long pid) {
+void logsys_login(const char *user, const char *host, const char *name,
+                  long long pid) {
     logsys_utmp(user, host, name, pid, 1);
     logsys_utmpx(user, host, name, pid, 1);
 }
-void logsys_logout(const char *user, const char *host, const char *name, long long pid) {
-    logsys_utmp(user, host, name, pid, 0); 
+void logsys_logout(const char *user, const char *host, const char *name,
+                   long long pid) {
+    logsys_utmp(user, host, name, pid, 0);
     logsys_utmpx(user, host, name, pid, 0);
 }
