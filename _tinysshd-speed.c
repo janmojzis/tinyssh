@@ -29,12 +29,14 @@ int main(void) {
     signal(SIGALRM, timeout);
 
     /* randombytes test */
-    alarm(1); flagtimeout = 0; count = 0;
+    alarm(1);
+    flagtimeout = 0;
+    count = 0;
     while (!flagtimeout) {
         randombytes(space, sizeof space);
         ++count;
     }
-    printf("randombytes: %lld MB/s (%s)\n", count/100, randombytes_source());
+    printf("randombytes: %lld MB/s (%s)\n", count / 100, randombytes_source());
 
 #ifdef crypto_hash_sha512_IMPLEMENTATION
     implementation = crypto_hash_sha512_IMPLEMENTATION;
@@ -47,12 +49,15 @@ int main(void) {
     version = "unknown";
 #endif
     /* sha512 test */
-    alarm(1); flagtimeout = 0; count = 0;
+    alarm(1);
+    flagtimeout = 0;
+    count = 0;
     while (!flagtimeout) {
         if (crypto_hash_sha512(h, space, sizeof space) != 0) return 111;
         ++count;
     }
-    printf("crypto_hash_sha512: %lld MB/s (%s, %s)\n", count/100, implementation, version);
+    printf("crypto_hash_sha512: %lld MB/s (%s, %s)\n", count / 100,
+           implementation, version);
 
 #ifdef crypto_hash_sha256_IMPLEMENTATION
     implementation = crypto_hash_sha256_IMPLEMENTATION;
@@ -65,12 +70,15 @@ int main(void) {
     version = "unknown";
 #endif
     /* sha256 test */
-    alarm(1); flagtimeout = 0; count = 0;
+    alarm(1);
+    flagtimeout = 0;
+    count = 0;
     while (!flagtimeout) {
         if (crypto_hash_sha256(h, space, sizeof space) != 0) return 111;
         ++count;
     }
-    printf("crypto_hash_sha256: %lld MB/s (%s, %s)\n", count/100, implementation, version);
+    printf("crypto_hash_sha256: %lld MB/s (%s, %s)\n", count / 100,
+           implementation, version);
 
 #ifdef crypto_stream_chacha20_IMPLEMENTATION
     implementation = crypto_stream_chacha20_IMPLEMENTATION;
@@ -82,13 +90,17 @@ int main(void) {
 #else
     version = "unknown";
 #endif
-	/* chacha20 test */
-    alarm(1); flagtimeout = 0; count = 0;
+    /* chacha20 test */
+    alarm(1);
+    flagtimeout = 0;
+    count = 0;
     while (!flagtimeout) {
-        if (crypto_stream_chacha20_xor(space, space, sizeof space, n, k) != 0) return 111;
+        if (crypto_stream_chacha20_xor(space, space, sizeof space, n, k) != 0)
+            return 111;
         ++count;
     }
-    printf("crypto_stream_chacha20_xor: %lld MB/s (%s, %s)\n", count/100, implementation, version);
+    printf("crypto_stream_chacha20_xor: %lld MB/s (%s, %s)\n", count / 100,
+           implementation, version);
 
 #ifdef crypto_onetimeauth_poly1305_IMPLEMENTATION
     implementation = crypto_onetimeauth_poly1305_IMPLEMENTATION;
@@ -101,12 +113,16 @@ int main(void) {
     version = "unknown";
 #endif
     /* onetimeauth test */
-    alarm(1); flagtimeout = 0; count = 0;
+    alarm(1);
+    flagtimeout = 0;
+    count = 0;
     while (!flagtimeout) {
-        if (crypto_onetimeauth_poly1305(a, space, sizeof space, k) != 0) return 111;
+        if (crypto_onetimeauth_poly1305(a, space, sizeof space, k) != 0)
+            return 111;
         ++count;
     }
-    printf("crypto_onetimeauth_poly1305: %lld MB/s (%s, %s)\n", count/100, implementation, version);
+    printf("crypto_onetimeauth_poly1305: %lld MB/s (%s, %s)\n", count / 100,
+           implementation, version);
 
 #ifdef crypto_scalarmult_curve25519_IMPLEMENTATION
     implementation = crypto_scalarmult_curve25519_IMPLEMENTATION;
@@ -119,15 +135,18 @@ int main(void) {
     version = "unknown";
 #endif
     /* x25519 test */
-	randombytes(sk, crypto_scalarmult_curve25519_SCALARBYTES);
+    randombytes(sk, crypto_scalarmult_curve25519_SCALARBYTES);
     crypto_scalarmult_curve25519_base(pk, sk);
 
-    alarm(1); flagtimeout = 0; count = 0;
+    alarm(1);
+    flagtimeout = 0;
+    count = 0;
     while (!flagtimeout) {
         if (crypto_scalarmult_curve25519(k, sk, pk) != 0) return 111;
         ++count;
     }
-    printf("crypto_scalarmult_curve25519: %lld dh/s (%s, %s)\n", count, implementation, version);
+    printf("crypto_scalarmult_curve25519: %lld dh/s (%s, %s)\n", count,
+           implementation, version);
 
 #ifdef crypto_sign_ed25519_IMPLEMENTATION
     implementation = crypto_sign_ed25519_IMPLEMENTATION;
@@ -140,72 +159,102 @@ int main(void) {
     version = "unknown";
 #endif
     /* ed25519 test */
-    alarm(1); flagtimeout = 0; count = 0;
+    alarm(1);
+    flagtimeout = 0;
+    count = 0;
     while (!flagtimeout) {
-    	if (crypto_sign_ed25519_keypair(pk, sk) != 0) return 111;
-		++count;
-	}
-    printf("crypto_sign_ed25519_keypair: %lld keypairs/s (%s, %s)\n", count, implementation, version);
-
-    alarm(1); flagtimeout = 0; count = 0;
-    while (!flagtimeout) {
-        if (crypto_sign_ed25519(sm, &smlen, m + crypto_sign_ed25519_BYTES, sizeof(m) - crypto_sign_ed25519_BYTES, sk) != 0) return 111;
+        if (crypto_sign_ed25519_keypair(pk, sk) != 0) return 111;
         ++count;
     }
-    printf("crypto_sign_ed25519: %lld sigs/s (%s, %s)\n", count, implementation, version);
+    printf("crypto_sign_ed25519_keypair: %lld keypairs/s (%s, %s)\n", count,
+           implementation, version);
 
-    alarm(1); flagtimeout = 0; count = 0;
+    alarm(1);
+    flagtimeout = 0;
+    count = 0;
     while (!flagtimeout) {
-        if (crypto_sign_ed25519_open(m, &mlen, sm, sizeof sm, pk) != 0) return 111;
+        if (crypto_sign_ed25519(sm, &smlen, m + crypto_sign_ed25519_BYTES,
+                                sizeof(m) - crypto_sign_ed25519_BYTES, sk) != 0)
+            return 111;
         ++count;
     }
-    printf("crypto_sign_ed25519_open: %lld sigs/s (%s, %s)\n", count, implementation, version);
+    printf("crypto_sign_ed25519: %lld sigs/s (%s, %s)\n", count, implementation,
+           version);
+
+    alarm(1);
+    flagtimeout = 0;
+    count = 0;
+    while (!flagtimeout) {
+        if (crypto_sign_ed25519_open(m, &mlen, sm, sizeof sm, pk) != 0)
+            return 111;
+        ++count;
+    }
+    printf("crypto_sign_ed25519_open: %lld sigs/s (%s, %s)\n", count,
+           implementation, version);
 
 #ifdef crypto_kem_sntrup4591761_IMPLEMENTATION
-    alarm(1); flagtimeout = 0; count = 0;
+    alarm(1);
+    flagtimeout = 0;
+    count = 0;
     while (!flagtimeout) {
         if (crypto_kem_sntrup4591761_keypair(pk, sk) != 0) return 111;
         ++count;
     }
-    printf("crypto_kem_sntrup4591761_keypair: %lld keypairs/s (%s)\n", count, crypto_kem_sntrup4591761_IMPLEMENTATION);
+    printf("crypto_kem_sntrup4591761_keypair: %lld keypairs/s (%s)\n", count,
+           crypto_kem_sntrup4591761_IMPLEMENTATION);
 
-    alarm(1); flagtimeout = 0; count = 0;
+    alarm(1);
+    flagtimeout = 0;
+    count = 0;
     while (!flagtimeout) {
         if (crypto_kem_sntrup4591761_enc(c, k, pk) != 0) return 111;
         ++count;
     }
-    printf("crypto_kem_sntrup4591761_enc: %lld encryptions/s (%s)\n", count, crypto_kem_sntrup4591761_IMPLEMENTATION);
+    printf("crypto_kem_sntrup4591761_enc: %lld encryptions/s (%s)\n", count,
+           crypto_kem_sntrup4591761_IMPLEMENTATION);
 
-    alarm(1); flagtimeout = 0; count = 0;
+    alarm(1);
+    flagtimeout = 0;
+    count = 0;
     while (!flagtimeout) {
         if (crypto_kem_sntrup4591761_dec(k, c, sk) != 0) return 111;
         ++count;
     }
-    printf("crypto_kem_sntrup4591761_dec: %lld decryptions/s (%s)\n", count, crypto_kem_sntrup4591761_IMPLEMENTATION);
+    printf("crypto_kem_sntrup4591761_dec: %lld decryptions/s (%s)\n", count,
+           crypto_kem_sntrup4591761_IMPLEMENTATION);
 #endif
 
 #ifdef crypto_kem_sntrup4591761x25519_IMPLEMENTATION
-    alarm(1); flagtimeout = 0; count = 0;
+    alarm(1);
+    flagtimeout = 0;
+    count = 0;
     while (!flagtimeout) {
         if (crypto_kem_sntrup4591761x25519_keypair(pk, sk) != 0) return 111;
         ++count;
     }
-    printf("crypto_kem_sntrup4591761x25519_keypair: %lld keypairs/s (%s)\n", count, crypto_kem_sntrup4591761x25519_IMPLEMENTATION);
+    printf("crypto_kem_sntrup4591761x25519_keypair: %lld keypairs/s (%s)\n",
+           count, crypto_kem_sntrup4591761x25519_IMPLEMENTATION);
 
-    alarm(1); flagtimeout = 0; count = 0;
+    alarm(1);
+    flagtimeout = 0;
+    count = 0;
     while (!flagtimeout) {
         if (crypto_kem_sntrup4591761x25519_enc(c, k, pk) != 0) return 111;
         ++count;
     }
-    printf("crypto_kem_sntrup4591761x25519_enc: %lld encryptions/s (%s)\n", count, crypto_kem_sntrup4591761x25519_IMPLEMENTATION);
+    printf("crypto_kem_sntrup4591761x25519_enc: %lld encryptions/s (%s)\n",
+           count, crypto_kem_sntrup4591761x25519_IMPLEMENTATION);
 
-    alarm(1); flagtimeout = 0; count = 0;
+    alarm(1);
+    flagtimeout = 0;
+    count = 0;
     while (!flagtimeout) {
         if (crypto_kem_sntrup4591761x25519_dec(k, c, sk) != 0) return 111;
         ++count;
     }
-    printf("crypto_kem_sntrup4591761x25519_dec: %lld decryptions/s (%s)\n", count, crypto_kem_sntrup4591761x25519_IMPLEMENTATION);
+    printf("crypto_kem_sntrup4591761x25519_dec: %lld decryptions/s (%s)\n",
+           count, crypto_kem_sntrup4591761x25519_IMPLEMENTATION);
 #endif
 
-	return 0;
+    return 0;
 }
