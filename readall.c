@@ -1,4 +1,7 @@
-/* taken from nacl-20110221, from curvecp/load.c */
+/*
+taken from nacl-20110221, from curvecp/load.c
+- reformated using clang-format
+*/
 #include <unistd.h>
 #include "e.h"
 #include "readall.h"
@@ -6,7 +9,7 @@
 int readall(int fd, void *xv, long long xlen) {
 
     long long r;
-    unsigned char *x = (unsigned char *)xv;
+    unsigned char *x = (unsigned char *) xv;
 
     while (xlen > 0) {
         r = xlen;
@@ -14,7 +17,8 @@ int readall(int fd, void *xv, long long xlen) {
         r = read(fd, x, r);
         if (r == 0) errno = EPROTO;
         if (r <= 0) {
-            if (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK) continue;
+            if (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK)
+                continue;
             return -1;
         }
         x += r;
