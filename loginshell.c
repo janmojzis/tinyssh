@@ -1,5 +1,6 @@
 /*
 20140429
+20241208 - reformated using clang-format
 Jan Mojzis
 Public domain.
 */
@@ -18,15 +19,22 @@ int loginshell(char *out, long long outlen, const char *in) {
 
     long long len, pos = -1;
 
-    if (!out || !in || outlen < 2) { errno = EINVAL; return 0; }
+    if (!out || !in || outlen < 2) {
+        errno = EINVAL;
+        return 0;
+    }
 
-    for (len = 0; in[len]; ++len) if (in[len] == '/') pos = len;
+    for (len = 0; in[len]; ++len)
+        if (in[len] == '/') pos = len;
     in += pos + 1;
     len -= pos + 1;
     if (len > outlen - 2) len = outlen - 2; /* truncate name */
 
     *out++ = '-';
-    while (len > 0) { *out++ = *in++; --len; }
+    while (len > 0) {
+        *out++ = *in++;
+        --len;
+    }
     *out = 0;
 
     return 1;
