@@ -6,7 +6,7 @@
 #include <lib25519.h>
 
 int crypto_dh_x25519_lib25519(unsigned char *k, const unsigned char *pk,
-                             const unsigned char *sk) {
+                              const unsigned char *sk) {
     lib25519_dh_x25519(k, pk, sk);
     return 0;
 }

@@ -7,10 +7,12 @@
 #include <lib25519.h>
 
 #define crypto_dh_x25519_lib25519_BYTES lib25519_dh_x25519_BYTES
-#define crypto_dh_x25519_lib25519_PUBLICKEYBYTES lib25519_dh_x25519_PUBLICKEYBYTES
-#define crypto_dh_x25519_lib25519_SECRETKEYBYTES lib25519_dh_x25519_SECRETKEYBYTES
+#define crypto_dh_x25519_lib25519_PUBLICKEYBYTES                               \
+    lib25519_dh_x25519_PUBLICKEYBYTES
+#define crypto_dh_x25519_lib25519_SECRETKEYBYTES                               \
+    lib25519_dh_x25519_SECRETKEYBYTES
 extern int crypto_dh_x25519_lib25519(unsigned char *, const unsigned char *,
-                                    const unsigned char *);
+                                     const unsigned char *);
 extern int crypto_dh_x25519_lib25519_keypair(unsigned char *, unsigned char *);
 
 #define crypto_dh_x25519 crypto_dh_x25519_lib25519
