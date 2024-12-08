@@ -11,8 +11,8 @@ Public domain.
 int main(int argc, char **argv) {
 
     pid_t pid;
-    int tochild[2] = { -1, -1 };
-    int fromchild[2] = { -1, -1 };
+    int tochild[2] = {-1, -1};
+    int fromchild[2] = {-1, -1};
 
     if (argc < 2) _exit(111);
     if (!argv[0]) _exit(111);
@@ -36,8 +36,10 @@ int main(int argc, char **argv) {
     close(tochild[0]);
     close(fromchild[1]);
 
-    close(0); if (dup2(fromchild[0], 0) == -1) _exit(111);
-    close(1); if (dup2(tochild[1], 1) == -1) _exit(111);
+    close(0);
+    if (dup2(fromchild[0], 0) == -1) _exit(111);
+    close(1);
+    if (dup2(tochild[1], 1) == -1) _exit(111);
 
     signal(SIGPIPE, SIG_IGN);
 
