@@ -13,32 +13,28 @@ Public domain.
 #include "str.h"
 #include "writeall.h"
 
-static void cleanup(void) {
+static void cleanup(void) { global_purge(); }
 
-    global_purge();
-}
-
-__attribute__((noreturn))
-static void die_fatal(const char *trouble, const char *d, const char *fn) {
+__attribute__((noreturn)) static void die_fatal(const char *trouble,
+                                                const char *d, const char *fn) {
 
     cleanup();
 
     if (d) {
-        if (fn) log_f5(trouble, " ", d, "/", fn);
-        else log_f3(trouble, " ", d);
+        if (fn)
+            log_f5(trouble, " ", d, "/", fn);
+        else
+            log_f3(trouble, " ", d);
     }
-    else {
-        log_f1(trouble);
-    }
+    else { log_f1(trouble); }
     _exit(111);
 }
-
 
 int main(int argc, char **argv) {
 
     pid_t pid;
-    int tochild[2] = { -1, -1 };
-    int fromchild[2] = { -1, -1 };
+    int tochild[2] = {-1, -1};
+    int fromchild[2] = {-1, -1};
     const char *message;
     long long messagelen;
 
@@ -67,17 +63,22 @@ int main(int argc, char **argv) {
     close(tochild[0]);
     close(fromchild[1]);
 
-    close(0); if (dup2(fromchild[0], 0) == -1) _exit(111);
-    close(1); if (dup2(tochild[1], 1) == -1) _exit(111);
+    close(0);
+    if (dup2(fromchild[0], 0) == -1) _exit(111);
+    close(1);
+    if (dup2(tochild[1], 1) == -1) _exit(111);
 
     signal(SIGPIPE, SIG_IGN);
 
     global_init();
 
-    if (!packet_hello_receive()) die_fatal("unable to receive hello-string", 0, 0);
+    if (!packet_hello_receive())
+        die_fatal("unable to receive hello-string", 0, 0);
     if (messagelen) {
-        if (writeall(1, message, messagelen) == -1) die_fatal("unable to write hello-string", 0, 0);
-        if (writeall(1, "\r\n", 2) == -1) die_fatal("unable to write hello-string", 0, 0);
+        if (writeall(1, message, messagelen) == -1)
+            die_fatal("unable to write hello-string", 0, 0);
+        if (writeall(1, "\r\n", 2) == -1)
+            die_fatal("unable to write hello-string", 0, 0);
     }
 
     _exit(111);
