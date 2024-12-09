@@ -44,25 +44,26 @@ struct channel {
 
     /* channel */
     int remoteeof;
-
 };
 
 extern struct channel channel;
 
-
 /* channel_drop.c */
 extern int channel_droppriv(char *, char **);
 /* channel_fork.c */
-extern long long channel_fork(int [3]);
+extern long long channel_fork(int[3]);
 /* channel_forkpty.c */
-extern long long channel_forkpty(int [3], int, int);
+extern long long channel_forkpty(int[3], int, int);
 extern int channel_openpty(int *, int *);
 
 /* channel.c */
 extern void channel_purge(void);
-extern int channel_open(const char *, crypto_uint32, crypto_uint32, crypto_uint32, crypto_uint32 *);
-extern int channel_openterminal(const char *, crypto_uint32, crypto_uint32, crypto_uint32, crypto_uint32);
-extern void channel_ptyresize(crypto_uint32, crypto_uint32, crypto_uint32, crypto_uint32);
+extern int channel_open(const char *, crypto_uint32, crypto_uint32,
+                        crypto_uint32, crypto_uint32 *);
+extern int channel_openterminal(const char *, crypto_uint32, crypto_uint32,
+                                crypto_uint32, crypto_uint32);
+extern void channel_ptyresize(crypto_uint32, crypto_uint32, crypto_uint32,
+                              crypto_uint32);
 extern int channel_env(const char *, const char *);
 extern int channel_exec(const char *);
 extern void channel_put(unsigned char *, long long);
