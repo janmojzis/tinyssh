@@ -1,5 +1,6 @@
 /*
 20150114
+20241209 - reformated using clang-format
 Jan Mojzis
 Public domain.
 */
@@ -28,8 +29,11 @@ const char *channel_subsystem_get(const char *x) {
     len = str_len(x);
     for (i = 0; i < CHANNEL_SUBSYSTEM_MAX; ++i) {
         if (!channel_subsystem[i]) break;
-        if (str_start(channel_subsystem[i], x) && (channel_subsystem[i][len] == '='))
-            return channel_subsystem[i] + len + 1;
+        if (str_start(channel_subsystem[i], x)) {
+            if (channel_subsystem[i][len] == '=') {
+                return channel_subsystem[i] + len + 1;
+            }
+        }
     }
     return 0;
 }
