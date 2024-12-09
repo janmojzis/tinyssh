@@ -1,5 +1,6 @@
 /*
 20140129
+20241209 - reformated using clang-format
 Jan Mojzis
 Public domain.
 */
@@ -33,7 +34,8 @@ long long channel_fork(int fd[3]) {
     if (pid == -1) goto cleanup;
     if (pid == 0) {
         for (i = 0; i < 3; ++i) {
-            close(pa[i]); close(i);
+            close(pa[i]);
+            close(i);
             blocking_enable(ch[i]);
             if (dup(ch[i]) != i) _exit(111);
         }
@@ -47,6 +49,9 @@ long long channel_fork(int fd[3]) {
     return pid;
 
 cleanup:
-    for (i = 0; i < 3; ++i) { close(pa[i]); close(ch[i]); }
+    for (i = 0; i < 3; ++i) {
+        close(pa[i]);
+        close(ch[i]);
+    }
     return -1;
 }
