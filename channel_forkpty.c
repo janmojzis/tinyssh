@@ -1,5 +1,6 @@
 /*
 20150212
+20241209 - reformated using clang-format
 Jan Mojzis
 Public domain.
 */
@@ -12,7 +13,7 @@ Public domain.
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <termios.h>
-#include <sys/ioctl.h> 
+#include <sys/ioctl.h>
 extern char *ptsname(int);
 extern int grantpt(int);
 extern int unlockpt(int);
@@ -33,7 +34,6 @@ extern int login_tty(int);
 #include "global.h"
 #include "channel.h"
 
-
 #ifndef HASLOGINTTY
 static int login_tty_(int fd) {
 
@@ -42,7 +42,7 @@ static int login_tty_(int fd) {
     setsid();
 
 #ifdef TIOCSCTTY
-    if (ioctl(fd, TIOCSCTTY, (char *)0) == -1) return -1;
+    if (ioctl(fd, TIOCSCTTY, (char *) 0) == -1) return -1;
 #endif
 
     name = ttyname(fd);
@@ -68,7 +68,7 @@ static int openpty_(int *amaster, int *aslave) {
 
     int master = -1, slave = -1;
     char *slave_name;
-    static const char *fn[] = { "/dev/ptmx", "/dev/ptc", 0 };
+    static const char *fn[] = {"/dev/ptmx", "/dev/ptc", 0};
     long long i;
 
     for (i = 0; fn[i]; ++i) {
@@ -77,12 +77,24 @@ static int openpty_(int *amaster, int *aslave) {
     }
     if (master == -1) return -1;
 
-    if (grantpt(master) == -1) { close(master); return -1; }
-    if (unlockpt(master) == -1) { close(master); return -1; }
+    if (grantpt(master) == -1) {
+        close(master);
+        return -1;
+    }
+    if (unlockpt(master) == -1) {
+        close(master);
+        return -1;
+    }
     slave_name = ptsname(master);
-    if (!slave_name) { close(master); return -1; }
+    if (!slave_name) {
+        close(master);
+        return -1;
+    }
     slave = open(slave_name, O_RDWR | O_NOCTTY);
-    if (slave == -1) { close(master); return -1; }
+    if (slave == -1) {
+        close(master);
+        return -1;
+    }
 #if defined(sun) || defined(__hpux)
     ioctl(slave, I_PUSH, "ptem");
     ioctl(slave, I_PUSH, "ldterm");
@@ -92,7 +104,7 @@ static int openpty_(int *amaster, int *aslave) {
 #endif
 
     if (amaster) *amaster = master;
-    if (aslave)  *aslave  = slave;
+    if (aslave) *aslave = slave;
     return 0;
 }
 #endif
@@ -105,14 +117,13 @@ int channel_openpty(int *amaster, int *aslave) {
     if (openpty_(amaster, aslave) == -1) return 0;
 #endif
 
-   if (!ttyname(*aslave)) {
+    if (!ttyname(*aslave)) {
         close(*amaster);
         close(*aslave);
         return 0;
     }
     return 1;
 }
-
 
 /*
 The 'channel_forkpty' function is used to create a new process
@@ -129,7 +140,7 @@ long long channel_forkpty(int fd[3], int master, int slave) {
 
     if (!ttyname(slave)) return -1;
     if (pipe(pi) == -1) return -1;
-    
+
     fd[0] = fd[1] = master;
     fd[2] = -1;
 
@@ -150,9 +161,7 @@ long long channel_forkpty(int fd[3], int master, int slave) {
             if (login_tty_(slave) == -1) global_die(111);
 #endif
             /* Trigger a read event on the other side of the pipe. */
-            do {
-                r = write(pi[1], "", 1);
-            } while (r == -1 && errno == EINTR);
+            do { r = write(pi[1], "", 1); } while (r == -1 && errno == EINTR);
             close(pi[1]);
 
             return 0;
