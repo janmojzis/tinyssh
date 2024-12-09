@@ -1,5 +1,6 @@
 /*
 20140124
+20241209 - reformated using clang-format
 Jan Mojzis
 Public domain.
 
@@ -42,14 +43,15 @@ struct channel channel = {0};
 
 /*
 The 'channel_open' function opens the channel.
-It sets 'localwindow' and maxpacket, values obtained from 
+It sets 'localwindow' and maxpacket, values obtained from
 from SSH_MSG_CHANNEL_OPEN message.
 Function also obtaines connection information and sets
 environment variables PATH, SSH_CONNECTION and MAIL.
 */
-int channel_open(const char *user, crypto_uint32 id, crypto_uint32 remotewindow, crypto_uint32 maxpacket, crypto_uint32 *localwindow) {
+int channel_open(const char *user, crypto_uint32 id, crypto_uint32 remotewindow,
+                 crypto_uint32 maxpacket, crypto_uint32 *localwindow) {
 
-    struct buf b = { channel.buf0, 0, CHANNEL_BUFSIZE };
+    struct buf b = {channel.buf0, 0, CHANNEL_BUFSIZE};
 
     if (!localwindow) bug_inval();
     if (!maxpacket) bug_inval();
@@ -62,15 +64,18 @@ int channel_open(const char *user, crypto_uint32 id, crypto_uint32 remotewindow,
 
     /* set id, maxpacket, remotewindow, localwindow */
     channel.id = id;
-    channel.maxpacket    = maxpacket;
+    channel.maxpacket = maxpacket;
     channel.remotewindow = remotewindow;
-    channel.localwindow  = *localwindow = CHANNEL_BUFSIZE;
+    channel.localwindow = *localwindow = CHANNEL_BUFSIZE;
 
     /* copy PATH */
-    if (!newenv_copyenv("PATH")) if (!newenv_env("PATH", "/bin:/usr/bin")) return 0;
+    if (!newenv_copyenv("PATH")) {
+        if (!newenv_env("PATH", "/bin:/usr/bin")) return 0;
+    }
 
     /* create env. SSH_CONNECTION */
-    connectioninfo(channel.localip, channel.localport, channel.remoteip, channel.remoteport);
+    connectioninfo(channel.localip, channel.localport, channel.remoteip,
+                   channel.remoteport);
     buf_purge(&b);
     buf_puts(&b, channel.remoteip);
     buf_puts(&b, " ");
@@ -80,16 +85,16 @@ int channel_open(const char *user, crypto_uint32 id, crypto_uint32 remotewindow,
     buf_puts(&b, " ");
     buf_puts(&b, channel.localport);
     buf_putnum8(&b, 0);
-    if (!newenv_env("SSH_CONNECTION", (char *)b.buf)) return 0;
+    if (!newenv_env("SSH_CONNECTION", (char *) b.buf)) return 0;
 
-    /* create env. MAIL */
 #ifdef _PATH_MAILDIR
+    /* create env. MAIL */
     buf_purge(&b);
     buf_puts(&b, _PATH_MAILDIR);
     buf_puts(&b, "/");
     buf_puts(&b, user);
     buf_putnum8(&b, 0);
-    if (!newenv_env("MAIL", (char *)b.buf)) return 0;
+    if (!newenv_env("MAIL", (char *) b.buf)) return 0;
 #endif
 
     purge(channel.buf0, sizeof channel.buf0);
@@ -100,7 +105,8 @@ int channel_open(const char *user, crypto_uint32 id, crypto_uint32 remotewindow,
 The 'channel_openterminal' function opens terminal,
 sets environment variable TERM and initial terminal windowsize.
 */
-int channel_openterminal(const char *name, crypto_uint32 a, crypto_uint32 b, crypto_uint32 x, crypto_uint32 y) {
+int channel_openterminal(const char *name, crypto_uint32 a, crypto_uint32 b,
+                         crypto_uint32 x, crypto_uint32 y) {
 
     if (channel.maxpacket == 0) bug_proto();
     if (channel.pid != 0) bug_proto();
@@ -121,7 +127,8 @@ int channel_openterminal(const char *name, crypto_uint32 a, crypto_uint32 b, cry
 The 'channel_ptyresize' function sets new
 terminal windowsize.
 */
-void channel_ptyresize(crypto_uint32 a, crypto_uint32 b, crypto_uint32 x, crypto_uint32 y) {
+void channel_ptyresize(crypto_uint32 a, crypto_uint32 b, crypto_uint32 x,
+                       crypto_uint32 y) {
 
     struct winsize w;
 
@@ -163,27 +170,26 @@ int channel_exec(const char *cmd) {
     char ln[NAME_MAX + 2];
 
     if (channel.maxpacket == 0) bug_proto();
-    if (channel.pid != 0 ) bug_proto();
+    if (channel.pid != 0) bug_proto();
 
     if (channel.flagterminal) {
         channel.pid = channel_forkpty(fd, channel.master, channel.slave);
         if (channel.pid > 0) {
             name = ptsname(fd[0]);
             if (!name) bug();
-            if (!str_copyn(channel.termname, sizeof channel.termname, name)) bug_nomem();
+            if (!str_copyn(channel.termname, sizeof channel.termname, name))
+                bug_nomem();
         }
     }
-    else {
-        channel.pid = channel_fork(fd);
-    }
+    else { channel.pid = channel_fork(fd); }
     if (channel.pid == -1) return 0;
     if (channel.pid == 0) {
         logsys_login(channel.user, channel.remoteip, 0, 0);
         if (!channel_droppriv(channel.user, &shell)) _exit(111);
         if (cmd) {
             run[0] = shell;
-            run[1] = (char *)"-c";
-            run[2] = (char *)cmd;
+            run[1] = (char *) "-c";
+            run[2] = (char *) cmd;
             run[3] = 0;
         }
         else {
@@ -200,7 +206,9 @@ int channel_exec(const char *cmd) {
     channel.fd2 = fd[2];
     channel.len0 = 0;
     newenv_purge();
-    if (channel.flagterminal && channel.pid > 0) channel_ptyresize(channel.a, channel.b, channel.x, channel.y);
+    if (channel.flagterminal && channel.pid > 0) {
+        channel_ptyresize(channel.a, channel.b, channel.x, channel.y);
+    }
     return 1;
 }
 
@@ -211,7 +219,7 @@ client to childs buffer.
 void channel_put(unsigned char *buf, long long len) {
 
     if (channel.maxpacket == 0) bug_proto();
-    if (channel.pid <= 0 ) bug_proto();
+    if (channel.pid <= 0) bug_proto();
     if (channel.fd0 == -1) bug_proto();
 
     if (!buf || len < 0) bug_inval();
@@ -261,7 +269,7 @@ long long channel_read(unsigned char *buf, long long len) {
     long long r;
 
     if (channel.maxpacket == 0) bug_proto();
-    if (channel.pid <= 0 ) bug_proto();
+    if (channel.pid <= 0) bug_proto();
     if (channel.fd1 == -1) bug_proto();
 
     if (!buf || len < 0) bug_inval();
@@ -294,7 +302,7 @@ long long channel_extendedread(unsigned char *buf, long long len) {
     long long r;
 
     if (channel.maxpacket == 0) bug_proto();
-    if (channel.pid <= 0 ) bug_proto();
+    if (channel.pid <= 0) bug_proto();
     if (channel.fd2 == -1) bug_proto();
 
     if (!buf || len < 0) bug_inval();
@@ -349,7 +357,7 @@ int channel_write(void) {
     long long w;
 
     if (channel.maxpacket == 0) bug_proto();
-    if (channel.pid <= 0 ) bug_proto();
+    if (channel.pid <= 0) bug_proto();
     if (channel.fd0 == -1) bug_proto();
 
     if (channel.len0 <= 0) return 1;
@@ -367,7 +375,10 @@ int channel_write(void) {
     byte_copy(channel.buf0, channel.len0 - w, channel.buf0 + w);
     purge(channel.buf0 + channel.len0 - w, w);
     channel.len0 -= w;
-    if (channel.remoteeof && channel.len0 == 0 && !channel.flagterminal) { close(channel.fd0); channel.fd0 = -1; }
+    if (channel.remoteeof && channel.len0 == 0 && !channel.flagterminal) {
+        close(channel.fd0);
+        channel.fd0 = -1;
+    }
     return 1;
 }
 
@@ -378,7 +389,7 @@ if we can write data to childs standard input.
 int channel_writeisready(void) {
 
     if (channel.maxpacket == 0) return 0;
-    if (channel.pid <= 0 ) return 0;
+    if (channel.pid <= 0) return 0;
     if (channel.fd0 == -1) return 0;
 
     return (channel.len0 > 0);
@@ -404,17 +415,19 @@ int channel_waitnohang(int *s, int *e) {
 
     int r, status;
 
-
     if (!s || !e) bug_inval();
     if (channel.maxpacket == 0) bug_proto();
-    if (channel.pid <= 0 ) return 0;
+    if (channel.pid <= 0) return 0;
 
     do {
         r = waitpid(channel.pid, &status, WNOHANG);
     } while (r == -1 && errno == EINTR);
     if (r <= 0) return 0;
 
-    if (channel.flagterminal) logsys_logout(channel.user, channel.remoteip, channel.termname, channel.pid);
+    if (channel.flagterminal) {
+        logsys_logout(channel.user, channel.remoteip, channel.termname,
+                      channel.pid);
+    }
 
     if (WIFEXITED(status)) {
         *e = WEXITSTATUS(status);
@@ -424,9 +437,7 @@ int channel_waitnohang(int *s, int *e) {
         *e = 0;
         *s = WTERMSIG(status);
     }
-    else {
-        *e = *s = -1;
-    }
+    else { *e = *s = -1; }
 
     channel.pid = -1;
     return 1;
@@ -461,5 +472,7 @@ int channel_getfd2(void) { return channel.fd2; }
 long long channel_getlen0(void) { return channel.len0; }
 crypto_uint32 channel_getid(void) { return channel.id; }
 crypto_uint32 channel_getlocalwindow(void) { return channel.localwindow; }
-void channel_incrementremotewindow(crypto_uint32 x) { channel.remotewindow += x; }
+void channel_incrementremotewindow(crypto_uint32 x) {
+    channel.remotewindow += x;
+}
 void channel_incrementlocalwindow(crypto_uint32 x) { channel.localwindow += x; }
