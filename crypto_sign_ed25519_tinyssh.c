@@ -10,7 +10,9 @@
 #include "ge25519.h"
 #include "sc25519.h"
 
-int crypto_sign_ed25519_tinyssh(unsigned char *sm, unsigned long long *smlen, const unsigned char *m, unsigned long long n, const unsigned char *skorig) {
+int crypto_sign_ed25519_tinyssh(unsigned char *sm, unsigned long long *smlen,
+                                const unsigned char *m, unsigned long long n,
+                                const unsigned char *skorig) {
 
     long long i;
     unsigned char nonce[64], hram[64], sk[96], pk[32];
@@ -51,11 +53,18 @@ int crypto_sign_ed25519_tinyssh(unsigned char *sm, unsigned long long *smlen, co
     sc25519_muladd(sm + 32, hram, sk, nonce);
 
     /* cleanup */
-    cleanup(nonce); cleanup(hram); cleanup(sk); cleanup(pk); cleanup(R);
+    cleanup(nonce);
+    cleanup(hram);
+    cleanup(sk);
+    cleanup(pk);
+    cleanup(R);
     return 0;
 }
 
-int crypto_sign_ed25519_tinyssh_open(unsigned char *m, unsigned long long *mlen, const unsigned char *sm, unsigned long long n, const unsigned char *pk) {
+int crypto_sign_ed25519_tinyssh_open(unsigned char *m, unsigned long long *mlen,
+                                     const unsigned char *sm,
+                                     unsigned long long n,
+                                     const unsigned char *pk) {
 
     unsigned long long i;
     long long j;
@@ -72,8 +81,8 @@ int crypto_sign_ed25519_tinyssh_open(unsigned char *m, unsigned long long *mlen,
 
     /* copy pk, r, s */
     for (i = 0; i < 32; ++i) pkcopy[i] = pk[i];
-    for (i = 0; i < 32; ++i) rcopy[i]  = sm[i];
-    for (i = 0; i < 32; ++i) scopy[i]  = sm[i + 32];
+    for (i = 0; i < 32; ++i) rcopy[i] = sm[i];
+    for (i = 0; i < 32; ++i) scopy[i] = sm[i + 32];
 
     /* copy sm to m and copy pk to m */
     for (j = n - 1; j >= 0; --j) m[j] = sm[j];
@@ -93,8 +102,9 @@ int crypto_sign_ed25519_tinyssh_open(unsigned char *m, unsigned long long *mlen,
     if (crypto_verify_32(rcheck, rcopy) != 0) goto fail;
 
     /* copy message */
-    n -= 64; *mlen = n;
-    for (i = 0; i <  n; ++i) m[i] = m[i + 64];
+    n -= 64;
+    *mlen = n;
+    for (i = 0; i < n; ++i) m[i] = m[i + 64];
     for (i = 0; i < 64; ++i) m[i + n] = 0;
     ret = 0;
     goto cleanup;
@@ -103,9 +113,14 @@ fail:
     for (i = 0; i < n; ++i) m[i] = 0;
 
 cleanup:
-    cleanup(pkcopy); cleanup(rcopy); cleanup(scopy);
-    cleanup(hram); cleanup(rcheck);
-    cleanup(R); cleanup(S); cleanup(A);
+    cleanup(pkcopy);
+    cleanup(rcopy);
+    cleanup(scopy);
+    cleanup(hram);
+    cleanup(rcheck);
+    cleanup(R);
+    cleanup(S);
+    cleanup(A);
     return ret;
 }
 
@@ -125,7 +140,8 @@ int crypto_sign_ed25519_tinyssh_keypair(unsigned char *pk, unsigned char *sk) {
     ge25519_tobytes(pk, A);
 
     for (i = 31; i >= 0; --i) sk[i + 32] = pk[i];
-    cleanup(h); cleanup(A);
+    cleanup(h);
+    cleanup(A);
     return 0;
 }
 #endif
