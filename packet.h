@@ -67,7 +67,6 @@ struct packet {
     struct buf recvbuf;
     struct buf sendbuf;
     crypto_uint32 packet_length;
-
 };
 
 /* packet.c */
