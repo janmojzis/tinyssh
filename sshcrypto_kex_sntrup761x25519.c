@@ -1,5 +1,6 @@
 /*
 20210314
+20241210 - reformated using clang-format
 Jan Mojzis
 Public domain.
 */
@@ -8,8 +9,6 @@ Public domain.
 #include "crypto.h"
 #include "sshcrypto.h"
 
-#if defined(crypto_kem_sntrup761x25519_BYTES) && defined(crypto_hash_sha512_BYTES)
 void sntrup761x25519_putkemkey(struct buf *b, const unsigned char *x) {
     buf_putstringlen(b, x, crypto_kem_sntrup761x25519_BYTES);
 }
-#endif

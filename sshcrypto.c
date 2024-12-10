@@ -1,5 +1,6 @@
 /*
 20140225
+20241210 - reformated using clang-format
 Jan Mojzis
 Public domain.
 */
@@ -18,25 +19,29 @@ void sshcrypto_init(void) {
 
     /* kex */
     for (i = 0; sshcrypto_kexs[i].name; ++i) {
-        if (sshcrypto_kexs[i].kem_publickeybytes > sshcrypto_kem_PUBLICKEYMAX) bug_inval();
-        if (sshcrypto_kexs[i].kem_ciphertextbytes > sshcrypto_kem_CIPHERTEXTMAX) bug_inval();
+        if (sshcrypto_kexs[i].kem_publickeybytes > sshcrypto_kem_PUBLICKEYMAX)
+            bug_inval();
+        if (sshcrypto_kexs[i].kem_ciphertextbytes > sshcrypto_kem_CIPHERTEXTMAX)
+            bug_inval();
         if (sshcrypto_kexs[i].kem_bytes > sshcrypto_kem_MAX) bug_inval();
         if (sshcrypto_kexs[i].hash_bytes > sshcrypto_hash_MAX) bug_inval();
     }
 
-
     /* key */
     for (i = 0; sshcrypto_keys[i].name; ++i) {
-        if (sshcrypto_keys[i].sign_publickeybytes > sshcrypto_sign_PUBLICKEYMAX) bug_inval();
-        if (sshcrypto_keys[i].sign_secretkeybytes > sshcrypto_sign_SECRETKEYMAX) bug_inval();
+        if (sshcrypto_keys[i].sign_publickeybytes > sshcrypto_sign_PUBLICKEYMAX)
+            bug_inval();
+        if (sshcrypto_keys[i].sign_secretkeybytes > sshcrypto_sign_SECRETKEYMAX)
+            bug_inval();
         if (sshcrypto_keys[i].sign_bytes > sshcrypto_sign_MAX) bug_inval();
-        if (str_len(sshcrypto_keys[i].name) + 1 > sshcrypto_sign_NAMEMAX) bug_inval();
+        if (str_len(sshcrypto_keys[i].name) + 1 > sshcrypto_sign_NAMEMAX)
+            bug_inval();
     }
-
 
     /* cipher */
     for (i = 0; sshcrypto_ciphers[i].name; ++i) {
-        if (sshcrypto_ciphers[i].stream_keybytes > sshcrypto_cipher_KEYMAX) bug_inval();
+        if (sshcrypto_ciphers[i].stream_keybytes > sshcrypto_cipher_KEYMAX)
+            bug_inval();
     }
 }
 

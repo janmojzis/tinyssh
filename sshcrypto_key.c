@@ -1,5 +1,6 @@
 /*
 20140204
+20241210 - reformated using clang-format
 Jan Mojzis
 Public domain.
 */
@@ -16,8 +17,8 @@ Public domain.
 #include "sshcrypto.h"
 
 struct sshcrypto_key sshcrypto_keys[] = {
-#ifdef crypto_sign_ed25519_BYTES
-    {   "ssh-ed25519",
+    {
+        "ssh-ed25519",
         crypto_sign_ed25519,
         crypto_sign_ed25519_open,
         crypto_sign_ed25519_keypair,
@@ -36,7 +37,6 @@ struct sshcrypto_key sshcrypto_keys[] = {
         ed25519_parsesignature,
         ed25519_parsesignpk,
     },
-#endif
 #if 0
     {   "pqkeyTODO",
         crypto_sign_ed25519,
@@ -58,11 +58,12 @@ struct sshcrypto_key sshcrypto_keys[] = {
         ed25519_parsesignpk,
     },
 #endif
-    { 0, 0, 0, 0, {0}, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
-};
+    {0, 0, 0, 0, {0}, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
 const char *sshcrypto_key_name = 0;
-int (*sshcrypto_sign)(unsigned char *,unsigned long long *,const unsigned char *,unsigned long long,const unsigned char *) = 0;
+int (*sshcrypto_sign)(unsigned char *, unsigned long long *,
+                      const unsigned char *, unsigned long long,
+                      const unsigned char *) = 0;
 unsigned char *sshcrypto_sign_publickey = 0;
 long long sshcrypto_sign_publickeybytes = 0;
 long long sshcrypto_sign_secretkeybytes = 0;
@@ -70,7 +71,6 @@ long long sshcrypto_sign_bytes = 0;
 const char *sshcrypto_sign_secretkeyfilename = 0;
 void (*sshcrypto_buf_putsignature)(struct buf *, const unsigned char *) = 0;
 void (*sshcrypto_buf_putsignpk)(struct buf *, const unsigned char *) = 0;
-
 
 int sshcrypto_key_select(const unsigned char *buf, long long len) {
 
@@ -81,7 +81,7 @@ int sshcrypto_key_select(const unsigned char *buf, long long len) {
     if (sshcrypto_key_name) return 1;
 
     if (buf[len] != 0) bug_proto();
-    log_d2("kex: client: key algorithms: ", (const char *)buf);
+    log_d2("kex: client: key algorithms: ", (const char *) buf);
 
     for (;;) {
         pos = stringparser(buf, len, pos, &x, &xlen);
@@ -89,14 +89,17 @@ int sshcrypto_key_select(const unsigned char *buf, long long len) {
 
         for (i = 0; sshcrypto_keys[i].name; ++i) {
             if (!sshcrypto_keys[i].sign_flagserver) continue;
-            if (str_equaln((const char *)x, xlen, sshcrypto_keys[i].name)) {
+            if (str_equaln((const char *) x, xlen, sshcrypto_keys[i].name)) {
                 sshcrypto_key_name = sshcrypto_keys[i].name;
                 sshcrypto_sign = sshcrypto_keys[i].sign;
                 sshcrypto_sign_publickey = sshcrypto_keys[i].sign_publickey;
-                sshcrypto_sign_publickeybytes = sshcrypto_keys[i].sign_publickeybytes;
-                sshcrypto_sign_secretkeybytes = sshcrypto_keys[i].sign_secretkeybytes;
+                sshcrypto_sign_publickeybytes =
+                    sshcrypto_keys[i].sign_publickeybytes;
+                sshcrypto_sign_secretkeybytes =
+                    sshcrypto_keys[i].sign_secretkeybytes;
                 sshcrypto_sign_bytes = sshcrypto_keys[i].sign_bytes;
-                sshcrypto_sign_secretkeyfilename = sshcrypto_keys[i].sign_secretkeyfilename;
+                sshcrypto_sign_secretkeyfilename =
+                    sshcrypto_keys[i].sign_secretkeyfilename;
                 sshcrypto_buf_putsignature = sshcrypto_keys[i].buf_putsignature;
                 sshcrypto_buf_putsignpk = sshcrypto_keys[i].buf_putsignpk;
                 log_d2("kex: key selected: ", sshcrypto_keys[i].name);
@@ -104,7 +107,7 @@ int sshcrypto_key_select(const unsigned char *buf, long long len) {
             }
         }
     }
-    log_d2("kex: key not available ", (const char *)buf);
+    log_d2("kex: key not available ", (const char *) buf);
     errno = EPROTO;
     return 0;
 }
@@ -131,5 +134,5 @@ void sshcrypto_key_put(struct buf *b) {
         buf_puts(b, sshcrypto_keys[i].name);
     }
     b->buf[b->len] = 0;
-    log_d2("kex: server: key algorithms: ", (char *)b->buf + start);
+    log_d2("kex: server: key algorithms: ", (char *) b->buf + start);
 }

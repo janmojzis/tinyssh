@@ -10,8 +10,8 @@ Public domain.
 #include "crypto_int16.h"
 #include "sshcrypto.h"
 
-#if defined(crypto_dh_x25519_BYTES) && defined(crypto_hash_sha256_BYTES)
-int curve25519_enc(unsigned char *c, unsigned char *k, const unsigned char *pk) {
+int curve25519_enc(unsigned char *c, unsigned char *k,
+                   const unsigned char *pk) {
 
     unsigned char onetimesk[crypto_dh_x25519_SECRETKEYBYTES];
     long long i;
@@ -28,4 +28,3 @@ int curve25519_enc(unsigned char *c, unsigned char *k, const unsigned char *pk) 
 void curve25519_putkemkey(struct buf *b, const unsigned char *x) {
     buf_putsharedsecret(b, x, crypto_dh_x25519_BYTES);
 }
-#endif
