@@ -1,5 +1,6 @@
 /*
 20140125
+20241210 - reformated using clang-format
 Jan Mojzis
 Public domain.
 */
@@ -35,7 +36,7 @@ int packet_hello_send(void) {
     if (writeall(1, b->buf, b->len) == -1) return 0;
     b->len -= 2; /* remove "\r\n" */
     b->buf[b->len] = 0;
-    log_d2("hello: server: ", (char *)(b->buf));
+    log_d2("hello: server: ", (char *) (b->buf));
     purge(b->buf + b->len, b->alloc - b->len);
     return 1;
 }
@@ -51,15 +52,24 @@ int packet_hello_receive(void) {
     struct buf *b = &packet.helloreceive;
 
     r = getln(0, b->buf, b->alloc);
-    if (r == 0) { errno = ECONNRESET; return 0; }
+    if (r == 0) {
+        errno = ECONNRESET;
+        return 0;
+    }
     if (r != 1) return 0;
-    b->len = str_len((char *)b->buf);
-    if (b->len < 6) { errno = EPROTO; return 0; }
+    b->len = str_len((char *) b->buf);
+    if (b->len < 6) {
+        errno = EPROTO;
+        return 0;
+    }
     if (b->buf[b->len - 1] == '\n') --(b->len); /* remove '\n' */
     if (b->buf[b->len - 1] == '\r') --(b->len); /* remove '\r' */
     b->buf[b->len] = 0;
-    if (!byte_isequal(b->buf, 4, "SSH-")) { errno = EPROTO; return 0; }
-    log_d2("hello: client: ", (char *)b->buf);
+    if (!byte_isequal(b->buf, 4, "SSH-")) {
+        errno = EPROTO;
+        return 0;
+    }
+    log_d2("hello: client: ", (char *) b->buf);
     purge(b->buf + b->len, b->alloc - b->len);
     return 1;
 }
