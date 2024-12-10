@@ -5,7 +5,8 @@
 #ifndef HASLIB25519
 
 #define crypto_hash_sha512_tinyssh_BYTES 64
-extern int crypto_hash_sha512_tinyssh(unsigned char *, const unsigned char *, unsigned long long);
+extern int crypto_hash_sha512_tinyssh(unsigned char *, const unsigned char *,
+                                      unsigned long long);
 
 #define crypto_hash_sha512 crypto_hash_sha512_tinyssh
 #define crypto_hash_sha512_BYTES crypto_hash_sha512_tinyssh_BYTES
@@ -16,7 +17,8 @@ extern int crypto_hash_sha512_tinyssh(unsigned char *, const unsigned char *, un
 
 #include <lib25519.h>
 #define crypto_hash_sha512_lib25519_BYTES lib25519_hash_sha512_BYTES
-extern int crypto_hash_sha512_lib25519(unsigned char *, const unsigned char *, unsigned long long);
+extern int crypto_hash_sha512_lib25519(unsigned char *, const unsigned char *,
+                                       unsigned long long);
 
 #define crypto_hash_sha512 crypto_hash_sha512_lib25519
 #define crypto_hash_sha512_BYTES crypto_hash_sha512_lib25519_BYTES
