@@ -85,7 +85,7 @@ buf.o: buf.c byte.h str.h purge.h cleanup.h randombytes.h \
  buf.h cryptoint/crypto_uint8.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c buf.c
 
-byte.o: byte.c byte.h
+byte.o: byte.c cryptoint/crypto_int16.h byte.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c byte.c
 
 channel.o: channel.c byte.h bug.h global.h e.h log.h newenv.h purge.h \
@@ -126,7 +126,7 @@ crypto_dh_x25519.o: crypto_dh_x25519.c crypto_dh_x25519.h haslib25519.h \
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_dh_x25519.c
 
 crypto_hash_sha256.o: crypto_hash_sha256.c cryptoint/crypto_uint32.h \
- crypto_hash_sha256.h
+ cryptoint/crypto_uint64.h crypto_hash_sha256.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_hash_sha256.c
 
 crypto_hash_sha512_lib25519.o: crypto_hash_sha512_lib25519.c \
@@ -134,7 +134,7 @@ crypto_hash_sha512_lib25519.o: crypto_hash_sha512_lib25519.c \
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_hash_sha512_lib25519.c
 
 crypto_hash_sha512_tinyssh.o: crypto_hash_sha512_tinyssh.c \
- crypto_hash_sha512.h haslib25519.h
+ crypto_hash_sha512.h haslib25519.h cryptoint/crypto_uint64.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_hash_sha512_tinyssh.c
 
 crypto_kem_sntrup761_libntruprime.o: crypto_kem_sntrup761_libntruprime.c \
@@ -142,12 +142,12 @@ crypto_kem_sntrup761_libntruprime.o: crypto_kem_sntrup761_libntruprime.c \
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_kem_sntrup761_libntruprime.c
 
 crypto_kem_sntrup761_tinyssh.o: crypto_kem_sntrup761_tinyssh.c \
- haslibntruprime.h cryptoint/crypto_uint64.h cryptoint/crypto_uint32.h \
- cryptoint/crypto_uint16.h cryptoint/crypto_int32.h \
- cryptoint/crypto_int16.h cryptoint/crypto_int8.h randombytes.h \
- haslibrandombytes.h crypto_verify_32.h crypto_sort_uint32.h \
- crypto_hash_sha512.h haslib25519.h crypto_declassify.h hasvalgrind.h \
- crypto_kem_sntrup761.h
+ crypto_kem_sntrup761.h haslibntruprime.h cryptoint/crypto_uint64.h \
+ cryptoint/crypto_uint32.h cryptoint/crypto_uint16.h \
+ cryptoint/crypto_int32.h cryptoint/crypto_int16.h \
+ cryptoint/crypto_int8.h randombytes.h haslibrandombytes.h \
+ crypto_verify_32.h crypto_sort_uint32.h crypto_hash_sha512.h \
+ haslib25519.h crypto_declassify.h hasvalgrind.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_kem_sntrup761_tinyssh.c
 
 crypto_kem_sntrup761x25519.o: crypto_kem_sntrup761x25519.c randombytes.h \
@@ -170,10 +170,9 @@ crypto_sign_ed25519_lib25519.o: crypto_sign_ed25519_lib25519.c \
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_sign_ed25519_lib25519.c
 
 crypto_sign_ed25519_tinyssh.o: crypto_sign_ed25519_tinyssh.c \
- haslib25519.h randombytes.h haslibrandombytes.h cleanup.h \
- crypto_hash_sha512.h crypto_verify_32.h ge25519.h fe.h \
- cryptoint/crypto_uint32.h cryptoint/crypto_uint64.h sc25519.h \
- crypto_sign_ed25519.h
+ crypto_sign_ed25519.h haslib25519.h randombytes.h haslibrandombytes.h \
+ cleanup.h crypto_hash_sha512.h crypto_verify_32.h ge25519.h fe.h \
+ cryptoint/crypto_uint32.h cryptoint/crypto_uint64.h sc25519.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_sign_ed25519_tinyssh.c
 
 crypto_sort_uint32.o: crypto_sort_uint32.c cryptoint/crypto_uint32.h \
@@ -1013,12 +1012,15 @@ libs: trylibs.sh
 	cat libs
 
 tinysshd-makekey: tinysshd
+	rm -f tinysshd-makekey
 	ln -s tinysshd tinysshd-makekey
 
 tinysshd-printkey: tinysshd
+	rm -f tinysshd-printkey
 	ln -s tinysshd tinysshd-printkey
 
 tinysshnoneauthd: tinysshd
+	rm -f tinysshnoneauthd
 	ln -s tinysshd tinysshnoneauthd
 
 install: $(BINARIES) $(LINKS)

@@ -137,14 +137,17 @@ export LANG
     echo
 
     echo "tinysshd-makekey: tinysshd"
+    echo "	rm -f tinysshd-makekey"
     echo "	ln -s tinysshd tinysshd-makekey"
     echo
 
     echo "tinysshd-printkey: tinysshd"
+    echo "	rm -f tinysshd-printkey"
     echo "	ln -s tinysshd tinysshd-printkey"
     echo
 
     echo "tinysshnoneauthd: tinysshd"
+    echo "	rm -f tinysshnoneauthd"
     echo "	ln -s tinysshd tinysshnoneauthd"
     echo
 
