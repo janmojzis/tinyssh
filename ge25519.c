@@ -3,15 +3,11 @@
 #include "ge25519.h"
 
 /* D = -121665/121666 */
-static fe D = { 
-    0x135978a3, 0x75eb4dca, 0x4141d8ab, 0x00700a4d,
-    0x7779e898, 0x8cc74079, 0x2b6ffe73, 0x52036cee
-};
+static fe D = {0x135978a3, 0x75eb4dca, 0x4141d8ab, 0x00700a4d,
+               0x7779e898, 0x8cc74079, 0x2b6ffe73, 0x52036cee};
 /* D2 = 2 * -121665/121666 */
-static fe D2 = { 
-    0x26b2f159, 0xebd69b94, 0x8283b156, 0x00e0149a,
-    0xeef3d130, 0x198e80f2, 0x56dffce7, 0x2406d9dc
-};
+static fe D2 = {0x26b2f159, 0xebd69b94, 0x8283b156, 0x00e0149a,
+                0xeef3d130, 0x198e80f2, 0x56dffce7, 0x2406d9dc};
 
 static fe sqrtm1 = {
     0x4a0ea0b0, 0xc4ee1b27, 0xad2fe478, 0x2f431806,
@@ -25,7 +21,6 @@ static void neutral(ge25519 p) {
     fe_0(p[3]);
 }
 
-
 /*
 p = q
 */
@@ -36,7 +31,6 @@ static void copy(ge25519 p, ge25519 q) {
     fe_copy(p[2], q[2]);
     fe_copy(p[3], q[3]);
 }
-
 
 /*
 if (b) p = q;
@@ -73,12 +67,19 @@ void ge25519_add(ge25519 o, ge25519 p, ge25519 q) {
     fe25519_mul(o[2], g, f);
     fe25519_mul(o[3], e, h);
 
-    cleanup(a); cleanup(b); cleanup(c); cleanup(d); cleanup(t);
-    cleanup(e); cleanup(f); cleanup(g); cleanup(h);
+    cleanup(a);
+    cleanup(b);
+    cleanup(c);
+    cleanup(d);
+    cleanup(t);
+    cleanup(e);
+    cleanup(f);
+    cleanup(g);
+    cleanup(h);
 }
 
-
-/* https://hyperelliptic.org/EFD/g1p/auto-code/twisted/extended/doubling/dbl-2008-hwcd.op3 */
+/* https://hyperelliptic.org/EFD/g1p/auto-code/twisted/extended/doubling/dbl-2008-hwcd.op3
+ */
 static void dbl(ge25519 o, ge25519 p) {
 
     fe a, b, c, d, e, f, g, h;
@@ -96,15 +97,20 @@ static void dbl(ge25519 o, ge25519 p) {
     fe25519_sub(f, g, c);       /* F  = G-C   */
     fe25519_sub(h, d, b);       /* H  = D-B   */
 
-    fe25519_mul(o[0], e, f);    /* X3 = E*F   */
-    fe25519_mul(o[1], g, h);    /* Y3 = G*H   */
-    fe25519_mul(o[2], f, g);    /* Z3 = F*G   */
-    fe25519_mul(o[3], e, h);    /* T3 = E*H   */
+    fe25519_mul(o[0], e, f); /* X3 = E*F   */
+    fe25519_mul(o[1], g, h); /* Y3 = G*H   */
+    fe25519_mul(o[2], f, g); /* Z3 = F*G   */
+    fe25519_mul(o[3], e, h); /* T3 = E*H   */
 
-    cleanup(a); cleanup(b); cleanup(c); cleanup(d);
-    cleanup(e); cleanup(f); cleanup(g); cleanup(h);
+    cleanup(a);
+    cleanup(b);
+    cleanup(c);
+    cleanup(d);
+    cleanup(e);
+    cleanup(f);
+    cleanup(g);
+    cleanup(h);
 }
-
 
 void ge25519_tobytes(unsigned char *s, ge25519 h) {
 
@@ -116,7 +122,9 @@ void ge25519_tobytes(unsigned char *s, ge25519 h) {
     fe25519_tobytes(s, y);
     s[31] ^= fe25519_isnegative(x) << 7;
 
-    cleanup(x); cleanup(y); cleanup(z);
+    cleanup(x);
+    cleanup(y);
+    cleanup(z);
 }
 
 int ge25519_frombytes_negate_vartime(ge25519 h, const unsigned char *s) {
@@ -126,44 +134,43 @@ int ge25519_frombytes_negate_vartime(ge25519 h, const unsigned char *s) {
 
     fe25519_frombytes(h[1], s);
     fe_1(h[2]);
-    fe25519_sq(u,h[1]);
-    fe25519_mul(v,u,D);
-    fe25519_sub(u,u,h[2]);       /* u = y^2-1 */
-    fe25519_add(v,v,h[2]);       /* v = dy^2+1 */
+    fe25519_sq(u, h[1]);
+    fe25519_mul(v, u, D);
+    fe25519_sub(u, u, h[2]); /* u = y^2-1 */
+    fe25519_add(v, v, h[2]); /* v = dy^2+1 */
 
-    fe25519_sq(v3,v);
-    fe25519_mul(v3,v3,v);        /* v3 = v^3 */
-    fe25519_sq(h[0],v3);
-    fe25519_mul(h[0],h[0],v);
-    fe25519_mul(h[0],h[0],u);    /* x = uv^7 */
+    fe25519_sq(v3, v);
+    fe25519_mul(v3, v3, v); /* v3 = v^3 */
+    fe25519_sq(h[0], v3);
+    fe25519_mul(h[0], h[0], v);
+    fe25519_mul(h[0], h[0], u); /* x = uv^7 */
 
-    fe25519_pow22523(h[0],h[0]); /* x = (uv^7)^((q-5)/8) */
-    fe25519_mul(h[0],h[0],v3);
-    fe25519_mul(h[0],h[0],u);    /* x = uv^3(uv^7)^((q-5)/8) */
+    fe25519_pow22523(h[0], h[0]); /* x = (uv^7)^((q-5)/8) */
+    fe25519_mul(h[0], h[0], v3);
+    fe25519_mul(h[0], h[0], u); /* x = uv^3(uv^7)^((q-5)/8) */
 
-    fe25519_sq(vxx,h[0]);
-    fe25519_mul(vxx,vxx,v);
-    fe25519_sub(check,vxx,u);    /* vx^2-u */
+    fe25519_sq(vxx, h[0]);
+    fe25519_mul(vxx, vxx, v);
+    fe25519_sub(check, vxx, u); /* vx^2-u */
     if (fe25519_isnonzero(check)) {
-        fe25519_add(check,vxx,u);  /* vx^2+u */
-        if (fe25519_isnonzero(check)) {
-            goto cleanup;
-        }
-        fe25519_mul(h[0],h[0],sqrtm1);
+        fe25519_add(check, vxx, u); /* vx^2+u */
+        if (fe25519_isnonzero(check)) { goto cleanup; }
+        fe25519_mul(h[0], h[0], sqrtm1);
     }
 
-    if (fe25519_isnegative(h[0]) == (s[31] >> 7))
-        fe25519_neg(h[0], h[0]);
+    if (fe25519_isnegative(h[0]) == (s[31] >> 7)) fe25519_neg(h[0], h[0]);
 
-    fe25519_mul(h[3],h[0],h[1]);
+    fe25519_mul(h[3], h[0], h[1]);
     ret = 0;
 
 cleanup:
-    cleanup(u); cleanup(v); cleanup(v3);
-    cleanup(vxx); cleanup(check);
+    cleanup(u);
+    cleanup(v);
+    cleanup(v3);
+    cleanup(vxx);
+    cleanup(check);
     return ret;
 }
-
 
 /*
 if (a == b) return 1;
@@ -179,7 +186,7 @@ static unsigned char equal(unsigned char a, unsigned char b) {
 }
 
 /*
-point multiplication using windowed method 
+point multiplication using windowed method
 */
 void ge25519_scalarmult(ge25519 o, ge25519 q, const unsigned char *a) {
 
@@ -198,8 +205,10 @@ void ge25519_scalarmult(ge25519 o, ge25519 q, const unsigned char *a) {
     copy(t[0], p);
     copy(t[1], q);
     for (i = 2; i < 16; ++i) {
-        if ((i & 1) == 0) dbl(t[i], t[i / 2]);
-        else ge25519_add(t[i], t[i - 1], q);
+        if ((i & 1) == 0)
+            dbl(t[i], t[i / 2]);
+        else
+            ge25519_add(t[i], t[i - 1], q);
     }
 
     for (i = 63; i >= 0; --i) {
@@ -210,15 +219,22 @@ void ge25519_scalarmult(ge25519 o, ge25519 q, const unsigned char *a) {
 
     copy(o, p);
 
-    cleanup(p); cleanup(t); cleanup(sp); cleanup(e);
+    cleanup(p);
+    cleanup(t);
+    cleanup(sp);
+    cleanup(e);
 }
 
 static ge25519 baseq = {
-  { 0x8f25d51a,0xc9562d60,0x9525a7b2,0x692cc760,0xfdd6dc5c,0xc0a4e231,0xcd6e53fe,0x216936d3 },
-  { 0x66666658,0x66666666,0x66666666,0x66666666,0x66666666,0x66666666,0x66666666,0x66666666 },
-  { 0x00000001,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000 },
-  { 0xa5b7dda3,0x6dde8ab3,0x775152f5,0x20f09f80,0x64abe37d,0x66ea4e8e,0xd78b7665,0x67875f0f },
- };
+    {0x8f25d51a, 0xc9562d60, 0x9525a7b2, 0x692cc760, 0xfdd6dc5c, 0xc0a4e231,
+     0xcd6e53fe, 0x216936d3},
+    {0x66666658, 0x66666666, 0x66666666, 0x66666666, 0x66666666, 0x66666666,
+     0x66666666, 0x66666666},
+    {0x00000001, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+     0x00000000, 0x00000000},
+    {0xa5b7dda3, 0x6dde8ab3, 0x775152f5, 0x20f09f80, 0x64abe37d, 0x66ea4e8e,
+     0xd78b7665, 0x67875f0f},
+};
 
 void ge25519_scalarmult_base(ge25519 p, const unsigned char *a) {
 

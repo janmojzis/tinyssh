@@ -3,7 +3,7 @@
 
 #include "fe.h"
 
-typedef fe ge25519[4];          /* X, Y, Z, T */
+typedef fe ge25519[4]; /* X, Y, Z, T */
 
 extern void ge25519_tobytes(unsigned char *, ge25519);
 extern int ge25519_frombytes_negate_vartime(ge25519, const unsigned char *);
