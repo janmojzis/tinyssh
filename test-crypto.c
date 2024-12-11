@@ -1,9 +1,10 @@
 /*
 derived from djb work from lib25519/libntruprime
 mj modifications:
-- rename files to test-crypto.c and test-crypto_<>.<>.inc
+- rename files to test-crypto.c and _crypto_<>.<>.inc
 - fix compiler warnings
 - include crypto.h
+- use less rounds for valgrind test
 - reformat using clang-format
 */
 #include <stdio.h>
