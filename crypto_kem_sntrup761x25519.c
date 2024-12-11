@@ -1,5 +1,6 @@
 /*
 20210314
+20241211 - reformated using clang-format
 Jan Mojzis
 Public domain.
 */
@@ -24,14 +25,13 @@ static unsigned char returnmask(int x) {
 
     unsigned long long ret = 1ULL;
     ret <<= 8 * sizeof(int);
-    ret -= (unsigned long long)(unsigned int)x;
+    ret -= (unsigned long long) (unsigned int) x;
     ret >>= 8 * sizeof(int);
     return ret - 1;
 }
 
-int crypto_kem_sntrup761x25519_tinyssh_enc(unsigned char *c,
-                                            unsigned char *k,
-                                            const unsigned char *pk) {
+int crypto_kem_sntrup761x25519_tinyssh_enc(unsigned char *c, unsigned char *k,
+                                           const unsigned char *pk) {
 
     int r = 0;
     long long i;
@@ -66,8 +66,8 @@ int crypto_kem_sntrup761x25519_tinyssh_enc(unsigned char *c,
 }
 
 int crypto_kem_sntrup761x25519_tinyssh_dec(unsigned char *k,
-                                            const unsigned char *c,
-                                            const unsigned char *sk) {
+                                           const unsigned char *c,
+                                           const unsigned char *sk) {
 
     int r = 0;
     long long i;
@@ -98,7 +98,7 @@ int crypto_kem_sntrup761x25519_tinyssh_dec(unsigned char *k,
 }
 
 int crypto_kem_sntrup761x25519_tinyssh_keypair(unsigned char *pk,
-                                                unsigned char *sk) {
+                                               unsigned char *sk) {
 
     int r = 0;
     long long i;
