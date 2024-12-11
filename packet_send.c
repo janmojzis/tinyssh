@@ -1,5 +1,6 @@
 /*
 20140120
+20241211 - reformated using clang-format
 Jan Mojzis
 Public domain.
 */
@@ -11,11 +12,7 @@ Public domain.
 #include "purge.h"
 #include "packet.h"
 
-int packet_sendisready(void) {
-
-    return (packet.sendbuf.len > 0);
-}
-
+int packet_sendisready(void) { return (packet.sendbuf.len > 0); }
 
 int packet_send(void) {
 
