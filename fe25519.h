@@ -19,4 +19,3 @@ extern int fe25519_isnonzero(const fe);
 extern int fe25519_isnegative(const fe);
 
 #endif
-
