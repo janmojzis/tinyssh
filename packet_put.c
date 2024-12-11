@@ -1,5 +1,6 @@
 /*
 20140207
+20241211 - reformated using clang-format
 Jan Mojzis
 Public domain.
 */
@@ -18,11 +19,11 @@ static void packet_put_plain_(struct buf *b) {
     crypto_uint8 paddinglen;
     struct buf *sendbuf = &packet.sendbuf;
 
-    pos = sendbuf->len;                 /* get position */
-    buf_putnum32(sendbuf, 0);           /* length */
-    buf_putnum8(sendbuf, 0);            /* padding length */
-    buf_put(sendbuf, b->buf, b->len);   /* add data */
-    packet.sendpacketid++;              /* increment id */
+    pos = sendbuf->len;               /* get position */
+    buf_putnum32(sendbuf, 0);         /* length */
+    buf_putnum8(sendbuf, 0);          /* padding length */
+    buf_put(sendbuf, b->buf, b->len); /* add data */
+    packet.sendpacketid++;            /* increment id */
 
     /* padding */
     paddinglen = 2 * 8 - ((sendbuf->len - pos) % 8);
@@ -38,15 +39,10 @@ int packet_putisready(void) {
     return buf_ready(&packet.sendbuf, PACKET_FULLLIMIT);
 }
 
-
 void packet_put(struct buf *b) {
 
-    if (packet.flagkeys) {
-        sshcrypto_packet_put(b);
-    }
-    else {
-        packet_put_plain_(b);
-    }
+    if (packet.flagkeys) { sshcrypto_packet_put(b); }
+    else { packet_put_plain_(b); }
 
     /* overflow check */
     if (!packet.sendpacketid) {
@@ -55,7 +51,8 @@ void packet_put(struct buf *b) {
     }
 
     /* strict kex - reset sendpacketid */
-    if (b->buf[0] == SSH_MSG_NEWKEYS && sshcrypto_kex_flags & sshcrypto_FLAGSTRICTKEX) {
+    if (b->buf[0] == SSH_MSG_NEWKEYS &&
+        sshcrypto_kex_flags & sshcrypto_FLAGSTRICTKEX) {
         packet.sendpacketid = 0;
     }
 }
