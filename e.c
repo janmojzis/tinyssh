@@ -1,5 +1,5 @@
 /*
-taken from nacl-20110221, from curvecp/e.c 
+taken from nacl-20110221, from curvecp/e.c
 - reformated using clang-format
 */
 #include "e.h"
