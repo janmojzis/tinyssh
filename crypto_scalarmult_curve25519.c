@@ -1,5 +1,6 @@
 #include "cleanup.h"
 #include "fe25519.h"
+#include "crypto_uint8.h"
 #include "crypto_scalarmult_curve25519.h"
 
 int crypto_scalarmult_curve25519_tinyssh(unsigned char *q,
@@ -9,7 +10,6 @@ int crypto_scalarmult_curve25519_tinyssh(unsigned char *q,
     unsigned char e[32];
     fe x1, x2, z2, x3, z3, tmp0, tmp1;
     long long i;
-    unsigned int d = 0;
     int pos;
     crypto_uint32 swap, b;
 
@@ -25,8 +25,7 @@ int crypto_scalarmult_curve25519_tinyssh(unsigned char *q,
 
     swap = 0;
     for (pos = 254; pos >= 0; --pos) {
-        b = e[pos / 8] >> (pos & 7);
-        b &= 1;
+        b = crypto_uint8_bitmod_01(e[pos / 8], pos);
         swap ^= b;
         fe_cswap(x2, x3, swap);
         fe_cswap(z2, z3, swap);
@@ -68,8 +67,7 @@ int crypto_scalarmult_curve25519_tinyssh(unsigned char *q,
     cleanup(z2);
     cleanup(z3);
 
-    for (i = 0; i < 32; ++i) d |= q[i];
-    return -(1 & ((d - 1) >> 8));
+    return 0;
 }
 
 static const unsigned char basepoint[32] = {9};
