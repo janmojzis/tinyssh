@@ -1,5 +1,6 @@
 /*
 20140918
+20241211 - reformated using clang-format
 Jan Mojzis
 Public domain.
 */
@@ -64,8 +65,7 @@ void fe_cmov(fe f, const fe g, crypto_uint32 b) {
     fe_0(t);
 }
 
-
-/* 
+/*
 o = a * b
 */
 /*
@@ -83,6 +83,7 @@ void fe_mul_(fel o, const fe a, const fe b) {
     }
 }
 */
+/* clang-format off */
 #define M(i, j) u = (crypto_uint64)a[i] * (crypto_uint64)b[j]; \
                 o[i + j    ] += u & 0xffffffff; \
                 o[i + j + 1] += u >> 32
@@ -102,9 +103,10 @@ void fe_mul_(fel o, const fe a, const fe b) {
     M(6, 0); M(6, 1); M(6, 2); M(6, 3); M(6, 4); M(6, 5); M(6, 6); M(6, 7);
     M(7, 0); M(7, 1); M(7, 2); M(7, 3); M(7, 4); M(7, 5); M(7, 6); M(7, 7);
 }
+/* clang-format on */
 
-/* 
-o = x ^ 2 
+/*
+o = x ^ 2
 */
 /*
 Implementation note: fe_sq_() is unrolled version of:
@@ -126,6 +128,7 @@ void fe_sq_(fel o, const fe a) {
     }
 }
 */
+/* clang-format off */
 #define M2(i, j) u = (crypto_uint64)a[i] * (crypto_uint64)a[j]; \
                  o[i + j    ] += 2 * (u & 0xffffffff); \
                  o[i + j + 1] += 2 * (u >> 32)
@@ -148,6 +151,7 @@ void fe_sq_(fel o, const fe a) {
     M2(6, 7);
     SQ(0); SQ(1); SQ(2); SQ(3); SQ(4); SQ(5); SQ(6); SQ(7);
 }
+/* clang-format on */
 
 /*
 if (p < r) r -= p
@@ -159,12 +163,14 @@ void fe_reducesmall(fe r, const fe p, const crypto_uint64 carry) {
     fe t;
 
     for (i = 0; i < 8; ++i) {
-        pb += (crypto_uint64)p[i];
-        b = (crypto_uint64)r[i] - pb; b = crypto_uint64_topbit_01(b);
-        t[i] = (crypto_uint64)r[i] - pb + (b << 32);
+        pb += (crypto_uint64) p[i];
+        b = (crypto_uint64) r[i] - pb;
+        b = crypto_uint64_topbit_01(b);
+        t[i] = (crypto_uint64) r[i] - pb + (b << 32);
         pb = b;
     }
-    b = carry - pb; b = crypto_uint64_topbit_01(b);
+    b = carry - pb;
+    b = crypto_uint64_topbit_01(b);
     b -= 1;
     for (i = 0; i < 8; ++i) r[i] ^= b & (r[i] ^ t[i]);
     fe_0(t);
