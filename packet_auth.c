@@ -1,5 +1,6 @@
 /*
 20140110
+20241212 - reformated using clang-format
 Jan Mojzis
 Public domain.
 */
@@ -17,16 +18,18 @@ Public domain.
 #include "log.h"
 #include "packet.h"
 
-
 int packet_auth(struct buf *b, struct buf *b2, int flagnoneauth) {
 
     crypto_uint8 ch, flagsignature;
     long long pos, i, count, sign_bytes = 0;
     crypto_uint32 len;
     const char *pkname;
-    int (*sign_open)(unsigned char *,unsigned long long *,const unsigned char *,unsigned long long,const unsigned char *) = 0;
+    int (*sign_open)(unsigned char *, unsigned long long *,
+                     const unsigned char *, unsigned long long,
+                     const unsigned char *) = 0;
     int (*parsesignpk)(unsigned char *, const unsigned char *, long long) = 0;
-    int (*parsesignature)(unsigned char *, const unsigned char *, long long) = 0;
+    int (*parsesignature)(unsigned char *, const unsigned char *, long long) =
+        0;
     void (*putsignpk)(struct buf *, const unsigned char *) = 0;
     void (*putsignpkbase64)(struct buf *, const unsigned char *) = 0;
     unsigned char pk[sshcrypto_sign_PUBLICKEYMAX];
@@ -38,11 +41,13 @@ int packet_auth(struct buf *b, struct buf *b2, int flagnoneauth) {
     /* parse "ssh-userauth" */
     pos = 0;
     if (!packet_getall(b, SSH_MSG_SERVICE_REQUEST)) return 0;
-    pos = packetparser_uint8(b->buf, b->len, pos, &ch);       /* SSH_MSG_SERVICE_REQUEST */
+    pos = packetparser_uint8(b->buf, b->len, pos,
+                             &ch); /* SSH_MSG_SERVICE_REQUEST */
     if (ch != SSH_MSG_SERVICE_REQUEST) bug_proto();
-    pos = packetparser_uint32(b->buf, b->len, pos, &len);     /* "ssh-userauth" */
+    pos = packetparser_uint32(b->buf, b->len, pos, &len); /* "ssh-userauth" */
     pos = packetparser_skip(b->buf, b->len, pos, len);
-    if (!str_equaln((char *)b->buf + pos - len, len, "ssh-userauth")) bug_proto();
+    if (!str_equaln((char *) b->buf + pos - len, len, "ssh-userauth"))
+        bug_proto();
     pos = packetparser_end(b->buf, b->len, pos);
 
     /* send service accept */
@@ -50,27 +55,31 @@ int packet_auth(struct buf *b, struct buf *b2, int flagnoneauth) {
     packet_put(b);
     if (!packet_sendall()) return 0;
 
-
     for (count = 0; count < 32; ++count) {
         /* receive userauth request */
         pkname = "unknown";
         pos = 0;
         buf_purge(b);
         if (!packet_getall(b, SSH_MSG_USERAUTH_REQUEST)) return 0;
-        pos = packetparser_uint8(b->buf, b->len, pos, &ch);         /* SSH_MSG_USERAUTH_REQUEST */
+        pos = packetparser_uint8(b->buf, b->len, pos,
+                                 &ch); /* SSH_MSG_USERAUTH_REQUEST */
         if (ch != SSH_MSG_USERAUTH_REQUEST) bug_proto();
-        pos = packetparser_uint32(b->buf, b->len, pos, &len);       /* name */
+        pos = packetparser_uint32(b->buf, b->len, pos, &len); /* name */
         if (len >= sizeof packet.name) bug_proto();
-        pos = packetparser_copy(b->buf, b->len, pos, (unsigned char *)packet.name, len);
+        pos = packetparser_copy(b->buf, b->len, pos,
+                                (unsigned char *) packet.name, len);
         packet.name[len] = 0;
-        pos = packetparser_uint32(b->buf, b->len, pos, &len);       /* "ssh-connection" */
+        pos = packetparser_uint32(b->buf, b->len, pos,
+                                  &len); /* "ssh-connection" */
         pos = packetparser_skip(b->buf, b->len, pos, len);
-        if (!str_equaln((char *)b->buf + pos - len, len, "ssh-connection")) bug_proto();
+        if (!str_equaln((char *) b->buf + pos - len, len, "ssh-connection"))
+            bug_proto();
 
-        pos = packetparser_uint32(b->buf, b->len, pos, &len);       /* publickey/password/hostbased/none */
+        pos = packetparser_uint32(b->buf, b->len, pos,
+                                  &len); /* publickey/password/hostbased/none */
         pos = packetparser_skip(b->buf, b->len, pos, len);
 
-        if (str_equaln((char *)b->buf + pos - len, len, "none")) {
+        if (str_equaln((char *) b->buf + pos - len, len, "none")) {
             /*
             if auth. none is enabled get the user from UID
             */
@@ -80,21 +89,30 @@ int packet_auth(struct buf *b, struct buf *b2, int flagnoneauth) {
                 pw = getpwuid(geteuid());
                 if (!pw) bug();
                 str_copyn(packet.name, sizeof packet.name, pw->pw_name);
-                b->len = 0; b->buf[0] = 0;
+                b->len = 0;
+                b->buf[0] = 0;
                 goto authorized;
             }
         }
-        if (str_equaln((char *)b->buf + pos - len, len, "password")) pkname = "password";
-        if (str_equaln((char *)b->buf + pos - len, len, "hostbased")) pkname = "hostbased";
-        if (str_equaln((char *)b->buf + pos - len, len, "publickey")) {
+        if (str_equaln((char *) b->buf + pos - len, len, "password"))
+            pkname = "password";
+        if (str_equaln((char *) b->buf + pos - len, len, "hostbased"))
+            pkname = "hostbased";
+        if (str_equaln((char *) b->buf + pos - len, len, "publickey")) {
             pos = packetparser_uint8(b->buf, b->len, pos, &flagsignature);
 
-            pos = packetparser_uint32(b->buf, b->len, pos, &len);   /* public key algorithm name */
+            pos = packetparser_uint32(b->buf, b->len, pos,
+                                      &len); /* public key algorithm name */
             pos = packetparser_skip(b->buf, b->len, pos, len);
             if (b->buf[pos] != 0) bug_proto();
-            pkname = (char *)b->buf + pos - len; /* XXX */
+            pkname = (char *) b->buf + pos - len; /* XXX */
 
-            sign_open = 0; parsesignpk = 0; putsignpk = 0; putsignpkbase64 = 0; parsesignature = 0; sign_bytes = 0;
+            sign_open = 0;
+            parsesignpk = 0;
+            putsignpk = 0;
+            putsignpkbase64 = 0;
+            parsesignature = 0;
+            sign_bytes = 0;
             for (i = 0; sshcrypto_keys[i].name; ++i) {
                 if (!sshcrypto_keys[i].sign_flagclient) continue;
                 if (!str_equaln(pkname, len, sshcrypto_keys[i].name)) continue;
@@ -107,8 +125,10 @@ int packet_auth(struct buf *b, struct buf *b2, int flagnoneauth) {
                 sign_bytes = sshcrypto_keys[i].sign_bytes;
                 break;
             }
-            if (sign_open && parsesignpk && putsignpk && putsignpkbase64 && parsesignature) {
-                pos = packetparser_uint32(b->buf, b->len, pos, &len);   /* public key blob */
+            if (sign_open && parsesignpk && putsignpk && putsignpkbase64 &&
+                parsesignature) {
+                pos = packetparser_uint32(b->buf, b->len, pos,
+                                          &len); /* public key blob */
                 pos = packetparser_skip(b->buf, b->len, pos, len);
                 if (!parsesignpk(pk, b->buf + pos - len, len)) bug_proto();
 
@@ -123,15 +143,14 @@ int packet_auth(struct buf *b, struct buf *b2, int flagnoneauth) {
                     continue;
                 }
 
-
                 /* 'publickey' ... with signature */
-                pos = packetparser_uint32(b->buf, b->len, pos, &len);   /* signature blob */
+                pos = packetparser_uint32(b->buf, b->len, pos,
+                                          &len); /* signature blob */
                 pos = packetparser_skip(b->buf, b->len, pos, len);
                 if (!parsesignature(sig, b->buf + pos - len, len)) bug_proto();
                 pos = packetparser_end(b->buf, b->len, pos);
                 purge(b->buf + b->len - len - 4, len + 4);
                 b->len -= len + 4;
-
 
                 /* authenticate user - verify signature */
                 buf_purge(b2);
@@ -141,14 +160,19 @@ int packet_auth(struct buf *b, struct buf *b2, int flagnoneauth) {
 
                 buf_purge(b);
                 if (b->alloc <= b2->len) bug_nomem();
-                if (sign_open(b->buf, &smlen, b2->buf, b2->len, pk) != 0) { errno = EAUTH; bug(); }
-                b->len = smlen; buf_purge(b);
+                if (sign_open(b->buf, &smlen, b2->buf, b2->len, pk) != 0) {
+                    errno = EAUTH;
+                    bug();
+                }
+                b->len = smlen;
+                buf_purge(b);
 
                 /* authorize user -  using authorized_keys */
                 buf_purge(b);
                 putsignpkbase64(b, pk);
                 buf_putnum8(b, 0);
-                if (subprocess_auth(packet.name, pkname, (char *)b->buf) == 0) goto authorized;
+                if (subprocess_auth(packet.name, pkname, (char *) b->buf) == 0)
+                    goto authorized;
             }
         }
 
@@ -156,7 +180,7 @@ int packet_auth(struct buf *b, struct buf *b2, int flagnoneauth) {
         log_d5("auth: ", packet.name, ": ", pkname, " rejected");
         buf_purge(b);
         buf_putnum8(b, SSH_MSG_USERAUTH_FAILURE);
-        buf_putstring(b,"publickey");
+        buf_putstring(b, "publickey");
         buf_putnum8(b, 0);
         packet_put(b);
         if (!packet_sendall()) return 0;
@@ -164,10 +188,10 @@ int packet_auth(struct buf *b, struct buf *b2, int flagnoneauth) {
     log_w1("auth: too many authentication tries");
     return 0;
 
-
 authorized:
     /* authenticated + authorized */
-    log_i7("auth: ", packet.name, ": ", pkname, " ", (char *)b->buf, " accepted");
+    log_i7("auth: ", packet.name, ": ", pkname, " ", (char *) b->buf,
+           " accepted");
     buf_purge(b);
     buf_putnum8(b, SSH_MSG_USERAUTH_SUCCESS);
     packet_put(b);
