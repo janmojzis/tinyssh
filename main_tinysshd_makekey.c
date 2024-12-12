@@ -1,5 +1,6 @@
 /*
 20121022
+20241212 - reformated using clang-format
 Jan Mojzis
 Public domain.
 */
@@ -19,7 +20,8 @@ Public domain.
 
 #define USAGE "usage: tinysshd-makekey keydir"
 
-static void create(const char *d, const char *fn, const unsigned char *x, long long xlen) {
+static void create(const char *d, const char *fn, const unsigned char *x,
+                   long long xlen) {
     if (savesync(fn, x, xlen) == -1) die_fatal("unable to create", d, fn);
 }
 
@@ -41,12 +43,19 @@ int main_tinysshd_makekey(int argc, char **argv) {
         if (x[0] == '-' && x[1] == 0) break;
         if (x[0] == '-' && x[1] == '-' && x[2] == 0) break;
         while (*++x) {
-            if (*x == 'q') { flagverbose = 0; continue; }
-            if (*x == 'Q') { flagverbose = 1; continue; }
+            if (*x == 'q') {
+                flagverbose = 0;
+                continue;
+            }
+            if (*x == 'Q') {
+                flagverbose = 1;
+                continue;
+            }
             die_usage(USAGE);
         }
     }
-    x = *++argv; if (!x) die_usage(USAGE);
+    x = *++argv;
+    if (!x) die_usage(USAGE);
 
     log_init(flagverbose, "tinysshd-makekey", 0, 0);
 
@@ -55,11 +64,15 @@ int main_tinysshd_makekey(int argc, char **argv) {
     if (chdir(x) == -1) die_fatal("unable to chdir to directory", x, 0);
 
     for (i = 0; sshcrypto_keys[i].name; ++i) {
-        if (sshcrypto_keys[i].sign_keypair(pk, sk) != 0) die_fatal("unable to generate key pair", x, 0);
+        if (sshcrypto_keys[i].sign_keypair(pk, sk) != 0)
+            die_fatal("unable to generate key pair", x, 0);
         umask(022);
-        create(x, sshcrypto_keys[i].sign_publickeyfilename, pk, sshcrypto_keys[i].sign_publickeybytes);
+        create(x, sshcrypto_keys[i].sign_publickeyfilename, pk,
+               sshcrypto_keys[i].sign_publickeybytes);
         umask(077);
-        create(x, sshcrypto_keys[i].sign_secretkeyfilename, sk, sshcrypto_keys[i].sign_secretkeybytes);
+        create(x, sshcrypto_keys[i].sign_secretkeyfilename, sk,
+               sshcrypto_keys[i].sign_secretkeybytes);
     }
-    global_die(0); return 111;
+    global_die(0);
+    return 111;
 }
