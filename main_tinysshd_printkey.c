@@ -1,5 +1,6 @@
 /*
 20150124
+20241212 - reformated using clang-format
 Jan Mojzis
 Public domain.
 */
@@ -16,12 +17,13 @@ Public domain.
 #include "die.h"
 #include "main.h"
 
-static struct buf b1 = { global_bspace1, 0, sizeof global_bspace1 }; /* reusing global buffer */
-static struct buf b2 = { global_bspace2, 0, sizeof global_bspace2 }; /* reusing global buffer */
+static struct buf b1 = {global_bspace1, 0,
+                        sizeof global_bspace1}; /* reusing global buffer */
+static struct buf b2 = {global_bspace2, 0,
+                        sizeof global_bspace2}; /* reusing global buffer */
 static unsigned char pk[sshcrypto_sign_PUBLICKEYMAX];
 
 #define USAGE "usage: tinysshd-printkey keydir"
-
 
 int main_tinysshd_printkey(int argc, char **argv) {
 
@@ -38,19 +40,20 @@ int main_tinysshd_printkey(int argc, char **argv) {
         x = *++argv;
         if (x[0] == '-' && x[1] == 0) break;
         if (x[0] == '-' && x[1] == '-' && x[2] == 0) break;
-        while (*++x) {
-            die_usage(USAGE);
-        }
+        while (*++x) { die_usage(USAGE); }
     }
-    x = *++argv; if (!x) die_usage(USAGE);
+    x = *++argv;
+    if (!x) die_usage(USAGE);
 
     if (chdir(x) == -1) die_fatal("unable to chdir to directory", x, 0);
 
     /* read public keys */
     for (i = 0; sshcrypto_keys[i].name; ++i) {
-        if (load(sshcrypto_keys[i].sign_publickeyfilename, pk, sshcrypto_keys[i].sign_publickeybytes) == -1) {
+        if (load(sshcrypto_keys[i].sign_publickeyfilename, pk,
+                 sshcrypto_keys[i].sign_publickeybytes) == -1) {
             if (errno == ENOENT) continue;
-            die_fatal("unable to read public key from file", x, sshcrypto_keys[i].sign_publickeyfilename);
+            die_fatal("unable to read public key from file", x,
+                      sshcrypto_keys[i].sign_publickeyfilename);
         }
 
         buf_purge(&b1);
@@ -63,7 +66,9 @@ int main_tinysshd_printkey(int argc, char **argv) {
         buf_puts(&b2, " ");
         buf_putbase64(&b2, b1.buf + 4, b1.len - 4);
         buf_puts(&b2, "\n");
-        if (writeall(1, b2.buf, b2.len) == -1) die_fatal("unable to write output", 0, 0);
+        if (writeall(1, b2.buf, b2.len) == -1)
+            die_fatal("unable to write output", 0, 0);
     }
-    global_die(0); return 111;
+    global_die(0);
+    return 111;
 }
