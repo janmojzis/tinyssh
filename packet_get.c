@@ -1,5 +1,6 @@
 /*
 20140126
+20241215 - reformated using clang-format
 Jan Mojzis
 Public domain.
 */
@@ -25,7 +26,7 @@ static int packet_get_plain_(struct buf *b) {
     long long l;
 
     pp = recvbuf->buf + PACKET_ZEROBYTES;
-    l  = recvbuf->len - PACKET_ZEROBYTES;
+    l = recvbuf->len - PACKET_ZEROBYTES;
 
     /* we need at least 4 bytes */
     if (l < 4) return 1;
@@ -36,7 +37,8 @@ static int packet_get_plain_(struct buf *b) {
         char buf1[NUMTOSTR_LEN];
         char buf2[NUMTOSTR_LEN];
         errno = EPROTO;
-        log_f4("packet length ", numtostr(buf1, packet_length), " > PACKET_LIMIT ", numtostr(buf2, PACKET_LIMIT));
+        log_f4("packet length ", numtostr(buf1, packet_length),
+               " > PACKET_LIMIT ", numtostr(buf2, PACKET_LIMIT));
         global_die(111);
     }
     if (packet_length + 4 > l) return 1;
@@ -47,7 +49,7 @@ static int packet_get_plain_(struct buf *b) {
     if (len <= 0) bug_proto();
     buf_put(b, recvbuf->buf + PACKET_ZEROBYTES + 5, len);
 
-    byte_copy(pp,  l - packet_length + 4, pp + packet_length + 4);
+    byte_copy(pp, l - packet_length + 4, pp + packet_length + 4);
     purge(pp + l - packet_length + 4, packet_length + 4);
     recvbuf->len -= packet_length + 4;
 
@@ -60,12 +62,8 @@ static int packet_get_(struct buf *b) {
     crypto_uint32 lastreceivepacketid = packet.receivepacketid;
     int ret;
 
-    if (packet.flagkeys) {
-        ret = sshcrypto_packet_get(b);
-    }
-    else {
-        ret = packet_get_plain_(b);
-    }
+    if (packet.flagkeys) { ret = sshcrypto_packet_get(b); }
+    else { ret = packet_get_plain_(b); }
 
     /* overflow check */
     if (lastreceivepacketid > packet.receivepacketid) {
@@ -76,17 +74,17 @@ static int packet_get_(struct buf *b) {
     return ret;
 }
 
-
 int packet_get(struct buf *b, crypto_uint8 x) {
 
     buf_purge(b);
     if (!packet_get_(b)) return 0;
     if (b->len <= 0) return 1;
-    if (!packet.flagauthorized) if (packet.receivepacketid > PACKET_UNAUTHENTICATED_MESSAGES) {
-        errno = EPROTO;
-        log_f1("too many unauthenticated messages");
-        global_die(111);
-    }
+    if (!packet.flagauthorized)
+        if (packet.receivepacketid > PACKET_UNAUTHENTICATED_MESSAGES) {
+            errno = EPROTO;
+            log_f1("too many unauthenticated messages");
+            global_die(111);
+        }
 
     switch (b->buf[0]) {
         case SSH_MSG_DISCONNECT:
@@ -95,7 +93,8 @@ int packet_get(struct buf *b, crypto_uint8 x) {
         case SSH_MSG_IGNORE:
         case SSH_MSG_DEBUG:
             if (!packet.flagkeys) {
-                log_f1("SSH_MSG_IGNORE/SSH_MSG_DEBUG packet rejected in plain-text mode");
+                log_f1("SSH_MSG_IGNORE/SSH_MSG_DEBUG packet rejected in "
+                       "plain-text mode");
                 global_die(111);
             }
             buf_purge(b);
@@ -111,7 +110,8 @@ int packet_get(struct buf *b, crypto_uint8 x) {
                 char buf1[NUMTOSTR_LEN];
                 char buf2[NUMTOSTR_LEN];
                 errno = EPROTO;
-                log_f4("expected packet type ", numtostr(buf1, x), ", got ", numtostr(buf2, b->buf[0]));
+                log_f4("expected packet type ", numtostr(buf1, x), ", got ",
+                       numtostr(buf2, b->buf[0]));
                 global_die(111);
             }
             break;
