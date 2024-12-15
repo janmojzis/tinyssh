@@ -150,19 +150,19 @@ crypto_kem_sntrup761_tinyssh.o: crypto_kem_sntrup761_tinyssh.c \
  haslib25519.h crypto_declassify.h hasvalgrind.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_kem_sntrup761_tinyssh.c
 
-crypto_kem_sntrup761x25519.o: crypto_kem_sntrup761x25519.c randombytes.h \
- haslibrandombytes.h cleanup.h crypto_hash_sha512.h haslib25519.h \
- crypto_scalarmult_curve25519.h crypto_kem_sntrup761.h haslibntruprime.h \
- crypto_kem_sntrup761x25519.h
+crypto_kem_sntrup761x25519.o: crypto_kem_sntrup761x25519.c cleanup.h \
+ crypto_hash_sha512.h haslib25519.h crypto_dh_x25519.h \
+ crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_kem_sntrup761x25519.c
 
 crypto_onetimeauth_poly1305.o: crypto_onetimeauth_poly1305.c \
+ cryptoint/crypto_uint32.h cryptoint/crypto_uint64.h crypto_verify_16.h \
  crypto_onetimeauth_poly1305.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_onetimeauth_poly1305.c
 
 crypto_scalarmult_curve25519.o: crypto_scalarmult_curve25519.c cleanup.h \
  fe25519.h fe.h cryptoint/crypto_uint32.h cryptoint/crypto_uint64.h \
- crypto_scalarmult_curve25519.h
+ cryptoint/crypto_uint8.h crypto_scalarmult_curve25519.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_scalarmult_curve25519.c
 
 crypto_sign_ed25519_lib25519.o: crypto_sign_ed25519_lib25519.c \
