@@ -58,7 +58,27 @@ struct sshcrypto_key sshcrypto_keys[] = {
         ed25519_parsesignpk,
     },
 #endif
-    {0, 0, 0, 0, {0}, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    {
+        0,
+        0,
+        0,
+        0,
+        {0},
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+    },
+};
 
 const char *sshcrypto_key_name = 0;
 int (*sshcrypto_sign)(unsigned char *, unsigned long long *,
