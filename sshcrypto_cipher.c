@@ -16,12 +16,31 @@ Public domain.
 #include "sshcrypto.h"
 
 struct sshcrypto_cipher sshcrypto_ciphers[] = {
-    {"chacha20-poly1305@openssh.com", crypto_stream_chacha20_xor,
-     crypto_onetimeauth_poly1305, crypto_stream_chacha20_KEYBYTES * 2, 8,
-     crypto_onetimeauth_poly1305_BYTES, chachapoly_packet_put,
-     chachapoly_packet_get, sshcrypto_TYPENEWCRYPTO | sshcrypto_TYPEPQCRYPTO,
-     0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    {
+        "chacha20-poly1305@openssh.com",
+        crypto_stream_chacha20_xor,
+        crypto_onetimeauth_poly1305,
+        crypto_stream_chacha20_KEYBYTES * 2,
+        8,
+        crypto_onetimeauth_poly1305_BYTES,
+        chachapoly_packet_put,
+        chachapoly_packet_get,
+        sshcrypto_TYPENEWCRYPTO | sshcrypto_TYPEPQCRYPTO,
+        0,
+    },
+    {
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+    },
+};
 
 const char *sshcrypto_cipher_name = 0;
 int (*sshcrypto_stream_xor)(unsigned char *, const unsigned char *,
