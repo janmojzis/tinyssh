@@ -51,7 +51,19 @@ struct sshcrypto_kex sshcrypto_kexs[] = {
         sshcrypto_TYPEPQCRYPTO,
         0,
     },
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+    {
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+    },
+};
 
 struct sshcrypto_pseudokex sshcrypto_pseudokexs[] = {
     {
@@ -59,7 +71,12 @@ struct sshcrypto_pseudokex sshcrypto_pseudokexs[] = {
         "kex-strict-c-v00@openssh.com",
         sshcrypto_FLAGSTRICTKEX,
     },
-    {0, 0, 0}};
+    {
+        0,
+        0,
+        0,
+    },
+};
 
 int sshcrypto_kex_flags = 0;
 const char *sshcrypto_kex_name = 0;
