@@ -47,10 +47,21 @@ static void test_pseudorandom(void) {
     fail_whenbadchecksum(test_pseudorandom_checksum);
 }
 
+static void test_1(void) {
+
+        unsigned char k[32] = {2};
+        unsigned char m[16] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+        unsigned char o[16] = {3};
+        if (crypto_onetimeauth_poly1305_verify(o, m, sizeof m, k) != 0) {
+            fail("crypto_onetimeauth_poly1305_verify() failure");
+        }
+}
+
 
 int main(void) {
 
     test_pseudorandom();
+    test_1();
 
     _exit(0);
 }
