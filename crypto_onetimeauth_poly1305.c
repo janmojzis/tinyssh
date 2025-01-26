@@ -1,5 +1,5 @@
 /*
-20241210
+20250126
 */
 /*
 Based on poly1305-donna (https://github.com/floodyberry/poly1305-donna)
@@ -7,9 +7,9 @@ Based on poly1305-donna (https://github.com/floodyberry/poly1305-donna)
 - switched to cryptoint
 */
 
+#include "crypto_int16.h"
 #include "crypto_uint32.h"
 #include "crypto_uint64.h"
-#include "crypto_verify_16.h"
 #include "crypto_onetimeauth_poly1305.h"
 
 /* clang-format off */
@@ -139,7 +139,12 @@ int crypto_onetimeauth_poly1305_tinyssh_verify(const unsigned char *h,
                                                const unsigned char *k) {
 
     unsigned char correct[16];
+    crypto_int16 d = 0;
+    long long i;
+
     crypto_onetimeauth_poly1305(correct, in, l, k);
-    return crypto_verify_16(h, correct);
+
+    for (i = 0; i < 16; ++i) d |= correct[i] ^ h[i];
+    return crypto_int16_nonzero_mask(d);
 }
 /* clang-format on */

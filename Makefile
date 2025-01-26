@@ -156,8 +156,8 @@ crypto_kem_sntrup761x25519.o: crypto_kem_sntrup761x25519.c cleanup.h \
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_kem_sntrup761x25519.c
 
 crypto_onetimeauth_poly1305.o: crypto_onetimeauth_poly1305.c \
- cryptoint/crypto_uint32.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_onetimeauth_poly1305.h
+ cryptoint/crypto_int16.h cryptoint/crypto_uint32.h \
+ cryptoint/crypto_uint64.h crypto_onetimeauth_poly1305.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_onetimeauth_poly1305.c
 
 crypto_scalarmult_curve25519.o: crypto_scalarmult_curve25519.c cleanup.h \
