@@ -1,4 +1,4 @@
-### 20250201 (not released yet)
+### 20250126 (pre-relase)
 - Fixed more compiler warnings
 - More used cryptoint
 
