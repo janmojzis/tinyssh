@@ -1,3 +1,7 @@
+### 20250201 (not released yet)
+- Fixed more compiler warnings
+- More used cryptoint
+
 ### 20241201 (pre-relase)
 - Switched to [cryptoint](https://libntruprime.cr.yp.to/libntruprime-20241021/cryptoint.html) 20241003
 - Switched to tests from [SUPERCOP](https://bench.cr.yp.to/supercop.html) for crypto primitives
