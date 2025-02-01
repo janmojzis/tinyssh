@@ -1,3 +1,6 @@
+### 20250201
+- Final reformatting using clang-format
+
 ### 20250126 (pre-relase)
 - Fixed more compiler warnings
 - More used cryptoint
