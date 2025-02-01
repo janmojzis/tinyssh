@@ -17,11 +17,13 @@ int packet_channel_recv_data(struct buf *b) {
     crypto_uint32 len, id;
     crypto_uint8 ch;
 
-    pos = packetparser_uint8(b->buf, b->len, pos, &ch);         /* byte      SSH_MSG_CHANNEL_DATA */
+    pos = packetparser_uint8(b->buf, b->len, pos,
+                             &ch); /* byte      SSH_MSG_CHANNEL_DATA */
     if (ch != SSH_MSG_CHANNEL_DATA) bug_proto();
-    pos = packetparser_uint32(b->buf, b->len, pos, &id);        /* uint32    recipient channel    */
+    pos = packetparser_uint32(b->buf, b->len, pos,
+                              &id); /* uint32    recipient channel    */
     if (id != channel_getid()) bug_proto();
-    pos = packetparser_uint32(b->buf, b->len, pos, &len);       /* string    data                 */
+    pos = packetparser_uint32(b->buf, b->len, pos, &len); /* string    data */
     pos = packetparser_skip(b->buf, b->len, pos, len);
     pos = packetparser_end(b->buf, b->len, pos);
 
@@ -37,18 +39,20 @@ int packet_channel_recv_extendeddata(struct buf *b) {
     return 1;
 }
 
-
 int packet_channel_recv_windowadjust(struct buf *b) {
 
     long long pos = 0;
     crypto_uint32 len, id;
     crypto_uint8 ch;
 
-    pos = packetparser_uint8(b->buf, b->len, pos, &ch);       /* byte      SSH_MSG_CHANNEL_WINDOW_ADJUST */
+    pos = packetparser_uint8(b->buf, b->len, pos,
+                             &ch); /* byte      SSH_MSG_CHANNEL_WINDOW_ADJUST */
     if (ch != SSH_MSG_CHANNEL_WINDOW_ADJUST) bug_proto();
-    pos = packetparser_uint32(b->buf, b->len, pos, &id);      /* uint32    recipient channel             */
+    pos = packetparser_uint32(b->buf, b->len, pos,
+                              &id); /* uint32    recipient channel */
     if (id != channel_getid()) bug_proto();
-    pos = packetparser_uint32(b->buf, b->len, pos, &len);     /* uint32    bytes to add                  */
+    pos = packetparser_uint32(b->buf, b->len, pos,
+                              &len); /* uint32    bytes to add */
     pos = packetparser_end(b->buf, b->len, pos);
 
     channel_incrementremotewindow(len);
@@ -56,16 +60,17 @@ int packet_channel_recv_windowadjust(struct buf *b) {
     return 1;
 }
 
-
 int packet_channel_recv_eof(struct buf *b) {
 
     long long pos = 0;
     crypto_uint32 id;
     crypto_uint8 ch;
 
-    pos = packetparser_uint8(b->buf, b->len, pos, &ch);       /* byte      SSH_MSG_CHANNEL_EOF */
+    pos = packetparser_uint8(b->buf, b->len, pos,
+                             &ch); /* byte      SSH_MSG_CHANNEL_EOF */
     if (ch != SSH_MSG_CHANNEL_EOF) bug_proto();
-    pos = packetparser_uint32(b->buf, b->len, pos, &id);      /* uint32    recipient channel   */
+    pos = packetparser_uint32(b->buf, b->len, pos,
+                              &id); /* uint32    recipient channel   */
     if (id != channel_getid()) bug_proto();
     pos = packetparser_end(b->buf, b->len, pos);
 
@@ -75,16 +80,17 @@ int packet_channel_recv_eof(struct buf *b) {
     return 1;
 }
 
-
 int packet_channel_recv_close(struct buf *b) {
 
     long long pos = 0;
     crypto_uint32 id;
     crypto_uint8 ch;
 
-    pos = packetparser_uint8(b->buf, b->len, pos, &ch);       /* byte      SSH_MSG_CHANNEL_CLOSE */
+    pos = packetparser_uint8(b->buf, b->len, pos,
+                             &ch); /* byte      SSH_MSG_CHANNEL_CLOSE */
     if (ch != SSH_MSG_CHANNEL_CLOSE) bug_proto();
-    pos = packetparser_uint32(b->buf, b->len, pos, &id);      /* uint32    recipient channel   */
+    pos = packetparser_uint32(b->buf, b->len, pos,
+                              &id); /* uint32    recipient channel   */
     if (id != channel_getid()) bug_proto();
     pos = packetparser_end(b->buf, b->len, pos);
 

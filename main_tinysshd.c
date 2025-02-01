@@ -28,7 +28,8 @@ Public domain.
 #include "str.h"
 #include "main.h"
 
-static unsigned int cryptotypeselected = sshcrypto_TYPENEWCRYPTO | sshcrypto_TYPEPQCRYPTO;
+static unsigned int cryptotypeselected =
+    sshcrypto_TYPENEWCRYPTO | sshcrypto_TYPEPQCRYPTO;
 static int flagverbose = 1;
 static int fdwd;
 static int flaglogger = 0;
@@ -43,7 +44,7 @@ static void timeout(int x) {
     die_fatal("closing connection", 0, 0);
 }
 
-static int selfpipe[2] = { -1, -1 };
+static int selfpipe[2] = {-1, -1};
 
 static void trigger(int x) {
     errno = 0;
@@ -75,9 +76,7 @@ int main_tinysshd(int argc, char **argv, const char *binaryname) {
     if (str_equaln(binaryname, binarynamelen, "tinysshnoneauthd")) {
         usage = "usage: tinysshnoneauthd [options] keydir";
     }
-    else {
-        usage = "usage: tinysshd [options] keydir";
-    }
+    else { usage = "usage: tinysshd [options] keydir"; }
 
     if (argc < 2) die_usage(usage);
     if (!argv[0]) die_usage(usage);
@@ -88,40 +87,89 @@ int main_tinysshd(int argc, char **argv, const char *binaryname) {
         if (x[0] == '-' && x[1] == 0) break;
         if (x[0] == '-' && x[1] == '-' && x[2] == 0) break;
         while (*++x) {
-            if (*x == 'q') { flagverbose = 0; continue; }
-            if (*x == 'Q') { flagverbose = 1; continue; }
-            if (*x == 'v') { ++flagverbose; if (flagverbose >= 4) flagverbose = 4; continue; }
-            if (*x == 'o') { cryptotypeselected |= sshcrypto_TYPEOLDCRYPTO; continue; }
-            if (*x == 'O') { cryptotypeselected &= ~sshcrypto_TYPEOLDCRYPTO; continue; }
-            if (*x == 's') { cryptotypeselected |= sshcrypto_TYPENEWCRYPTO; continue; }
-            if (*x == 'S') { cryptotypeselected &= ~sshcrypto_TYPENEWCRYPTO; continue; }
-            if (*x == 'p') { cryptotypeselected |= sshcrypto_TYPEPQCRYPTO; continue; }
-            if (*x == 'P') { cryptotypeselected &= ~sshcrypto_TYPEPQCRYPTO; continue; }
-            if (*x == 'l') { flaglogger = 1; continue; }
-            if (*x == 'L') { flaglogger = 0; continue; }
+            if (*x == 'q') {
+                flagverbose = 0;
+                continue;
+            }
+            if (*x == 'Q') {
+                flagverbose = 1;
+                continue;
+            }
+            if (*x == 'v') {
+                ++flagverbose;
+                if (flagverbose >= 4) flagverbose = 4;
+                continue;
+            }
+            if (*x == 'o') {
+                cryptotypeselected |= sshcrypto_TYPEOLDCRYPTO;
+                continue;
+            }
+            if (*x == 'O') {
+                cryptotypeselected &= ~sshcrypto_TYPEOLDCRYPTO;
+                continue;
+            }
+            if (*x == 's') {
+                cryptotypeselected |= sshcrypto_TYPENEWCRYPTO;
+                continue;
+            }
+            if (*x == 'S') {
+                cryptotypeselected &= ~sshcrypto_TYPENEWCRYPTO;
+                continue;
+            }
+            if (*x == 'p') {
+                cryptotypeselected |= sshcrypto_TYPEPQCRYPTO;
+                continue;
+            }
+            if (*x == 'P') {
+                cryptotypeselected &= ~sshcrypto_TYPEPQCRYPTO;
+                continue;
+            }
+            if (*x == 'l') {
+                flaglogger = 1;
+                continue;
+            }
+            if (*x == 'L') {
+                flaglogger = 0;
+                continue;
+            }
             if (*x == 'x') {
-                if (x[1]) { channel_subsystem_add(x + 1); break; }
-                if (argv[1]) { channel_subsystem_add(*++argv); break; }
+                if (x[1]) {
+                    channel_subsystem_add(x + 1);
+                    break;
+                }
+                if (argv[1]) {
+                    channel_subsystem_add(*++argv);
+                    break;
+                }
             }
             if (*x == 'e') {
-                if (x[1]) { customcmd = x + 1; break; }
-                if (argv[1]) { customcmd = *++argv; break; }
+                if (x[1]) {
+                    customcmd = x + 1;
+                    break;
+                }
+                if (argv[1]) {
+                    customcmd = *++argv;
+                    break;
+                }
             }
 
             die_usage(usage);
         }
     }
-    keydir = *++argv; if (!keydir) die_usage(usage);
+    keydir = *++argv;
+    if (!keydir) die_usage(usage);
 
     log_init(flagverbose, binaryname, 1, flaglogger);
 
     if (str_equaln(binaryname, binarynamelen, "tinysshnoneauthd")) {
-        if (!customcmd) die_fatal("rejecting to run without -e customprogram", 0, 0);
+        if (!customcmd)
+            die_fatal("rejecting to run without -e customprogram", 0, 0);
         if (geteuid() == 0) die_fatal("rejecting to run under UID=0", 0, 0);
         flagnoneauth = 1;
     }
 
-    connectioninfo(channel.localip, channel.localport, channel.remoteip, channel.remoteport);
+    connectioninfo(channel.localip, channel.localport, channel.remoteip,
+                   channel.remoteport);
     log_i4("connection from ", channel.remoteip, ":", channel.remoteport);
 
     channel_subsystem_log();
@@ -137,22 +185,34 @@ int main_tinysshd(int argc, char **argv, const char *binaryname) {
     if (fdwd == -1) die_fatal("unable to open current directory", 0, 0);
     if (chdir(keydir) == -1) die_fatal("unable to chdir to", keydir, 0);
 
-    for (i = 0; sshcrypto_keys[i].name; ++i) sshcrypto_keys[i].sign_flagserver |= sshcrypto_keys[i].cryptotype & cryptotypeselected;
-    for (i = 0; sshcrypto_keys[i].name; ++i) sshcrypto_keys[i].sign_flagclient |= sshcrypto_keys[i].cryptotype & cryptotypeselected;
-    for (i = 0; sshcrypto_kexs[i].name; ++i) sshcrypto_kexs[i].flagenabled |= sshcrypto_kexs[i].cryptotype & cryptotypeselected;
-    for (i = 0; sshcrypto_ciphers[i].name; ++i) sshcrypto_ciphers[i].flagenabled |= sshcrypto_ciphers[i].cryptotype & cryptotypeselected;
+    for (i = 0; sshcrypto_keys[i].name; ++i)
+        sshcrypto_keys[i].sign_flagserver |=
+            sshcrypto_keys[i].cryptotype & cryptotypeselected;
+    for (i = 0; sshcrypto_keys[i].name; ++i)
+        sshcrypto_keys[i].sign_flagclient |=
+            sshcrypto_keys[i].cryptotype & cryptotypeselected;
+    for (i = 0; sshcrypto_kexs[i].name; ++i)
+        sshcrypto_kexs[i].flagenabled |=
+            sshcrypto_kexs[i].cryptotype & cryptotypeselected;
+    for (i = 0; sshcrypto_ciphers[i].name; ++i)
+        sshcrypto_ciphers[i].flagenabled |=
+            sshcrypto_ciphers[i].cryptotype & cryptotypeselected;
 
     /* read public keys */
     for (i = 0; sshcrypto_keys[i].name; ++i) {
         if (!sshcrypto_keys[i].sign_flagserver) continue;
-        if (load(sshcrypto_keys[i].sign_publickeyfilename, sshcrypto_keys[i].sign_publickey, sshcrypto_keys[i].sign_publickeybytes) == -1) {
+        if (load(sshcrypto_keys[i].sign_publickeyfilename,
+                 sshcrypto_keys[i].sign_publickey,
+                 sshcrypto_keys[i].sign_publickeybytes) == -1) {
             sshcrypto_keys[i].sign_flagserver = 0;
             if (errno == ENOENT) continue;
-            die_fatal("unable to read public key from file", keydir, sshcrypto_keys[i].sign_publickeyfilename);
+            die_fatal("unable to read public key from file", keydir,
+                      sshcrypto_keys[i].sign_publickeyfilename);
         }
     }
 
-    if (fchdir(fdwd) == -1) die_fatal("unable to change directory to working directory", 0, 0);
+    if (fchdir(fdwd) == -1)
+        die_fatal("unable to change directory to working directory", 0, 0);
     close(fdwd);
 
     /* set timeout */
@@ -160,7 +220,8 @@ int main_tinysshd(int argc, char **argv, const char *binaryname) {
 
     /* send and receive hello */
     if (!packet_hello_send()) die_fatal("unable to send hello-string", 0, 0);
-    if (!packet_hello_receive()) die_fatal("unable to receive hello-string", 0, 0);
+    if (!packet_hello_receive())
+        die_fatal("unable to receive hello-string", 0, 0);
 
     /* send and receive kex */
     if (!packet_kex_send()) die_fatal("unable to send kex-message", 0, 0);
@@ -176,7 +237,8 @@ rekeying:
     }
 
     /* send and receive kexdh */
-    if (!packet_kexdh(keydir, &b1, &b2)) die_fatal("unable to process kexdh", 0, 0);
+    if (!packet_kexdh(keydir, &b1, &b2))
+        die_fatal("unable to process kexdh", 0, 0);
 
     if (packet.flagkeys) log_d1("rekeying: done");
     packet.flagkeys = 1;
@@ -185,7 +247,8 @@ rekeying:
 
     /* authentication + authorization */
     if (packet.flagauthorized == 0) {
-        if (!packet_auth(&b1, &b2, flagnoneauth)) die_fatal("authentication failed", 0, 0);
+        if (!packet_auth(&b1, &b2, flagnoneauth))
+            die_fatal("authentication failed", 0, 0);
         packet.flagauthorized = 1;
     }
 
@@ -196,8 +259,7 @@ rekeying:
     for (;;) {
         if (channel_iseof())
             if (!packet.sendbuf.len)
-                if (packet.flagchanneleofreceived)
-                    break;
+                if (packet.flagchanneleofreceived) break;
 
         watch0 = watch1 = 0;
         watchtochild = watchfromchild1 = watchfromchild2 = 0;
@@ -205,14 +267,44 @@ rekeying:
 
         q = p;
 
-        if (packet_sendisready()) { watch1 = q; q->fd = 1; q->events = POLLOUT; ++q; }
-        if (packet_recvisready()) { watch0 = q; q->fd = 0; q->events = POLLIN;  ++q; }
+        if (packet_sendisready()) {
+            watch1 = q;
+            q->fd = 1;
+            q->events = POLLOUT;
+            ++q;
+        }
+        if (packet_recvisready()) {
+            watch0 = q;
+            q->fd = 0;
+            q->events = POLLIN;
+            ++q;
+        }
 
-        if (channel_writeisready()) { watchtochild = q; q->fd = channel_getfd0(); q->events = POLLOUT; ++q; }
-        if (channel_readisready() && packet_putisready()) { watchfromchild1 = q; q->fd = channel_getfd1(); q->events = POLLIN; ++q; }
-        if (channel_extendedreadisready() && packet_putisready()) { watchfromchild2 = q; q->fd = channel_getfd2(); q->events = POLLIN; ++q; }
+        if (channel_writeisready()) {
+            watchtochild = q;
+            q->fd = channel_getfd0();
+            q->events = POLLOUT;
+            ++q;
+        }
+        if (channel_readisready() && packet_putisready()) {
+            watchfromchild1 = q;
+            q->fd = channel_getfd1();
+            q->events = POLLIN;
+            ++q;
+        }
+        if (channel_extendedreadisready() && packet_putisready()) {
+            watchfromchild2 = q;
+            q->fd = channel_getfd2();
+            q->events = POLLIN;
+            ++q;
+        }
 
-        if (selfpipe[0] != -1) { watchselfpipe = q; q->fd = selfpipe[0]; q->events = POLLIN; ++q; }
+        if (selfpipe[0] != -1) {
+            watchselfpipe = q;
+            q->fd = selfpipe[0];
+            q->events = POLLIN;
+            ++q;
+        }
 
         if (poll(p, q - p, 60000) < 0) {
             watch0 = watch1 = 0;
@@ -220,21 +312,29 @@ rekeying:
             watchselfpipe = 0;
         }
         else {
-            if (watch0) if (!watch0->revents) watch0 = 0;
-            if (watch1) if (!watch1->revents) watch1 = 0;
-            if (watchfromchild1) if (!watchfromchild1->revents) watchfromchild1 = 0;
-            if (watchfromchild2) if (!watchfromchild2->revents) watchfromchild2 = 0;
-            if (watchtochild) if (!watchtochild->revents) watchtochild = 0;
-            if (watchselfpipe) if (!watchselfpipe->revents) watchselfpipe = 0;
+            if (watch0)
+                if (!watch0->revents) watch0 = 0;
+            if (watch1)
+                if (!watch1->revents) watch1 = 0;
+            if (watchfromchild1)
+                if (!watchfromchild1->revents) watchfromchild1 = 0;
+            if (watchfromchild2)
+                if (!watchfromchild2->revents) watchfromchild2 = 0;
+            if (watchtochild)
+                if (!watchtochild->revents) watchtochild = 0;
+            if (watchselfpipe)
+                if (!watchselfpipe->revents) watchselfpipe = 0;
         }
 
         if (watchtochild) {
 
             /* write data to child */
-            if (!channel_write()) die_fatal("unable to write data to child", 0, 0);
+            if (!channel_write())
+                die_fatal("unable to write data to child", 0, 0);
 
             /* try to adjust window */
-            if (!packet_channel_send_windowadjust(&b1)) die_fatal("unable to send data to network", 0, 0);
+            if (!packet_channel_send_windowadjust(&b1))
+                die_fatal("unable to send data to network", 0, 0);
         }
 
         /* read data from child */
@@ -243,16 +343,21 @@ rekeying:
 
         /* check child */
         if (channel_iseof()) {
-            if (selfpipe[0] == -1) if (open_pipe(selfpipe) == -1) die_fatal("unable to open pipe", 0, 0);
+            if (selfpipe[0] == -1)
+                if (open_pipe(selfpipe) == -1)
+                    die_fatal("unable to open pipe", 0, 0);
             signal(SIGCHLD, trigger);
             if (channel_waitnohang(&exitsignal, &exitcode)) {
                 packet_channel_send_eof(&b2);
-                if (!packet_channel_send_close(&b2, exitsignal, exitcode)) die_fatal("unable to close channel", 0, 0);
+                if (!packet_channel_send_close(&b2, exitsignal, exitcode))
+                    die_fatal("unable to close channel", 0, 0);
             }
         }
 
         /* send data to network */
-        if (watch1) if (!packet_send()) die_fatal("unable to send data to network", 0, 0);
+        if (watch1)
+            if (!packet_send())
+                die_fatal("unable to send data to network", 0, 0);
 
         /* receive data from network */
         if (watch0) {
@@ -274,34 +379,47 @@ rekeying:
 
             switch (b1.buf[0]) {
                 case SSH_MSG_CHANNEL_OPEN:
-                    if (!packet_channel_open(&b1, &b2)) die_fatal("unable to open channel", 0, 0);
+                    if (!packet_channel_open(&b1, &b2))
+                        die_fatal("unable to open channel", 0, 0);
                     break;
                 case SSH_MSG_CHANNEL_REQUEST:
-                    if (!packet_channel_request(&b1, &b2, customcmd)) die_fatal("unable to handle channel-request", 0, 0);
+                    if (!packet_channel_request(&b1, &b2, customcmd))
+                        die_fatal("unable to handle channel-request", 0, 0);
                     break;
                 case SSH_MSG_CHANNEL_DATA:
-                    if (!packet_channel_recv_data(&b1)) die_fatal("unable to handle channel-data", 0, 0);
+                    if (!packet_channel_recv_data(&b1))
+                        die_fatal("unable to handle channel-data", 0, 0);
                     break;
                 case SSH_MSG_CHANNEL_EXTENDED_DATA:
-                    if (!packet_channel_recv_extendeddata(&b1)) die_fatal("unable to handle channel-extended-data", 0, 0);
+                    if (!packet_channel_recv_extendeddata(&b1))
+                        die_fatal("unable to handle channel-extended-data", 0,
+                                  0);
                     break;
                 case SSH_MSG_CHANNEL_WINDOW_ADJUST:
-                    if (!packet_channel_recv_windowadjust(&b1)) die_fatal("unable to handle channel-window-adjust", 0, 0);
+                    if (!packet_channel_recv_windowadjust(&b1))
+                        die_fatal("unable to handle channel-window-adjust", 0,
+                                  0);
                     break;
                 case SSH_MSG_CHANNEL_EOF:
-                    if (!packet_channel_recv_eof(&b1)) die_fatal("unable to handle channel-eof", 0, 0);
+                    if (!packet_channel_recv_eof(&b1))
+                        die_fatal("unable to handle channel-eof", 0, 0);
                     break;
                 case SSH_MSG_CHANNEL_CLOSE:
-                    if (!packet_channel_recv_close(&b1)) die_fatal("unable to handle channel-close", 0, 0);
+                    if (!packet_channel_recv_close(&b1))
+                        die_fatal("unable to handle channel-close", 0, 0);
                     break;
                 case SSH_MSG_KEXINIT:
                     goto rekeying;
                 default:
-                    if (!packet_unimplemented(&b1)) die_fatal("unable to send SSH_MSG_UNIMPLEMENTED message", 0, 0);
+                    if (!packet_unimplemented(&b1))
+                        die_fatal(
+                            "unable to send SSH_MSG_UNIMPLEMENTED message", 0,
+                            0);
             }
         }
     }
 
     log_i1("finished");
-    global_die(0); return 111;
+    global_die(0);
+    return 111;
 }
