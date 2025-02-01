@@ -1,4 +1,5 @@
 ### 20250201
+- Relicensed under CC0-1.0 OR 0BSD OR MIT-0 OR MIT
 - Final reformatting using clang-format
 
 ### 20250126 (pre-relase)
