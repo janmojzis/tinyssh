@@ -132,7 +132,7 @@ export LANG
     echo
 
     echo "libs: trylibs.sh"
-    echo "	env CC=\"\$(CC)\" ./trylibs.sh -lsocket -lnsl -lutil -lrandombytes -l25519 -lntruprime >libs 2>libs.log"
+    echo "	env CC=\"\$(CC)\" ./trylibs.sh -lsocket -lnsl -lutil -lrandombytes -l25519 -l1305 -lntruprime >libs 2>libs.log"
     echo "	cat libs"
     echo
 

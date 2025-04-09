@@ -64,11 +64,12 @@ OBJALL=blocking.o buf.o byte.o channel.o channel_drop.o channel_fork.o \
  _tinysshd-unauthenticated.o trymlock.o uint16_optblocker.o uint32_optblocker.o \
  uint64_optblocker.o uint8_optblocker.o writeall.o
 
-AUTOHEADERS=haslib25519.h haslibntruprime.h haslibrandombytes.h haslibutilh.h \
- haslimits.h haslogintty.h hasmlock.h hasopenpty.h hasutilh.h hasutmpaddrv6.h \
- hasutmp.h hasutmphost.h hasutmploginlogout.h hasutmplogwtmp.h hasutmpname.h \
- hasutmppid.h hasutmptime.h hasutmptv.h hasutmptype.h hasutmpuser.h \
- hasutmpxaddrv6.h hasutmpx.h hasutmpxsyslen.h hasutmpxupdwtmpx.h hasvalgrind.h
+AUTOHEADERS=haslib1305.h haslib25519.h haslibntruprime.h haslibrandombytes.h \
+ haslibutilh.h haslimits.h haslogintty.h hasmlock.h hasopenpty.h hasutilh.h \
+ hasutmpaddrv6.h hasutmp.h hasutmphost.h hasutmploginlogout.h hasutmplogwtmp.h \
+ hasutmpname.h hasutmppid.h hasutmptime.h hasutmptv.h hasutmptype.h \
+ hasutmpuser.h hasutmpxaddrv6.h hasutmpx.h hasutmpxsyslen.h hasutmpxupdwtmpx.h \
+ hasvalgrind.h
 
 TESTOUT=test-crypto-dh.out test-crypto-hash.out test-crypto-kem.out \
  test-crypto-sign.out test-crypto-sort.out test-crypto-verify.out \
@@ -222,9 +223,9 @@ global.o: global.c newenv.h channel.h cryptoint/crypto_uint32.h iptostr.h \
  sshcrypto.h crypto.h cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h purge.h cleanup.h trymlock.h global.h
@@ -268,9 +269,9 @@ main_tinysshd.o: main_tinysshd.c blocking.h ssh.h purge.h cleanup.h \
  cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h limit.h haslimits.h channel.h iptostr.h \
@@ -283,9 +284,9 @@ main_tinysshd_makekey.o: main_tinysshd_makekey.c savesync.h log.h \
  crypto.h cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h global.h die.h main.h
@@ -296,9 +297,9 @@ main_tinysshd_printkey.o: main_tinysshd_printkey.c e.h load.h sshcrypto.h \
  cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h global.h log.h writeall.h die.h main.h
@@ -319,9 +320,9 @@ packet_auth.o: packet_auth.c buf.h cryptoint/crypto_uint8.h \
  sshcrypto.h crypto.h cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h bug.h global.h log.h purge.h cleanup.h packet.h \
@@ -333,9 +334,9 @@ packet.o: packet.c purge.h cleanup.h trymlock.h packet.h buf.h \
  cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h limit.h haslimits.h channel.h iptostr.h \
@@ -348,9 +349,9 @@ packet_channel_open.o: packet_channel_open.c buf.h \
  cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h limit.h haslimits.h channel.h iptostr.h \
@@ -363,9 +364,9 @@ packet_channel_recv.o: packet_channel_recv.c bug.h global.h e.h log.h \
  sshcrypto.h crypto.h cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h
@@ -377,9 +378,9 @@ packet_channel_request.o: packet_channel_request.c buf.h \
  cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h limit.h haslimits.h channel.h iptostr.h \
@@ -392,9 +393,9 @@ packet_channel_send.o: packet_channel_send.c bug.h global.h e.h log.h \
  crypto.h cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h
@@ -406,13 +407,12 @@ packet_get.o: packet_get.c byte.h e.h bug.h global.h log.h \
  cryptoint/crypto_int32.h cryptoint/crypto_int64.h \
  cryptoint/crypto_int8.h cryptoint/crypto_uint16.h \
  cryptoint/crypto_uint64.h crypto_verify_16.h crypto_verify_32.h \
- haslibrandombytes.h randombytes.h crypto_hash_sha256.h \
- crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
- haslibntruprime.h crypto_kem_sntrup761x25519.h \
- crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
- crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
- crypto_stream_chacha20.h numtostr.h packet.h limit.h haslimits.h \
- channel.h iptostr.h porttostr.h
+ haslibrandombytes.h crypto_hash_sha256.h crypto_hash_sha512.h \
+ haslib25519.h crypto_kem_sntrup761.h haslibntruprime.h \
+ crypto_kem_sntrup761x25519.h crypto_onetimeauth_poly1305.h \
+ crypto_scalarmult_curve25519.h crypto_dh_x25519.h crypto_sign_ed25519.h \
+ crypto_sort_uint32.h crypto_stream_chacha20.h numtostr.h packet.h \
+ limit.h haslimits.h channel.h iptostr.h porttostr.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c packet_get.c
 
 packet_hello.o: packet_hello.c buf.h cryptoint/crypto_uint8.h \
@@ -421,13 +421,12 @@ packet_hello.o: packet_hello.c buf.h cryptoint/crypto_uint8.h \
  cryptoint/crypto_int32.h cryptoint/crypto_int64.h \
  cryptoint/crypto_int8.h cryptoint/crypto_uint16.h \
  cryptoint/crypto_uint64.h crypto_verify_16.h crypto_verify_32.h \
- haslibrandombytes.h randombytes.h crypto_hash_sha256.h \
- crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
- haslibntruprime.h crypto_kem_sntrup761x25519.h \
- crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
- crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
- crypto_stream_chacha20.h limit.h haslimits.h channel.h iptostr.h \
- porttostr.h
+ haslibrandombytes.h crypto_hash_sha256.h crypto_hash_sha512.h \
+ haslib25519.h crypto_kem_sntrup761.h haslibntruprime.h \
+ crypto_kem_sntrup761x25519.h crypto_onetimeauth_poly1305.h \
+ crypto_scalarmult_curve25519.h crypto_dh_x25519.h crypto_sign_ed25519.h \
+ crypto_sort_uint32.h crypto_stream_chacha20.h limit.h haslimits.h \
+ channel.h iptostr.h porttostr.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c packet_hello.c
 
 packet_kex.o: packet_kex.c buf.h cryptoint/crypto_uint8.h \
@@ -435,9 +434,9 @@ packet_kex.o: packet_kex.c buf.h cryptoint/crypto_uint8.h \
  cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h packetparser.h bug.h global.h e.h log.h \
@@ -449,9 +448,9 @@ packet_kexdh.o: packet_kexdh.c buf.h cryptoint/crypto_uint8.h \
  cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h packetparser.h bug.h global.h log.h purge.h \
@@ -468,9 +467,9 @@ packet_put.o: packet_put.c cryptoint/crypto_uint32.h buf.h \
  cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h ssh.h packet.h limit.h haslimits.h channel.h \
@@ -482,9 +481,9 @@ packet_recv.o: packet_recv.c e.h buf.h cryptoint/crypto_uint8.h \
  crypto.h cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h limit.h haslimits.h channel.h iptostr.h \
@@ -496,9 +495,9 @@ packet_send.o: packet_send.c writeall.h e.h byte.h purge.h cleanup.h \
  sshcrypto.h crypto.h cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h limit.h haslimits.h channel.h iptostr.h \
@@ -511,13 +510,12 @@ packet_unimplemented.o: packet_unimplemented.c buf.h \
  cryptoint/crypto_int32.h cryptoint/crypto_int64.h \
  cryptoint/crypto_int8.h cryptoint/crypto_uint16.h \
  cryptoint/crypto_uint64.h crypto_verify_16.h crypto_verify_32.h \
- haslibrandombytes.h randombytes.h crypto_hash_sha256.h \
- crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
- haslibntruprime.h crypto_kem_sntrup761x25519.h \
- crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
- crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
- crypto_stream_chacha20.h limit.h haslimits.h channel.h iptostr.h \
- porttostr.h
+ haslibrandombytes.h crypto_hash_sha256.h crypto_hash_sha512.h \
+ haslib25519.h crypto_kem_sntrup761.h haslibntruprime.h \
+ crypto_kem_sntrup761x25519.h crypto_onetimeauth_poly1305.h \
+ crypto_scalarmult_curve25519.h crypto_dh_x25519.h crypto_sign_ed25519.h \
+ crypto_sort_uint32.h crypto_stream_chacha20.h limit.h haslimits.h \
+ channel.h iptostr.h porttostr.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c packet_unimplemented.c
 
 porttostr.o: porttostr.c cryptoint/crypto_uint16.h porttostr.h
@@ -547,9 +545,9 @@ sshcrypto.o: sshcrypto.c purge.h cleanup.h bug.h global.h e.h log.h str.h \
  crypto.h cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h
@@ -560,14 +558,13 @@ sshcrypto_cipher.o: sshcrypto_cipher.c crypto.h cryptoint/crypto_int16.h \
  cryptoint/crypto_int8.h cryptoint/crypto_uint16.h \
  cryptoint/crypto_uint32.h cryptoint/crypto_uint64.h \
  cryptoint/crypto_uint8.h crypto_verify_16.h crypto_verify_32.h \
- haslibrandombytes.h randombytes.h crypto_hash_sha256.h \
- crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
- haslibntruprime.h crypto_kem_sntrup761x25519.h \
- crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
- crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
- crypto_stream_chacha20.h stringparser.h e.h log.h bug.h global.h str.h \
- byte.h packet.h buf.h sshcrypto.h limit.h haslimits.h channel.h \
- iptostr.h porttostr.h
+ haslibrandombytes.h crypto_hash_sha256.h crypto_hash_sha512.h \
+ haslib25519.h crypto_kem_sntrup761.h haslibntruprime.h \
+ crypto_kem_sntrup761x25519.h crypto_onetimeauth_poly1305.h \
+ crypto_scalarmult_curve25519.h crypto_dh_x25519.h crypto_sign_ed25519.h \
+ crypto_sort_uint32.h crypto_stream_chacha20.h stringparser.h e.h log.h \
+ bug.h global.h str.h byte.h packet.h buf.h sshcrypto.h limit.h \
+ haslimits.h channel.h iptostr.h porttostr.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c sshcrypto_cipher.c
 
 sshcrypto_cipher_chachapoly.o: sshcrypto_cipher_chachapoly.c \
@@ -576,13 +573,12 @@ sshcrypto_cipher_chachapoly.o: sshcrypto_cipher_chachapoly.c \
  cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_32.h \
- haslibrandombytes.h randombytes.h crypto_hash_sha256.h \
- crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
- haslibntruprime.h crypto_kem_sntrup761x25519.h \
- crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
- crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
- crypto_stream_chacha20.h bug.h global.h log.h packet.h limit.h \
- haslimits.h channel.h iptostr.h porttostr.h
+ haslibrandombytes.h crypto_hash_sha256.h crypto_hash_sha512.h \
+ haslib25519.h crypto_kem_sntrup761.h haslibntruprime.h \
+ crypto_kem_sntrup761x25519.h crypto_onetimeauth_poly1305.h \
+ crypto_scalarmult_curve25519.h crypto_dh_x25519.h crypto_sign_ed25519.h \
+ crypto_sort_uint32.h crypto_stream_chacha20.h bug.h global.h log.h \
+ packet.h limit.h haslimits.h channel.h iptostr.h porttostr.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c sshcrypto_cipher_chachapoly.c
 
 sshcrypto_kex.o: sshcrypto_kex.c crypto.h cryptoint/crypto_int16.h \
@@ -590,13 +586,12 @@ sshcrypto_kex.o: sshcrypto_kex.c crypto.h cryptoint/crypto_int16.h \
  cryptoint/crypto_int8.h cryptoint/crypto_uint16.h \
  cryptoint/crypto_uint32.h cryptoint/crypto_uint64.h \
  cryptoint/crypto_uint8.h crypto_verify_16.h crypto_verify_32.h \
- haslibrandombytes.h randombytes.h crypto_hash_sha256.h \
- crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
- haslibntruprime.h crypto_kem_sntrup761x25519.h \
- crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
- crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
- crypto_stream_chacha20.h stringparser.h str.h byte.h e.h log.h bug.h \
- global.h sshcrypto.h buf.h
+ haslibrandombytes.h crypto_hash_sha256.h crypto_hash_sha512.h \
+ haslib25519.h crypto_kem_sntrup761.h haslibntruprime.h \
+ crypto_kem_sntrup761x25519.h crypto_onetimeauth_poly1305.h \
+ crypto_scalarmult_curve25519.h crypto_dh_x25519.h crypto_sign_ed25519.h \
+ crypto_sort_uint32.h crypto_stream_chacha20.h stringparser.h str.h \
+ byte.h e.h log.h bug.h global.h sshcrypto.h buf.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c sshcrypto_kex.c
 
 sshcrypto_kex_curve25519.o: sshcrypto_kex_curve25519.c buf.h \
@@ -604,9 +599,9 @@ sshcrypto_kex_curve25519.o: sshcrypto_kex_curve25519.c buf.h \
  cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h purge.h cleanup.h sshcrypto.h
@@ -617,9 +612,9 @@ sshcrypto_kex_sntrup761x25519.o: sshcrypto_kex_sntrup761x25519.c buf.h \
  cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h sshcrypto.h
@@ -630,13 +625,13 @@ sshcrypto_key.o: sshcrypto_key.c crypto.h cryptoint/crypto_int16.h \
  cryptoint/crypto_int8.h cryptoint/crypto_uint16.h \
  cryptoint/crypto_uint32.h cryptoint/crypto_uint64.h \
  cryptoint/crypto_uint8.h crypto_verify_16.h crypto_verify_32.h \
- haslibrandombytes.h randombytes.h crypto_hash_sha256.h \
- crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
- haslibntruprime.h crypto_kem_sntrup761x25519.h \
- crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
- crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
- crypto_stream_chacha20.h packetparser.h stringparser.h str.h byte.h e.h \
- log.h bug.h global.h purge.h cleanup.h sshcrypto.h buf.h
+ haslibrandombytes.h crypto_hash_sha256.h crypto_hash_sha512.h \
+ haslib25519.h crypto_kem_sntrup761.h haslibntruprime.h \
+ crypto_kem_sntrup761x25519.h crypto_onetimeauth_poly1305.h \
+ crypto_scalarmult_curve25519.h crypto_dh_x25519.h crypto_sign_ed25519.h \
+ crypto_sort_uint32.h crypto_stream_chacha20.h packetparser.h \
+ stringparser.h str.h byte.h e.h log.h bug.h global.h purge.h cleanup.h \
+ sshcrypto.h buf.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c sshcrypto_key.c
 
 sshcrypto_key_ed25519.o: sshcrypto_key_ed25519.c crypto.h \
@@ -644,9 +639,9 @@ sshcrypto_key_ed25519.o: sshcrypto_key_ed25519.c crypto.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint32.h \
  cryptoint/crypto_uint64.h cryptoint/crypto_uint8.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h packetparser.h buf.h byte.h str.h purge.h \
@@ -666,12 +661,12 @@ subprocess_auth.o: subprocess_auth.c str.h open.h dropuidgid.h global.h \
  cryptoint/crypto_int32.h cryptoint/crypto_int64.h \
  cryptoint/crypto_int8.h cryptoint/crypto_uint16.h \
  cryptoint/crypto_uint64.h crypto_verify_16.h crypto_verify_32.h \
- haslibrandombytes.h randombytes.h crypto_hash_sha256.h \
- crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
- haslibntruprime.h crypto_kem_sntrup761x25519.h \
- crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
- crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
- crypto_stream_chacha20.h getln.h bug.h limit.h haslimits.h subprocess.h
+ haslibrandombytes.h crypto_hash_sha256.h crypto_hash_sha512.h \
+ haslib25519.h crypto_kem_sntrup761.h haslibntruprime.h \
+ crypto_kem_sntrup761x25519.h crypto_onetimeauth_poly1305.h \
+ crypto_scalarmult_curve25519.h crypto_dh_x25519.h crypto_sign_ed25519.h \
+ crypto_sort_uint32.h crypto_stream_chacha20.h getln.h bug.h limit.h \
+ haslimits.h subprocess.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c subprocess_auth.c
 
 subprocess_sign.o: subprocess_sign.c load.h log.h open.h writeall.h \
@@ -680,9 +675,9 @@ subprocess_sign.o: subprocess_sign.c load.h log.h open.h writeall.h \
  cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h subprocess.h
@@ -693,12 +688,11 @@ test-crypto.o: test-crypto.c cryptoint/crypto_uint8.h \
  hasvalgrind.h crypto.h cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h crypto_verify_16.h crypto_verify_32.h \
- haslibrandombytes.h randombytes.h crypto_hash_sha256.h \
- crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
- haslibntruprime.h crypto_kem_sntrup761x25519.h \
- crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
- crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
- crypto_stream_chacha20.h _crypto-test_verify_16.inc \
+ haslibrandombytes.h crypto_hash_sha256.h crypto_hash_sha512.h \
+ haslib25519.h crypto_kem_sntrup761.h haslibntruprime.h \
+ crypto_kem_sntrup761x25519.h crypto_onetimeauth_poly1305.h \
+ crypto_scalarmult_curve25519.h crypto_dh_x25519.h crypto_sign_ed25519.h \
+ crypto_sort_uint32.h crypto_stream_chacha20.h _crypto-test_verify_16.inc \
  _crypto-test_verify_32.inc _crypto-test_sort_uint32.inc \
  _crypto-test_hash_sha256.inc _crypto-test_hash_sha512.inc \
  _crypto-test_sign_ed25519.inc _crypto-test_kem_sntrup761.inc \
@@ -713,9 +707,9 @@ _tinysshd-printkex.o: _tinysshd-printkex.c log.h packet.h buf.h \
  cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h limit.h haslimits.h channel.h iptostr.h \
@@ -727,12 +721,11 @@ _tinysshd-speed.o: _tinysshd-speed.c crypto.h cryptoint/crypto_int16.h \
  cryptoint/crypto_int8.h cryptoint/crypto_uint16.h \
  cryptoint/crypto_uint32.h cryptoint/crypto_uint64.h \
  cryptoint/crypto_uint8.h crypto_verify_16.h crypto_verify_32.h \
- haslibrandombytes.h randombytes.h crypto_hash_sha256.h \
- crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
- haslibntruprime.h crypto_kem_sntrup761x25519.h \
- crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
- crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
- crypto_stream_chacha20.h
+ haslibrandombytes.h crypto_hash_sha256.h crypto_hash_sha512.h \
+ haslib25519.h crypto_kem_sntrup761.h haslibntruprime.h \
+ crypto_kem_sntrup761x25519.h crypto_onetimeauth_poly1305.h \
+ crypto_scalarmult_curve25519.h crypto_dh_x25519.h crypto_sign_ed25519.h \
+ crypto_sort_uint32.h crypto_stream_chacha20.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c _tinysshd-speed.c
 
 _tinysshd-test-hello1.o: _tinysshd-test-hello1.c
@@ -743,9 +736,9 @@ _tinysshd-test-hello2.o: _tinysshd-test-hello2.c log.h packet.h buf.h \
  cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h limit.h haslimits.h channel.h iptostr.h \
@@ -757,9 +750,9 @@ _tinysshd-test-kex1.o: _tinysshd-test-kex1.c log.h packet.h buf.h \
  cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h limit.h haslimits.h channel.h iptostr.h \
@@ -771,9 +764,9 @@ _tinysshd-test-kex2.o: _tinysshd-test-kex2.c log.h packet.h buf.h \
  cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h limit.h haslimits.h channel.h iptostr.h \
@@ -785,9 +778,9 @@ _tinysshd-unauthenticated.o: _tinysshd-unauthenticated.c log.h packet.h \
  crypto.h cryptoint/crypto_int16.h cryptoint/crypto_int32.h \
  cryptoint/crypto_int64.h cryptoint/crypto_int8.h \
  cryptoint/crypto_uint16.h cryptoint/crypto_uint64.h crypto_verify_16.h \
- crypto_verify_32.h haslibrandombytes.h randombytes.h \
- crypto_hash_sha256.h crypto_hash_sha512.h haslib25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
+ crypto_verify_32.h haslibrandombytes.h crypto_hash_sha256.h \
+ crypto_hash_sha512.h haslib25519.h crypto_kem_sntrup761.h \
+ haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h crypto_scalarmult_curve25519.h \
  crypto_dh_x25519.h crypto_sign_ed25519.h crypto_sort_uint32.h \
  crypto_stream_chacha20.h limit.h haslimits.h channel.h iptostr.h \
@@ -849,6 +842,11 @@ test-crypto: test-crypto.o $(OBJLIB) libs
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o test-crypto test-crypto.o \
 	$(OBJLIB) $(LDFLAGS) `cat libs`
 
+
+haslib1305.h: tryfeature.sh haslib1305.c libs
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh haslib1305.c >haslib1305.h 2>haslib1305.log
+	cat haslib1305.h
 
 haslib25519.h: tryfeature.sh haslib25519.c libs
 	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
@@ -1008,7 +1006,7 @@ test-tinysshnoneauthd.out: $(BINARIES) $(TESTCRYPTOBINARIES) $(LINKS) runtest.sh
 test: $(TESTOUT)
 
 libs: trylibs.sh
-	env CC="$(CC)" ./trylibs.sh -lsocket -lnsl -lutil -lrandombytes -l25519 -lntruprime >libs 2>libs.log
+	env CC="$(CC)" ./trylibs.sh -lsocket -lnsl -lutil -lrandombytes -l25519 -l1305 -lntruprime >libs 2>libs.log
 	cat libs
 
 tinysshd-makekey: tinysshd
