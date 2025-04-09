@@ -28,7 +28,7 @@ static void stringstringparser_test1(void) {
 
     unsigned char *buf;
     long long i, pos = 0;
-    unsigned char *x;
+    const unsigned char *x;
     long long xlen, len;
 
     for (i = 0; testvectors[i].buf; ++i) {
@@ -56,7 +56,7 @@ static void stringstringparser_test2(void) {
 
     unsigned char *buf;
     long long pos = 0;
-    unsigned char *x;
+    const unsigned char *x;
     long long xlen, len;
 
     buf = (unsigned char *)"";
