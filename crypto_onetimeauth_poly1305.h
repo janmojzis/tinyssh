@@ -27,7 +27,7 @@ extern int crypto_onetimeauth_poly1305_tinyssh_verify(const unsigned char *,
 
 #else
 
-#include <poly1305.h>
+#include <lib1305.h>
 
 #define crypto_onetimeauth_poly1305_lib1305_BYTES poly1305_BYTES
 #define crypto_onetimeauth_poly1305_lib1305_KEYBYTES poly1305_KEYBYTES
