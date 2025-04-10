@@ -12,7 +12,7 @@ int crypto_onetimeauth_poly1305_lib1305(unsigned char *a,
     return 0;
 }
 
-int crypto_onetimeauth_poly1305_tinyssh_verify(const unsigned char *a,
+int crypto_onetimeauth_poly1305_lib1305_verify(const unsigned char *a,
                                                const unsigned char *m,
                                                unsigned long long n,
                                                const unsigned char *k) {
