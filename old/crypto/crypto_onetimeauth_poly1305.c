@@ -1,1 +1,1 @@
-../../crypto_onetimeauth_poly1305.c
+../../crypto_onetimeauth_poly1305_tinyssh.c

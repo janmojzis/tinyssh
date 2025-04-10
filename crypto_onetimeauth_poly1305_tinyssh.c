@@ -7,10 +7,13 @@ Based on poly1305-donna (https://github.com/floodyberry/poly1305-donna)
 - switched to cryptoint
 */
 
+#include "crypto_onetimeauth_poly1305.h"
+#include "haslib1305.h"
+#ifndef HASLIB1305
+
 #include "crypto_int16.h"
 #include "crypto_uint32.h"
 #include "crypto_uint64.h"
-#include "crypto_onetimeauth_poly1305.h"
 
 /* clang-format off */
 int crypto_onetimeauth_poly1305_tinyssh(unsigned char *o,
@@ -148,3 +151,4 @@ int crypto_onetimeauth_poly1305_tinyssh_verify(const unsigned char *h,
     return crypto_int16_nonzero_mask(d);
 }
 /* clang-format on */
+#endif

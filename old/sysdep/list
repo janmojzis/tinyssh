@@ -58,8 +58,9 @@ echo 'haslimits.h default.h-no'
 echo 'hasvalgrind.h hasvalgrind.h-yes'
 echo 'hasvalgrind.h default.h-no'
 
-# librandombytes + lib25519 + libntruprime
+# librandombytes + lib25519 + libntruprime + lib1305
 echo 'haslibrandombytes.h default.h-no'
 echo 'haslib25519.h default.h-no'
 echo 'haslibntruprime.h default.h-no'
+echo 'haslib1305.h default.h-no'
  
