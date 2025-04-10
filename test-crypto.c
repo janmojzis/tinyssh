@@ -498,6 +498,7 @@ void endianness(unsigned char *e, unsigned long long words,
 #include "_crypto-test_sign_ed25519.inc"
 #include "_crypto-test_kem_sntrup761.inc"
 #include "_crypto-test_dh_x25519.inc"
+#include "_crypto-test_onetimeauth_poly1305.inc"
 
 /* ----- top level */
 
@@ -539,6 +540,7 @@ int main(int argc, char **argv) {
     test_sign_ed25519();
     test_kem_sntrup761();
     test_dh_x25519();
+    test_onetimeauth_poly1305();
 
     if (!ok) {
         printf("some tests failed\n");

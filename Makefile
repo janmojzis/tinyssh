@@ -73,9 +73,9 @@ AUTOHEADERS=haslib1305.h haslib25519.h haslibntruprime.h haslibrandombytes.h \
  hasvalgrind.h
 
 TESTOUT=test-crypto-dh.out test-crypto-hash.out test-crypto-kem.out \
- test-crypto-sign.out test-crypto-sort.out test-crypto-verify.out \
- test-tinysshd-makekey.out test-tinysshd-printkey.out test-tinysshd.out \
- test-tinysshnoneauthd.out
+ test-crypto-onetimeauth.out test-crypto-sign.out test-crypto-sort.out \
+ test-crypto-verify.out test-tinysshd-makekey.out test-tinysshd-printkey.out \
+ test-tinysshd.out test-tinysshnoneauthd.out
 
 all: $(AUTOHEADERS) $(BINARIES) $(LINKS)
 
@@ -716,7 +716,7 @@ test-crypto.o: test-crypto.c cryptoint/crypto_uint8.h \
  _crypto-test_verify_32.inc _crypto-test_sort_uint32.inc \
  _crypto-test_hash_sha256.inc _crypto-test_hash_sha512.inc \
  _crypto-test_sign_ed25519.inc _crypto-test_kem_sntrup761.inc \
- _crypto-test_dh_x25519.inc
+ _crypto-test_dh_x25519.inc _crypto-test_onetimeauth_poly1305.inc
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c test-crypto.c
 
 tinysshd.o: tinysshd.c str.h main.h
@@ -1002,6 +1002,9 @@ test-crypto-hash.out: $(BINARIES) $(TESTCRYPTOBINARIES) $(LINKS) runtest.sh test
 
 test-crypto-kem.out: $(BINARIES) $(TESTCRYPTOBINARIES) $(LINKS) runtest.sh test-crypto-kem.sh test-crypto-kem.exp
 	sh runtest.sh test-crypto-kem.sh test-crypto-kem.out test-crypto-kem.exp
+
+test-crypto-onetimeauth.out: $(BINARIES) $(TESTCRYPTOBINARIES) $(LINKS) runtest.sh test-crypto-onetimeauth.sh test-crypto-onetimeauth.exp
+	sh runtest.sh test-crypto-onetimeauth.sh test-crypto-onetimeauth.out test-crypto-onetimeauth.exp
 
 test-crypto-sign.out: $(BINARIES) $(TESTCRYPTOBINARIES) $(LINKS) runtest.sh test-crypto-sign.sh test-crypto-sign.exp
 	sh runtest.sh test-crypto-sign.sh test-crypto-sign.out test-crypto-sign.exp

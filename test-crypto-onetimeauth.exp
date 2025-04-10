@@ -1,0 +1,6 @@
+--- test-crypto onetimeauth
+onetimeauth_poly1305 offset 0
+onetimeauth_poly1305 offset 1
+all tests succeeded
+0
+

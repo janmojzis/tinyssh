@@ -19,5 +19,4 @@ int crypto_onetimeauth_poly1305_tinyssh_verify(const unsigned char *a,
     return poly1305_verify(a, m, (unsigned long long) n, k);
 }
 
-
 #endif
