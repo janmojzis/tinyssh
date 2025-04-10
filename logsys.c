@@ -154,7 +154,7 @@ static void logsys_utmp(const char *user, const char *host, const char *name,
 #endif
 #endif
 
-        /* user */
+    /* user */
 #ifdef HASUTMPNAME
     str_copyn(ut.ut_name, sizeof ut.ut_name, user);
 #endif

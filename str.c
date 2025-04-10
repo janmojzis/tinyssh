@@ -7,8 +7,7 @@ long long str_len(const char *s) {
 
     long long i;
 
-    for (i = 0; s[i]; ++i)
-        ;
+    for (i = 0; s[i]; ++i);
     return i;
 }
 

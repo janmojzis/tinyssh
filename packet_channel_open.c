@@ -53,9 +53,11 @@ int packet_channel_open(struct buf *b1, struct buf *b2) {
         if (channel_open(packet.name, id, remotewindow, maxpacket,
                          &localwindow)) {
             buf_purge(b2);
-            buf_putnum8(b2, SSH_MSG_CHANNEL_OPEN_CONFIRMATION); /* byte
-                                                                   SSH_MSG_CHANNEL_OPEN_CONFIRMATION
-                                                                 */
+            buf_putnum8(
+                b2,
+                SSH_MSG_CHANNEL_OPEN_CONFIRMATION); /* byte
+                                                       SSH_MSG_CHANNEL_OPEN_CONFIRMATION
+                                                     */
             buf_putnum32(b2, id);          /* uint32    recipient channel */
             buf_putnum32(b2, id);          /* uint32    sender channel */
             buf_putnum32(b2, localwindow); /* uint32    initial window size */
