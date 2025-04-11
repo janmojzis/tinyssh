@@ -26,7 +26,6 @@ void TYPE_store_bigendian(unsigned char *S,TYPE X) {
     *S++ = X >> K;
 }
 
-# could instead use X >>= (N-1) ^ SIGNED_optblocker
 SIGNED SIGNED_negative_mask(SIGNED X) {
 #if amd64
  8:  readasm("amd64; int8 X; X signed>>= 7");
@@ -40,6 +39,20 @@ SIGNED SIGNED_negative_mask(SIGNED X) {
 16:  readasm("arm64; int16 X Y; Y = -(1 & (X unsigned>> 15))");
 32:  readasm("arm64; int32 X Y; Y = X signed>> 31");
 64:  readasm("arm64; int64 X Y; Y = X signed>> 63");
+  return Y;
+#elif arm32
+  SIGNED Y;
+ 8:  readasm("arm32; int8 X Y; Y = (int8) X; Y = Y signed>> 31");
+16:  readasm("arm32; int16 X Y; Y = (int16) X; Y = Y signed>> 31");
+32:  readasm("arm32; int32 X Y; Y = X signed>> 31");
+64:  readasm("arm32; int64 X Y; Y.lo = X.hi signed>> 31; Y.hi = Y.lo");
+  return Y;
+#elif sparc32
+  SIGNED Y;
+ 8:  readasm("sparc32; int8 X Y; Y = X << 24; Y = Y signed>> 31");
+16:  readasm("sparc32; int16 X Y; Y = X << 16; Y = Y signed>> 31");
+32:  readasm("sparc32; int32 X Y; Y = X signed>> 31");
+64:  readasm("sparc32; int64 X Y; Y.lo = X.hi signed>> 31; Y.hi = Y.lo");
   return Y;
 #else
   X >>= N-6;
@@ -57,11 +70,25 @@ UNSIGNED UNSIGNED_topbit_01(UNSIGNED X) {
 64:  readasm("amd64; int64 X; X unsigned>>= 63");
   return X;
 #elif arm64
-  SIGNED Y;
+  UNSIGNED Y;
  8:  readasm("arm64; int8 X Y; Y = 1 & (X unsigned>> 7)");
 16:  readasm("arm64; int16 X Y; Y = 1 & (X unsigned>> 15)");
 32:  readasm("arm64; int32 X Y; Y = X unsigned>> 31");
 64:  readasm("arm64; int64 X Y; Y = X unsigned>> 63");
+  return Y;
+#elif arm32
+  SIGNED Y;
+ 8:  readasm("arm32; int8 X Y; Y = (uint8) X; Y = Y unsigned>> 7");
+16:  readasm("arm32; int16 X Y; Y = (uint16) X; Y = Y unsigned>> 15");
+32:  readasm("arm32; int32 X Y; Y = X unsigned>> 31");
+64:  readasm("arm32; int64 X Y; Y.lo = X.hi unsigned>> 31; Y.hi = 0");
+  return Y;
+#elif sparc32
+  UNSIGNED Y;
+ 8:  readasm("sparc32; int8 X Y; Y = (uint8) X; Y = Y unsigned>> 7");
+16:  readasm("sparc32; int16 X Y; Y = (uint16) X; Y = Y unsigned>> 15");
+32:  readasm("sparc32; int32 X Y; Y = X unsigned>> 31");
+64:  readasm("sparc32; int64 X Y; Y.lo = X.hi unsigned>> 31; Y.hi = 0");
   return Y;
 #else
   X >>= N-6;
@@ -91,6 +118,7 @@ TYPE TYPE_topbit_mask(TYPE X) {
   return SIGNED_negative_mask(X);
 }
 
+SIGNED:
 TYPE TYPE_bottombit_mask(TYPE X) {
 #if amd64
  8:  readasm("amd64; int8 X; X &= 1");
@@ -104,6 +132,55 @@ TYPE TYPE_bottombit_mask(TYPE X) {
 16:  readasm("arm64; int16 X Y; Y = -(1 & (X unsigned>> 0))");
 32:  readasm("arm64; int32 X Y; Y = -(1 & (X unsigned>> 0))");
 64:  readasm("arm64; int64 X Y; Y = -(1 & (X unsigned>> 0))");
+  return Y;
+#elif arm32
+  TYPE Y;
+ 8:  readasm("arm32; int8 X Y; Y = X & 1; Y = -Y");
+16:  readasm("arm32; int16 X Y; Y = X & 1; Y = -Y");
+32:  readasm("arm32; int32 X Y; Y = X & 1; Y = -Y");
+64:  readasm("arm32; int64 X Y; Y.lo = X.lo & 1; Y.lo = -Y.lo; Y.hi = Y.lo");
+  return Y;
+#elif sparc32
+  TYPE Y;
+ 8:  readasm("sparc32; int8 X Y; Y = X & 1; Y = -Y");
+16:  readasm("sparc32; int16 X Y; Y = X & 1; Y = -Y");
+32:  readasm("sparc32; int32 X Y; Y = X & 1; Y = -Y");
+64:  readasm("sparc32; int64 X Y; Y.lo = X.lo & 1; Y.lo = -Y.lo; Y.hi = Y.lo");
+  return Y;
+#else
+  X &= 1 + SIGNED_optblocker;
+  return -X;
+#endif
+}
+
+UNSIGNED:
+TYPE TYPE_bottombit_mask(TYPE X) {
+#if amd64
+ 8:  readasm("amd64; int8 X; X &= 1");
+16:  readasm("amd64; int16 X; X &= 1");
+32:  readasm("amd64; int32 X; X &= 1");
+64:  readasm("amd64; int64 X; X &= 1");
+  return -X;
+#elif arm64
+  TYPE Y;
+ 8:  readasm("arm64; int8 X Y; Y = -(1 & (X unsigned>> 0))");
+16:  readasm("arm64; int16 X Y; Y = -(1 & (X unsigned>> 0))");
+32:  readasm("arm64; int32 X Y; Y = -(1 & (X unsigned>> 0))");
+64:  readasm("arm64; int64 X Y; Y = -(1 & (X unsigned>> 0))");
+  return Y;
+#elif arm32
+  TYPE Y;
+ 8:  readasm("arm32; int8 X Y; Y = X & 1; Y = -Y; Y = (uint8) Y");
+16:  readasm("arm32; int16 X Y; Y = X & 1; Y = -Y; Y = (uint16) Y");
+32:  readasm("arm32; int32 X Y; Y = X & 1; Y = -Y");
+64:  readasm("arm32; int64 X Y; Y.lo = X.lo & 1; Y.lo = -Y.lo; Y.hi = Y.lo");
+  return Y;
+#elif sparc32
+  TYPE Y;
+ 8:  readasm("sparc32; int8 X Y; Y = X & 1; Y = -Y; Y = (uint8) Y");
+16:  readasm("sparc32; int16 X Y; Y = X & 1; Y = -Y; Y = (uint16) Y");
+32:  readasm("sparc32; int32 X Y; Y = X & 1; Y = -Y");
+64:  readasm("sparc32; int64 X Y; Y.lo = X.lo & 1; Y.lo = -Y.lo; Y.hi = Y.lo");
   return Y;
 #else
   X &= 1 + SIGNED_optblocker;
@@ -125,14 +202,26 @@ TYPE TYPE_bottombit_01(TYPE X) {
 32:  readasm("arm64; int32 X Y; Y = 1 & (X unsigned>> 0)");
 64:  readasm("arm64; int64 X Y; Y = 1 & (X unsigned>> 0)");
   return Y;
+#elif arm32
+  TYPE Y;
+ 8:  readasm("arm32; int8 X Y; Y = X & 1");
+16:  readasm("arm32; int16 X Y; Y = X & 1");
+32:  readasm("arm32; int32 X Y; Y = X & 1");
+64:  readasm("arm32; int64 X Y; Y.lo = X.lo & 1; Y.hi = 0");
+  return Y;
+#elif sparc32
+  TYPE Y;
+ 8:  readasm("sparc32; int8 X Y; Y = X & 1");
+16:  readasm("sparc32; int16 X Y; Y = X & 1");
+32:  readasm("sparc32; int32 X Y; Y = X & 1");
+64:  readasm("sparc32; int64 X Y; Y.lo = X.lo & 1; Y.hi = 0");
+  return Y;
 #else
   X &= 1 + SIGNED_optblocker;
   return X;
 #endif
 }
 
-# without optblocker here, seems possible that compiler will cause trouble,
-# especially if S is compile-time constant N-1
 SIGNED:
 TYPE TYPE_bitinrangepublicpos_mask(TYPE X,TYPE S) {
 #if amd64
@@ -145,14 +234,23 @@ TYPE TYPE_bitinrangepublicpos_mask(TYPE X,TYPE S) {
 16:  readasm("arm64; int16 X S; X = (int16) X; X = X signed>> S");
 32:  readasm("arm64; int32 X S; X = X signed>> S");
 64:  readasm("arm64; int64 X S; X = X signed>> S");
+#elif arm32
+ 8:  readasm("arm32; int8 X S; S = S & 7; X = (int8) X; X = X signed>> S");
+16:  readasm("arm32; int16 X S; S = S & 15; X = (int16) X; X = X signed>> S");
+32:  readasm("arm32; int32 X S; S = S & 31; X = X signed>> S");
+64:  readasm("arm32; int64 X S; S.lo = S.lo & 63; X.lo = X.lo unsigned>> S.lo; S.hi = 32 - S.lo; X.lo = X.lo | (X.hi << S.hi); flags, S.hi = S.lo - 32; X.lo = X.lo | (X.hi signed>> S.hi) if unsigned>=; X.hi = X.hi signed>> S.lo");
+#elif sparc32
+ 8:  readasm("sparc32; int8 X S; S = S & 7; X = X signed>> S");
+16:  readasm("sparc32; int16 X S; S = S & 15; X = X signed>> S");
+32:  readasm("sparc32; int32 X S; X = X signed>> S");
+64:  TYPE Y, Z;
+64:  readasm("sparc32; int64 X Y Z S; S.hi = ~S.lo; Z.hi = S.lo << 26; Z.lo = X.hi << 1; Y.lo = X.lo unsigned>> S.lo; Z.lo = Z.lo << S.hi; Y.hi = X.hi signed>> S.lo; Z.hi = Z.hi signed>> 31; Y.lo = Y.lo | Z.lo; Z.lo = Y.lo ^ Y.hi; Z.lo = Z.hi & Z.lo; X.hi = Y.hi signed>> Z.hi; X.lo = Y.lo ^ Z.lo");
 #else
   X >>= S ^ SIGNED_optblocker;
 #endif
   return TYPE_bottombit_mask(X);
 }
 
-# without optblocker here, seems possible that compiler will cause trouble,
-# especially if S is compile-time constant N-1
 SIGNED:
 TYPE TYPE_bitinrangepublicpos_01(TYPE X,TYPE S) {
 #if amd64
@@ -165,14 +263,23 @@ TYPE TYPE_bitinrangepublicpos_01(TYPE X,TYPE S) {
 16:  readasm("arm64; int16 X S; X = (int16) X; X = X signed>> S");
 32:  readasm("arm64; int32 X S; X = X signed>> S");
 64:  readasm("arm64; int64 X S; X = X signed>> S");
+#elif arm32
+ 8:  readasm("arm32; int8 X S; S = S & 7; X = (int8) X; X = X signed>> S");
+16:  readasm("arm32; int16 X S; S = S & 15; X = (int16) X; X = X signed>> S");
+32:  readasm("arm32; int32 X S; S = S & 31; X = X signed>> S");
+64:  readasm("arm32; int64 X S; S.lo = S.lo & 63; X.lo = X.lo unsigned>> S.lo; S.hi = 32 - S.lo; X.lo = X.lo | (X.hi << S.hi); flags, S.hi = S.lo - 32; X.lo = X.lo | (X.hi signed>> S.hi) if unsigned>=; X.hi = X.hi signed>> S.lo");
+#elif sparc32
+ 8:  readasm("sparc32; int8 X S; S = S & 7; X = X signed>> S");
+16:  readasm("sparc32; int16 X S; S = S & 15; X = X signed>> S");
+32:  readasm("sparc32; int32 X S; X = X signed>> S");
+64:  TYPE Y, Z;
+64:  readasm("sparc32; int64 X Y Z S; S.hi = ~S.lo; Z.hi = S.lo << 26; Z.lo = X.hi << 1; Y.lo = X.lo unsigned>> S.lo; Z.lo = Z.lo << S.hi; Y.hi = X.hi signed>> S.lo; Z.hi = Z.hi signed>> 31; Y.lo = Y.lo | Z.lo; Z.lo = Y.lo ^ Y.hi; Z.lo = Z.hi & Z.lo; X.hi = Y.hi signed>> Z.hi; X.lo = Y.lo ^ Z.lo");
 #else
   X >>= S ^ SIGNED_optblocker;
 #endif
   return TYPE_bottombit_01(X);
 }
 
-# without optblocker here, seems possible that compiler will cause trouble,
-# especially if S is compile-time constant N-1
 UNSIGNED:
 TYPE TYPE_bitinrangepublicpos_mask(TYPE X,TYPE S) {
 #if amd64
@@ -185,14 +292,23 @@ TYPE TYPE_bitinrangepublicpos_mask(TYPE X,TYPE S) {
 16:  readasm("arm64; int16 X S; X = (uint16) X; X = X unsigned>> S");
 32:  readasm("arm64; int32 X S; X = X unsigned>> S");
 64:  readasm("arm64; int64 X S; X = X unsigned>> S");
+#elif arm32
+ 8:  readasm("arm32; int8 X S; S = S & 7; X = (uint8) X; X = X unsigned>> S");
+16:  readasm("arm32; int16 X S; S = S & 15; X = (uint16) X; X = X unsigned>> S");
+32:  readasm("arm32; int32 X S; S = S & 31; X = X unsigned>> S");
+64:  readasm("arm32; int64 X S; S.lo = S.lo & 63; X.lo = X.lo unsigned>> S.lo; S.hi = 32 - S.lo; X.lo = X.lo | (X.hi << S.hi); S.hi = S.lo - 32; X.lo = X.lo | (X.hi unsigned>> S.hi); X.hi = X.hi unsigned>> S.lo");
+#elif sparc32
+ 8:  readasm("sparc32; int8 X S; S = S & 7; X = X unsigned>> S");
+16:  readasm("sparc32; int16 X S; S = S & 15; X = X unsigned>> S");
+32:  readasm("sparc32; int32 X S; X = X unsigned>> S");
+64:  TYPE Y, Z;
+64:  readasm("sparc32; int64 X Y Z S; S.hi = ~S.lo; Z.hi = S.lo << 26; Z.lo = X.hi << 1; Y.lo = X.lo unsigned>> S.lo; Z.lo = Z.lo << S.hi; Y.hi = X.hi unsigned>> S.lo; Z.hi = Z.hi signed>> 31; Y.lo = Y.lo | Z.lo; Z.lo = Y.lo ^ Y.hi; X.hi = Z.hi & Y.hi; Z.lo = Z.hi & Z.lo; X.hi = X.hi ^ Y.hi; X.lo = Y.lo ^ Z.lo");
 #else
   X >>= S ^ SIGNED_optblocker;
 #endif
   return TYPE_bottombit_mask(X);
 }
 
-# without optblocker here, seems possible that compiler will cause trouble,
-# especially if S is compile-time constant N-1
 UNSIGNED:
 TYPE TYPE_bitinrangepublicpos_01(TYPE X,TYPE S) {
 #if amd64
@@ -205,14 +321,24 @@ TYPE TYPE_bitinrangepublicpos_01(TYPE X,TYPE S) {
 16:  readasm("arm64; int16 X S; X = (uint16) X; X = X unsigned>> S");
 32:  readasm("arm64; int32 X S; X = X unsigned>> S");
 64:  readasm("arm64; int64 X S; X = X unsigned>> S");
+#elif arm32
+ 8:  readasm("arm32; int8 X S; S = S & 7; X = (uint8) X; X = X unsigned>> S");
+16:  readasm("arm32; int16 X S; S = S & 15; X = (uint16) X; X = X unsigned>> S");
+32:  readasm("arm32; int32 X S; S = S & 31; X = X unsigned>> S");
+64:  readasm("arm32; int64 X S; S.lo = S.lo & 63; X.lo = X.lo unsigned>> S.lo; S.hi = 32 - S.lo; X.lo = X.lo | (X.hi << S.hi); S.hi = S.lo - 32; X.lo = X.lo | (X.hi unsigned>> S.hi); X.hi = X.hi unsigned>> S.lo");
+#elif sparc32
+ 8:  readasm("sparc32; int8 X S; S = S & 7; X = X unsigned>> S");
+16:  readasm("sparc32; int16 X S; S = S & 15; X = X unsigned>> S");
+32:  readasm("sparc32; int32 X S; X = X unsigned>> S");
+64:  TYPE Y, Z;
+64:  readasm("sparc32; int64 X Y Z S; S.hi = ~S.lo; Z.hi = S.lo << 26; Z.lo = X.hi << 1; Y.lo = X.lo unsigned>> S.lo; Z.lo = Z.lo << S.hi; Y.hi = X.hi unsigned>> S.lo; Z.hi = Z.hi signed>> 31; Y.lo = Y.lo | Z.lo; Z.lo = Y.lo ^ Y.hi; X.hi = Z.hi & Y.hi; Z.lo = Z.hi & Z.lo; X.hi = X.hi ^ Y.hi; X.lo = Y.lo ^ Z.lo");
 #else
   X >>= S ^ SIGNED_optblocker;
 #endif
   return TYPE_bottombit_01(X);
 }
 
-# same as (X << (S % N)) but without assuming barrel shifter
-# for amd64, assumes constant-time barrel shifter
+SIGNED:
 TYPE TYPE_shlmod(TYPE X,TYPE S) {
 #if amd64
  8:  S &= 7;
@@ -222,10 +348,28 @@ TYPE TYPE_shlmod(TYPE X,TYPE S) {
 32:  readasm("amd64; int32 X S; X <<= S");
 64:  readasm("amd64; int64 X S; X <<= S");
 #elif arm64
- 8:  readasm("arm64; int8 X S; S = S & 7; X = (uint8) X; X = X << S");
-16:  readasm("arm64; int16 X S; S = S & 15; X = (uint16) X; X = X << S");
+ 8:  S &= 7;
+ 8:  readasm("arm64; int8 X S; X = (uint8) X; X = X << S");
+16:  S &= 15;
+16:  readasm("arm64; int16 X S; X = (uint16) X; X = X << S");
 32:  readasm("arm64; int32 X S; X = X << S");
 64:  readasm("arm64; int64 X S; X = X << S");
+#elif arm32
+ 8:  S &= 7;
+ 8:  readasm("arm32; int8 X S; X = X << S; X = (int8) X");
+16:  S &= 15;
+16:  readasm("arm32; int16 X S; X = X << S; X = (int16) X");
+32:  S &= 31;
+32:  readasm("arm32; int32 X S; X = X << S");
+64:  readasm("arm32; int64 X S; S.lo = S.lo & 63; X.hi = X.hi << S.lo; S.hi = S.lo - 32; X.hi = X.hi | (X.lo << S.hi); S.hi = 32 - S.lo; X.hi = X.hi | (X.lo unsigned>> S.hi); X.lo = X.lo << S.lo");
+#elif sparc32
+ 8:  S &= 7; S += 24;
+ 8:  readasm("sparc32; int8 X S; X = X << S; X = X signed>> 24");
+16:  S &= 15; S += 16;
+16:  readasm("sparc32; int16 X S; X = X << S; X = X signed>> 16");
+32:  readasm("sparc32; int32 X S; X = X << S");
+64:  TYPE Y, Z;
+64:  readasm("sparc32; int64 X Y Z S; S.hi = ~S.lo; Z.hi = S.lo << 26; Z.lo = X.lo unsigned>> 1; Y.lo = X.lo << S.lo; Z.lo = Z.lo unsigned>> S.hi; Y.hi = X.hi << S.lo; Z.hi = Z.hi signed>> 31; Y.hi = Y.hi | Z.lo; Z.lo = Y.lo ^ Y.hi; X.lo = Z.hi & Y.lo; Z.lo = Z.hi & Z.lo; X.lo = X.lo ^ Y.lo; X.hi = Y.hi ^ Z.lo");
 #else
   int K, L;
   for (L = 0,K = 1;K < N;++L,K *= 2)
@@ -234,7 +378,46 @@ TYPE TYPE_shlmod(TYPE X,TYPE S) {
   return X;
 }
 
-# same as (X >> (S % N)) but without assuming barrel shifter
+UNSIGNED:
+TYPE TYPE_shlmod(TYPE X,TYPE S) {
+#if amd64
+ 8:  S &= 7;
+ 8:  readasm("amd64; int8 X S; X <<= S");
+16:  S &= 15;
+16:  readasm("amd64; int16 X S; X <<= S");
+32:  readasm("amd64; int32 X S; X <<= S");
+64:  readasm("amd64; int64 X S; X <<= S");
+#elif arm64
+ 8:  S &= 7;
+ 8:  readasm("arm64; int8 X S; X = (uint8) X; X = X << S");
+16:  S &= 15;
+16:  readasm("arm64; int16 X S; X = (uint16) X; X = X << S");
+32:  readasm("arm64; int32 X S; X = X << S");
+64:  readasm("arm64; int64 X S; X = X << S");
+#elif arm32
+ 8:  S &= 7;
+ 8:  readasm("arm32; int8 X S; X = X << S; X = (uint8) X");
+16:  S &= 15;
+16:  readasm("arm32; int16 X S; X = X << S; X = (uint16) X");
+32:  S &= 31;
+32:  readasm("arm32; int32 X S; X = X << S");
+64:  readasm("arm32; int64 X S; S.lo = S.lo & 63; X.hi = X.hi << S.lo; S.hi = S.lo - 32; X.hi = X.hi | (X.lo << S.hi); S.hi = 32 - S.lo; X.hi = X.hi | (X.lo unsigned>> S.hi); X.lo = X.lo << S.lo");
+#elif sparc32
+ 8:  S &= 7;
+ 8:  readasm("sparc32; int8 X S; X = X << S; X = (uint8) X");
+16:  S &= 15;
+16:  readasm("sparc32; int16 X S; X = X << S; X = (uint16) X");
+32:  readasm("sparc32; int32 X S; X = X << S");
+64:  TYPE Y, Z;
+64:  readasm("sparc32; int64 X Y Z S; S.hi = ~S.lo; Z.hi = S.lo << 26; Z.lo = X.lo unsigned>> 1; Y.lo = X.lo << S.lo; Z.lo = Z.lo unsigned>> S.hi; Y.hi = X.hi << S.lo; Z.hi = Z.hi signed>> 31; Y.hi = Y.hi | Z.lo; Z.lo = Y.lo ^ Y.hi; X.lo = Z.hi & Y.lo; Z.lo = Z.hi & Z.lo; X.lo = X.lo ^ Y.lo; X.hi = Y.hi ^ Z.lo");
+#else
+  int K, L;
+  for (L = 0,K = 1;K < N;++L,K *= 2)
+    X ^= (X ^ (X << K)) & TYPE_bitinrangepublicpos_mask(S,L);
+#endif
+  return X;
+}
+
 SIGNED:
 TYPE TYPE_shrmod(TYPE X,TYPE S) {
 #if amd64
@@ -245,10 +428,28 @@ TYPE TYPE_shrmod(TYPE X,TYPE S) {
 32:  readasm("amd64; int32 X S; X signed>>= S");
 64:  readasm("amd64; int64 X S; X signed>>= S");
 #elif arm64
- 8:  readasm("arm64; int8 X S; S = S & 7; X = (int8) X; X = X signed>> S");
-16:  readasm("arm64; int16 X S; S = S & 15; X = (int16) X; X = X signed>> S");
+ 8:  S &= 7;
+ 8:  readasm("arm64; int8 X S; X = (int8) X; X = X signed>> S");
+16:  S &= 15;
+16:  readasm("arm64; int16 X S; X = (int16) X; X = X signed>> S");
 32:  readasm("arm64; int32 X S; X = X signed>> S");
 64:  readasm("arm64; int64 X S; X = X signed>> S");
+#elif arm32
+ 8:  S &= 7;
+ 8:  readasm("arm32; int8 X S; X = (int8) X; X = X signed>> S");
+16:  S &= 15;
+16:  readasm("arm32; int16 X S; X = (int16) X; X = X signed>> S");
+32:  S &= 31;
+32:  readasm("arm32; int32 X S; X = X signed>> S");
+64:  readasm("arm32; int64 X S; S.lo = S.lo & 63; X.lo = X.lo unsigned>> S.lo; S.hi = 32 - S.lo; X.lo = X.lo | (X.hi << S.hi); flags, S.hi = S.lo - 32; X.lo = X.lo | (X.hi signed>> S.hi) if unsigned>=; X.hi = X.hi signed>> S.lo");
+#elif sparc32
+ 8:  S &= 7;
+ 8:  readasm("sparc32; int8 X S; X = X signed>> S");
+16:  S &= 15;
+16:  readasm("sparc32; int16 X S; X = X signed>> S");
+32:  readasm("sparc32; int32 X S; X = X signed>> S");
+64:  TYPE Y, Z;
+64:  readasm("sparc32; int64 X Y Z S; S.hi = ~S.lo; Z.hi = S.lo << 26; Z.lo = X.hi << 1; Y.lo = X.lo unsigned>> S.lo; Z.lo = Z.lo << S.hi; Y.hi = X.hi signed>> S.lo; Z.hi = Z.hi signed>> 31; Y.lo = Y.lo | Z.lo; Z.lo = Y.lo ^ Y.hi; Z.lo = Z.hi & Z.lo; X.hi = Y.hi signed>> Z.hi; X.lo = Y.lo ^ Z.lo");
 #else
   int K, L;
   for (L = 0,K = 1;K < N;++L,K *= 2)
@@ -257,7 +458,6 @@ TYPE TYPE_shrmod(TYPE X,TYPE S) {
   return X;
 }
 
-# same as (X >> (S % N)) but without assuming barrel shifter
 UNSIGNED:
 TYPE TYPE_shrmod(TYPE X,TYPE S) {
 #if amd64
@@ -268,10 +468,28 @@ TYPE TYPE_shrmod(TYPE X,TYPE S) {
 32:  readasm("amd64; int32 X S; X unsigned>>= S");
 64:  readasm("amd64; int64 X S; X unsigned>>= S");
 #elif arm64
- 8:  readasm("arm64; int8 X S; S = S & 7; X = (uint8) X; X = X unsigned>> S");
-16:  readasm("arm64; int16 X S; S = S & 15; X = (uint16) X; X = X unsigned>> S");
+ 8:  S &= 7;
+ 8:  readasm("arm64; int8 X S; X = (uint8) X; X = X unsigned>> S");
+16:  S &= 15;
+16:  readasm("arm64; int16 X S; X = (uint16) X; X = X unsigned>> S");
 32:  readasm("arm64; int32 X S; X = X unsigned>> S");
 64:  readasm("arm64; int64 X S; X = X unsigned>> S");
+#elif arm32
+ 8:  S &= 7;
+ 8:  readasm("arm32; int8 X S; X = (uint8) X; X = X unsigned>> S");
+16:  S &= 15;
+16:  readasm("arm32; int16 X S; X = (uint16) X; X = X unsigned>> S");
+32:  S &= 31;
+32:  readasm("arm32; int32 X S; X = X unsigned>> S");
+64:  readasm("arm32; int64 X S; S.lo = S.lo & 63; X.lo = X.lo unsigned>> S.lo; S.hi = 32 - S.lo; X.lo = X.lo | (X.hi << S.hi); S.hi = S.lo - 32; X.lo = X.lo | (X.hi unsigned>> S.hi); X.hi = X.hi unsigned>> S.lo");
+#elif sparc32
+ 8:  S &= 7;
+ 8:  readasm("sparc32; int8 X S; X = X unsigned>> S");
+16:  S &= 15;
+16:  readasm("sparc32; int16 X S; X = X unsigned>> S");
+32:  readasm("sparc32; int32 X S; X = X unsigned>> S");
+64:  TYPE Y, Z;
+64:  readasm("sparc32; int64 X Y Z S; S.hi = ~S.lo; Z.hi = S.lo << 26; Z.lo = X.hi << 1; Y.lo = X.lo unsigned>> S.lo; Z.lo = Z.lo << S.hi; Y.hi = X.hi unsigned>> S.lo; Z.hi = Z.hi signed>> 31; Y.lo = Y.lo | Z.lo; Z.lo = Y.lo ^ Y.hi; X.hi = Z.hi & Y.hi; Z.lo = Z.hi & Z.lo; X.hi = X.hi ^ Y.hi; X.lo = Y.lo ^ Z.lo");
 #else
   int K, L;
   for (L = 0,K = 1;K < N;++L,K *= 2)
@@ -310,13 +528,25 @@ TYPE TYPE_nonzero_mask(TYPE X) {
 32:  readasm("arm64; int32 X Z; X - 0; Z = -1 if != else 0");
 64:  readasm("arm64; int64 X Z; X - 0; Z = -1 if != else 0");
   return Z;
+#elif arm32
+ 8:  readasm("arm32; int8 X; X = (uint8) X; X - 0; X = -1 if !=");
+16:  readasm("arm32; int16 X; X = (uint16) X; X - 0; X = -1 if !=");
+32:  readasm("arm32; int32 X; X - 0; X = -1 if !=");
+64:  readasm("arm32; int64 X; flags, X.lo = X.lo | X.hi; X.lo = -1 if !=; X.hi = X.lo");
+  return X;
+#elif sparc32
+  TYPE Z;
+ 8:  readasm("sparc32; int8 X Z; X = (uint8) X; 0 - X; Z = -carry");
+16:  readasm("sparc32; int16 X Z; X = (uint16) X; 0 - X; Z = -carry");
+32:  readasm("sparc32; int32 X Z; 0 - X; Z = -carry");
+64:  readasm("sparc32; int64 X Z; Z.lo = X.lo | X.hi; 0 - Z.lo; Z.lo = -carry; Z.hi = Z.lo");
+  return Z;
 #else
   X |= -X;
   return SIGNED_negative_mask(X);
 #endif
 }
 
-# XXX: for amd64, use set instead of cmov
 TYPE TYPE_nonzero_01(TYPE X) {
 #if amd64
  8:  TYPE Z;
@@ -336,6 +566,19 @@ TYPE TYPE_nonzero_01(TYPE X) {
 16:  readasm("arm64; int16 X Z; X & 65535; Z = 1 if != else 0");
 32:  readasm("arm64; int32 X Z; X - 0; Z = 1 if != else 0");
 64:  readasm("arm64; int64 X Z; X - 0; Z = 1 if != else 0");
+  return Z;
+#elif arm32
+ 8:  readasm("arm32; int8 X; X = (uint8) X; X - 0; X = 1 if !=");
+16:  readasm("arm32; int16 X; X = (uint16) X; X - 0; X = 1 if !=");
+32:  readasm("arm32; int32 X; X - 0; X = 1 if !=");
+64:  readasm("arm32; int64 X; flags, X.lo = X.lo | X.hi; X.lo = 1 if !=; X.hi = 0");
+  return X;
+#elif sparc32
+  TYPE Z;
+ 8:  readasm("sparc32; int8 X Z; X = (uint8) X; 0 - X; Z = carry");
+16:  readasm("sparc32; int16 X Z; X = (uint16) X; 0 - X; Z = carry");
+32:  readasm("sparc32; int32 X Z; 0 - X; Z = carry");
+64:  readasm("sparc32; int64 X Z; Z.lo = X.lo | X.hi; 0 - Z.lo; Z.lo = carry; Z.hi = 0");
   return Z;
 #else
   X |= -X;
@@ -363,6 +606,13 @@ TYPE TYPE_positive_mask(TYPE X) {
 16:  readasm("arm64; int16 X Z; Z = (int16) X; Z - 0; Z = -1 if signed> else 0");
 32:  readasm("arm64; int32 X Z; X - 0; Z = -1 if signed> else 0");
 64:  readasm("arm64; int64 X Z; X - 0; Z = -1 if signed> else 0");
+  return Z;
+#elif sparc32
+  TYPE Z;
+ 8:  readasm("sparc32; int8 X Z; Z = X << 24; Z = Z signed>> 31; Z = Z - X; Z = Z signed>> 31");
+16:  readasm("sparc32; int16 X Z; Z = X << 16; Z = Z signed>> 31; Z = Z - X; Z = Z signed>> 31");
+32:  readasm("sparc32; int32 X Z; Z = X signed>> 31; Z = Z - X; Z = Z signed>> 31");
+64:  readasm("sparc32; int64 X Z; Z.lo = X.hi signed>> 31; carry, Z.hi = Z.lo - X.lo; Z.hi = Z.lo - X.hi - carry; Z.hi = Z.hi signed>> 31; Z.lo = Z.hi");
   return Z;
 #else
   TYPE Z = -X;
@@ -392,6 +642,13 @@ TYPE TYPE_positive_01(TYPE X) {
 32:  readasm("arm64; int32 X Z; X - 0; Z = 1 if signed> else 0");
 64:  readasm("arm64; int64 X Z; X - 0; Z = 1 if signed> else 0");
   return Z;
+#elif sparc32
+  TYPE Z;
+ 8:  readasm("sparc32; int8 X Z; Z = X << 24; Z = Z signed>> 31; Z = Z - X; Z = Z unsigned>> 31");
+16:  readasm("sparc32; int16 X Z; Z = X << 16; Z = Z signed>> 31; Z = Z - X; Z = Z unsigned>> 31");
+32:  readasm("sparc32; int32 X Z; Z = X signed>> 31; Z = Z - X; Z = Z unsigned>> 31");
+64:  readasm("sparc32; int64 X Z; Z.hi = X.hi signed>> 31; carry, Z.lo = Z.hi - X.lo; Z.lo = Z.hi - X.hi - carry; Z.lo = Z.lo unsigned>> 31; Z.hi = 0");
+  return Z;
 #else
   TYPE Z = -X;
   Z ^= X & Z;
@@ -419,6 +676,13 @@ TYPE TYPE_zero_mask(TYPE X) {
 32:  readasm("arm64; int32 X Z; X - 0; Z = -1 if = else 0");
 64:  readasm("arm64; int64 X Z; X - 0; Z = -1 if = else 0");
   return Z;
+#elif sparc32
+  TYPE Z;
+ 8:  readasm("sparc32; int8 X Z; X = (uint8) X; 0 - X; Z = carry - 1");
+16:  readasm("sparc32; int16 X Z; X = (uint16) X; 0 - X; Z = carry - 1");
+32:  readasm("sparc32; int32 X Z; 0 - X; Z = carry - 1");
+64:  readasm("sparc32; int64 X Z; Z.lo = X.lo | X.hi; 0 - Z.lo; Z.lo = carry - 1; Z.hi = Z.lo");
+  return Z;
 #else
   return ~TYPE_nonzero_mask(X);
 #endif
@@ -443,6 +707,13 @@ TYPE TYPE_zero_01(TYPE X) {
 16:  readasm("arm64; int16 X Z; X & 65535; Z = 1 if = else 0");
 32:  readasm("arm64; int32 X Z; X - 0; Z = 1 if = else 0");
 64:  readasm("arm64; int64 X Z; X - 0; Z = 1 if = else 0");
+  return Z;
+#elif sparc32
+  TYPE Z;
+ 8:  readasm("sparc32; int8 X Z; X = (uint8) X; 0 - X; Z = 1 - carry");
+16:  readasm("sparc32; int16 X Z; X = (uint16) X; 0 - X; Z = 1 - carry");
+32:  readasm("sparc32; int32 X Z; 0 - X; Z = 1 - carry");
+64:  readasm("sparc32; int64 X Z; Z.lo = X.lo | X.hi; 0 - Z.lo; Z.lo = 1 - carry; Z.hi = 0");
   return Z;
 #else
   return 1-TYPE_nonzero_01(X);
@@ -520,7 +791,7 @@ TYPE TYPE_equal_mask(TYPE X,TYPE Y) {
 64:  readasm("arm64; int64 X Y Z; X - Y; Z = -1 if = else 0");
   return Z;
 #else
-  return ~TYPE_unequal_mask(X,Y);
+  return TYPE_zero_mask(X ^ Y);
 #endif
 }
 
@@ -545,7 +816,7 @@ TYPE TYPE_equal_01(TYPE X,TYPE Y) {
 64:  readasm("arm64; int64 X Y Z; X - Y; Z = 1 if = else 0");
   return Z;
 #else
-  return 1-TYPE_unequal_01(X,Y);
+  return TYPE_zero_01(X ^ Y);
 #endif
 }
 
@@ -947,10 +1218,6 @@ TYPE TYPE_leq_01(TYPE X,TYPE Y) {
 #endif
 }
 
-# XXX: consider *0x...10101 for the denouement _if_ mul is constant-time
-# XXX: use popcnt if __SSE4_2__
-# XXX: use cnt if arm64 cssc
-# XXX: maybe use neon cnt if arm64
 int TYPE_ones_num(TYPE X) {
   UNSIGNED Y = X;
  8:  const TYPE C0 = 0x55;
@@ -977,8 +1244,6 @@ int TYPE_ones_num(TYPE X) {
   return Y;
 }
 
-# XXX: use tzcnt if amd64 bmi1
-# XXX: use ctz if arm64 cssc
 int TYPE_bottomzeros_num(TYPE X) {
 #if amd64
  8:  int32_t fallback = N;

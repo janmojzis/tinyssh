@@ -1,5 +1,5 @@
 /* auto-generated: cd cryptoint; ./autogen */
-/* cryptoint 20241003 */
+/* cryptoint 20250228 */
 
 #ifndef crypto_uintN_h
 #define crypto_uintN_h
@@ -63,6 +63,20 @@ crypto_uintN_signed crypto_uintN_signed_negative_mask(crypto_uintN_signed crypto
 32:  readasm("arm64; int32 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = crypto_uintN_x signed>> 31");
 64:  readasm("arm64; int64 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = crypto_uintN_x signed>> 63");
   return crypto_uintN_y;
+#elif arm32
+  crypto_uintN_signed crypto_uintN_y;
+ 8:  readasm("arm32; int8 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = (int8) crypto_uintN_x; crypto_uintN_y = crypto_uintN_y signed>> 31");
+16:  readasm("arm32; int16 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = (int16) crypto_uintN_x; crypto_uintN_y = crypto_uintN_y signed>> 31");
+32:  readasm("arm32; int32 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = crypto_uintN_x signed>> 31");
+64:  readasm("arm32; int64 crypto_uintN_x crypto_uintN_y; crypto_uintN_y.lo = crypto_uintN_x.hi signed>> 31; crypto_uintN_y.hi = crypto_uintN_y.lo");
+  return crypto_uintN_y;
+#elif sparc32
+  crypto_uintN_signed crypto_uintN_y;
+ 8:  readasm("sparc32; int8 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = crypto_uintN_x << 24; crypto_uintN_y = crypto_uintN_y signed>> 31");
+16:  readasm("sparc32; int16 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = crypto_uintN_x << 16; crypto_uintN_y = crypto_uintN_y signed>> 31");
+32:  readasm("sparc32; int32 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = crypto_uintN_x signed>> 31");
+64:  readasm("sparc32; int64 crypto_uintN_x crypto_uintN_y; crypto_uintN_y.lo = crypto_uintN_x.hi signed>> 31; crypto_uintN_y.hi = crypto_uintN_y.lo");
+  return crypto_uintN_y;
 #else
   crypto_uintN_x >>= N-6;
   crypto_uintN_x += crypto_uintN_signed_optblocker;
@@ -81,11 +95,25 @@ crypto_uintN crypto_uintN_topbit_01(crypto_uintN crypto_uintN_x) {
 64:  readasm("amd64; int64 crypto_uintN_x; crypto_uintN_x unsigned>>= 63");
   return crypto_uintN_x;
 #elif arm64
-  crypto_uintN_signed crypto_uintN_y;
+  crypto_uintN crypto_uintN_y;
  8:  readasm("arm64; int8 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = 1 & (crypto_uintN_x unsigned>> 7)");
 16:  readasm("arm64; int16 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = 1 & (crypto_uintN_x unsigned>> 15)");
 32:  readasm("arm64; int32 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = crypto_uintN_x unsigned>> 31");
 64:  readasm("arm64; int64 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = crypto_uintN_x unsigned>> 63");
+  return crypto_uintN_y;
+#elif arm32
+  crypto_uintN_signed crypto_uintN_y;
+ 8:  readasm("arm32; int8 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = (uint8) crypto_uintN_x; crypto_uintN_y = crypto_uintN_y unsigned>> 7");
+16:  readasm("arm32; int16 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = (uint16) crypto_uintN_x; crypto_uintN_y = crypto_uintN_y unsigned>> 15");
+32:  readasm("arm32; int32 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = crypto_uintN_x unsigned>> 31");
+64:  readasm("arm32; int64 crypto_uintN_x crypto_uintN_y; crypto_uintN_y.lo = crypto_uintN_x.hi unsigned>> 31; crypto_uintN_y.hi = 0");
+  return crypto_uintN_y;
+#elif sparc32
+  crypto_uintN crypto_uintN_y;
+ 8:  readasm("sparc32; int8 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = (uint8) crypto_uintN_x; crypto_uintN_y = crypto_uintN_y unsigned>> 7");
+16:  readasm("sparc32; int16 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = (uint16) crypto_uintN_x; crypto_uintN_y = crypto_uintN_y unsigned>> 15");
+32:  readasm("sparc32; int32 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = crypto_uintN_x unsigned>> 31");
+64:  readasm("sparc32; int64 crypto_uintN_x crypto_uintN_y; crypto_uintN_y.lo = crypto_uintN_x.hi unsigned>> 31; crypto_uintN_y.hi = 0");
   return crypto_uintN_y;
 #else
   crypto_uintN_x >>= N-6;
@@ -117,6 +145,20 @@ crypto_uintN crypto_uintN_bottombit_mask(crypto_uintN crypto_uintN_x) {
 32:  readasm("arm64; int32 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = -(1 & (crypto_uintN_x unsigned>> 0))");
 64:  readasm("arm64; int64 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = -(1 & (crypto_uintN_x unsigned>> 0))");
   return crypto_uintN_y;
+#elif arm32
+  crypto_uintN crypto_uintN_y;
+ 8:  readasm("arm32; int8 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = crypto_uintN_x & 1; crypto_uintN_y = -crypto_uintN_y; crypto_uintN_y = (uint8) crypto_uintN_y");
+16:  readasm("arm32; int16 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = crypto_uintN_x & 1; crypto_uintN_y = -crypto_uintN_y; crypto_uintN_y = (uint16) crypto_uintN_y");
+32:  readasm("arm32; int32 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = crypto_uintN_x & 1; crypto_uintN_y = -crypto_uintN_y");
+64:  readasm("arm32; int64 crypto_uintN_x crypto_uintN_y; crypto_uintN_y.lo = crypto_uintN_x.lo & 1; crypto_uintN_y.lo = -crypto_uintN_y.lo; crypto_uintN_y.hi = crypto_uintN_y.lo");
+  return crypto_uintN_y;
+#elif sparc32
+  crypto_uintN crypto_uintN_y;
+ 8:  readasm("sparc32; int8 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = crypto_uintN_x & 1; crypto_uintN_y = -crypto_uintN_y; crypto_uintN_y = (uint8) crypto_uintN_y");
+16:  readasm("sparc32; int16 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = crypto_uintN_x & 1; crypto_uintN_y = -crypto_uintN_y; crypto_uintN_y = (uint16) crypto_uintN_y");
+32:  readasm("sparc32; int32 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = crypto_uintN_x & 1; crypto_uintN_y = -crypto_uintN_y");
+64:  readasm("sparc32; int64 crypto_uintN_x crypto_uintN_y; crypto_uintN_y.lo = crypto_uintN_x.lo & 1; crypto_uintN_y.lo = -crypto_uintN_y.lo; crypto_uintN_y.hi = crypto_uintN_y.lo");
+  return crypto_uintN_y;
 #else
   crypto_uintN_x &= 1 + crypto_uintN_signed_optblocker;
   return -crypto_uintN_x;
@@ -139,6 +181,20 @@ crypto_uintN crypto_uintN_bottombit_01(crypto_uintN crypto_uintN_x) {
 32:  readasm("arm64; int32 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = 1 & (crypto_uintN_x unsigned>> 0)");
 64:  readasm("arm64; int64 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = 1 & (crypto_uintN_x unsigned>> 0)");
   return crypto_uintN_y;
+#elif arm32
+  crypto_uintN crypto_uintN_y;
+ 8:  readasm("arm32; int8 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = crypto_uintN_x & 1");
+16:  readasm("arm32; int16 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = crypto_uintN_x & 1");
+32:  readasm("arm32; int32 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = crypto_uintN_x & 1");
+64:  readasm("arm32; int64 crypto_uintN_x crypto_uintN_y; crypto_uintN_y.lo = crypto_uintN_x.lo & 1; crypto_uintN_y.hi = 0");
+  return crypto_uintN_y;
+#elif sparc32
+  crypto_uintN crypto_uintN_y;
+ 8:  readasm("sparc32; int8 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = crypto_uintN_x & 1");
+16:  readasm("sparc32; int16 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = crypto_uintN_x & 1");
+32:  readasm("sparc32; int32 crypto_uintN_x crypto_uintN_y; crypto_uintN_y = crypto_uintN_x & 1");
+64:  readasm("sparc32; int64 crypto_uintN_x crypto_uintN_y; crypto_uintN_y.lo = crypto_uintN_x.lo & 1; crypto_uintN_y.hi = 0");
+  return crypto_uintN_y;
 #else
   crypto_uintN_x &= 1 + crypto_uintN_signed_optblocker;
   return crypto_uintN_x;
@@ -158,6 +214,17 @@ crypto_uintN crypto_uintN_bitinrangepublicpos_mask(crypto_uintN crypto_uintN_x,c
 16:  readasm("arm64; int16 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = (uint16) crypto_uintN_x; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
 32:  readasm("arm64; int32 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
 64:  readasm("arm64; int64 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
+#elif arm32
+ 8:  readasm("arm32; int8 crypto_uintN_x crypto_uintN_s; crypto_uintN_s = crypto_uintN_s & 7; crypto_uintN_x = (uint8) crypto_uintN_x; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
+16:  readasm("arm32; int16 crypto_uintN_x crypto_uintN_s; crypto_uintN_s = crypto_uintN_s & 15; crypto_uintN_x = (uint16) crypto_uintN_x; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
+32:  readasm("arm32; int32 crypto_uintN_x crypto_uintN_s; crypto_uintN_s = crypto_uintN_s & 31; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
+64:  readasm("arm32; int64 crypto_uintN_x crypto_uintN_s; crypto_uintN_s.lo = crypto_uintN_s.lo & 63; crypto_uintN_x.lo = crypto_uintN_x.lo unsigned>> crypto_uintN_s.lo; crypto_uintN_s.hi = 32 - crypto_uintN_s.lo; crypto_uintN_x.lo = crypto_uintN_x.lo | (crypto_uintN_x.hi << crypto_uintN_s.hi); crypto_uintN_s.hi = crypto_uintN_s.lo - 32; crypto_uintN_x.lo = crypto_uintN_x.lo | (crypto_uintN_x.hi unsigned>> crypto_uintN_s.hi); crypto_uintN_x.hi = crypto_uintN_x.hi unsigned>> crypto_uintN_s.lo");
+#elif sparc32
+ 8:  readasm("sparc32; int8 crypto_uintN_x crypto_uintN_s; crypto_uintN_s = crypto_uintN_s & 7; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
+16:  readasm("sparc32; int16 crypto_uintN_x crypto_uintN_s; crypto_uintN_s = crypto_uintN_s & 15; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
+32:  readasm("sparc32; int32 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
+64:  crypto_uintN crypto_uintN_y, crypto_uintN_z;
+64:  readasm("sparc32; int64 crypto_uintN_x crypto_uintN_y crypto_uintN_z crypto_uintN_s; crypto_uintN_s.hi = ~crypto_uintN_s.lo; crypto_uintN_z.hi = crypto_uintN_s.lo << 26; crypto_uintN_z.lo = crypto_uintN_x.hi << 1; crypto_uintN_y.lo = crypto_uintN_x.lo unsigned>> crypto_uintN_s.lo; crypto_uintN_z.lo = crypto_uintN_z.lo << crypto_uintN_s.hi; crypto_uintN_y.hi = crypto_uintN_x.hi unsigned>> crypto_uintN_s.lo; crypto_uintN_z.hi = crypto_uintN_z.hi signed>> 31; crypto_uintN_y.lo = crypto_uintN_y.lo | crypto_uintN_z.lo; crypto_uintN_z.lo = crypto_uintN_y.lo ^ crypto_uintN_y.hi; crypto_uintN_x.hi = crypto_uintN_z.hi & crypto_uintN_y.hi; crypto_uintN_z.lo = crypto_uintN_z.hi & crypto_uintN_z.lo; crypto_uintN_x.hi = crypto_uintN_x.hi ^ crypto_uintN_y.hi; crypto_uintN_x.lo = crypto_uintN_y.lo ^ crypto_uintN_z.lo");
 #else
   crypto_uintN_x >>= crypto_uintN_s ^ crypto_uintN_signed_optblocker;
 #endif
@@ -177,6 +244,17 @@ crypto_uintN crypto_uintN_bitinrangepublicpos_01(crypto_uintN crypto_uintN_x,cry
 16:  readasm("arm64; int16 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = (uint16) crypto_uintN_x; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
 32:  readasm("arm64; int32 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
 64:  readasm("arm64; int64 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
+#elif arm32
+ 8:  readasm("arm32; int8 crypto_uintN_x crypto_uintN_s; crypto_uintN_s = crypto_uintN_s & 7; crypto_uintN_x = (uint8) crypto_uintN_x; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
+16:  readasm("arm32; int16 crypto_uintN_x crypto_uintN_s; crypto_uintN_s = crypto_uintN_s & 15; crypto_uintN_x = (uint16) crypto_uintN_x; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
+32:  readasm("arm32; int32 crypto_uintN_x crypto_uintN_s; crypto_uintN_s = crypto_uintN_s & 31; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
+64:  readasm("arm32; int64 crypto_uintN_x crypto_uintN_s; crypto_uintN_s.lo = crypto_uintN_s.lo & 63; crypto_uintN_x.lo = crypto_uintN_x.lo unsigned>> crypto_uintN_s.lo; crypto_uintN_s.hi = 32 - crypto_uintN_s.lo; crypto_uintN_x.lo = crypto_uintN_x.lo | (crypto_uintN_x.hi << crypto_uintN_s.hi); crypto_uintN_s.hi = crypto_uintN_s.lo - 32; crypto_uintN_x.lo = crypto_uintN_x.lo | (crypto_uintN_x.hi unsigned>> crypto_uintN_s.hi); crypto_uintN_x.hi = crypto_uintN_x.hi unsigned>> crypto_uintN_s.lo");
+#elif sparc32
+ 8:  readasm("sparc32; int8 crypto_uintN_x crypto_uintN_s; crypto_uintN_s = crypto_uintN_s & 7; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
+16:  readasm("sparc32; int16 crypto_uintN_x crypto_uintN_s; crypto_uintN_s = crypto_uintN_s & 15; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
+32:  readasm("sparc32; int32 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
+64:  crypto_uintN crypto_uintN_y, crypto_uintN_z;
+64:  readasm("sparc32; int64 crypto_uintN_x crypto_uintN_y crypto_uintN_z crypto_uintN_s; crypto_uintN_s.hi = ~crypto_uintN_s.lo; crypto_uintN_z.hi = crypto_uintN_s.lo << 26; crypto_uintN_z.lo = crypto_uintN_x.hi << 1; crypto_uintN_y.lo = crypto_uintN_x.lo unsigned>> crypto_uintN_s.lo; crypto_uintN_z.lo = crypto_uintN_z.lo << crypto_uintN_s.hi; crypto_uintN_y.hi = crypto_uintN_x.hi unsigned>> crypto_uintN_s.lo; crypto_uintN_z.hi = crypto_uintN_z.hi signed>> 31; crypto_uintN_y.lo = crypto_uintN_y.lo | crypto_uintN_z.lo; crypto_uintN_z.lo = crypto_uintN_y.lo ^ crypto_uintN_y.hi; crypto_uintN_x.hi = crypto_uintN_z.hi & crypto_uintN_y.hi; crypto_uintN_z.lo = crypto_uintN_z.hi & crypto_uintN_z.lo; crypto_uintN_x.hi = crypto_uintN_x.hi ^ crypto_uintN_y.hi; crypto_uintN_x.lo = crypto_uintN_y.lo ^ crypto_uintN_z.lo");
 #else
   crypto_uintN_x >>= crypto_uintN_s ^ crypto_uintN_signed_optblocker;
 #endif
@@ -194,10 +272,28 @@ crypto_uintN crypto_uintN_shlmod(crypto_uintN crypto_uintN_x,crypto_uintN crypto
 32:  readasm("amd64; int32 crypto_uintN_x crypto_uintN_s; crypto_uintN_x <<= crypto_uintN_s");
 64:  readasm("amd64; int64 crypto_uintN_x crypto_uintN_s; crypto_uintN_x <<= crypto_uintN_s");
 #elif arm64
- 8:  readasm("arm64; int8 crypto_uintN_x crypto_uintN_s; crypto_uintN_s = crypto_uintN_s & 7; crypto_uintN_x = (uint8) crypto_uintN_x; crypto_uintN_x = crypto_uintN_x << crypto_uintN_s");
-16:  readasm("arm64; int16 crypto_uintN_x crypto_uintN_s; crypto_uintN_s = crypto_uintN_s & 15; crypto_uintN_x = (uint16) crypto_uintN_x; crypto_uintN_x = crypto_uintN_x << crypto_uintN_s");
+ 8:  crypto_uintN_s &= 7;
+ 8:  readasm("arm64; int8 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = (uint8) crypto_uintN_x; crypto_uintN_x = crypto_uintN_x << crypto_uintN_s");
+16:  crypto_uintN_s &= 15;
+16:  readasm("arm64; int16 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = (uint16) crypto_uintN_x; crypto_uintN_x = crypto_uintN_x << crypto_uintN_s");
 32:  readasm("arm64; int32 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = crypto_uintN_x << crypto_uintN_s");
 64:  readasm("arm64; int64 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = crypto_uintN_x << crypto_uintN_s");
+#elif arm32
+ 8:  crypto_uintN_s &= 7;
+ 8:  readasm("arm32; int8 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = crypto_uintN_x << crypto_uintN_s; crypto_uintN_x = (uint8) crypto_uintN_x");
+16:  crypto_uintN_s &= 15;
+16:  readasm("arm32; int16 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = crypto_uintN_x << crypto_uintN_s; crypto_uintN_x = (uint16) crypto_uintN_x");
+32:  crypto_uintN_s &= 31;
+32:  readasm("arm32; int32 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = crypto_uintN_x << crypto_uintN_s");
+64:  readasm("arm32; int64 crypto_uintN_x crypto_uintN_s; crypto_uintN_s.lo = crypto_uintN_s.lo & 63; crypto_uintN_x.hi = crypto_uintN_x.hi << crypto_uintN_s.lo; crypto_uintN_s.hi = crypto_uintN_s.lo - 32; crypto_uintN_x.hi = crypto_uintN_x.hi | (crypto_uintN_x.lo << crypto_uintN_s.hi); crypto_uintN_s.hi = 32 - crypto_uintN_s.lo; crypto_uintN_x.hi = crypto_uintN_x.hi | (crypto_uintN_x.lo unsigned>> crypto_uintN_s.hi); crypto_uintN_x.lo = crypto_uintN_x.lo << crypto_uintN_s.lo");
+#elif sparc32
+ 8:  crypto_uintN_s &= 7;
+ 8:  readasm("sparc32; int8 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = crypto_uintN_x << crypto_uintN_s; crypto_uintN_x = (uint8) crypto_uintN_x");
+16:  crypto_uintN_s &= 15;
+16:  readasm("sparc32; int16 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = crypto_uintN_x << crypto_uintN_s; crypto_uintN_x = (uint16) crypto_uintN_x");
+32:  readasm("sparc32; int32 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = crypto_uintN_x << crypto_uintN_s");
+64:  crypto_uintN crypto_uintN_y, crypto_uintN_z;
+64:  readasm("sparc32; int64 crypto_uintN_x crypto_uintN_y crypto_uintN_z crypto_uintN_s; crypto_uintN_s.hi = ~crypto_uintN_s.lo; crypto_uintN_z.hi = crypto_uintN_s.lo << 26; crypto_uintN_z.lo = crypto_uintN_x.lo unsigned>> 1; crypto_uintN_y.lo = crypto_uintN_x.lo << crypto_uintN_s.lo; crypto_uintN_z.lo = crypto_uintN_z.lo unsigned>> crypto_uintN_s.hi; crypto_uintN_y.hi = crypto_uintN_x.hi << crypto_uintN_s.lo; crypto_uintN_z.hi = crypto_uintN_z.hi signed>> 31; crypto_uintN_y.hi = crypto_uintN_y.hi | crypto_uintN_z.lo; crypto_uintN_z.lo = crypto_uintN_y.lo ^ crypto_uintN_y.hi; crypto_uintN_x.lo = crypto_uintN_z.hi & crypto_uintN_y.lo; crypto_uintN_z.lo = crypto_uintN_z.hi & crypto_uintN_z.lo; crypto_uintN_x.lo = crypto_uintN_x.lo ^ crypto_uintN_y.lo; crypto_uintN_x.hi = crypto_uintN_y.hi ^ crypto_uintN_z.lo");
 #else
   int crypto_uintN_k, crypto_uintN_l;
   for (crypto_uintN_l = 0,crypto_uintN_k = 1;crypto_uintN_k < N;++crypto_uintN_l,crypto_uintN_k *= 2)
@@ -217,10 +313,28 @@ crypto_uintN crypto_uintN_shrmod(crypto_uintN crypto_uintN_x,crypto_uintN crypto
 32:  readasm("amd64; int32 crypto_uintN_x crypto_uintN_s; crypto_uintN_x unsigned>>= crypto_uintN_s");
 64:  readasm("amd64; int64 crypto_uintN_x crypto_uintN_s; crypto_uintN_x unsigned>>= crypto_uintN_s");
 #elif arm64
- 8:  readasm("arm64; int8 crypto_uintN_x crypto_uintN_s; crypto_uintN_s = crypto_uintN_s & 7; crypto_uintN_x = (uint8) crypto_uintN_x; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
-16:  readasm("arm64; int16 crypto_uintN_x crypto_uintN_s; crypto_uintN_s = crypto_uintN_s & 15; crypto_uintN_x = (uint16) crypto_uintN_x; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
+ 8:  crypto_uintN_s &= 7;
+ 8:  readasm("arm64; int8 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = (uint8) crypto_uintN_x; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
+16:  crypto_uintN_s &= 15;
+16:  readasm("arm64; int16 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = (uint16) crypto_uintN_x; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
 32:  readasm("arm64; int32 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
 64:  readasm("arm64; int64 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
+#elif arm32
+ 8:  crypto_uintN_s &= 7;
+ 8:  readasm("arm32; int8 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = (uint8) crypto_uintN_x; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
+16:  crypto_uintN_s &= 15;
+16:  readasm("arm32; int16 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = (uint16) crypto_uintN_x; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
+32:  crypto_uintN_s &= 31;
+32:  readasm("arm32; int32 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
+64:  readasm("arm32; int64 crypto_uintN_x crypto_uintN_s; crypto_uintN_s.lo = crypto_uintN_s.lo & 63; crypto_uintN_x.lo = crypto_uintN_x.lo unsigned>> crypto_uintN_s.lo; crypto_uintN_s.hi = 32 - crypto_uintN_s.lo; crypto_uintN_x.lo = crypto_uintN_x.lo | (crypto_uintN_x.hi << crypto_uintN_s.hi); crypto_uintN_s.hi = crypto_uintN_s.lo - 32; crypto_uintN_x.lo = crypto_uintN_x.lo | (crypto_uintN_x.hi unsigned>> crypto_uintN_s.hi); crypto_uintN_x.hi = crypto_uintN_x.hi unsigned>> crypto_uintN_s.lo");
+#elif sparc32
+ 8:  crypto_uintN_s &= 7;
+ 8:  readasm("sparc32; int8 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
+16:  crypto_uintN_s &= 15;
+16:  readasm("sparc32; int16 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
+32:  readasm("sparc32; int32 crypto_uintN_x crypto_uintN_s; crypto_uintN_x = crypto_uintN_x unsigned>> crypto_uintN_s");
+64:  crypto_uintN crypto_uintN_y, crypto_uintN_z;
+64:  readasm("sparc32; int64 crypto_uintN_x crypto_uintN_y crypto_uintN_z crypto_uintN_s; crypto_uintN_s.hi = ~crypto_uintN_s.lo; crypto_uintN_z.hi = crypto_uintN_s.lo << 26; crypto_uintN_z.lo = crypto_uintN_x.hi << 1; crypto_uintN_y.lo = crypto_uintN_x.lo unsigned>> crypto_uintN_s.lo; crypto_uintN_z.lo = crypto_uintN_z.lo << crypto_uintN_s.hi; crypto_uintN_y.hi = crypto_uintN_x.hi unsigned>> crypto_uintN_s.lo; crypto_uintN_z.hi = crypto_uintN_z.hi signed>> 31; crypto_uintN_y.lo = crypto_uintN_y.lo | crypto_uintN_z.lo; crypto_uintN_z.lo = crypto_uintN_y.lo ^ crypto_uintN_y.hi; crypto_uintN_x.hi = crypto_uintN_z.hi & crypto_uintN_y.hi; crypto_uintN_z.lo = crypto_uintN_z.hi & crypto_uintN_z.lo; crypto_uintN_x.hi = crypto_uintN_x.hi ^ crypto_uintN_y.hi; crypto_uintN_x.lo = crypto_uintN_y.lo ^ crypto_uintN_z.lo");
 #else
   int crypto_uintN_k, crypto_uintN_l;
   for (crypto_uintN_l = 0,crypto_uintN_k = 1;crypto_uintN_k < N;++crypto_uintN_l,crypto_uintN_k *= 2)
@@ -265,6 +379,19 @@ crypto_uintN crypto_uintN_nonzero_mask(crypto_uintN crypto_uintN_x) {
 32:  readasm("arm64; int32 crypto_uintN_x crypto_uintN_z; crypto_uintN_x - 0; crypto_uintN_z = -1 if != else 0");
 64:  readasm("arm64; int64 crypto_uintN_x crypto_uintN_z; crypto_uintN_x - 0; crypto_uintN_z = -1 if != else 0");
   return crypto_uintN_z;
+#elif arm32
+ 8:  readasm("arm32; int8 crypto_uintN_x; crypto_uintN_x = (uint8) crypto_uintN_x; crypto_uintN_x - 0; crypto_uintN_x = -1 if !=");
+16:  readasm("arm32; int16 crypto_uintN_x; crypto_uintN_x = (uint16) crypto_uintN_x; crypto_uintN_x - 0; crypto_uintN_x = -1 if !=");
+32:  readasm("arm32; int32 crypto_uintN_x; crypto_uintN_x - 0; crypto_uintN_x = -1 if !=");
+64:  readasm("arm32; int64 crypto_uintN_x; flags, crypto_uintN_x.lo = crypto_uintN_x.lo | crypto_uintN_x.hi; crypto_uintN_x.lo = -1 if !=; crypto_uintN_x.hi = crypto_uintN_x.lo");
+  return crypto_uintN_x;
+#elif sparc32
+  crypto_uintN crypto_uintN_z;
+ 8:  readasm("sparc32; int8 crypto_uintN_x crypto_uintN_z; crypto_uintN_x = (uint8) crypto_uintN_x; 0 - crypto_uintN_x; crypto_uintN_z = -carry");
+16:  readasm("sparc32; int16 crypto_uintN_x crypto_uintN_z; crypto_uintN_x = (uint16) crypto_uintN_x; 0 - crypto_uintN_x; crypto_uintN_z = -carry");
+32:  readasm("sparc32; int32 crypto_uintN_x crypto_uintN_z; 0 - crypto_uintN_x; crypto_uintN_z = -carry");
+64:  readasm("sparc32; int64 crypto_uintN_x crypto_uintN_z; crypto_uintN_z.lo = crypto_uintN_x.lo | crypto_uintN_x.hi; 0 - crypto_uintN_z.lo; crypto_uintN_z.lo = -carry; crypto_uintN_z.hi = crypto_uintN_z.lo");
+  return crypto_uintN_z;
 #else
   crypto_uintN_x |= -crypto_uintN_x;
   return crypto_uintN_signed_negative_mask(crypto_uintN_x);
@@ -292,6 +419,19 @@ crypto_uintN crypto_uintN_nonzero_01(crypto_uintN crypto_uintN_x) {
 16:  readasm("arm64; int16 crypto_uintN_x crypto_uintN_z; crypto_uintN_x & 65535; crypto_uintN_z = 1 if != else 0");
 32:  readasm("arm64; int32 crypto_uintN_x crypto_uintN_z; crypto_uintN_x - 0; crypto_uintN_z = 1 if != else 0");
 64:  readasm("arm64; int64 crypto_uintN_x crypto_uintN_z; crypto_uintN_x - 0; crypto_uintN_z = 1 if != else 0");
+  return crypto_uintN_z;
+#elif arm32
+ 8:  readasm("arm32; int8 crypto_uintN_x; crypto_uintN_x = (uint8) crypto_uintN_x; crypto_uintN_x - 0; crypto_uintN_x = 1 if !=");
+16:  readasm("arm32; int16 crypto_uintN_x; crypto_uintN_x = (uint16) crypto_uintN_x; crypto_uintN_x - 0; crypto_uintN_x = 1 if !=");
+32:  readasm("arm32; int32 crypto_uintN_x; crypto_uintN_x - 0; crypto_uintN_x = 1 if !=");
+64:  readasm("arm32; int64 crypto_uintN_x; flags, crypto_uintN_x.lo = crypto_uintN_x.lo | crypto_uintN_x.hi; crypto_uintN_x.lo = 1 if !=; crypto_uintN_x.hi = 0");
+  return crypto_uintN_x;
+#elif sparc32
+  crypto_uintN crypto_uintN_z;
+ 8:  readasm("sparc32; int8 crypto_uintN_x crypto_uintN_z; crypto_uintN_x = (uint8) crypto_uintN_x; 0 - crypto_uintN_x; crypto_uintN_z = carry");
+16:  readasm("sparc32; int16 crypto_uintN_x crypto_uintN_z; crypto_uintN_x = (uint16) crypto_uintN_x; 0 - crypto_uintN_x; crypto_uintN_z = carry");
+32:  readasm("sparc32; int32 crypto_uintN_x crypto_uintN_z; 0 - crypto_uintN_x; crypto_uintN_z = carry");
+64:  readasm("sparc32; int64 crypto_uintN_x crypto_uintN_z; crypto_uintN_z.lo = crypto_uintN_x.lo | crypto_uintN_x.hi; 0 - crypto_uintN_z.lo; crypto_uintN_z.lo = carry; crypto_uintN_z.hi = 0");
   return crypto_uintN_z;
 #else
   crypto_uintN_x |= -crypto_uintN_x;
@@ -321,6 +461,13 @@ crypto_uintN crypto_uintN_zero_mask(crypto_uintN crypto_uintN_x) {
 32:  readasm("arm64; int32 crypto_uintN_x crypto_uintN_z; crypto_uintN_x - 0; crypto_uintN_z = -1 if = else 0");
 64:  readasm("arm64; int64 crypto_uintN_x crypto_uintN_z; crypto_uintN_x - 0; crypto_uintN_z = -1 if = else 0");
   return crypto_uintN_z;
+#elif sparc32
+  crypto_uintN crypto_uintN_z;
+ 8:  readasm("sparc32; int8 crypto_uintN_x crypto_uintN_z; crypto_uintN_x = (uint8) crypto_uintN_x; 0 - crypto_uintN_x; crypto_uintN_z = carry - 1");
+16:  readasm("sparc32; int16 crypto_uintN_x crypto_uintN_z; crypto_uintN_x = (uint16) crypto_uintN_x; 0 - crypto_uintN_x; crypto_uintN_z = carry - 1");
+32:  readasm("sparc32; int32 crypto_uintN_x crypto_uintN_z; 0 - crypto_uintN_x; crypto_uintN_z = carry - 1");
+64:  readasm("sparc32; int64 crypto_uintN_x crypto_uintN_z; crypto_uintN_z.lo = crypto_uintN_x.lo | crypto_uintN_x.hi; 0 - crypto_uintN_z.lo; crypto_uintN_z.lo = carry - 1; crypto_uintN_z.hi = crypto_uintN_z.lo");
+  return crypto_uintN_z;
 #else
   return ~crypto_uintN_nonzero_mask(crypto_uintN_x);
 #endif
@@ -347,6 +494,13 @@ crypto_uintN crypto_uintN_zero_01(crypto_uintN crypto_uintN_x) {
 16:  readasm("arm64; int16 crypto_uintN_x crypto_uintN_z; crypto_uintN_x & 65535; crypto_uintN_z = 1 if = else 0");
 32:  readasm("arm64; int32 crypto_uintN_x crypto_uintN_z; crypto_uintN_x - 0; crypto_uintN_z = 1 if = else 0");
 64:  readasm("arm64; int64 crypto_uintN_x crypto_uintN_z; crypto_uintN_x - 0; crypto_uintN_z = 1 if = else 0");
+  return crypto_uintN_z;
+#elif sparc32
+  crypto_uintN crypto_uintN_z;
+ 8:  readasm("sparc32; int8 crypto_uintN_x crypto_uintN_z; crypto_uintN_x = (uint8) crypto_uintN_x; 0 - crypto_uintN_x; crypto_uintN_z = 1 - carry");
+16:  readasm("sparc32; int16 crypto_uintN_x crypto_uintN_z; crypto_uintN_x = (uint16) crypto_uintN_x; 0 - crypto_uintN_x; crypto_uintN_z = 1 - carry");
+32:  readasm("sparc32; int32 crypto_uintN_x crypto_uintN_z; 0 - crypto_uintN_x; crypto_uintN_z = 1 - carry");
+64:  readasm("sparc32; int64 crypto_uintN_x crypto_uintN_z; crypto_uintN_z.lo = crypto_uintN_x.lo | crypto_uintN_x.hi; 0 - crypto_uintN_z.lo; crypto_uintN_z.lo = 1 - carry; crypto_uintN_z.hi = 0");
   return crypto_uintN_z;
 #else
   return 1-crypto_uintN_nonzero_01(crypto_uintN_x);
@@ -430,7 +584,7 @@ crypto_uintN crypto_uintN_equal_mask(crypto_uintN crypto_uintN_x,crypto_uintN cr
 64:  readasm("arm64; int64 crypto_uintN_x crypto_uintN_y crypto_uintN_z; crypto_uintN_x - crypto_uintN_y; crypto_uintN_z = -1 if = else 0");
   return crypto_uintN_z;
 #else
-  return ~crypto_uintN_unequal_mask(crypto_uintN_x,crypto_uintN_y);
+  return crypto_uintN_zero_mask(crypto_uintN_x ^ crypto_uintN_y);
 #endif
 }
 
@@ -457,7 +611,7 @@ crypto_uintN crypto_uintN_equal_01(crypto_uintN crypto_uintN_x,crypto_uintN cryp
 64:  readasm("arm64; int64 crypto_uintN_x crypto_uintN_y crypto_uintN_z; crypto_uintN_x - crypto_uintN_y; crypto_uintN_z = 1 if = else 0");
   return crypto_uintN_z;
 #else
-  return 1-crypto_uintN_unequal_01(crypto_uintN_x,crypto_uintN_y);
+  return crypto_uintN_zero_01(crypto_uintN_x ^ crypto_uintN_y);
 #endif
 }
 

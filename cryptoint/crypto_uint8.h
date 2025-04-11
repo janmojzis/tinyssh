@@ -1,5 +1,5 @@
 /* auto-generated: cd cryptoint; ./autogen */
-/* cryptoint 20241003 */
+/* cryptoint 20250228 */
 
 #ifndef crypto_uint8_h
 #define crypto_uint8_h
@@ -49,6 +49,14 @@ crypto_uint8_signed crypto_uint8_signed_negative_mask(crypto_uint8_signed crypto
   crypto_uint8_signed crypto_uint8_y;
   __asm__ ("sbfx %w0,%w1,7,1" : "=r"(crypto_uint8_y) : "r"(crypto_uint8_x) : );
   return crypto_uint8_y;
+#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+  crypto_uint8_signed crypto_uint8_y;
+  __asm__ ("sxtb %0,%1\n asr %0,%0,#31" : "=r"(crypto_uint8_y) : "r"(crypto_uint8_x) : );
+  return crypto_uint8_y;
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  crypto_uint8_signed crypto_uint8_y;
+  __asm__ ("sll %1,24,%0\n sra %0,31,%0" : "=r"(crypto_uint8_y) : "r"(crypto_uint8_x) : );
+  return crypto_uint8_y;
 #else
   crypto_uint8_x >>= 8-6;
   crypto_uint8_x += crypto_uint8_signed_optblocker;
@@ -64,8 +72,16 @@ crypto_uint8 crypto_uint8_topbit_01(crypto_uint8 crypto_uint8_x) {
   __asm__ ("shrb $7,%0" : "+r"(crypto_uint8_x) : : "cc");
   return crypto_uint8_x;
 #elif defined(__GNUC__) && defined(__aarch64__)
-  crypto_uint8_signed crypto_uint8_y;
+  crypto_uint8 crypto_uint8_y;
   __asm__ ("ubfx %w0,%w1,7,1" : "=r"(crypto_uint8_y) : "r"(crypto_uint8_x) : );
+  return crypto_uint8_y;
+#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+  crypto_uint8_signed crypto_uint8_y;
+  __asm__ ("uxtb %0,%1\n lsr %0,%0,#7" : "=r"(crypto_uint8_y) : "r"(crypto_uint8_x) : );
+  return crypto_uint8_y;
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  crypto_uint8 crypto_uint8_y;
+  __asm__ ("and %1,255,%0\n srl %0,7,%0" : "=r"(crypto_uint8_y) : "r"(crypto_uint8_x) : );
   return crypto_uint8_y;
 #else
   crypto_uint8_x >>= 8-6;
@@ -91,6 +107,14 @@ crypto_uint8 crypto_uint8_bottombit_mask(crypto_uint8 crypto_uint8_x) {
   crypto_uint8 crypto_uint8_y;
   __asm__ ("sbfx %w0,%w1,0,1" : "=r"(crypto_uint8_y) : "r"(crypto_uint8_x) : );
   return crypto_uint8_y;
+#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+  crypto_uint8 crypto_uint8_y;
+  __asm__ ("and %0,%1,#1\n neg %0,%0\n uxtb %0,%0" : "=r"(crypto_uint8_y) : "r"(crypto_uint8_x) : );
+  return crypto_uint8_y;
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  crypto_uint8 crypto_uint8_y;
+  __asm__ ("and %1,1,%0\n neg %0,%0\n and %0,255,%0" : "=r"(crypto_uint8_y) : "r"(crypto_uint8_x) : );
+  return crypto_uint8_y;
 #else
   crypto_uint8_x &= 1 + crypto_uint8_signed_optblocker;
   return -crypto_uint8_x;
@@ -107,6 +131,14 @@ crypto_uint8 crypto_uint8_bottombit_01(crypto_uint8 crypto_uint8_x) {
   crypto_uint8 crypto_uint8_y;
   __asm__ ("ubfx %w0,%w1,0,1" : "=r"(crypto_uint8_y) : "r"(crypto_uint8_x) : );
   return crypto_uint8_y;
+#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+  crypto_uint8 crypto_uint8_y;
+  __asm__ ("and %0,%1,#1" : "=r"(crypto_uint8_y) : "r"(crypto_uint8_x) : );
+  return crypto_uint8_y;
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  crypto_uint8 crypto_uint8_y;
+  __asm__ ("and %1,1,%0" : "=r"(crypto_uint8_y) : "r"(crypto_uint8_x) : );
+  return crypto_uint8_y;
 #else
   crypto_uint8_x &= 1 + crypto_uint8_signed_optblocker;
   return crypto_uint8_x;
@@ -120,6 +152,10 @@ crypto_uint8 crypto_uint8_bitinrangepublicpos_mask(crypto_uint8 crypto_uint8_x,c
   __asm__ ("shrb %%cl,%0" : "+r"(crypto_uint8_x) : "c"(crypto_uint8_s) : "cc");
 #elif defined(__GNUC__) && defined(__aarch64__)
   __asm__ ("and %w0,%w0,255\n lsr %w0,%w0,%w1" : "+&r"(crypto_uint8_x) : "r"(crypto_uint8_s) : );
+#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+  __asm__ ("and %0,%0,#7\n uxtb %1,%1\n lsr %1,%1,%0" : "+&r"(crypto_uint8_s), "+r"(crypto_uint8_x) : : );
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  __asm__ ("and %0,7,%0\n srl %1,%0,%1" : "+&r"(crypto_uint8_s), "+r"(crypto_uint8_x) : : );
 #else
   crypto_uint8_x >>= crypto_uint8_s ^ crypto_uint8_signed_optblocker;
 #endif
@@ -133,6 +169,10 @@ crypto_uint8 crypto_uint8_bitinrangepublicpos_01(crypto_uint8 crypto_uint8_x,cry
   __asm__ ("shrb %%cl,%0" : "+r"(crypto_uint8_x) : "c"(crypto_uint8_s) : "cc");
 #elif defined(__GNUC__) && defined(__aarch64__)
   __asm__ ("and %w0,%w0,255\n lsr %w0,%w0,%w1" : "+&r"(crypto_uint8_x) : "r"(crypto_uint8_s) : );
+#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+  __asm__ ("and %0,%0,#7\n uxtb %1,%1\n lsr %1,%1,%0" : "+&r"(crypto_uint8_s), "+r"(crypto_uint8_x) : : );
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  __asm__ ("and %0,7,%0\n srl %1,%0,%1" : "+&r"(crypto_uint8_s), "+r"(crypto_uint8_x) : : );
 #else
   crypto_uint8_x >>= crypto_uint8_s ^ crypto_uint8_signed_optblocker;
 #endif
@@ -146,7 +186,14 @@ crypto_uint8 crypto_uint8_shlmod(crypto_uint8 crypto_uint8_x,crypto_uint8 crypto
   crypto_uint8_s &= 7;
   __asm__ ("shlb %%cl,%0" : "+r"(crypto_uint8_x) : "c"(crypto_uint8_s) : "cc");
 #elif defined(__GNUC__) && defined(__aarch64__)
-  __asm__ ("and %w0,%w0,7\n and %w1,%w1,255\n lsl %w1,%w1,%w0" : "+&r"(crypto_uint8_s), "+r"(crypto_uint8_x) : : );
+  crypto_uint8_s &= 7;
+  __asm__ ("and %w0,%w0,255\n lsl %w0,%w0,%w1" : "+&r"(crypto_uint8_x) : "r"(crypto_uint8_s) : );
+#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+  crypto_uint8_s &= 7;
+  __asm__ ("lsl %0,%0,%1\n uxtb %0,%0" : "+r"(crypto_uint8_x) : "r"(crypto_uint8_s) : );
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  crypto_uint8_s &= 7;
+  __asm__ ("sll %0,%1,%0\n and %0,255,%0" : "+r"(crypto_uint8_x) : "r"(crypto_uint8_s) : );
 #else
   int crypto_uint8_k, crypto_uint8_l;
   for (crypto_uint8_l = 0,crypto_uint8_k = 1;crypto_uint8_k < 8;++crypto_uint8_l,crypto_uint8_k *= 2)
@@ -162,7 +209,14 @@ crypto_uint8 crypto_uint8_shrmod(crypto_uint8 crypto_uint8_x,crypto_uint8 crypto
   crypto_uint8_s &= 7;
   __asm__ ("shrb %%cl,%0" : "+r"(crypto_uint8_x) : "c"(crypto_uint8_s) : "cc");
 #elif defined(__GNUC__) && defined(__aarch64__)
-  __asm__ ("and %w0,%w0,7\n and %w1,%w1,255\n lsr %w1,%w1,%w0" : "+&r"(crypto_uint8_s), "+r"(crypto_uint8_x) : : );
+  crypto_uint8_s &= 7;
+  __asm__ ("and %w0,%w0,255\n lsr %w0,%w0,%w1" : "+&r"(crypto_uint8_x) : "r"(crypto_uint8_s) : );
+#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+  crypto_uint8_s &= 7;
+  __asm__ ("uxtb %0,%0\n lsr %0,%0,%1" : "+&r"(crypto_uint8_x) : "r"(crypto_uint8_s) : );
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  crypto_uint8_s &= 7;
+  __asm__ ("srl %0,%1,%0" : "+r"(crypto_uint8_x) : "r"(crypto_uint8_s) : );
 #else
   int crypto_uint8_k, crypto_uint8_l;
   for (crypto_uint8_l = 0,crypto_uint8_k = 1;crypto_uint8_k < 8;++crypto_uint8_l,crypto_uint8_k *= 2)
@@ -198,6 +252,13 @@ crypto_uint8 crypto_uint8_nonzero_mask(crypto_uint8 crypto_uint8_x) {
   crypto_uint8 crypto_uint8_z;
   __asm__ ("tst %w1,255\n csetm %w0,ne" : "=r"(crypto_uint8_z) : "r"(crypto_uint8_x) : "cc");
   return crypto_uint8_z;
+#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+  __asm__ ("uxtb %0,%0\n cmp %0,#0\n movne %0,#-1" : "+r"(crypto_uint8_x) : : "cc");
+  return crypto_uint8_x;
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  crypto_uint8 crypto_uint8_z;
+  __asm__ ("and %0,255,%0\n cmp %%g0,%0\n subx %%g0,0,%1" : "+r"(crypto_uint8_x), "=r"(crypto_uint8_z) : : "cc");
+  return crypto_uint8_z;
 #else
   crypto_uint8_x |= -crypto_uint8_x;
   return crypto_uint8_signed_negative_mask(crypto_uint8_x);
@@ -216,6 +277,13 @@ crypto_uint8 crypto_uint8_nonzero_01(crypto_uint8 crypto_uint8_x) {
 #elif defined(__GNUC__) && defined(__aarch64__)
   crypto_uint8 crypto_uint8_z;
   __asm__ ("tst %w1,255\n cset %w0,ne" : "=r"(crypto_uint8_z) : "r"(crypto_uint8_x) : "cc");
+  return crypto_uint8_z;
+#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+  __asm__ ("uxtb %0,%0\n cmp %0,#0\n movne %0,#1" : "+r"(crypto_uint8_x) : : "cc");
+  return crypto_uint8_x;
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  crypto_uint8 crypto_uint8_z;
+  __asm__ ("and %0,255,%0\n cmp %%g0,%0\n addx %%g0,0,%1" : "+r"(crypto_uint8_x), "=r"(crypto_uint8_z) : : "cc");
   return crypto_uint8_z;
 #else
   crypto_uint8_x |= -crypto_uint8_x;
@@ -236,6 +304,10 @@ crypto_uint8 crypto_uint8_zero_mask(crypto_uint8 crypto_uint8_x) {
   crypto_uint8 crypto_uint8_z;
   __asm__ ("tst %w1,255\n csetm %w0,eq" : "=r"(crypto_uint8_z) : "r"(crypto_uint8_x) : "cc");
   return crypto_uint8_z;
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  crypto_uint8 crypto_uint8_z;
+  __asm__ ("and %0,255,%0\n cmp %%g0,%0\n addx %%g0,-1,%1" : "+r"(crypto_uint8_x), "=r"(crypto_uint8_z) : : "cc");
+  return crypto_uint8_z;
 #else
   return ~crypto_uint8_nonzero_mask(crypto_uint8_x);
 #endif
@@ -253,6 +325,10 @@ crypto_uint8 crypto_uint8_zero_01(crypto_uint8 crypto_uint8_x) {
 #elif defined(__GNUC__) && defined(__aarch64__)
   crypto_uint8 crypto_uint8_z;
   __asm__ ("tst %w1,255\n cset %w0,eq" : "=r"(crypto_uint8_z) : "r"(crypto_uint8_x) : "cc");
+  return crypto_uint8_z;
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  crypto_uint8 crypto_uint8_z;
+  __asm__ ("and %0,255,%0\n cmp %%g0,%0\n subx %%g0,-1,%1" : "+r"(crypto_uint8_x), "=r"(crypto_uint8_z) : : "cc");
   return crypto_uint8_z;
 #else
   return 1-crypto_uint8_nonzero_01(crypto_uint8_x);
@@ -309,7 +385,7 @@ crypto_uint8 crypto_uint8_equal_mask(crypto_uint8 crypto_uint8_x,crypto_uint8 cr
   __asm__ ("and %w0,%w1,255\n cmp %w0,%w2,uxtb\n csetm %w0,eq" : "=&r"(crypto_uint8_z) : "r"(crypto_uint8_x), "r"(crypto_uint8_y) : "cc");
   return crypto_uint8_z;
 #else
-  return ~crypto_uint8_unequal_mask(crypto_uint8_x,crypto_uint8_y);
+  return crypto_uint8_zero_mask(crypto_uint8_x ^ crypto_uint8_y);
 #endif
 }
 
@@ -327,7 +403,7 @@ crypto_uint8 crypto_uint8_equal_01(crypto_uint8 crypto_uint8_x,crypto_uint8 cryp
   __asm__ ("and %w0,%w1,255\n cmp %w0,%w2,uxtb\n cset %w0,eq" : "=&r"(crypto_uint8_z) : "r"(crypto_uint8_x), "r"(crypto_uint8_y) : "cc");
   return crypto_uint8_z;
 #else
-  return 1-crypto_uint8_unequal_01(crypto_uint8_x,crypto_uint8_y);
+  return crypto_uint8_zero_01(crypto_uint8_x ^ crypto_uint8_y);
 #endif
 }
 

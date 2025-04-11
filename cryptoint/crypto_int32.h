@@ -1,5 +1,5 @@
 /* auto-generated: cd cryptoint; ./autogen */
-/* cryptoint 20241003 */
+/* cryptoint 20250228 */
 
 #ifndef crypto_int32_h
 #define crypto_int32_h
@@ -61,6 +61,14 @@ crypto_int32 crypto_int32_negative_mask(crypto_int32 crypto_int32_x) {
   crypto_int32 crypto_int32_y;
   __asm__ ("asr %w0,%w1,31" : "=r"(crypto_int32_y) : "r"(crypto_int32_x) : );
   return crypto_int32_y;
+#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+  crypto_int32 crypto_int32_y;
+  __asm__ ("asr %0,%1,#31" : "=r"(crypto_int32_y) : "r"(crypto_int32_x) : );
+  return crypto_int32_y;
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  crypto_int32 crypto_int32_y;
+  __asm__ ("sra %1,31,%0" : "=r"(crypto_int32_y) : "r"(crypto_int32_x) : );
+  return crypto_int32_y;
 #else
   crypto_int32_x >>= 32-6;
   crypto_int32_x += crypto_int32_optblocker;
@@ -76,8 +84,16 @@ crypto_int32_unsigned crypto_int32_unsigned_topbit_01(crypto_int32_unsigned cryp
   __asm__ ("shrl $31,%0" : "+r"(crypto_int32_x) : : "cc");
   return crypto_int32_x;
 #elif defined(__GNUC__) && defined(__aarch64__)
-  crypto_int32 crypto_int32_y;
+  crypto_int32_unsigned crypto_int32_y;
   __asm__ ("lsr %w0,%w1,31" : "=r"(crypto_int32_y) : "r"(crypto_int32_x) : );
+  return crypto_int32_y;
+#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+  crypto_int32 crypto_int32_y;
+  __asm__ ("lsr %0,%1,#31" : "=r"(crypto_int32_y) : "r"(crypto_int32_x) : );
+  return crypto_int32_y;
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  crypto_int32_unsigned crypto_int32_y;
+  __asm__ ("srl %1,31,%0" : "=r"(crypto_int32_y) : "r"(crypto_int32_x) : );
   return crypto_int32_y;
 #else
   crypto_int32_x >>= 32-6;
@@ -115,6 +131,14 @@ crypto_int32 crypto_int32_bottombit_mask(crypto_int32 crypto_int32_x) {
   crypto_int32 crypto_int32_y;
   __asm__ ("sbfx %w0,%w1,0,1" : "=r"(crypto_int32_y) : "r"(crypto_int32_x) : );
   return crypto_int32_y;
+#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+  crypto_int32 crypto_int32_y;
+  __asm__ ("and %0,%1,#1\n neg %0,%0" : "=r"(crypto_int32_y) : "r"(crypto_int32_x) : );
+  return crypto_int32_y;
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  crypto_int32 crypto_int32_y;
+  __asm__ ("and %1,1,%0\n neg %0,%0" : "=r"(crypto_int32_y) : "r"(crypto_int32_x) : );
+  return crypto_int32_y;
 #else
   crypto_int32_x &= 1 + crypto_int32_optblocker;
   return -crypto_int32_x;
@@ -131,6 +155,14 @@ crypto_int32 crypto_int32_bottombit_01(crypto_int32 crypto_int32_x) {
   crypto_int32 crypto_int32_y;
   __asm__ ("ubfx %w0,%w1,0,1" : "=r"(crypto_int32_y) : "r"(crypto_int32_x) : );
   return crypto_int32_y;
+#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+  crypto_int32 crypto_int32_y;
+  __asm__ ("and %0,%1,#1" : "=r"(crypto_int32_y) : "r"(crypto_int32_x) : );
+  return crypto_int32_y;
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  crypto_int32 crypto_int32_y;
+  __asm__ ("and %1,1,%0" : "=r"(crypto_int32_y) : "r"(crypto_int32_x) : );
+  return crypto_int32_y;
 #else
   crypto_int32_x &= 1 + crypto_int32_optblocker;
   return crypto_int32_x;
@@ -144,6 +176,10 @@ crypto_int32 crypto_int32_bitinrangepublicpos_mask(crypto_int32 crypto_int32_x,c
   __asm__ ("sarl %%cl,%0" : "+r"(crypto_int32_x) : "c"(crypto_int32_s) : "cc");
 #elif defined(__GNUC__) && defined(__aarch64__)
   __asm__ ("asr %w0,%w0,%w1" : "+r"(crypto_int32_x) : "r"(crypto_int32_s) : );
+#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+  __asm__ ("and %0,%0,#31\n asr %1,%1,%0" : "+&r"(crypto_int32_s), "+r"(crypto_int32_x) : : );
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  __asm__ ("sra %0,%1,%0" : "+r"(crypto_int32_x) : "r"(crypto_int32_s) : );
 #else
   crypto_int32_x >>= crypto_int32_s ^ crypto_int32_optblocker;
 #endif
@@ -157,6 +193,10 @@ crypto_int32 crypto_int32_bitinrangepublicpos_01(crypto_int32 crypto_int32_x,cry
   __asm__ ("sarl %%cl,%0" : "+r"(crypto_int32_x) : "c"(crypto_int32_s) : "cc");
 #elif defined(__GNUC__) && defined(__aarch64__)
   __asm__ ("asr %w0,%w0,%w1" : "+r"(crypto_int32_x) : "r"(crypto_int32_s) : );
+#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+  __asm__ ("and %0,%0,#31\n asr %1,%1,%0" : "+&r"(crypto_int32_s), "+r"(crypto_int32_x) : : );
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  __asm__ ("sra %0,%1,%0" : "+r"(crypto_int32_x) : "r"(crypto_int32_s) : );
 #else
   crypto_int32_x >>= crypto_int32_s ^ crypto_int32_optblocker;
 #endif
@@ -170,6 +210,11 @@ crypto_int32 crypto_int32_shlmod(crypto_int32 crypto_int32_x,crypto_int32 crypto
   __asm__ ("shll %%cl,%0" : "+r"(crypto_int32_x) : "c"(crypto_int32_s) : "cc");
 #elif defined(__GNUC__) && defined(__aarch64__)
   __asm__ ("lsl %w0,%w0,%w1" : "+r"(crypto_int32_x) : "r"(crypto_int32_s) : );
+#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+  crypto_int32_s &= 31;
+  __asm__ ("lsl %0,%0,%1" : "+r"(crypto_int32_x) : "r"(crypto_int32_s) : );
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  __asm__ ("sll %0,%1,%0" : "+r"(crypto_int32_x) : "r"(crypto_int32_s) : );
 #else
   int crypto_int32_k, crypto_int32_l;
   for (crypto_int32_l = 0,crypto_int32_k = 1;crypto_int32_k < 32;++crypto_int32_l,crypto_int32_k *= 2)
@@ -185,6 +230,11 @@ crypto_int32 crypto_int32_shrmod(crypto_int32 crypto_int32_x,crypto_int32 crypto
   __asm__ ("sarl %%cl,%0" : "+r"(crypto_int32_x) : "c"(crypto_int32_s) : "cc");
 #elif defined(__GNUC__) && defined(__aarch64__)
   __asm__ ("asr %w0,%w0,%w1" : "+r"(crypto_int32_x) : "r"(crypto_int32_s) : );
+#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+  crypto_int32_s &= 31;
+  __asm__ ("asr %0,%0,%1" : "+r"(crypto_int32_x) : "r"(crypto_int32_s) : );
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  __asm__ ("sra %0,%1,%0" : "+r"(crypto_int32_x) : "r"(crypto_int32_s) : );
 #else
   int crypto_int32_k, crypto_int32_l;
   for (crypto_int32_l = 0,crypto_int32_k = 1;crypto_int32_k < 32;++crypto_int32_l,crypto_int32_k *= 2)
@@ -218,6 +268,13 @@ crypto_int32 crypto_int32_nonzero_mask(crypto_int32 crypto_int32_x) {
   crypto_int32 crypto_int32_z;
   __asm__ ("cmp %w1,0\n csetm %w0,ne" : "=r"(crypto_int32_z) : "r"(crypto_int32_x) : "cc");
   return crypto_int32_z;
+#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+  __asm__ ("cmp %0,#0\n movne %0,#-1" : "+r"(crypto_int32_x) : : "cc");
+  return crypto_int32_x;
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  crypto_int32 crypto_int32_z;
+  __asm__ ("cmp %%g0,%1\n subx %%g0,0,%0" : "=r"(crypto_int32_z) : "r"(crypto_int32_x) : "cc");
+  return crypto_int32_z;
 #else
   crypto_int32_x |= -crypto_int32_x;
   return crypto_int32_negative_mask(crypto_int32_x);
@@ -235,6 +292,13 @@ crypto_int32 crypto_int32_nonzero_01(crypto_int32 crypto_int32_x) {
   crypto_int32 crypto_int32_z;
   __asm__ ("cmp %w1,0\n cset %w0,ne" : "=r"(crypto_int32_z) : "r"(crypto_int32_x) : "cc");
   return crypto_int32_z;
+#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+  __asm__ ("cmp %0,#0\n movne %0,#1" : "+r"(crypto_int32_x) : : "cc");
+  return crypto_int32_x;
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  crypto_int32 crypto_int32_z;
+  __asm__ ("cmp %%g0,%1\n addx %%g0,0,%0" : "=r"(crypto_int32_z) : "r"(crypto_int32_x) : "cc");
+  return crypto_int32_z;
 #else
   crypto_int32_x |= -crypto_int32_x;
   return crypto_int32_unsigned_topbit_01(crypto_int32_x);
@@ -251,6 +315,10 @@ crypto_int32 crypto_int32_positive_mask(crypto_int32 crypto_int32_x) {
 #elif defined(__GNUC__) && defined(__aarch64__)
   crypto_int32 crypto_int32_z;
   __asm__ ("cmp %w1,0\n csetm %w0,gt" : "=r"(crypto_int32_z) : "r"(crypto_int32_x) : "cc");
+  return crypto_int32_z;
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  crypto_int32 crypto_int32_z;
+  __asm__ ("sra %1,31,%0\n sub %0,%1,%0\n sra %0,31,%0" : "=&r"(crypto_int32_z) : "r"(crypto_int32_x) : );
   return crypto_int32_z;
 #else
   crypto_int32 crypto_int32_z = -crypto_int32_x;
@@ -270,6 +338,10 @@ crypto_int32 crypto_int32_positive_01(crypto_int32 crypto_int32_x) {
   crypto_int32 crypto_int32_z;
   __asm__ ("cmp %w1,0\n cset %w0,gt" : "=r"(crypto_int32_z) : "r"(crypto_int32_x) : "cc");
   return crypto_int32_z;
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  crypto_int32 crypto_int32_z;
+  __asm__ ("sra %1,31,%0\n sub %0,%1,%0\n srl %0,31,%0" : "=&r"(crypto_int32_z) : "r"(crypto_int32_x) : );
+  return crypto_int32_z;
 #else
   crypto_int32 crypto_int32_z = -crypto_int32_x;
   crypto_int32_z ^= crypto_int32_x & crypto_int32_z;
@@ -288,6 +360,10 @@ crypto_int32 crypto_int32_zero_mask(crypto_int32 crypto_int32_x) {
   crypto_int32 crypto_int32_z;
   __asm__ ("cmp %w1,0\n csetm %w0,eq" : "=r"(crypto_int32_z) : "r"(crypto_int32_x) : "cc");
   return crypto_int32_z;
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  crypto_int32 crypto_int32_z;
+  __asm__ ("cmp %%g0,%1\n addx %%g0,-1,%0" : "=r"(crypto_int32_z) : "r"(crypto_int32_x) : "cc");
+  return crypto_int32_z;
 #else
   return ~crypto_int32_nonzero_mask(crypto_int32_x);
 #endif
@@ -303,6 +379,10 @@ crypto_int32 crypto_int32_zero_01(crypto_int32 crypto_int32_x) {
 #elif defined(__GNUC__) && defined(__aarch64__)
   crypto_int32 crypto_int32_z;
   __asm__ ("cmp %w1,0\n cset %w0,eq" : "=r"(crypto_int32_z) : "r"(crypto_int32_x) : "cc");
+  return crypto_int32_z;
+#elif defined(__GNUC__) && defined(__sparc_v8__)
+  crypto_int32 crypto_int32_z;
+  __asm__ ("cmp %%g0,%1\n subx %%g0,-1,%0" : "=r"(crypto_int32_z) : "r"(crypto_int32_x) : "cc");
   return crypto_int32_z;
 #else
   return 1-crypto_int32_nonzero_01(crypto_int32_x);
@@ -353,7 +433,7 @@ crypto_int32 crypto_int32_equal_mask(crypto_int32 crypto_int32_x,crypto_int32 cr
   __asm__ ("cmp %w1,%w2\n csetm %w0,eq" : "=r"(crypto_int32_z) : "r"(crypto_int32_x), "r"(crypto_int32_y) : "cc");
   return crypto_int32_z;
 #else
-  return ~crypto_int32_unequal_mask(crypto_int32_x,crypto_int32_y);
+  return crypto_int32_zero_mask(crypto_int32_x ^ crypto_int32_y);
 #endif
 }
 
@@ -369,7 +449,7 @@ crypto_int32 crypto_int32_equal_01(crypto_int32 crypto_int32_x,crypto_int32 cryp
   __asm__ ("cmp %w1,%w2\n cset %w0,eq" : "=r"(crypto_int32_z) : "r"(crypto_int32_x), "r"(crypto_int32_y) : "cc");
   return crypto_int32_z;
 #else
-  return 1-crypto_int32_unequal_01(crypto_int32_x,crypto_int32_y);
+  return crypto_int32_zero_01(crypto_int32_x ^ crypto_int32_y);
 #endif
 }
 
