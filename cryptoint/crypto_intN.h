@@ -1,5 +1,5 @@
 /* auto-generated: cd cryptoint; ./autogen */
-/* cryptoint 20250228 */
+/* cryptoint 20250414 */
 
 #ifndef crypto_intN_h
 #define crypto_intN_h

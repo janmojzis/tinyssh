@@ -21,7 +21,7 @@ for bits in 8,16,32,64:
       contents = readasm.substitute(contents)
       contents = contents.replace('amd64','defined(__GNUC__) && defined(__x86_64__)')
       contents = contents.replace('arm64','defined(__GNUC__) && defined(__aarch64__)')
-      contents = contents.replace('arm32','defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)')
+      contents = contents.replace('arm32','defined(__GNUC__) && defined(__arm__) && defined(__ARM_ARCH) && (__ARM_ARCH >= 6) && !defined(__thumb__)')
       contents = contents.replace('sparc32','defined(__GNUC__) && defined(__sparc_v8__)')
 
       newcontents = ''

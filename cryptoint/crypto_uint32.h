@@ -1,5 +1,5 @@
 /* auto-generated: cd cryptoint; ./autogen */
-/* cryptoint 20250228 */
+/* cryptoint 20250414 */
 
 #ifndef crypto_uint32_h
 #define crypto_uint32_h
@@ -61,7 +61,7 @@ crypto_uint32_signed crypto_uint32_signed_negative_mask(crypto_uint32_signed cry
   crypto_uint32_signed crypto_uint32_y;
   __asm__ ("asr %w0,%w1,31" : "=r"(crypto_uint32_y) : "r"(crypto_uint32_x) : );
   return crypto_uint32_y;
-#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+#elif defined(__GNUC__) && defined(__arm__) && defined(__ARM_ARCH) && (__ARM_ARCH >= 6) && !defined(__thumb__)
   crypto_uint32_signed crypto_uint32_y;
   __asm__ ("asr %0,%1,#31" : "=r"(crypto_uint32_y) : "r"(crypto_uint32_x) : );
   return crypto_uint32_y;
@@ -87,7 +87,7 @@ crypto_uint32 crypto_uint32_topbit_01(crypto_uint32 crypto_uint32_x) {
   crypto_uint32 crypto_uint32_y;
   __asm__ ("lsr %w0,%w1,31" : "=r"(crypto_uint32_y) : "r"(crypto_uint32_x) : );
   return crypto_uint32_y;
-#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+#elif defined(__GNUC__) && defined(__arm__) && defined(__ARM_ARCH) && (__ARM_ARCH >= 6) && !defined(__thumb__)
   crypto_uint32_signed crypto_uint32_y;
   __asm__ ("lsr %0,%1,#31" : "=r"(crypto_uint32_y) : "r"(crypto_uint32_x) : );
   return crypto_uint32_y;
@@ -119,7 +119,7 @@ crypto_uint32 crypto_uint32_bottombit_mask(crypto_uint32 crypto_uint32_x) {
   crypto_uint32 crypto_uint32_y;
   __asm__ ("sbfx %w0,%w1,0,1" : "=r"(crypto_uint32_y) : "r"(crypto_uint32_x) : );
   return crypto_uint32_y;
-#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+#elif defined(__GNUC__) && defined(__arm__) && defined(__ARM_ARCH) && (__ARM_ARCH >= 6) && !defined(__thumb__)
   crypto_uint32 crypto_uint32_y;
   __asm__ ("and %0,%1,#1\n neg %0,%0" : "=r"(crypto_uint32_y) : "r"(crypto_uint32_x) : );
   return crypto_uint32_y;
@@ -143,7 +143,7 @@ crypto_uint32 crypto_uint32_bottombit_01(crypto_uint32 crypto_uint32_x) {
   crypto_uint32 crypto_uint32_y;
   __asm__ ("ubfx %w0,%w1,0,1" : "=r"(crypto_uint32_y) : "r"(crypto_uint32_x) : );
   return crypto_uint32_y;
-#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+#elif defined(__GNUC__) && defined(__arm__) && defined(__ARM_ARCH) && (__ARM_ARCH >= 6) && !defined(__thumb__)
   crypto_uint32 crypto_uint32_y;
   __asm__ ("and %0,%1,#1" : "=r"(crypto_uint32_y) : "r"(crypto_uint32_x) : );
   return crypto_uint32_y;
@@ -164,7 +164,7 @@ crypto_uint32 crypto_uint32_bitinrangepublicpos_mask(crypto_uint32 crypto_uint32
   __asm__ ("shrl %%cl,%0" : "+r"(crypto_uint32_x) : "c"(crypto_uint32_s) : "cc");
 #elif defined(__GNUC__) && defined(__aarch64__)
   __asm__ ("lsr %w0,%w0,%w1" : "+r"(crypto_uint32_x) : "r"(crypto_uint32_s) : );
-#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+#elif defined(__GNUC__) && defined(__arm__) && defined(__ARM_ARCH) && (__ARM_ARCH >= 6) && !defined(__thumb__)
   __asm__ ("and %0,%0,#31\n lsr %1,%1,%0" : "+&r"(crypto_uint32_s), "+r"(crypto_uint32_x) : : );
 #elif defined(__GNUC__) && defined(__sparc_v8__)
   __asm__ ("srl %0,%1,%0" : "+r"(crypto_uint32_x) : "r"(crypto_uint32_s) : );
@@ -181,7 +181,7 @@ crypto_uint32 crypto_uint32_bitinrangepublicpos_01(crypto_uint32 crypto_uint32_x
   __asm__ ("shrl %%cl,%0" : "+r"(crypto_uint32_x) : "c"(crypto_uint32_s) : "cc");
 #elif defined(__GNUC__) && defined(__aarch64__)
   __asm__ ("lsr %w0,%w0,%w1" : "+r"(crypto_uint32_x) : "r"(crypto_uint32_s) : );
-#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+#elif defined(__GNUC__) && defined(__arm__) && defined(__ARM_ARCH) && (__ARM_ARCH >= 6) && !defined(__thumb__)
   __asm__ ("and %0,%0,#31\n lsr %1,%1,%0" : "+&r"(crypto_uint32_s), "+r"(crypto_uint32_x) : : );
 #elif defined(__GNUC__) && defined(__sparc_v8__)
   __asm__ ("srl %0,%1,%0" : "+r"(crypto_uint32_x) : "r"(crypto_uint32_s) : );
@@ -198,7 +198,7 @@ crypto_uint32 crypto_uint32_shlmod(crypto_uint32 crypto_uint32_x,crypto_uint32 c
   __asm__ ("shll %%cl,%0" : "+r"(crypto_uint32_x) : "c"(crypto_uint32_s) : "cc");
 #elif defined(__GNUC__) && defined(__aarch64__)
   __asm__ ("lsl %w0,%w0,%w1" : "+r"(crypto_uint32_x) : "r"(crypto_uint32_s) : );
-#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+#elif defined(__GNUC__) && defined(__arm__) && defined(__ARM_ARCH) && (__ARM_ARCH >= 6) && !defined(__thumb__)
   crypto_uint32_s &= 31;
   __asm__ ("lsl %0,%0,%1" : "+r"(crypto_uint32_x) : "r"(crypto_uint32_s) : );
 #elif defined(__GNUC__) && defined(__sparc_v8__)
@@ -218,7 +218,7 @@ crypto_uint32 crypto_uint32_shrmod(crypto_uint32 crypto_uint32_x,crypto_uint32 c
   __asm__ ("shrl %%cl,%0" : "+r"(crypto_uint32_x) : "c"(crypto_uint32_s) : "cc");
 #elif defined(__GNUC__) && defined(__aarch64__)
   __asm__ ("lsr %w0,%w0,%w1" : "+r"(crypto_uint32_x) : "r"(crypto_uint32_s) : );
-#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+#elif defined(__GNUC__) && defined(__arm__) && defined(__ARM_ARCH) && (__ARM_ARCH >= 6) && !defined(__thumb__)
   crypto_uint32_s &= 31;
   __asm__ ("lsr %0,%0,%1" : "+r"(crypto_uint32_x) : "r"(crypto_uint32_s) : );
 #elif defined(__GNUC__) && defined(__sparc_v8__)
@@ -256,7 +256,7 @@ crypto_uint32 crypto_uint32_nonzero_mask(crypto_uint32 crypto_uint32_x) {
   crypto_uint32 crypto_uint32_z;
   __asm__ ("cmp %w1,0\n csetm %w0,ne" : "=r"(crypto_uint32_z) : "r"(crypto_uint32_x) : "cc");
   return crypto_uint32_z;
-#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+#elif defined(__GNUC__) && defined(__arm__) && defined(__ARM_ARCH) && (__ARM_ARCH >= 6) && !defined(__thumb__)
   __asm__ ("cmp %0,#0\n movne %0,#-1" : "+r"(crypto_uint32_x) : : "cc");
   return crypto_uint32_x;
 #elif defined(__GNUC__) && defined(__sparc_v8__)
@@ -280,7 +280,7 @@ crypto_uint32 crypto_uint32_nonzero_01(crypto_uint32 crypto_uint32_x) {
   crypto_uint32 crypto_uint32_z;
   __asm__ ("cmp %w1,0\n cset %w0,ne" : "=r"(crypto_uint32_z) : "r"(crypto_uint32_x) : "cc");
   return crypto_uint32_z;
-#elif defined(__GNUC__) && defined(__arm__) && !defined(__thumb__)
+#elif defined(__GNUC__) && defined(__arm__) && defined(__ARM_ARCH) && (__ARM_ARCH >= 6) && !defined(__thumb__)
   __asm__ ("cmp %0,#0\n movne %0,#1" : "+r"(crypto_uint32_x) : : "cc");
   return crypto_uint32_x;
 #elif defined(__GNUC__) && defined(__sparc_v8__)

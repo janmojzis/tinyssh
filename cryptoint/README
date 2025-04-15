@@ -1,4 +1,4 @@
-cryptoint 20250228
+cryptoint 20250414
 
 D. J. Bernstein
 
@@ -61,35 +61,35 @@ following API functions:
 
 | usage                                           | meaning |
 | -----                                           | ----- |
-| `z = crypto_{int,uint}64_load(&ptr)`            | little-endian load |
-| `crypto_{int,uint}64_store(&ptr,z)`             | little-endian store |
-| `z = crypto_{int,uint}64_load_bigendian(&ptr)`  | big-endian load |
-| `crypto_{int,uint}64_store_bigendian(&ptr,z)`   | big-endian store |
-| `z = crypto_int64_positive_mask(x)`             | `z = (x > 0) ? -1 : 0` |
-| `z = crypto_int64_positive_01(x)`               | `z = (x > 0) ?  1 : 0` |
-| `z = crypto_int64_negative_mask(x)`             | `z = (x < 0) ? -1 : 0` |
-| `z = crypto_int64_negative_01(x)`               | `z = (x < 0) ?  1 : 0` |
-| `z = crypto_int64_topbit_mask(x)`               | `z = (x < 0) ? -1 : 0` |
-| `z = crypto_int64_topbit_01(x)`                 | `z = (x < 0) ?  1 : 0` |
-| `z = crypto_uint64_topbit_mask(x)`              | `z = (x >> 63) ? -1 : 0` |
-| `z = crypto_uint64_topbit_01(x)`                | `z = (x >> 63) ?  1 : 0` |
-| `z = crypto_{int,uint}64_nonzero_mask(x)`       | `z = (x != 0) ? -1 : 0` |
-| `z = crypto_{int,uint}64_nonzero_01(x)`         | `z = (x != 0) ?  1 : 0` |
-| `z = crypto_{int,uint}64_zero_mask(x)`          | `z = (x == 0) ? -1 : 0` |
-| `z = crypto_{int,uint}64_zero_01(x)`            | `z = (x == 0) ?  1 : 0` |
-| `z = crypto_{int,uint}64_unequal_mask(x,y)`     | `z = (x != y) ? -1 : 0` |
-| `z = crypto_{int,uint}64_unequal_01(x,y)`       | `z = (x != y) ?  1 : 0` |
-| `z = crypto_{int,uint}64_equal_mask(x,y)`       | `z = (x == y) ? -1 : 0` |
-| `z = crypto_{int,uint}64_equal_01(x,y)`         | `z = (x == y) ?  1 : 0` |
-| `z = crypto_{int,uint}64_smaller_mask(x,y)`     | `z = (x < y)  ? -1 : 0` |
-| `z = crypto_{int,uint}64_smaller_01(x,y)`       | `z = (x < y)  ?  1 : 0` |
-| `z = crypto_{int,uint}64_leq_mask(x,y)`         | `z = (x <= y) ? -1 : 0` |
-| `z = crypto_{int,uint}64_leq_01(x,y)`           | `z = (x <= y) ?  1 : 0` |
-| `z = crypto_{int,uint}64_min(x,y)`              | `z = (x < y)  ?  x : y` |
-| `z = crypto_{int,uint}64_max(x,y)`              | `z = (x > y)  ?  x : y` |
+| `z = crypto_{int,uint}64_load(ptr)`             | little-endian load |
+| `crypto_{int,uint}64_store(ptr,z)`              | little-endian store |
+| `z = crypto_{int,uint}64_load_bigendian(ptr)`   | big-endian load |
+| `crypto_{int,uint}64_store_bigendian(ptr,z)`    | big-endian store |
+| `z = crypto_int64_positive_mask(x)`             | `z = -(x > 0) |
+| `z = crypto_int64_positive_01(x)`               | `z =  (x > 0) |
+| `z = crypto_int64_negative_mask(x)`             | `z = -(x < 0) |
+| `z = crypto_int64_negative_01(x)`               | `z =  (x < 0) |
+| `z = crypto_int64_topbit_mask(x)`               | `z = -(x < 0) |
+| `z = crypto_int64_topbit_01(x)`                 | `z =  (x < 0) |
+| `z = crypto_uint64_topbit_mask(x)`              | `z = -(x >> 63) |
+| `z = crypto_uint64_topbit_01(x)`                | `z =  (x >> 63) |
+| `z = crypto_{int,uint}64_nonzero_mask(x)`       | `z = -(x != 0) |
+| `z = crypto_{int,uint}64_nonzero_01(x)`         | `z =  (x != 0) |
+| `z = crypto_{int,uint}64_zero_mask(x)`          | `z = -(x == 0) |
+| `z = crypto_{int,uint}64_zero_01(x)`            | `z =  (x == 0) |
+| `z = crypto_{int,uint}64_unequal_mask(x,y)`     | `z = -(x != y) |
+| `z = crypto_{int,uint}64_unequal_01(x,y)`       | `z =  (x != y) |
+| `z = crypto_{int,uint}64_equal_mask(x,y)`       | `z = -(x == y) |
+| `z = crypto_{int,uint}64_equal_01(x,y)`         | `z =  (x == y) |
+| `z = crypto_{int,uint}64_smaller_mask(x,y)`     | `z = -(x < y) |
+| `z = crypto_{int,uint}64_smaller_01(x,y)`       | `z =  (x < y) |
+| `z = crypto_{int,uint}64_leq_mask(x,y)`         | `z = -(x <= y) |
+| `z = crypto_{int,uint}64_leq_01(x,y)`           | `z =  (x <= y) |
+| `z = crypto_{int,uint}64_min(x,y)`              | `z = (x < y) ? x : y` |
+| `z = crypto_{int,uint}64_max(x,y)`              | `z = (x > y) ? x : y` |
 | `crypto_{int,uint}64_minmax(&x,&y)`             | in-place `(x,y) = (min,max)` |
-| `z = crypto_{int,uint}64_bottombit_mask(x)`     | `z = (x & 1) ? -1 : 0` |
-| `z = crypto_{int,uint}64_bottombit_01(x)`       | `z = (x & 1) ?  1 : 0` |
+| `z = crypto_{int,uint}64_bottombit_mask(x)`     | `z = -(x & 1) |
+| `z = crypto_{int,uint}64_bottombit_01(x)`       | `z =  (x & 1) |
 | `z = crypto_{int,uint}64_shlmod(x,j)`           | `z = x << (j&63)` |
 | `z = crypto_{int,uint}64_shrmod(x,j)`           | `z = x >> (j&63)` |
 | `z = crypto_{int,uint}64_bitmod_mask(x,j)`      | `z = -((x >> (j&63)) & 1)` |
@@ -104,7 +104,7 @@ Notes on the split between `mask` functions and `01` functions:
 
 * The `01` functions are aligned with C's convention of representing
   true as `1` and false as `0`. For example, `x < y` in C, like
-  `x < y ?  1 : 0`, means `1` if `x` is smaller than `y`, else `0`. You
+  `x < y ? 1 : 0`, means `1` if `x` is smaller than `y`, else `0`. You
   can replace this with `crypto_int64_smaller_01(x,y)` if `x` and `y`
   are 64-bit signed integers.
 * The `mask` functions are aligned with a convention of representing
@@ -129,7 +129,7 @@ code in various ways that aren't allowed for `uint`. Compiling with
 cryptoint has two main defenses against timing variations being
 introduced by compiler "optimizations".
 
-The first defense is `optblocker`, which is a `volatile` variable
+The first defense is `optblocker`, which is a global `volatile` variable
 containing 0. The usage of `optblocker` in cryptoint is designed to
 systematically hide 1-bit data paths from compilers.
 
@@ -175,7 +175,7 @@ cryptoint takes the following steps to reduce the risk of bugs:
 * All cryptoint functions are also integrated into saferewrite, which,
   after compilation, uses symbolic execution and Z3 to check equivalence
   to reference implementations. This has been run with various compilers
-  for `amd64`, `arm64`, `arm32`, `mips64`, `sparc32, and `x86`; see
+  for `amd64`, `arm64`, `arm32`, `mips64`, `sparc32`, and `x86`; see
   `saferewrite-results`.
 
 ## Implementation notes
