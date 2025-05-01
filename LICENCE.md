@@ -14,3 +14,7 @@ History:
 - initial release - public domain
 - 20230101 - CC0
 - 20250201 - CC0-1.0 OR 0BSD OR MIT-0 OR MIT.
+
+Other:
+_crypto-test_*.inc: derived from djb work from supercop/lib25519/libntruprime/lib1305, license: LicenseRef-PD-hp OR CC0-1.0 OR 0BSD OR MIT-0 OR MIT
+cryptoint/*: copy of cryptoint library from D. J. Bernstein, see cryptoint/README.md, license: LicenseRef-PD-hp OR CC0-1.0 OR 0BSD OR MIT-0 OR MIT
