@@ -1,5 +1,5 @@
 CC?=cc
-CFLAGS+=-W -Wall -Os -fPIC -fwrapv -Werror=deprecated-declarations -Icryptoint
+CFLAGS+=-W -Wall -Os -fPIC -fwrapv -Icryptoint
 LDFLAGS?=
 CPPFLAGS?=
 

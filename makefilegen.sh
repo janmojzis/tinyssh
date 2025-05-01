@@ -6,7 +6,7 @@ export LANG
 (
   (
     echo "CC?=cc"
-    echo "CFLAGS+=-W -Wall -Os -fPIC -fwrapv -Werror=deprecated-declarations -Icryptoint"
+    echo "CFLAGS+=-W -Wall -Os -fPIC -fwrapv -Icryptoint"
     echo "LDFLAGS?="
     echo "CPPFLAGS?="
     echo
