@@ -1,3 +1,8 @@
+### 20250501
+- Fixed minor strict kex violation, thanks to Fabian Bäumer and Marcus Brinkmann for the bug report.
+- Updated cryptoint to version 20250414
+- Added support for external lib1305
+
 ### 20250201
 - Relicensed under CC0-1.0 OR 0BSD OR MIT-0 OR MIT
 - Final reformatting using clang-format
