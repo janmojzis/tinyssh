@@ -10,6 +10,24 @@ export LANG
     echo "LDFLAGS?="
     echo "CPPFLAGS?="
     echo
+    echo "STATIC_LINKING := 0"
+    echo "ifneq (,\$(findstring -static,\$(CFLAGS)))"
+    echo "STATIC_LINKING := 1"
+    echo "endif"
+    echo "ifneq (,\$(findstring -static,\$(CC)))"
+    echo "STATIC_LINKING := 1"
+    echo "endif"
+    echo "ifneq (,\$(findstring -static,\$(LDFLAGS)))"
+    echo "STATIC_LINKING := 1"
+    echo "endif"
+    echo "ifeq (\${STATIC_LINKING},1)"
+    echo "CFLAGS+=-DSTATIC_BUILD"
+    echo "endif"
+    echo
+    echo "ifeq (\$(findstring -static,\$(LDFLAGS)),-static)"
+    echo "CFLAGS+=-DSTATIC_BUILD"
+    echo "endif"
+    echo
     echo "DESTDIR?="
     echo "PREFIX?=/usr/local"
     echo

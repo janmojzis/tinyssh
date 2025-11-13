@@ -21,6 +21,7 @@ Public domain.
 #include "bug.h"
 #include "limit.h"
 #include "subprocess.h"
+#include "static_compat.h"
 
 static int findnameandkey(const char *keyname, const char *key, char *x) {
 
@@ -153,7 +154,7 @@ int subprocess_auth(const char *account, const char *keyname, const char *key) {
         if (sshcrypto_sign_BASE64PUBLICKEYMIN > str_len(key) + 1) bug_inval();
 
         /* drop privileges */
-        pw = getpwnam(account);
+        pw = tinyssh_getpwnam(account);
         if (!pw) {
             log_w3("auth: account ", account, ": not exist");
             global_die(111);

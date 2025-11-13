@@ -9,6 +9,7 @@ Public domain.
 #include <grp.h>
 #include "e.h"
 #include "dropuidgid.h"
+#include "static_compat.h"
 
 /*
 The 'dropuidgid' function is used to drop root privileges. If the process has
@@ -26,7 +27,7 @@ int dropuidgid(const char *name, uid_t uid, gid_t gid) {
             return 0;
         }
         if (name) {
-            if (initgroups(name, gid) == -1) return 0;
+            if (tinyssh_initgroups(name, gid) == -1) return 0;
         }
     }
 
