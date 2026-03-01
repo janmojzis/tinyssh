@@ -1,3 +1,6 @@
+### 20260301
+- Fixed crypto_sign_ed25519_tinyssh_open, now rejects signatures where S >= L (Ed25519 group order).
+
 ### 20250501
 - Fixed minor strict kex violation, thanks to Fabian Bäumer and Marcus Brinkmann for the bug report.
 - Updated cryptoint to version 20250414
