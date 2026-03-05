@@ -184,7 +184,7 @@ int buf_putsharedsecret_(const char *fn, unsigned long long line, struct buf *b,
     for (pos = 0; pos < len; ++pos)
         if (x[pos]) break;
 
-    if (x[pos] & 0x80) {
+    if (pos < len && (x[pos] & 0x80)) {
         buf_putnum32_(fn, line, b, len - pos + 1);
         buf_putnum8_(fn, line, b, 0);
     }
