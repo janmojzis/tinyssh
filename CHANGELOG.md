@@ -10,11 +10,11 @@
 - Relicensed under CC0-1.0 OR 0BSD OR MIT-0 OR MIT
 - Final reformatting using clang-format
 
-### 20250126 (pre-relase)
+### 20250126 (pre-release)
 - Fixed more compiler warnings
 - More used cryptoint
 
-### 20241201 (pre-relase)
+### 20241201 (pre-release)
 - Switched to [cryptoint](https://libntruprime.cr.yp.to/libntruprime-20241021/cryptoint.html) 20241003
 - Switched to tests from [SUPERCOP](https://bench.cr.yp.to/supercop.html) for crypto primitives
 - Fixed various compiler warnings
