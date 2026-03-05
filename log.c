@@ -27,7 +27,7 @@ static int logflagfnln = 1;
 static int logflagsyslog = 0;
 
 static char chars[] =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRTSUVWXYZ0123456789";
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
 void log_init(int level, const char *text, int line, int flagsyslog) {
 
