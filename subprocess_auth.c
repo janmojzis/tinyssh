@@ -125,10 +125,15 @@ int subprocess_auth_authorizedkeys_(const char *keyname, const char *key,
         if (r == -1) {
             log_w3("auth: unable to read from file ", dir,
                    "/.ssh/authorized_keys");
+            close(fd);
             return 0;
         }
-        if (findnameandkey(keyname, key, buf)) return 1; /* authorized */
+        if (findnameandkey(keyname, key, buf)) {
+            close(fd);
+            return 1; /* authorized */
+        }
     } while (r > 0);
+    close(fd);
     log_w1("auth: unable to authorize using authorized_keys: key not found");
     return 0;
 }
