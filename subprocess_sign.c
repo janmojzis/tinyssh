@@ -72,7 +72,7 @@ int subprocess_sign(unsigned char *y, long long ylen, const char *keydir,
         }
         purge(sk, sizeof sk);
         if (writeall(fromchild[1], sm, sshcrypto_sign_bytes) == -1) {
-            log_w1("sign: unable to write signature to parrent process");
+            log_w1("sign: unable to write signature to parent process");
             global_die(111);
         }
         close(fromchild[1]);
