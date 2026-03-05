@@ -40,7 +40,7 @@ void global_init(void) {
 }
 
 /*
-Remove sentitive data from allocated memory.
+Remove sensitive data from allocated memory.
 */
 void global_purge(void) {
 
@@ -61,7 +61,7 @@ void global_purge(void) {
 }
 
 /*
-Remove sentitive data from allocated memory
+Remove sensitive data from allocated memory
 and exit with status 'x'.
 */
 __attribute__((noreturn)) void global_die(int x) {

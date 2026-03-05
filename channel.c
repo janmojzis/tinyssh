@@ -444,7 +444,7 @@ int channel_waitnohang(int *s, int *e) {
 }
 
 /*
-Remove sentitive data from allocated memory.
+Remove sensitive data from allocated memory.
 */
 void channel_purge(void) {
     purge(&channel, sizeof channel);

@@ -46,7 +46,7 @@ void sshcrypto_init(void) {
 }
 
 /*
-Remove sentitive data from allocated memory.
+Remove sensitive data from allocated memory.
 */
 void sshcrypto_purge(void) {
 

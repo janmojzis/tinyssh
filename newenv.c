@@ -28,7 +28,7 @@ static struct newenv {
 } n = {{0}, 0, {0}, 0};
 
 /*
-Remove sentitive data from allocated memory.
+Remove sensitive data from allocated memory.
 */
 void newenv_purge(void) {
     purge(&n, sizeof n);
