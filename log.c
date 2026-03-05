@@ -62,8 +62,8 @@ static void flush(void) {
         syslog(LOG_INFO, "%s", buf);
     }
     else { writeall(2, buf, buflen); }
-    buflen = 0;
     purge(buf, buflen);
+    buflen = 0;
 }
 
 static void outs(const char *x) {
