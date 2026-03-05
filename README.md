@@ -11,7 +11,7 @@
 * Older standard: <strike>ecdsa-sha2-nistp256, ecdh-sha2-nistp256, aes256-ctr, hmac-sha2-256</strike> removed in version 20190101
 * Postquantum crypto: sntrup761x25519-sha512@openssh.com, chacha20-poly1305@openssh.com
 
-### Project timelime ###
+### Project timeline ###
 * <strike>experimental: 2014.01.01 - 2014.12.31 (experimentation)</strike>
 * <strike>alpha(updated): 2015.01.01 - 2017.12.31 (not ready for production use, ready for testing)</strike>
 * beta(updated): 2018.01.01 - ????.??.?? (ready for production use)
