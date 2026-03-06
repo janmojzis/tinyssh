@@ -31,7 +31,7 @@ memory space than rest of the program.
 int subprocess_sign(unsigned char *y, long long ylen, const char *keydir,
                     unsigned char *x, long long xlen) {
 
-    pid_t pid;
+    pid_t pid, r;
     int status, fromchild[2] = {-1, -1};
 
     if (ylen != sshcrypto_sign_bytes) bug_inval();
@@ -89,7 +89,10 @@ int subprocess_sign(unsigned char *y, long long ylen, const char *keydir,
     }
     close(fromchild[0]);
 
-    while (waitpid(pid, &status, 0) != pid) {}
+    do {
+        r = waitpid(pid, &status, 0);
+    } while (r == -1 && errno == EINTR);
+    if (r != pid) return -1;
     if (!WIFEXITED(status)) return -1;
     return WEXITSTATUS(status);
 }

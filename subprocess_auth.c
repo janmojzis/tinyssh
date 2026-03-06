@@ -144,7 +144,7 @@ The 'subprocess_auth' is used for authorization using
 */
 int subprocess_auth(const char *account, const char *keyname, const char *key) {
 
-    pid_t pid;
+    pid_t pid, r;
     int status;
 
     pid = fork();
@@ -189,7 +189,10 @@ int subprocess_auth(const char *account, const char *keyname, const char *key) {
         global_die(0);
     }
 
-    while (waitpid(pid, &status, 0) != pid) {}
+    do {
+        r = waitpid(pid, &status, 0);
+    } while (r == -1 && errno == EINTR);
+    if (r != pid) return -1;
     if (!WIFEXITED(status)) return -1;
     return WEXITSTATUS(status);
 }
