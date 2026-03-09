@@ -259,7 +259,9 @@ rekeying:
     for (;;) {
         if (channel_iseof())
             if (!packet.sendbuf.len)
-                if (packet.flagchanneleofreceived) break;
+                if (packet.flagchanneleofreceived)
+                    if (packet.flagclosesent)
+                        break;
 
         watch0 = watch1 = 0;
         watchtochild = watchfromchild1 = watchfromchild2 = 0;
