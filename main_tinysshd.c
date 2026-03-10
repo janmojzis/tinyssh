@@ -40,8 +40,12 @@ static struct buf b1 = {global_bspace1, 0, sizeof global_bspace1};
 static struct buf b2 = {global_bspace2, 0, sizeof global_bspace2};
 
 static void timeout(int x) {
-    errno = x = ETIMEDOUT;
+    (void) x;
+    /*
+    errno = ETIMEDOUT;
     die_fatal("closing connection", 0, 0);
+    */
+    _exit(111);
 }
 
 static int selfpipe[2] = {-1, -1};
