@@ -8,6 +8,7 @@ Public domain.
 #include <unistd.h>
 #include "blocking.h"
 #include "open.h"
+#include "e.h"
 #include "channel.h"
 
 /*
@@ -39,6 +40,8 @@ long long channel_fork(int fd[3]) {
             blocking_enable(ch[i]);
             if (dup(ch[i]) != i) _exit(111);
         }
+        for (i = 3; i < 4096; ++i) close(i);
+        errno = 0;
         return 0;
     }
     for (i = 0; i < 3; ++i) {

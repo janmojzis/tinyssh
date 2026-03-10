@@ -134,7 +134,7 @@ fd[2] is always -1
 
 long long channel_forkpty(int fd[3], int master, int slave) {
 
-    long long pid, r;
+    long long pid, r, i;
     char ch;
     int pi[2];
 
@@ -163,6 +163,8 @@ long long channel_forkpty(int fd[3], int master, int slave) {
             /* Trigger a read event on the other side of the pipe. */
             do { r = write(pi[1], "", 1); } while (r == -1 && errno == EINTR);
             close(pi[1]);
+            for (i = 3; i < 4096; ++i) close(i);
+            errno = 0;
 
             return 0;
         default:
