@@ -84,7 +84,7 @@ export LANG
     for ofile in ${objall}; do
       (
         cfile=`echo ${ofile} | sed 's/\.o/.c/'`
-        gcc -MM -Icryptoint "${cfile}"
+        gcc -MM -isystem /usr/local/include -Icryptoint "${cfile}"
         echo "	\$(CC) \$(CFLAGS) \$(CPPFLAGS) -c ${cfile}"
         echo
       )
