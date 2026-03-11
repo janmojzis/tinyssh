@@ -17,6 +17,7 @@ Public domain.
 #include "purge.h"
 #include "log.h"
 #include "packet.h"
+#include "static_compat.h"
 
 int packet_auth(struct buf *b, struct buf *b2, int flagnoneauth) {
 
@@ -86,7 +87,7 @@ int packet_auth(struct buf *b, struct buf *b2, int flagnoneauth) {
             if (flagnoneauth) {
                 struct passwd *pw;
                 pkname = "none";
-                pw = getpwuid(geteuid());
+                pw = tinyssh_getpwuid(geteuid());
                 if (!pw) bug();
                 str_copyn(packet.name, sizeof packet.name, pw->pw_name);
                 b->len = 0;

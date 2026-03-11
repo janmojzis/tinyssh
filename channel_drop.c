@@ -10,13 +10,14 @@ Public domain.
 #include "dropuidgid.h"
 #include "newenv.h"
 #include "channel.h"
+#include "static_compat.h"
 
 int channel_droppriv(char *user, char **shell) {
 
     struct passwd *pw;
     char *name;
 
-    pw = getpwnam(user);
+    pw = tinyssh_getpwnam(user);
     if (!pw) return 0;
 
     if (isatty(0)) {
