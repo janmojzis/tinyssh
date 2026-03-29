@@ -1,3 +1,11 @@
+### 20260401
+- Fixed session handling, now rejects out-of-order or duplicate channel requests.
+- Fixed connection shutdown, timeout handling and subprocess waiting edge cases.
+- Fixed inherited file-descriptor leak before fork.
+- Fixed file descriptor leak in authorized_keys processing.
+- Fixed log buffer purging and a potential out-of-bounds read in buf_putsharedsecret_.
+- Updated makefilegen.sh to use gcc -MM -isystem /usr/local/include
+
 ### 20260301
 - Fixed crypto_sign_ed25519_tinyssh_open, now rejects signatures where S >= L (Ed25519 group order).
 
