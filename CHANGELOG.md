@@ -5,6 +5,7 @@
 - Fixed file descriptor leak in authorized_keys processing.
 - Fixed log buffer purging and a potential out-of-bounds read in buf_putsharedsecret_.
 - Updated makefilegen.sh to use gcc -MM -isystem /usr/local/include
+- Moved LICENCE.md -> LICENSE.md
 
 ### 20260301
 - Fixed crypto_sign_ed25519_tinyssh_open, now rejects signatures where S >= L (Ed25519 group order).
