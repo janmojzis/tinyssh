@@ -64,7 +64,7 @@ sudo make install
                [Service]
                ExecStartPre=-/usr/sbin/tinysshd-makekey -q /etc/tinyssh/sshkeydir
                EnvironmentFile=-/etc/default/tinysshd
-               ExecStart=/usr/sbin/tinysshd ${TINYSSHDOPTS} -- /etc/tinyssh/sshkeydir
+               ExecStart=/usr/sbin/tinysshd $TINYSSHDOPTS -- /etc/tinyssh/sshkeydir
                KillMode=process
                SuccessExitStatus=111
                StandardInput=socket
