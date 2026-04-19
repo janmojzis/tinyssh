@@ -54,8 +54,7 @@ int channel_open(const char *user, crypto_uint32 id, crypto_uint32 remotewindow,
     struct buf b = {channel.buf0, 0, CHANNEL_BUFSIZE};
 
     if (!localwindow) bug_inval();
-    if (!maxpacket) bug_inval();
-    if (!remotewindow) bug_inval();
+    if (!maxpacket) bug_proto();
     if (channel.maxpacket != 0) return 0;
     if (channel.pid != 0) return 0;
 
@@ -224,6 +223,7 @@ void channel_put(unsigned char *buf, long long len) {
 
     if (!buf || len < 0) bug_inval();
     if (channel.len0 + len > CHANNEL_BUFSIZE) bug_nomem();
+    if ((crypto_uint32) len > channel.localwindow) bug_proto();
 
     byte_copy(channel.buf0 + channel.len0, len, buf);
     channel.len0 += len;
@@ -473,6 +473,10 @@ long long channel_getlen0(void) { return channel.len0; }
 crypto_uint32 channel_getid(void) { return channel.id; }
 crypto_uint32 channel_getlocalwindow(void) { return channel.localwindow; }
 void channel_incrementremotewindow(crypto_uint32 x) {
+    if (x > 0xffffffffUL - channel.remotewindow) bug_proto();
     channel.remotewindow += x;
 }
-void channel_incrementlocalwindow(crypto_uint32 x) { channel.localwindow += x; }
+void channel_incrementlocalwindow(crypto_uint32 x) {
+    if (x > 0xffffffffUL - channel.localwindow) bug();
+    channel.localwindow += x;
+}
