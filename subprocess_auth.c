@@ -55,31 +55,37 @@ static void check(uid_t uid, const char *d, const char *f, long long *err) {
     }
     else {
         if (stat(d, &st) == -1) {
-            log_w4("auth: unable to stat directory: ", d, "/", f);
+            log_w2("auth: unable to stat directory: ", d);
             e = 1;
         }
         if (e == 0 && !S_ISDIR(st.st_mode)) {
             errno = ENOTDIR;
-            log_w4("auth: unable to stat directory: ", d, "/", f);
+            log_w2("auth: not a directory: ", d);
             e = 1;
         }
     }
     if (e == 0 && (st.st_mode & 022) != 0) {
         errno = EACCES;
-        log_w4("auth: bad mode: directory writable by group or others: ", d,
-               "/", f);
+        if (f)
+            log_w4("auth: bad mode: writable by group or others: ", d, "/",
+                   f);
+        else
+            log_w2("auth: bad mode: writable by group or others: ", d);
         e = 1;
     }
     if (e == 0 && st.st_uid != uid && st.st_uid != 0) {
         errno = EACCES;
-        log_w4("auth: bad owner: ", d, "/", f);
+        if (f) log_w4("auth: bad owner: ", d, "/", f);
+        else log_w2("auth: bad owner: ", d);
         e = 1;
     }
 
     if (e)
         *err = 1;
-    else
+    else if (f)
         log_d4("auth: path: ok: ", d, "/", f);
+    else
+        log_d2("auth: path: ok: ", d);
 }
 
 int subprocess_auth_checkpath_(char *path, long long pathlen, uid_t uid) {
