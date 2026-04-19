@@ -120,9 +120,9 @@ int chachapoly_packet_get(struct buf *b) {
     pp = recvbuf->buf + PACKET_ZEROBYTES;
     l = recvbuf->len - PACKET_ZEROBYTES;
 
-    byte_copy(pp, l - packet.packet_length + AB + 4,
+    byte_copy(pp, l - packet.packet_length - AB - 4,
               pp + packet.packet_length + AB + 4);
-    purge(pp + l - packet.packet_length + AB + 4,
+    purge(pp + l - packet.packet_length - AB - 4,
           packet.packet_length + AB + 4);
     recvbuf->len -= packet.packet_length + AB + 4;
 
