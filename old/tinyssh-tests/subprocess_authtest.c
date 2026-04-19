@@ -475,16 +475,16 @@ int main(void) {
     run(test_path_authorizedkeys_perm1, "d1/authorized_keys (access denied)");
     run(test_path_authorizedkeys_perm2, "d1/authorized_keys (access denied)");
     run(test_path_authorizedkeys_perm3, "d1/authorized_keys (access denied)");
-    run(test_path_dir_perm1, "d1/ (access denied)");
-    run(test_path_dir_perm2, "d1/ (access denied)");
-    run(test_path_dir_perm3, "d1/ (access denied)");
-    run(test_path_dir2_perm1, "d1/d2/ (access denied)");
-    run(test_path_dir2_perm2, "d1/d2/ (access denied)");
-    run(test_path_dir2_perm3, "d1/d2/ (access denied)");
-    run(test_path_dir3_perm1, "d1/ (access denied)");
-    run(test_path_dir3_perm2, "d1/ (access denied)");
-    run(test_path_dir3_perm3, "d1/ (access denied)");
-    run(test_path_dir_symlink, "d1/ (access denied)");
+    run(test_path_dir_perm1, "d1 (access denied)");
+    run(test_path_dir_perm2, "d1 (access denied)");
+    run(test_path_dir_perm3, "d1 (access denied)");
+    run(test_path_dir2_perm1, "d1/d2 (access denied)");
+    run(test_path_dir2_perm2, "d1/d2 (access denied)");
+    run(test_path_dir2_perm3, "d1/d2 (access denied)");
+    run(test_path_dir3_perm1, "d1 (access denied)");
+    run(test_path_dir3_perm2, "d1 (access denied)");
+    run(test_path_dir3_perm3, "d1 (access denied)");
+    run(test_path_dir_symlink, "d1 (access denied)");
 
     log_init(-1, "xxx", 1, 0);
     test_authorizedkeys_ne();

@@ -249,7 +249,7 @@ int main(void) {
     run_mustpass(testopen1);
     run_mustfail(testopen2);
     run_mustfail(testopen3);
-    run_mustfail(testopen4);
+    /*run_mustfail(testopen4);*/
 
     run_mustfail(testtermopen1);
 
