@@ -15,7 +15,7 @@ int packet_unimplemented(struct buf *b) {
 
     char strnum[NUMTOSTR_LEN];
 
-    /* note that b->buf[0] contains packetid */
+    /* note that b->buf[0] contains the SSH message type */
     log_d3("packet=", numtostr(strnum, b->buf[0]),
            ", sending SSH_MSG_UNIMPLEMENTED message");
 
