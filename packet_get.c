@@ -49,8 +49,8 @@ static int packet_get_plain_(struct buf *b) {
     if (len <= 0) bug_proto();
     buf_put(b, recvbuf->buf + PACKET_ZEROBYTES + 5, len);
 
-    byte_copy(pp, l - packet_length + 4, pp + packet_length + 4);
-    purge(pp + l - packet_length + 4, packet_length + 4);
+    byte_copy(pp, l - packet_length - 4, pp + packet_length + 4);
+    purge(pp + l - packet_length - 4, packet_length + 4);
     recvbuf->len -= packet_length + 4;
 
     packet.receivepacketid++;
