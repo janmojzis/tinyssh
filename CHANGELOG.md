@@ -1,3 +1,10 @@
+### 20260601
+- Fixed validation of client-controlled channel parameters.
+- Fixed packet buffer bounds in plain-text and chacha20-poly1305 packet handling.
+- Fixed truncated log messages in subprocess_auth.
+- Forced a minimal `maxpacket` value of 32 when opening channels.
+- Fixed README.md systemd variable substitution example.
+
 ### 20260401
 - Fixed session handling, now rejects out-of-order or duplicate channel requests.
 - Fixed connection shutdown, timeout handling and subprocess waiting edge cases.
