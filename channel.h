@@ -23,7 +23,6 @@ struct channel {
     int fd0;
     int fd1;
     int fd2;
-    int status;
 
     /* ip */
     char localip[IPTOSTR_LEN];

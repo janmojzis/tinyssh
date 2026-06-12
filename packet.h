@@ -18,7 +18,6 @@ Public domain.
 #define PACKET_LIMIT 32768
 #define PACKET_FULLLIMIT 35000
 
-#define PACKET_RECVLIMIT 131072
 #define PACKET_ZEROBYTES 64
 
 struct packet {
