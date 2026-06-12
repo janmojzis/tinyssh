@@ -72,10 +72,12 @@ int packet_channel_send_windowadjust(struct buf *b) {
     if (channel_getlen0() > CHANNEL_BUFSIZE / 2) return 1;
     if (channel_getlocalwindow() > CHANNEL_BUFSIZE / 2) return 1;
 
+    plus = CHANNEL_BUFSIZE - channel_getlen0() - channel_getlocalwindow();
+    if (!plus) return 1; /* nothing to adjust, don't send an empty message */
+
     buf_purge(b);
     buf_putnum8(b, SSH_MSG_CHANNEL_WINDOW_ADJUST);
     buf_putnum32(b, channel_getid());
-    plus = CHANNEL_BUFSIZE - channel_getlen0() - channel_getlocalwindow();
     buf_putnum32(b, plus);
     channel_incrementlocalwindow(plus);
     packet_put(b);
