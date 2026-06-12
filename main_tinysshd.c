@@ -332,6 +332,11 @@ rekeying:
                 if (!watchselfpipe->revents) watchselfpipe = 0;
         }
 
+        if (watchselfpipe) {
+            char ch;
+            while (read(selfpipe[0], &ch, 1) != 1) {}
+        }
+
         if (watchtochild) {
 
             /* write data to child */
