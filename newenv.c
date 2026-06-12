@@ -69,6 +69,7 @@ int newenv_env_(int x, const char *s, const char *t) {
     for (i = 0; n.e[i]; ++i) {
         if (str_start(n.e[i], s) && (n.e[i][slen] == '=')) {
             n.e[i] = n.e[--n.elen];
+            n.e[n.elen] = 0; /* keep the array NUL-terminated after the swap */
             break;
         }
     }
