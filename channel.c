@@ -369,8 +369,15 @@ int channel_write(void) {
         if (errno == EWOULDBLOCK) return 1;
     }
     if (w <= 0) {
+        /* write error (e.g. EPIPE when the child closed stdin / exited):
+           treat as a half-close, not a fatal connection error. Drop the
+           pending input and let the loop drain the child's output, send
+           exit-status and close the channel cleanly */
+        close(channel.fd0);
         channel.fd0 = -1;
-        return 0;
+        purge(channel.buf0, channel.len0);
+        channel.len0 = 0;
+        return 1;
     }
     byte_copy(channel.buf0, channel.len0 - w, channel.buf0 + w);
     purge(channel.buf0 + channel.len0 - w, w);
