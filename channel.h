@@ -36,10 +36,10 @@ struct channel {
     int flagterminal;
     int master;
     int slave;
-    int a;
-    int b;
-    int x;
-    int y;
+    crypto_uint32 a;
+    crypto_uint32 b;
+    crypto_uint32 x;
+    crypto_uint32 y;
 
     /* channel */
     int remoteeof;
