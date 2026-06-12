@@ -36,6 +36,7 @@ int channel_droppriv(char *user, char **shell) {
     if (!newenv_env("USER", pw->pw_name)) return 0;
     if (!newenv_env("LOGNAME", pw->pw_name)) return 0;
     if (!newenv_env("LOGIN", pw->pw_name)) return 0;
+    if (!pw->pw_shell || !pw->pw_shell[0]) pw->pw_shell = (char *) "/bin/sh";
     if (!newenv_env("SHELL", pw->pw_shell)) return 0;
 
     *shell = pw->pw_shell;
