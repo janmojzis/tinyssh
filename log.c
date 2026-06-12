@@ -72,15 +72,18 @@ static void outs(const char *x) {
 
     for (i = 0; x[i]; ++i) {
         if (buflen >= sizeof buf - 1) flush();
-        if (x[i] == '\n')
-            buf[buflen++] = '\n';
-        else if (x[i] < 32)
+        if (x[i] < 32)
             buf[buflen++] = '?';
         else if (x[i] > 126)
             buf[buflen++] = '?';
         else
             buf[buflen++] = x[i];
     }
+}
+
+static void outnewline(void) {
+    if (buflen >= sizeof buf - 1) flush();
+    buf[buflen++] = '\n';
 }
 
 static void outnum(unsigned long long n) {
@@ -187,7 +190,7 @@ void log_9_(int level, int ignoreerrno, const char *f, unsigned long long l,
         outs("}");
     } while (0);
 
-    outs("\n");
+    outnewline();
     flush();
     return;
 }
