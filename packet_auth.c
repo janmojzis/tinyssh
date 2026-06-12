@@ -104,7 +104,7 @@ int packet_auth(struct buf *b, struct buf *b2, int flagnoneauth) {
             pos = packetparser_uint32(b->buf, b->len, pos,
                                       &len); /* public key algorithm name */
             pos = packetparser_skip(b->buf, b->len, pos, len);
-            if (b->buf[pos] != 0) bug_proto();
+            if (pos >= b->len || b->buf[pos] != 0) bug_proto();
             pkname = (char *) b->buf + pos - len; /* XXX */
 
             sign_open = 0;
