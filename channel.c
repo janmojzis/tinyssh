@@ -286,6 +286,7 @@ long long channel_read(unsigned char *buf, long long len) {
         if (errno == EWOULDBLOCK) return 0;
     }
     if (r <= 0) {
+        if (!channel.flagterminal) close(channel.fd1);
         channel.fd1 = -1;
         return 0;
     }
@@ -319,6 +320,7 @@ long long channel_extendedread(unsigned char *buf, long long len) {
         if (errno == EWOULDBLOCK) return 0;
     }
     if (r <= 0) {
+        if (!channel.flagterminal) close(channel.fd2);
         channel.fd2 = -1;
         return 0;
     }
