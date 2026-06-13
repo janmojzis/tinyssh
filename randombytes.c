@@ -16,7 +16,7 @@ __attribute__((constructor)) static void init(void) {
             fd = open("/dev/urandom", O_RDONLY | O_CLOEXEC);
 #else
             fd = open("/dev/urandom", O_RDONLY);
-            fcntl(fd, F_SETFD, 1);
+            fcntl(fd, F_SETFD, FD_CLOEXEC);
 #endif
             if (fd != -1) break;
             sleep(1);

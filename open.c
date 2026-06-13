@@ -16,7 +16,7 @@ int open_pipe(int *fd) {
     int i;
     if (pipe(fd) == -1) return -1;
     for (i = 0; i < 2; ++i) {
-        fcntl(fd[i], F_SETFD, 1);
+        fcntl(fd[i], F_SETFD, FD_CLOEXEC);
         blocking_disable(fd[i]);
     }
     return 0;
@@ -28,7 +28,7 @@ int open_read(const char *fn) {
 #else
     int fd = open(fn, O_RDONLY | O_NONBLOCK);
     if (fd == -1) return -1;
-    fcntl(fd, F_SETFD, 1);
+    fcntl(fd, F_SETFD, FD_CLOEXEC);
     return fd;
 #endif
 }
