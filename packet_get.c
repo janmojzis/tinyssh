@@ -44,6 +44,8 @@ static int packet_get_plain_(struct buf *b) {
     if (packet_length + 4 > l) return 1;
 
     /* we have full packet */
+    /* RFC 4253 6: padding_length must be at least 4 */
+    if (recvbuf->buf[PACKET_ZEROBYTES + 4] < 4) bug_proto();
     len = packet_length;
     len -= recvbuf->buf[PACKET_ZEROBYTES + 4] + 1;
     if (len <= 0) bug_proto();

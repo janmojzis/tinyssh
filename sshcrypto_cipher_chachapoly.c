@@ -112,6 +112,8 @@ int chachapoly_packet_get(struct buf *b) {
     purge(n, sizeof n);
 
     /* process packet */
+    /* RFC 4253 6: padding_length must be at least 4 */
+    if (recvbuf->buf[PACKET_ZEROBYTES + 4] < 4) bug_proto();
     len = packet.packet_length;
     len -= recvbuf->buf[PACKET_ZEROBYTES + 4] + 1;
     if (len <= 0) bug_proto();
