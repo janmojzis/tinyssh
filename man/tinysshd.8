@@ -22,7 +22,8 @@ doesn't implement unsafe features (such as password or hostbased authentication)
 doesn't have features such: SSH1 protocol, compression, port forwarding, agent forwarding, X11 forwarding ...
 .sp
 .B tinysshd
-doesn't use dynamic memory allocation (no allocation failures, etc.)
+uses fixed-size buffers for SSH packet processing. Authorization path resolution
+uses dynamically allocated memory, allocation failure rejects authorization.
 .sp
 .B tinysshd
 rejects all client \fIenv\fR channel requests for security reasons. The terminal

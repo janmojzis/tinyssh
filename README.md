@@ -4,7 +4,7 @@
 * tinysshd doesn't implement older crypto (such as RSA, DSA, HMAC-MD5, HMAC-SHA1, 3DES, RC4, ...)
 * tinysshd doesn't implement unsafe features (such as password or hostbased authentication)
 * tinysshd doesn't have features such: SSH1 protocol, compression, port forwarding, agent forwarding, X11 forwarding ...
-* tinysshd doesn't use dynamic memory allocation (no allocation failures, etc.)
+* tinysshd uses fixed-size buffers for SSH packet processing. Authorization path resolution uses dynamically allocated memory, allocation failure rejects authorization.
 
 ### Important change since version 20260906 ###
 
