@@ -7,6 +7,7 @@
 - Applied early channel EOF after session startup
 - Applied channel close to local state
 - Used _SC_OPEN_MAX when closing inherited descriptors
+- Fixed user-name bounds checking during authentication
 
 ### 20260906 (pre-release)
 - tinyssh-convert: reject inconsistent Ed25519 key material in OpenSSH private-key files.

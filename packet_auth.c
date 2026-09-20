@@ -95,11 +95,11 @@ int packet_auth(struct buf *b, struct buf *b2, int flagnoneauth) {
         }
         pos = packetparser_uint32(b->buf, b->len, pos, &len); /* name */
         if (len >= sizeof packet.name) bug_proto();
-        for (i = 0; i < len; ++i)
-            if (!b->buf[pos + i]) bug_proto();
         pos = packetparser_copy(b->buf, b->len, pos,
                                 (unsigned char *) packet.name, len);
         packet.name[len] = 0;
+        for (i = 0; i < len; ++i)
+            if (!packet.name[i]) bug_proto();
         pos = packetparser_uint32(b->buf, b->len, pos,
                                   &len); /* "ssh-connection" */
         pos = packetparser_skip(b->buf, b->len, pos, len);
