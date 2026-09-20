@@ -23,7 +23,7 @@ int packet_kexdh(const char *keydir, struct buf *b1, struct buf *b2) {
     unsigned char serverpk[sshcrypto_kem_CIPHERTEXTMAX];
     unsigned char sharedsecret[sshcrypto_kem_MAX];
     unsigned char sm[sshcrypto_sign_MAX];
-    unsigned char key[sshcrypto_cipher_KEYMAX];
+    unsigned char key[sshcrypto_cipher_KEYMAX] = {0};
     unsigned char hash[sshcrypto_hash_MAX];
     long long pos = 0;
     crypto_uint8 ch;
