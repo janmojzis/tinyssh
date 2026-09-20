@@ -214,6 +214,8 @@ int channel_exec(const char *cmd) {
     channel.fd1 = fd[1];
     channel.fd2 = fd[2];
     channel.len0 = 0;
+    /* EOF may arrive after channel open but before the session starts. */
+    if (channel.remoteeof) channel_puteof();
     newenv_purge();
     if (channel.flagterminal && channel.pid > 0) {
         channel_ptyresize(channel.a, channel.b, channel.x, channel.y);
