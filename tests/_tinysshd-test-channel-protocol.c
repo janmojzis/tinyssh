@@ -5,6 +5,7 @@ Public domain.
 
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <fcntl.h>
 #include <unistd.h>
 #include "buf.h"
 #include "channel.h"
@@ -161,6 +162,71 @@ static int envrequest(int embeddedzero, const char *customcmd) {
     return replytype(SSH_MSG_CHANNEL_FAILURE);
 }
 
+static int preexecclose(void) {
+    int fd[2];
+
+    reset();
+    channel.id = 42;
+    channel.maxpacket = 1024;
+    if (pipe(fd) == -1) return 0;
+    channel.master = fd[0];
+    channel.slave = fd[1];
+    channel.flagterminal = 1;
+
+    buf_purge(&b1);
+    buf_putnum8(&b1, SSH_MSG_CHANNEL_CLOSE);
+    buf_putnum32(&b1, 42);
+    if (!packet_channel_recv_close(&b1)) return 0;
+    if (channel.pid != -1 || channel.master != -1 || channel.slave != -1 ||
+        channel.flagterminal)
+        return 0;
+    if (fcntl(fd[0], F_GETFD) != -1 || fcntl(fd[1], F_GETFD) != -1) return 0;
+    if (!packet.flagchanneleofreceived || !packet.flagclosesent) return 0;
+
+    buf_purge(&b1);
+    buf_putnum8(&b1, SSH_MSG_CHANNEL_CLOSE);
+    buf_putnum32(&b1, 42);
+    if (!packet_channel_recv_close(&b1) || channel.pid != -1) return 0;
+
+    buf_purge(&packet.sendbuf);
+    requestprefix("shell", 1);
+    if (!packet_channel_request(&b1, &b2, 0)) return 0;
+    return channel.pid == -1 && replytype(SSH_MSG_CHANNEL_FAILURE);
+}
+
+static int activeclose(int pending) {
+    unsigned char ch = 'x', out;
+    long long r;
+    int fd[2];
+
+    reset();
+    channel.id = 42;
+    channel.maxpacket = 1024;
+    channel.pid = 1;
+    channel.localwindow = CHANNEL_BUFSIZE;
+    if (pipe(fd) == -1) return 0;
+    channel.fd0 = fd[1];
+    if (pending) channel_put(&ch, 1);
+
+    buf_purge(&b1);
+    buf_putnum8(&b1, SSH_MSG_CHANNEL_CLOSE);
+    buf_putnum32(&b1, 42);
+    if (!packet_channel_recv_close(&b1)) return 0;
+    if (!channel.remoteeof) return 0;
+    if (pending) {
+        if (channel.fd0 == -1 || channel.len0 != 1) return 0;
+        if (!channel_write() || channel.fd0 != -1 || channel.len0 != 0)
+            return 0;
+        r = read(fd[0], &out, 1);
+        if (r != 1 || out != ch) return 0;
+    }
+    else if (channel.fd0 != -1 || channel.len0 != 0)
+        return 0;
+    r = read(fd[0], &out, 1);
+    close(fd[0]);
+    return r == 0;
+}
+
 enum fatalmode {
     WRONG_ID,
     SHELL_TRAILING,
@@ -212,6 +278,9 @@ int main(void) {
     if (!envrequest(0, 0)) ok = 0;
     if (!envrequest(1, 0)) ok = 0;
     if (!envrequest(0, "true")) ok = 0;
+    if (!preexecclose()) ok = 0;
+    if (!activeclose(0)) ok = 0;
+    if (!activeclose(1)) ok = 0;
     if (!fatal(WRONG_ID)) ok = 0;
     if (!fatal(SHELL_TRAILING)) ok = 0;
     if (!fatal(TRUNCATED_REQUEST)) ok = 0;

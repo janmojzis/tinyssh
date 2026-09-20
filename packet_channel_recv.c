@@ -114,6 +114,7 @@ int packet_channel_recv_close(struct buf *b) {
     pos = packetparser_end(b->buf, b->len, pos);
 
     log_d1("packet=SSH_MSG_CHANNEL_CLOSE received");
+    channel_close();
     packet_channel_send_eof(b);
     if (!packet.flagclosesent) {
         buf_purge(b);

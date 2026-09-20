@@ -273,6 +273,29 @@ void channel_puteof(void) {
 }
 
 /*
+The 'channel_close' function applies peer close as input EOF for an active
+child. Before child startup it records a terminal channel state and releases
+resources allocated by an earlier pty request.
+*/
+void channel_close(void) {
+
+    if (channel.maxpacket == 0) bug_proto();
+    if (channel.pid > 0) {
+        channel_puteof();
+        return;
+    }
+    if (channel.pid < 0) return;
+
+    if (channel.master != -1) close(channel.master);
+    if (channel.slave != -1) close(channel.slave);
+    channel.master = -1;
+    channel.slave = -1;
+    channel.flagterminal = 0;
+    channel.pid = -1;
+    newenv_purge();
+}
+
+/*
 The 'channel_putisready' function returns
 if child is ready accept data.
 */

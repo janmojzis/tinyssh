@@ -67,6 +67,7 @@ extern int channel_exec(const char *);
 extern void channel_put(unsigned char *, long long);
 extern void channel_putextended(long long);
 extern void channel_puteof(void);
+extern void channel_close(void);
 extern int channel_putisready(void);
 extern long long channel_read(unsigned char *, long long);
 extern long long channel_extendedread(unsigned char *, long long);
