@@ -5,7 +5,7 @@ cd "$(dirname "$0")" || exit 111
 LANG=C
 export LANG
 
-programs='_tinysshd-printkex _tinysshd-test-auth-protocol _tinysshd-test-channel-flow _tinysshd-test-channel-protocol _tinysshd-test-global-request _tinysshd-test-hello1 _tinysshd-test-hello2 _tinysshd-test-ignore _tinysshd-test-kex-protocol _tinysshd-test-kex1 _tinysshd-test-kex2 _tinysshd-test-packet _tinysshd-test-rekey-protocol _tinysshd-test-sequence _tinysshd-test-subprocess-auth _tinysshd-unauthenticated test-crypto tinysshd'
+programs='_tinysshd-printkex _tinysshd-test-auth-protocol _tinysshd-test-channel-early-eof _tinysshd-test-channel-flow _tinysshd-test-channel-protocol _tinysshd-test-global-request _tinysshd-test-hello1 _tinysshd-test-hello2 _tinysshd-test-ignore _tinysshd-test-kex-protocol _tinysshd-test-kex1 _tinysshd-test-kex2 _tinysshd-test-packet _tinysshd-test-rekey-protocol _tinysshd-test-sequence _tinysshd-test-subprocess-auth _tinysshd-unauthenticated test-crypto tinysshd'
 links='tinysshd-makekey tinysshd-printkey'
 autoheaders=''
 objects=''
@@ -24,6 +24,7 @@ for file in *.c; do
         randombytes.c)
             ;;
         _tinysshd-printkex.c | _tinysshd-test-auth-protocol.c | \
+        _tinysshd-test-channel-early-eof.c | \
         _tinysshd-test-channel-flow.c | \
         _tinysshd-test-channel-protocol.c | \
         _tinysshd-test-global-request.c | \
@@ -86,13 +87,17 @@ done
 
     for program in $programs; do
         randomobject=' randombytes.o'
+        linkobjects='$(OBJECTS)'
         if test "$program" = test-crypto; then
             randomobject=''
         fi
-        echo "$program: $program.o \$(OBJECTS)$randomobject libs"
+        if test "$program" = _tinysshd-test-channel-early-eof; then
+            linkobjects='$(filter-out channel_fork.o,$(OBJECTS))'
+        fi
+        echo "$program: $program.o $linkobjects$randomobject libs"
         printf '\t$(CC) $(CFLAGS) $(CPPFLAGS) -o %s %s.o \\\n' \
             "$program" "$program"
-        printf '\t$(OBJECTS) $(LDFLAGS) `cat libs`%s\n' "$randomobject"
+        printf '\t%s $(LDFLAGS) `cat libs`%s\n' "$linkobjects" "$randomobject"
         echo
     done
 
