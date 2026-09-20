@@ -6,6 +6,7 @@
 - Fixed SSH channel packet size handling and removed the `PACKET_LIMIT/2` workaround.
 - Applied early channel EOF after session startup
 - Applied channel close to local state
+- Used _SC_OPEN_MAX when closing inherited descriptors
 
 ### 20260906 (pre-release)
 - tinyssh-convert: reject inconsistent Ed25519 key material in OpenSSH private-key files.

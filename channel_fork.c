@@ -40,7 +40,14 @@ long long channel_fork(int fd[3]) {
             blocking_enable(ch[i]);
             if (dup(ch[i]) != i) _exit(111);
         }
-        for (i = 3; i < 4096; ++i) close(i);
+        {
+            long long maxfd = 4096;
+#ifdef _SC_OPEN_MAX
+            long long openmax = sysconf(_SC_OPEN_MAX);
+            if (openmax > maxfd) maxfd = openmax;
+#endif
+            for (i = 3; i < maxfd; ++i) close(i);
+        }
         errno = 0;
         return 0;
     }

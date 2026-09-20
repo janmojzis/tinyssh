@@ -163,7 +163,14 @@ long long channel_forkpty(int fd[3], int master, int slave) {
             /* Trigger a read event on the other side of the pipe. */
             do { r = write(pi[1], "", 1); } while (r == -1 && errno == EINTR);
             close(pi[1]);
-            for (i = 3; i < 4096; ++i) close(i);
+            {
+                long long maxfd = 4096;
+#ifdef _SC_OPEN_MAX
+                long long openmax = sysconf(_SC_OPEN_MAX);
+                if (openmax > maxfd) maxfd = openmax;
+#endif
+                for (i = 3; i < maxfd; ++i) close(i);
+            }
             errno = 0;
 
             return 0;
