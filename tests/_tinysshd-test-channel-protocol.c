@@ -183,6 +183,15 @@ static int preexecclose(void) {
     if (fcntl(fd[0], F_GETFD) != -1 || fcntl(fd[1], F_GETFD) != -1) return 0;
     if (!packet.flagchanneleofreceived || !packet.flagclosesent) return 0;
 
+    /* no child descriptor may be left for the main loop to watch, otherwise
+       it polls descriptor 0 (the network) as the child's output */
+    if (channel_getfd0() != -1 || channel_getfd1() != -1 ||
+        channel_getfd2() != -1)
+        return 0;
+    if (channel_writeisready() || channel_readisready() ||
+        channel_extendedreadisready())
+        return 0;
+
     buf_purge(&b1);
     buf_putnum8(&b1, SSH_MSG_CHANNEL_CLOSE);
     buf_putnum32(&b1, 42);

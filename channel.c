@@ -291,6 +291,9 @@ void channel_close(void) {
     channel.master = -1;
     channel.slave = -1;
     channel.flagterminal = 0;
+    channel.fd0 = -1;
+    channel.fd1 = -1;
+    channel.fd2 = -1;
     channel.pid = -1;
     newenv_purge();
 }
@@ -519,6 +522,9 @@ void channel_init(void) {
     channel.len0 = 0;
     channel.pid = 0;
     channel.flagterminal = 0;
+    channel.fd0 = -1;
+    channel.fd1 = -1;
+    channel.fd2 = -1;
     channel.master = -1;
     channel.slave = -1;
 }
