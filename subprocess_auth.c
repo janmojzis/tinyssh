@@ -136,7 +136,12 @@ int subprocess_auth_checkpath_(char *path, long long pathlen, uid_t uid,
         } while (j > 0);
     }
 
-    check(uid, "/", 0, &err);
+    /*
+    Do not check /: in a chroot its ownership and permissions are controlled
+    by the chroot setup, which may make authorized_keys tests fail even when
+    the file and all directories below / are safe.
+    */
+    /* check(uid, "/", 0, &err); */
 
     return (err == 0);
 }

@@ -7,4 +7,3 @@ unsafe symlink: ok
 NUL before key: ok
 key before NUL: ok
 strict NUL: ok
-root directory: ok

@@ -8,6 +8,7 @@
 - Applied channel close to local state
 - Used _SC_OPEN_MAX when closing inherited descriptors
 - Fixed user-name bounds checking during authentication
+- Removed root directory permission checks when validating the path to `authorized_keys`.
 
 ### 20260906 (pre-release)
 - tinyssh-convert: reject inconsistent Ed25519 key material in OpenSSH private-key files.
