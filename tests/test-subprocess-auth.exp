@@ -1,9 +1,1 @@
---- authorized_keys handling
-descriptor identity: ok
-unsafe file: ok
-fifo: ok
-safe symlink: ok
-unsafe symlink: ok
-NUL before key: ok
-key before NUL: ok
-strict NUL: ok
+SKIPPED: authorized_keys handling

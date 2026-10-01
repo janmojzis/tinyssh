@@ -1,3 +1,6 @@
+### UNRELEASED
+- Temporarily disabled the authorized_keys handling test pending a redesign to remove its dependence on build directory permissions.
+
 ### 20261001
 - Installed daemon signal handlers with explicit `sigaction()` semantics.
 - Rejected invalid or excess subsystem registrations at startup.

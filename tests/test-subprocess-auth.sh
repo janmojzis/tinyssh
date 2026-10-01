@@ -7,5 +7,6 @@ export LC_ALL
 
 exec 2>&1
 
-echo '--- authorized_keys handling'
-./_tinysshd-test-subprocess-auth 2>/dev/null
+# Disabled until redesigned: this test depends on the permissions of the
+# build directory and its parents.
+echo 'SKIPPED: authorized_keys handling'
