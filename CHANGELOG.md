@@ -1,4 +1,4 @@
-### UNRELEASED
+### 20261001
 - Installed daemon signal handlers with explicit `sigaction()` semantics.
 - Rejected invalid or excess subsystem registrations at startup.
 - Preserved the initial SSH session identifier length across rekeys that switch between key-exchange hash algorithms of different lengths.
