@@ -1,1 +1,0 @@
-#define HASUTMPLOGWTMP 1

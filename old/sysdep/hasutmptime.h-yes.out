@@ -1,1 +1,0 @@
-#define HASUTMPTIME 1

@@ -1,1 +1,0 @@
-../../_tinysshd-test-kex1.c

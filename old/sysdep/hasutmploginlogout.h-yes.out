@@ -1,1 +1,0 @@
-#define HASUTMPLOGINLOGOUT 1

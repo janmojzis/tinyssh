@@ -1,1 +1,0 @@
-#define HASUTMPTV 1

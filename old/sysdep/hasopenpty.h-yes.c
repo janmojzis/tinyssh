@@ -1,1 +1,0 @@
-../../hasopenpty.c

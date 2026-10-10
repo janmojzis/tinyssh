@@ -1,1 +1,0 @@
-../../hasutmpname.c

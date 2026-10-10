@@ -1,1 +1,0 @@
-#define HASUTMPHOST 1

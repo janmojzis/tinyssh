@@ -1,1 +1,0 @@
-../../hasutmptype.c

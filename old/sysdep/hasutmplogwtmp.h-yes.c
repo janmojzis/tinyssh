@@ -1,1 +1,0 @@
-../../hasutmplogwtmp.c

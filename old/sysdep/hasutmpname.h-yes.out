@@ -1,1 +1,0 @@
-#define HASUTMPNAME 1

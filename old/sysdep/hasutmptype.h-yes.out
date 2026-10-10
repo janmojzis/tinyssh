@@ -1,1 +1,0 @@
-#define HASUTMPTYPE 1
