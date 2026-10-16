@@ -34,6 +34,7 @@ long long channel_fork(int fd[3]) {
     pid = fork();
     if (pid == -1) goto cleanup;
     if (pid == 0) {
+        if (setsid() == -1) _exit(111);
         for (i = 0; i < 3; ++i) {
             close(pa[i]);
             close(i);

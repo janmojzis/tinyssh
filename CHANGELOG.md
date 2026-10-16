@@ -1,3 +1,7 @@
+### UNRELEASED
+The following issues were discovered by Anthropic's OSS Scanner:
+- Detached non-PTY session commands from the supervisor's controlling terminal (ANT-2026-XXAAW4IN).
+
 ### 20261016 (pre-release)
 - Removed the disabled `authorized_keys` handling test and its build integration because it depended on permissions of the build directory and its parents.
 - Removed old/* directory with older build battery

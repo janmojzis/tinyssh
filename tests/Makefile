@@ -12,7 +12,7 @@ ALLOBJECTS= _tinysshd-printkex.o _tinysshd-test-auth-protocol.o _tinysshd-test-c
 AUTOHEADERS= haslib1305.h haslib25519.h haslibntruprime.h haslibrandombytes.h haslibutilh.h haslimits.h haslogintty.h hasmlock.h hasopenpty.h hasutilh.h hasutmp.h hasutmpaddrv6.h hasutmphost.h hasutmploginlogout.h hasutmplogwtmp.h hasutmpname.h hasutmppid.h hasutmptime.h hasutmptv.h hasutmptype.h hasutmpuser.h hasutmpx.h hasutmpxaddrv6.h hasutmpxsyslen.h hasutmpxupdwtmpx.h hasvalgrind.h
 TESTOUT= test-auth-protocol.out test-channel-early-eof.out test-channel-flow.out test-channel-protocol.out test-crypto-dh.out test-crypto-hash.out test-crypto-kem.out test-crypto-onetimeauth.out test-crypto-sign.out test-crypto-sort.out test-crypto-verify.out test-kex-protocol.out test-packet-global-request.out test-packet-protocol.out test-packet-sequence.out test-rekey-protocol.out test-signal-handlers.out test-subsystem-options.out test-tinysshd-ignore.out test-tinysshd-makekey.out test-tinysshd-printkey.out test-tinysshd.out
 TESTS= test-auth-protocol.sh test-channel-early-eof.sh test-channel-flow.sh test-channel-protocol.sh test-crypto-dh.sh test-crypto-hash.sh test-crypto-kem.sh test-crypto-onetimeauth.sh test-crypto-sign.sh test-crypto-sort.sh test-crypto-verify.sh test-kex-protocol.sh test-packet-global-request.sh test-packet-protocol.sh test-packet-sequence.sh test-rekey-protocol.sh test-signal-handlers.sh test-subsystem-options.sh test-tinysshd-ignore.sh test-tinysshd-makekey.sh test-tinysshd-printkey.sh test-tinysshd.sh
-SSHTESTS=test-forced-command-env.sh test-session-id-rekey.sh
+SSHTESTS=test-forced-command-env.sh test-session-id-rekey.sh test-session-no-pty.sh
 
 all: $(AUTOHEADERS) $(PROGRAMS) $(LINKS)
 
