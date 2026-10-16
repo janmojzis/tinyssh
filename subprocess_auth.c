@@ -89,8 +89,8 @@ static void check(uid_t uid, const char *d, const char *f, long long *err) {
         log_d2("auth: path: ok: ", d);
 }
 
-int subprocess_auth_checkpath_(char *path, long long pathlen, uid_t uid,
-                               int fd) {
+static int subprocess_auth_checkpath_(char *path, long long pathlen, uid_t uid,
+                                      int fd) {
 
     long long err = 0, j, i;
     char *real;
@@ -146,9 +146,9 @@ int subprocess_auth_checkpath_(char *path, long long pathlen, uid_t uid,
     return (err == 0);
 }
 
-int subprocess_auth_authorizedkeys_(const char *keyname, const char *key,
-                                    const char *dir, char *buf,
-                                    long long bufmax) {
+static int subprocess_auth_authorizedkeys_(const char *keyname, const char *key,
+                                           const char *dir, char *buf,
+                                           long long bufmax) {
 
     int fd = -1;
     int r;
