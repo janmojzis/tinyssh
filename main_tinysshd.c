@@ -343,9 +343,16 @@ rekeying:
 
         if (watchtochild) {
 
-            /* write data to child */
-            if (!channel_write())
-                die_fatal("unable to write data to child", 0, 0);
+            if (watchtochild->revents & POLLOUT) {
+                /* write data to child */
+                if (!channel_write())
+                    die_fatal("unable to write data to child", 0, 0);
+            }
+            else {
+                /* POLLHUP/POLLERR only: nobody reads the data anymore and
+                   write() to a closed terminal returns EAGAIN forever */
+                channel_writehangup();
+            }
 
             /* try to adjust window */
             if (!packet_channel_send_windowadjust(&b1))

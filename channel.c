@@ -402,6 +402,21 @@ int channel_extendedreadisready(void) {
 }
 
 /*
+The 'channel_writehangup' function drops pending data
+and stops writing to childs standard input.
+*/
+void channel_writehangup(void) {
+
+    if (channel.fd0 == -1) return;
+
+    /* terminal descriptor is shared with childs standard output */
+    if (!channel.flagterminal) close(channel.fd0);
+    channel.fd0 = -1;
+    purge(channel.buf0, channel.len0);
+    channel.len0 = 0;
+}
+
+/*
 The 'channel_write' function writes
 data to childs standard input.
 */
@@ -426,10 +441,7 @@ int channel_write(void) {
            treat as a half-close, not a fatal connection error. Drop the
            pending input and let the loop drain the child's output, send
            exit-status and close the channel cleanly */
-        close(channel.fd0);
-        channel.fd0 = -1;
-        purge(channel.buf0, channel.len0);
-        channel.len0 = 0;
+        channel_writehangup();
         return 1;
     }
     byte_copy(channel.buf0, channel.len0 - w, channel.buf0 + w);

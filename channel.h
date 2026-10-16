@@ -73,6 +73,7 @@ extern long long channel_read(unsigned char *, long long);
 extern long long channel_extendedread(unsigned char *, long long);
 extern int channel_readisready(void);
 extern int channel_extendedreadisready(void);
+extern void channel_writehangup(void);
 extern int channel_write(void);
 extern int channel_writeisready(void);
 extern int channel_iseof(void);
