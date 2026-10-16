@@ -1,5 +1,6 @@
 ### UNRELEASED
 - Removed the disabled `authorized_keys` handling test and its build integration because it depended on permissions of the build directory and its parents.
+- Removed old/* directory with older build battery
 
 ### 20261001
 - Installed daemon signal handlers with explicit `sigaction()` semantics.
