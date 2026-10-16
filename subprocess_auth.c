@@ -192,6 +192,11 @@ int subprocess_auth(const char *account, const char *keyname, const char *key) {
 
     pid_t pid, r;
     int status;
+    unsigned int left;
+
+    /* the caller's alarm() is not inherited across fork() */
+    left = alarm(0);
+    alarm(left);
 
     pid = fork();
     if (pid == -1) return -1;
@@ -199,6 +204,9 @@ int subprocess_auth(const char *account, const char *keyname, const char *key) {
 
 #define buf global_bspace2 /* reusing global buffer */
         struct passwd *pw;
+
+        /* the child must not outlive the caller's timeout */
+        alarm(left);
 
         if (!account || !keyname || !key) bug_inval();
         if (sshcrypto_sign_BASE64PUBLICKEYMIN > str_len(key) + 1) bug_inval();
