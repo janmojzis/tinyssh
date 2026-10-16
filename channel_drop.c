@@ -23,9 +23,9 @@ int channel_droppriv(char *user, char **shell) {
         name = ttyname(0);
         if (!name) return 0;
         if (!newenv_env("SSH_TTY", name)) return 0;
-        /* setowner */
-        if (chown(name, pw->pw_uid, pw->pw_gid) == -1) return 0;
-        if (chmod(name, 0600) == -1) return 0;
+        /* setowner: remove group/other bits before the tty belongs to the user's group */
+        if (fchmod(0, 0600) == -1) return 0;
+        if (fchown(0, pw->pw_uid, pw->pw_gid) == -1) return 0;
     }
 
     /* drop privileges */

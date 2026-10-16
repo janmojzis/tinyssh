@@ -1,6 +1,7 @@
 ### UNRELEASED
 The following issues were discovered by Anthropic's OSS Scanner:
 - Detached non-PTY session commands from the supervisor's controlling terminal (ANT-2026-XXAAW4IN).
+- Restricted PTY permissions before changing ownership, using the open slave descriptor (ANT-2026-N0CYS4Q7).
 
 ### 20261016 (pre-release)
 - Removed the disabled `authorized_keys` handling test and its build integration because it depended on permissions of the build directory and its parents.
