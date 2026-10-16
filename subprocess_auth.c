@@ -89,6 +89,26 @@ static void check(uid_t uid, const char *d, const char *f, long long *err) {
         log_d2("auth: path: ok: ", d);
 }
 
+/*
+The 'checkcwd' function checks the current directory and all its parents
+(except /, see below). A name looked up in the current directory, e.g. a
+symlink, is controlled by the owners of these directories, so they must be
+checked before the name is followed.
+*/
+static int checkcwd(char *path, long long pathlen, uid_t uid) {
+
+    long long err = 0, i;
+
+    if (!getcwd(path, pathlen)) return 0;
+    i = str_len(path);
+    while (i > 1) {
+        check(uid, path, 0, &err);
+        while (i > 0 && path[i] != '/') --i;
+        path[i] = 0;
+    }
+    return (err == 0);
+}
+
 static int subprocess_auth_checkpath_(char *path, long long pathlen, uid_t uid,
                                       int fd) {
 
@@ -101,6 +121,10 @@ static int subprocess_auth_checkpath_(char *path, long long pathlen, uid_t uid,
         (fst.st_uid != uid && fst.st_uid != 0))
         return 0;
 
+    /* ~/.ssh, where authorized_keys (possibly a symlink) is looked up */
+    if (!checkcwd(path, pathlen, uid)) return 0;
+
+    /* the directories of the file the name finally refers to */
     real = realpath("authorized_keys", 0);
     if (!real) return 0;
     if (!str_copyn(path, pathlen, real)) {
@@ -225,6 +249,11 @@ int subprocess_auth(const char *account, const char *keyname, const char *key) {
         /* change directory to ~/.ssh */
         if (chdir(pw->pw_dir) == -1) {
             log_w2("auth: unable to change directory to ", pw->pw_dir);
+            global_die(111);
+        }
+        /* the home directory, where .ssh (possibly a symlink) is looked up */
+        if (!checkcwd((char *) buf, sizeof buf, geteuid())) {
+            log_w2("auth: unable to use home directory ", pw->pw_dir);
             global_die(111);
         }
         if (chdir(".ssh") == -1) {
