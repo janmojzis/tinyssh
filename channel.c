@@ -238,7 +238,7 @@ void channel_put(unsigned char *buf, long long len) {
        the data instead of tearing down the whole connection, the channel
        still has to deliver the child's output and the exit-status.
        Discarded data is charged to the window too, see channel_putextended */
-    if (channel.pid < 0 || channel.fd0 == -1) return;
+    if (channel.pid < 0 || channel.fd0 == -1 || channel.remoteeof) return;
 
     if (channel.len0 + len > CHANNEL_BUFSIZE) bug_nomem();
 
@@ -280,6 +280,7 @@ void channel_close(void) {
 
     if (channel.maxpacket == 0) bug_proto();
     if (channel.pid > 0) {
+        channel.flagclosed = 1;
         channel_puteof();
         return;
     }
@@ -303,6 +304,8 @@ if child is ready accept data.
 */
 int channel_putisready(void) {
 
+    if (channel.remoteeof) return 0;
+
     if (channel.maxpacket == 0) return 0;
     if (channel.pid <= 0) return 0;
     if (channel.fd0 == -1) return 0;
@@ -324,11 +327,12 @@ long long channel_read(unsigned char *buf, long long len) {
 
     if (!buf || len < 0) bug_inval();
 
-    if (channel.remotewindow <= 0) return 0;
+    if (!channel.flagclosed && channel.remotewindow <= 0) return 0;
 
     r = len;
     if (r > 1048576) r = 1048576;
-    if (r > channel.remotewindow) r = channel.remotewindow;
+    if (!channel.flagclosed && r > channel.remotewindow)
+        r = channel.remotewindow;
     r = read(channel.fd1, buf, r);
     if (r == -1) {
         if (errno == EINTR) return 0;
@@ -340,6 +344,7 @@ long long channel_read(unsigned char *buf, long long len) {
         channel.fd1 = -1;
         return 0;
     }
+    if (channel.flagclosed) return 0;
     channel.remotewindow -= r;
     return r;
 }
@@ -358,11 +363,12 @@ long long channel_extendedread(unsigned char *buf, long long len) {
 
     if (!buf || len < 0) bug_inval();
 
-    if (channel.remotewindow <= 0) return 0;
+    if (!channel.flagclosed && channel.remotewindow <= 0) return 0;
 
     r = len;
     if (r > 1048576) r = 1048576;
-    if (r > channel.remotewindow) r = channel.remotewindow;
+    if (!channel.flagclosed && r > channel.remotewindow)
+        r = channel.remotewindow;
     r = read(channel.fd2, buf, r);
     if (r == -1) {
         if (errno == EINTR) return 0;
@@ -374,6 +380,7 @@ long long channel_extendedread(unsigned char *buf, long long len) {
         channel.fd2 = -1;
         return 0;
     }
+    if (channel.flagclosed) return 0;
     channel.remotewindow -= r;
     return r;
 }
@@ -386,7 +393,7 @@ int channel_readisready(void) {
 
     if (channel.maxpacket == 0 || channel.pid == 0) return 0;
     if (channel.fd1 == -1) return 0;
-    return (channel.remotewindow > 0);
+    return (channel.flagclosed || channel.remotewindow > 0);
 }
 
 /*
@@ -397,7 +404,7 @@ int channel_extendedreadisready(void) {
 
     if (channel.maxpacket == 0 || channel.pid == 0) return 0;
     if (channel.fd2 == -1) return 0;
-    return (channel.remotewindow > 0);
+    return (channel.flagclosed || channel.remotewindow > 0);
 }
 
 /*

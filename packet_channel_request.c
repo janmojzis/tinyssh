@@ -228,6 +228,8 @@ int packet_channel_request(struct buf *b1, struct buf *b2,
         goto accept;
     }
 
+    if (packet.flagchanneleofreceived) goto done;
+
     if (str_equaln(cmd, cmdlen, "window-change")) {
         /*
               byte      SSH_MSG_CHANNEL_REQUEST

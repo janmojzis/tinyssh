@@ -43,6 +43,7 @@ struct channel {
 
     /* channel */
     int remoteeof;
+    int flagclosed;
 };
 
 extern struct channel channel;

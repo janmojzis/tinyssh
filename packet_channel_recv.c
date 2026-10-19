@@ -74,7 +74,7 @@ int packet_channel_recv_windowadjust(struct buf *b) {
                               &len); /* uint32    bytes to add */
     pos = packetparser_end(b->buf, b->len, pos);
 
-    channel_incrementremotewindow(len);
+    if (!packet.flagchanneleofreceived) channel_incrementremotewindow(len);
     buf_purge(b);
     return 1;
 }

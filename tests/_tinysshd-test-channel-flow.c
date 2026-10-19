@@ -196,6 +196,72 @@ static int eofandclose(void) {
     return packet.sendpacketid == 2;
 }
 
+static int dataaftereof(crypto_uint8 type, int terminal) {
+    static const unsigned char text[] = "hello";
+    unsigned char out[2 * sizeof text];
+    int p[2];
+
+    reset(100, 1);
+    if (pipe(p) == -1) return 0;
+    channel.fd0 = p[1];
+    channel.flagterminal = terminal;
+    datarequest(SSH_MSG_CHANNEL_DATA, 42, 0, text, sizeof text - 1, 0);
+    if (!packet_channel_recv_data(&b)) return 0;
+    idpacket(type, 42, 0);
+    if (type == SSH_MSG_CHANNEL_EOF && !packet_channel_recv_eof(&b)) return 0;
+    if (type == SSH_MSG_CHANNEL_CLOSE && !packet_channel_recv_close(&b))
+        return 0;
+
+    /* pending data keeps fd0 open, data after EOF/CLOSE is not queued */
+    if (channel.fd0 == -1 || channel_putisready()) return 0;
+    datarequest(SSH_MSG_CHANNEL_DATA, 42, 0, text, sizeof text - 1, 0);
+    if (!packet_channel_recv_data(&b)) return 0;
+    if (channel.len0 != sizeof text - 1 || channel.localwindow != 90) return 0;
+    if (!channel_write() || channel.len0 != 0) return 0;
+
+    /* a terminal keeps fd0 open, data after EOF/CLOSE is still not queued */
+    if ((channel.fd0 != -1) != terminal) return 0;
+    datarequest(SSH_MSG_CHANNEL_DATA, 42, 0, text, sizeof text - 1, 0);
+    if (!packet_channel_recv_data(&b)) return 0;
+    if (channel.len0 != 0 || channel_writeisready()) return 0;
+
+    if (channel.fd0 != -1) close(channel.fd0);
+    channel.fd0 = -1;
+    if (read(p[0], out, sizeof out) != (long long) sizeof text - 1) return 0;
+    close(p[0]);
+    return 1;
+}
+
+/* A closed channel must drain stdout/stderr even with a zero peer window. */
+static int outputafterclose(int extended) {
+    static const unsigned char text[] = "late output";
+    int p[2];
+    crypto_uint32 sent;
+
+    reset(0, 1);
+    if (pipe(p) == -1) return 0;
+    if (write(p[1], text, sizeof text) != sizeof text) return 0;
+    close(p[1]);
+    if (extended) channel.fd2 = p[0];
+    else channel.fd1 = p[0];
+    idpacket(SSH_MSG_CHANNEL_CLOSE, 42, 0);
+    if (!packet_channel_recv_close(&b)) return 0;
+    sent = packet.sendpacketid;
+    if (extended) {
+        if (!channel_extendedreadisready()) return 0;
+        packet_channel_send_extendeddata(&b);
+        packet_channel_send_extendeddata(&b);
+        if (channel.fd2 != -1) return 0;
+    }
+    else {
+        if (!channel_readisready()) return 0;
+        packet_channel_send_data(&b);
+        packet_channel_send_data(&b);
+        if (channel.fd1 != -1) return 0;
+    }
+    return packet.sendpacketid == sent && channel.remotewindow == 0;
+}
+
 enum fatalmode {
     DATA_WINDOW,
     DATA_WINDOW_DISCARDED,
@@ -311,6 +377,12 @@ int main(void) {
     if (!windowadjust()) ok = 0;
     if (!sendwindowadjust()) ok = 0;
     if (!eofandclose()) ok = 0;
+    if (!dataaftereof(SSH_MSG_CHANNEL_EOF, 0)) ok = 0;
+    if (!dataaftereof(SSH_MSG_CHANNEL_EOF, 1)) ok = 0;
+    if (!dataaftereof(SSH_MSG_CHANNEL_CLOSE, 0)) ok = 0;
+    if (!dataaftereof(SSH_MSG_CHANNEL_CLOSE, 1)) ok = 0;
+    if (!outputafterclose(0)) ok = 0;
+    if (!outputafterclose(1)) ok = 0;
     if (!fatal(DATA_WINDOW)) ok = 0;
     if (!fatal(DATA_WINDOW_DISCARDED)) ok = 0;
     if (!fatal(DATA_ID)) ok = 0;

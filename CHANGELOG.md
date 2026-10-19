@@ -18,6 +18,7 @@ The following issues were discovered by Anthropic's OSS Scanner:
 - Rejected unexpected packets while waiting for NEWKEYS in non-strict key exchange (ANT-2026-ENU881FU).
 - Rejected trailing bytes in NEWKEYS and unsigned public-key authentication queries (ANT-2026-XZ9G6LZF).
 - Charged discarded channel data to the receive window (ANT-2026-73WWMPXB).
+- Discarded input after EOF and stopped sending session output after channel close (ANT-2026-VVQSA6W4).
 
 ### 20261016 (pre-release)
 - Removed the disabled `authorized_keys` handling test and its build integration because it depended on permissions of the build directory and its parents.

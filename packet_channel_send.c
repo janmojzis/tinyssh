@@ -73,6 +73,8 @@ int packet_channel_send_windowadjust(struct buf *b) {
 
     crypto_uint32 plus;
 
+    if (packet.flagclosesent) return 1;
+
     if (channel_getlen0() > CHANNEL_BUFSIZE / 2) return 1;
     if (channel_getlocalwindow() > CHANNEL_BUFSIZE / 2) return 1;
 
