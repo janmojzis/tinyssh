@@ -9,6 +9,7 @@ The following issues were discovered by Anthropic's OSS Scanner:
 - Stopped retrying writes after PTY input hangup to prevent a busy loop (ANT-2026-C5CA7S93).
 - Checked the home and .ssh directory paths before following authorized_keys symlinks (ANT-2026-1X7WCZO8).
 - Rejected non-canonical public key encodings in bundled Ed25519 verification (ANT-2026-WLSFCCD8).
+- Rejected embedded NUL bytes in key-exchange algorithm name-lists (ANT-2026-C3S8DE78).
 
 ### 20261016 (pre-release)
 - Removed the disabled `authorized_keys` handling test and its build integration because it depended on permissions of the build directory and its parents.

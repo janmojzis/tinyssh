@@ -20,6 +20,7 @@ struct offer {
     const char *key;
     const char *cipher_c2s;
     const char *cipher_s2c;
+    const char *mac_c2s;
     const char *compress_c2s;
     const char *compress_s2c;
     crypto_uint8 follows;
@@ -39,6 +40,15 @@ static void enablealgorithms(void) {
         sshcrypto_ciphers[i].flagenabled = 1;
 }
 
+/* '!' stands for a NUL byte inside the name-list */
+static void putnamelist(struct buf *b, const char *x) {
+    long long i = b->len + 4;
+
+    buf_putstring(b, x);
+    for (; i < b->len; ++i)
+        if (b->buf[i] == '!') b->buf[i] = 0;
+}
+
 static void makeoffer(struct buf *b, const struct offer *o) {
     unsigned char *x;
     crypto_uint32 packetlen;
@@ -47,11 +57,11 @@ static void makeoffer(struct buf *b, const struct offer *o) {
     buf_purge(b);
     buf_putnum8(b, o->wrong_type ? SSH_MSG_SERVICE_REQUEST : SSH_MSG_KEXINIT);
     buf_putzerobytes(b, 16);
-    buf_putstring(b, o->kex);
-    buf_putstring(b, o->key);
-    buf_putstring(b, o->cipher_c2s);
+    putnamelist(b, o->kex);
+    putnamelist(b, o->key);
+    putnamelist(b, o->cipher_c2s);
     buf_putstring(b, o->cipher_s2c);
-    buf_putstring(b, "hmac-sha2-256");
+    putnamelist(b, o->mac_c2s);
     buf_putstring(b, "hmac-sha2-256");
     buf_putstring(b, o->compress_c2s);
     buf_putstring(b, o->compress_s2c);
@@ -112,6 +122,7 @@ int main(void) {
                                        "ssh-ed25519",
                                        "chacha20-poly1305@openssh.com",
                                        "chacha20-poly1305@openssh.com",
+                                       "hmac-sha2-256",
                                        "none",
                                        "none",
                                        0,
@@ -159,6 +170,22 @@ int main(void) {
     o = valid;
     o.compress_s2c = "zlib";
     if (!run(&o, RESULT_REJECT, 0, 0)) ok = 0;
+
+    o = valid;
+    o.kex = "unknown!,curve25519-sha256";
+    if (!run(&o, RESULT_FATAL, 0, 0)) ok = 0;
+
+    o = valid;
+    o.key = "unknown!,ssh-ed25519";
+    if (!run(&o, RESULT_FATAL, 0, 0)) ok = 0;
+
+    o = valid;
+    o.cipher_c2s = "unknown!,chacha20-poly1305@openssh.com";
+    if (!run(&o, RESULT_FATAL, 0, 0)) ok = 0;
+
+    o = valid;
+    o.mac_c2s = "unknown!,hmac-sha2-256";
+    if (!run(&o, RESULT_FATAL, 0, 0)) ok = 0;
 
     o = valid;
     o.trailing = 1;

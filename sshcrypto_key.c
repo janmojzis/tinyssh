@@ -109,6 +109,7 @@ int sshcrypto_key_select(const unsigned char *buf, long long len) {
     sshcrypto_buf_putsignpk = 0;
 
     if (buf[len] != 0) bug_proto();
+    if (str_len((const char *) buf) != len) bug_proto();
     log_d2("kex: client: key algorithms: ", (const char *) buf);
 
     for (;;) {
