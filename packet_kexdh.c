@@ -98,14 +98,9 @@ int packet_kexdh(const char *keydir, struct buf *b1, struct buf *b2) {
     packet_put(b2);
     if (!packet_sendall()) return 0;
 
-    /* receive new keys */
-    /* strict KEX mode: packet_get rejects any non-SSH_MSG_NEWKEYS packet */
-    ch = (sshcrypto_kex_flags & sshcrypto_FLAGSTRICTKEX) ? SSH_MSG_NEWKEYS : 0;
-    for (;;) {
-        buf_purge(b2);
-        if (!packet_getall(b2, ch)) return 0;
-        if (b2->buf[0] == SSH_MSG_NEWKEYS) break;
-    }
+    /* receive new keys, reject unexpected packets in either KEX mode */
+    buf_purge(b2);
+    if (!packet_getall(b2, SSH_MSG_NEWKEYS)) return 0;
 
     /* key derivation */
     for (i = 0; i < 6; ++i) {

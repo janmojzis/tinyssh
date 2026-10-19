@@ -15,6 +15,7 @@ The following issues were discovered by Anthropic's OSS Scanner:
 - Preserved the original connection addresses when starting a session after a TCP reset (ANT-2026-9WQBV5XI).
 - Enforced the unauthenticated message limit across strict-KEX sequence number resets (ANT-2026-J2GQ3C81).
 - Validated the expected NEWKEYS message before resetting the receive sequence number (ANT-2026-JG01TJVM).
+- Rejected unexpected packets while waiting for NEWKEYS in non-strict key exchange (ANT-2026-ENU881FU).
 
 ### 20261016 (pre-release)
 - Removed the disabled `authorized_keys` handling test and its build integration because it depended on permissions of the build directory and its parents.
