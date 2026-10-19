@@ -232,17 +232,18 @@ void channel_put(unsigned char *buf, long long len) {
 
     if (!buf || len < 0) bug_inval();
     if ((crypto_uint32) len > channel.localwindow) bug_proto();
+    channel.localwindow -= len;
 
     /* the child is gone or its standard input is already closed: discard
        the data instead of tearing down the whole connection, the channel
-       still has to deliver the child's output and the exit-status */
+       still has to deliver the child's output and the exit-status.
+       Discarded data is charged to the window too, see channel_putextended */
     if (channel.pid < 0 || channel.fd0 == -1) return;
 
     if (channel.len0 + len > CHANNEL_BUFSIZE) bug_nomem();
 
     byte_copy(channel.buf0 + channel.len0, len, buf);
     channel.len0 += len;
-    channel.localwindow -= len;
 }
 
 /* Account for extended data which this server intentionally discards. */

@@ -58,6 +58,21 @@ static int receivedata(void) {
            b.len == 0;
 }
 
+/* discarded data is charged to the window */
+static int receivedatadiscarded(void) {
+    static const unsigned char text[] = "hello";
+
+    reset(100, 1);
+    datarequest(SSH_MSG_CHANNEL_DATA, 42, 0, text, sizeof text - 1, 0);
+    if (!packet_channel_recv_data(&b)) return 0;
+    if (channel.len0 != 0 || channel.localwindow != 95 || b.len != 0) return 0;
+
+    reset(100, -1);
+    datarequest(SSH_MSG_CHANNEL_DATA, 42, 0, text, sizeof text - 1, 0);
+    if (!packet_channel_recv_data(&b)) return 0;
+    return channel.len0 == 0 && channel.localwindow == 95 && b.len == 0;
+}
+
 static int receiveextended(void) {
     static const unsigned char text[] = "stderr";
 
@@ -183,6 +198,7 @@ static int eofandclose(void) {
 
 enum fatalmode {
     DATA_WINDOW,
+    DATA_WINDOW_DISCARDED,
     DATA_ID,
     DATA_TRAILING,
     DATA_PACKET_LIMIT,
@@ -208,6 +224,13 @@ static int fatal(enum fatalmode mode) {
         if (mode == DATA_WINDOW || mode == DATA_ID || mode == DATA_TRAILING) {
             datarequest(SSH_MSG_CHANNEL_DATA, mode == DATA_ID ? 43 : 42, 0,
                         text, sizeof text - 1, mode == DATA_TRAILING);
+            packet_channel_recv_data(&b);
+        }
+        if (mode == DATA_WINDOW_DISCARDED) {
+            reset(15, -1);
+            datarequest(SSH_MSG_CHANNEL_DATA, 42, 0, text, sizeof text - 1, 0);
+            if (!packet_channel_recv_data(&b)) _exit(0);
+            datarequest(SSH_MSG_CHANNEL_DATA, 42, 0, text, sizeof text - 1, 0);
             packet_channel_recv_data(&b);
         }
         if (mode == DATA_PACKET_LIMIT) {
@@ -280,6 +303,7 @@ int main(void) {
     global_init();
     buf_init(&b, space, sizeof space);
     if (!receivedata()) ok = 0;
+    if (!receivedatadiscarded()) ok = 0;
     if (!receiveextended()) ok = 0;
     if (!receivepacketlimit()) ok = 0;
     if (!senddatalimit()) ok = 0;
@@ -288,6 +312,7 @@ int main(void) {
     if (!sendwindowadjust()) ok = 0;
     if (!eofandclose()) ok = 0;
     if (!fatal(DATA_WINDOW)) ok = 0;
+    if (!fatal(DATA_WINDOW_DISCARDED)) ok = 0;
     if (!fatal(DATA_ID)) ok = 0;
     if (!fatal(DATA_TRAILING)) ok = 0;
     if (!fatal(DATA_PACKET_LIMIT)) ok = 0;
