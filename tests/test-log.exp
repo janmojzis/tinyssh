@@ -1,0 +1,4 @@
+--- log writes every message as one line, long messages are truncated
+lines: 3
+prefixed lines: 3
+longest line within 511 bytes: yes

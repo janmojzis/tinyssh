@@ -9,6 +9,8 @@ on standard error output including source file,
 function and line number.
 Non-printable characters are replaced using '?'.
 The 'log' library also supports syslog.
+One message is always one write()/one syslog record,
+long messages are truncated.
 */
 
 #include <syslog.h>
@@ -52,7 +54,8 @@ void log_init(int level, const char *text, int line, int flagsyslog) {
 
 char *log_string(void) { return logstring; }
 
-static char buf[257];
+/* 512 = _POSIX_PIPE_BUF, such write() is atomic also on a shared pipe */
+static char buf[512 + 1];
 static unsigned long long buflen = 0;
 
 static void flush(void) {
@@ -71,7 +74,8 @@ static void outs(const char *x) {
     long long i;
 
     for (i = 0; x[i]; ++i) {
-        if (buflen >= sizeof buf - 1) flush();
+        /* never flush() in the middle of a message: truncate, don't split */
+        if (buflen >= sizeof buf - 2) return; /* keep space for '\n' */
         if (x[i] < 32)
             buf[buflen++] = '?';
         else if (x[i] > 126)
@@ -81,10 +85,7 @@ static void outs(const char *x) {
     }
 }
 
-static void outnewline(void) {
-    if (buflen >= sizeof buf - 1) flush();
-    buf[buflen++] = '\n';
-}
+static void outnewline(void) { buf[buflen++] = '\n'; }
 
 static void outnum(unsigned long long n) {
     char b[NUMTOSTR_LEN];
