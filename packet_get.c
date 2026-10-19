@@ -108,12 +108,6 @@ int packet_get(struct buf *b, crypto_uint8 x) {
                 }
                 flagpacketignored = 1;
                 break;
-            case SSH_MSG_NEWKEYS:
-                /* strict kex - reset receivepacketid */
-                if (sshcrypto_kex_flags & sshcrypto_FLAGSTRICTKEX) {
-                    packet.receivepacketid = 0;
-                }
-                break;
             default:
                 if (x && x != b->buf[0]) {
                     char buf1[NUMTOSTR_LEN];
@@ -122,6 +116,13 @@ int packet_get(struct buf *b, crypto_uint8 x) {
                     log_f4("expected packet type ", numtostr(buf1, x),
                            ", got ", numtostr(buf2, b->buf[0]));
                     global_die(111);
+                }
+                /* strict kex - reset receivepacketid, but only for the */
+                /* SSH_MSG_NEWKEYS the caller is waiting for, never for */
+                /* a stray one */
+                if (x == SSH_MSG_NEWKEYS &&
+                    (sshcrypto_kex_flags & sshcrypto_FLAGSTRICTKEX)) {
+                    packet.receivepacketid = 0;
                 }
                 break;
         }

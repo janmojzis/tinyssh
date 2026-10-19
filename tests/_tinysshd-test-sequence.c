@@ -141,6 +141,17 @@ static int nonstrictreceivecontinues(void) {
     return packet.receivepacketid == 8;
 }
 
+static int strictstraynewkeyscontinues(void) {
+    static const unsigned char payload[] = {SSH_MSG_NEWKEYS};
+
+    prepare(payload, sizeof payload);
+    packet.receivepacketid = 7;
+    sshcrypto_kex_flags = sshcrypto_FLAGSTRICTKEX;
+    if (!packet_get(&out, 0)) return 0;
+    sshcrypto_kex_flags = 0;
+    return packet.receivepacketid == 8;
+}
+
 static int sendincrements(void) {
     static const unsigned char payload[] = {SSH_MSG_UNIMPLEMENTED};
 
@@ -181,6 +192,13 @@ static void wrongtype(void) {
 
     prepare(payload, sizeof payload);
     packet_get(&out, SSH_MSG_NEWKEYS);
+}
+
+static void newkeyswrongtype(void) {
+    static const unsigned char payload[] = {SSH_MSG_NEWKEYS};
+
+    prepare(payload, sizeof payload);
+    packet_get(&out, SSH_MSG_KEXDH_INIT);
 }
 
 static void strictignorebeforekeys(void) {
@@ -249,10 +267,12 @@ int main(void) {
     if (!authorizedbypasseslimit()) ok = 0;
     if (!strictreceivereset()) ok = 0;
     if (!nonstrictreceivecontinues()) ok = 0;
+    if (!strictstraynewkeyscontinues()) ok = 0;
     if (!sendincrements()) ok = 0;
     if (!strictsendreset()) ok = 0;
     if (!nonstrictsendcontinues()) ok = 0;
     if (!mustfail(wrongtype)) ok = 0;
+    if (!mustfail(newkeyswrongtype)) ok = 0;
     if (!mustfail(strictignorebeforekeys)) ok = 0;
     if (!mustfail(unauthenticatedlimit)) ok = 0;
     if (!mustfail(strictunauthenticatedlimit)) ok = 0;
