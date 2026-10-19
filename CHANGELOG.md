@@ -21,6 +21,7 @@ The following issues were discovered by Anthropic's OSS Scanner:
 - Discarded input after EOF and stopped sending session output after channel close (ANT-2026-VVQSA6W4).
 - Emitted each log message as a single record, truncating oversized messages (ANT-2026-UZM1VY24).
 - Preserved the blocking mode of inherited standard error (ANT-2026-SJBW016C).
+- Rejected all-zero X25519 shared secrets in hybrid key exchange (ANT-2026-B39U58TI).
 
 ### 20261016 (pre-release)
 - Removed the disabled `authorized_keys` handling test and its build integration because it depended on permissions of the build directory and its parents.

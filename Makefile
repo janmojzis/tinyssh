@@ -158,8 +158,9 @@ crypto_kem_sntrup761_tinyssh.o: crypto_kem_sntrup761_tinyssh.c \
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_kem_sntrup761_tinyssh.c
 
 crypto_kem_sntrup761x25519.o: crypto_kem_sntrup761x25519.c cleanup.h \
- crypto_hash_sha512.h haslib25519.h crypto_dh_x25519.h \
- crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h
+ cryptoint/crypto_int16.h crypto_hash_sha512.h haslib25519.h \
+ crypto_dh_x25519.h crypto_kem_sntrup761.h haslibntruprime.h \
+ crypto_kem_sntrup761x25519.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c crypto_kem_sntrup761x25519.c
 
 crypto_onetimeauth_poly1305_lib1305.o: \
