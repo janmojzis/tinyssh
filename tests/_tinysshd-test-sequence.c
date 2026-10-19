@@ -114,9 +114,10 @@ static int authorizedbypasseslimit(void) {
 
     prepare(payload, sizeof payload);
     packet.flagauthorized = 1;
-    packet.receivepacketid = PACKET_UNAUTHENTICATED_MESSAGES;
+    packet.unauthenticatedmessages = PACKET_UNAUTHENTICATED_MESSAGES;
     if (!packet_get(&out, 0)) return 0;
-    return packet.receivepacketid == PACKET_UNAUTHENTICATED_MESSAGES + 1;
+    return packet.receivepacketid == 1 &&
+           packet.unauthenticatedmessages == PACKET_UNAUTHENTICATED_MESSAGES;
 }
 
 static int strictreceivereset(void) {
@@ -194,7 +195,24 @@ static void unauthenticatedlimit(void) {
     static const unsigned char payload[] = {SSH_MSG_UNIMPLEMENTED};
 
     prepare(payload, sizeof payload);
-    packet.receivepacketid = PACKET_UNAUTHENTICATED_MESSAGES;
+    packet.unauthenticatedmessages = PACKET_UNAUTHENTICATED_MESSAGES;
+    packet_get(&out, 0);
+}
+
+static void strictunauthenticatedlimit(void) {
+    static const unsigned char newkeys[] = {SSH_MSG_NEWKEYS};
+    static const unsigned char payload[] = {SSH_MSG_UNIMPLEMENTED};
+    long long pos;
+
+    packet_init();
+    packet.recvbuf.len = PACKET_ZEROBYTES;
+    pos = putplain(0, newkeys, sizeof newkeys);
+    packet.recvbuf.len += pos;
+    packet.recvbuf.len += putplain(pos, payload, sizeof payload);
+    buf_purge(&out);
+    packet.unauthenticatedmessages = PACKET_UNAUTHENTICATED_MESSAGES - 1;
+    sshcrypto_kex_flags = sshcrypto_FLAGSTRICTKEX;
+    if (!packet_get(&out, SSH_MSG_NEWKEYS)) _exit(0);
     packet_get(&out, 0);
 }
 
@@ -237,6 +255,7 @@ int main(void) {
     if (!mustfail(wrongtype)) ok = 0;
     if (!mustfail(strictignorebeforekeys)) ok = 0;
     if (!mustfail(unauthenticatedlimit)) ok = 0;
+    if (!mustfail(strictunauthenticatedlimit)) ok = 0;
     if (!mustfail(receiveoverflow)) ok = 0;
     if (!mustfail(sendoverflow)) ok = 0;
 

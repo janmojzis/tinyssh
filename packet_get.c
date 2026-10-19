@@ -85,8 +85,10 @@ int packet_get(struct buf *b, crypto_uint8 x) {
         buf_purge(b);
         if (!packet_get_(b)) return 0;
         if (b->len <= 0) return 1;
+        /* counted separately, strict kex resets receivepacketid */
         if (!packet.flagauthorized)
-            if (packet.receivepacketid > PACKET_UNAUTHENTICATED_MESSAGES) {
+            if (++packet.unauthenticatedmessages >
+                PACKET_UNAUTHENTICATED_MESSAGES) {
                 errno = EPROTO;
                 log_f1("too many unauthenticated messages");
                 global_die(111);

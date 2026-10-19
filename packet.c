@@ -29,6 +29,7 @@ void packet_init(void) {
     packet.flagchanneleofreceived = 0;
     packet.sendpacketid = 0;
     packet.receivepacketid = 0;
+    packet.unauthenticatedmessages = 0;
     packet.packet_length = 0;
 
     buf_init(&packet.hellosend, packet.hellosendspace,

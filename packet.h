@@ -39,6 +39,9 @@ struct packet {
     crypto_uint32 sendpacketid;
     crypto_uint32 receivepacketid;
 
+    /* messages received before authentication */
+    crypto_uint32 unauthenticatedmessages;
+
     /* keys */
     unsigned char serverkey[sshcrypto_cipher_KEYMAX];
     unsigned char clientkey[sshcrypto_cipher_KEYMAX];
