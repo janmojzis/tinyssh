@@ -96,7 +96,17 @@ static int strictrekey(void) {
     enablealgorithms();
     packet.flagrekeying = 1;
     packet.receivepacketid = 12345;
+
+    /* strict KEX not negotiated initially: a rekey must not enable it */
+    sshcrypto_kex_flags = 0;
     validoffer("curve25519-sha256,kex-strict-c-v00@openssh.com", 0);
+    if (!packet_kex_receive_rekey(&b)) return 0;
+    if (packet.receivepacketid != 12345) return 0;
+    if (sshcrypto_kex_flags & sshcrypto_FLAGSTRICTKEX) return 0;
+
+    /* strict KEX negotiated initially: a rekey must not disable it */
+    sshcrypto_kex_flags = sshcrypto_FLAGSTRICTKEX;
+    validoffer("curve25519-sha256", 0);
     if (!packet_kex_receive_rekey(&b)) return 0;
     return packet.receivepacketid == 12345 &&
            (sshcrypto_kex_flags & sshcrypto_FLAGSTRICTKEX);

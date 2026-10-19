@@ -44,11 +44,11 @@ void sshcrypto_kex_put(struct buf *b) {
 }
 
 int sshcrypto_kex_select(const unsigned char *buf, long long len,
-                         crypto_uint8 *kex_guess) {
+                         crypto_uint8 *kex_guess, int flaginitial) {
     int result;
 
     enable_hash_bytes(selected_hash_bytes());
-    result = sshcrypto_kex_select_original(buf, len, kex_guess);
+    result = sshcrypto_kex_select_original(buf, len, kex_guess, flaginitial);
     if (result) initial = 0;
     return result;
 }

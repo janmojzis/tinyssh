@@ -68,7 +68,8 @@ static int packet_kex_parse(int initial) {
 
     pos = packetparser_uint32(b->buf, b->len, pos, &len); /* kex algorithms */
     pos = packetparser_skip(b->buf, b->len, pos, len);
-    if (!sshcrypto_kex_select(b->buf + pos - len, len, &packet.kex_guess))
+    if (!sshcrypto_kex_select(b->buf + pos - len, len, &packet.kex_guess,
+                              initial))
         return 0;
     if (initial && sshcrypto_kex_flags & sshcrypto_FLAGSTRICTKEX)
         if (packet.receivepacketid != 1) {

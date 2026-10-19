@@ -54,7 +54,7 @@ extern long long sshcrypto_hash_bytes;
 extern void (*sshcrypto_buf_putkemkey)(struct buf *, const unsigned char *);
 
 extern int sshcrypto_kex_select(const unsigned char *, long long,
-                                crypto_uint8 *);
+                                crypto_uint8 *, int);
 extern void sshcrypto_kex_put(struct buf *);
 
 #if defined(crypto_dh_x25519_BYTES) && defined(crypto_hash_sha256_BYTES)

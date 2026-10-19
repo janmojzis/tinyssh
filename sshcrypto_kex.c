@@ -103,7 +103,7 @@ long long sshcrypto_hash_bytes = 0;
 void (*sshcrypto_buf_putkemkey)(struct buf *, const unsigned char *) = 0;
 
 int sshcrypto_kex_select(const unsigned char *buf, long long len,
-                         crypto_uint8 *kex_guess) {
+                         crypto_uint8 *kex_guess, int flaginitial) {
 
     long long i, pos;
     const unsigned char *x;
@@ -124,16 +124,20 @@ int sshcrypto_kex_select(const unsigned char *buf, long long len,
 
     *kex_guess = 1;
 
-    pos = 0;
-    for (;;) {
-        pos = stringparser(buf, len, pos, &x, &xlen);
-        if (!pos) break;
-        for (i = 0; sshcrypto_pseudokexs[i].name; ++i) {
-            if (str_equaln((const char *) x, xlen,
-                           sshcrypto_pseudokexs[i].cname)) {
-                log_d2("kex: pseudokex selected: ",
-                       sshcrypto_pseudokexs[i].name);
-                sshcrypto_kex_flags |= sshcrypto_pseudokexs[i].flag;
+    /* pseudo-algorithms are valid only in the initial SSH_MSG_KEXINIT,
+       they MUST be ignored in any later (rekey) SSH_MSG_KEXINIT */
+    if (flaginitial) {
+        pos = 0;
+        for (;;) {
+            pos = stringparser(buf, len, pos, &x, &xlen);
+            if (!pos) break;
+            for (i = 0; sshcrypto_pseudokexs[i].name; ++i) {
+                if (str_equaln((const char *) x, xlen,
+                               sshcrypto_pseudokexs[i].cname)) {
+                    log_d2("kex: pseudokex selected: ",
+                           sshcrypto_pseudokexs[i].name);
+                    sshcrypto_kex_flags |= sshcrypto_pseudokexs[i].flag;
+                }
             }
         }
     }
