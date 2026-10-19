@@ -20,7 +20,6 @@ extern char *ptsname(int);
 #include "newenv.h"
 #include "e.h"
 #include "purge.h"
-#include "connectioninfo.h"
 #include "iptostr.h"
 #include "porttostr.h"
 #include "buf.h"
@@ -45,8 +44,9 @@ struct channel channel = {0};
 The 'channel_open' function opens the channel.
 It sets 'localwindow' and maxpacket, values obtained from
 from SSH_MSG_CHANNEL_OPEN message.
-Function also obtaines connection information and sets
-environment variables PATH, SSH_CONNECTION and MAIL.
+Function also sets environment variables PATH, SSH_CONNECTION and MAIL.
+Connection information is obtained once, when the connection starts
+(see main_tinysshd.c); the peer may already be gone at this point.
 */
 int channel_open(const char *user, crypto_uint32 id, crypto_uint32 remotewindow,
                  crypto_uint32 maxpacket, crypto_uint32 *localwindow) {
@@ -73,8 +73,6 @@ int channel_open(const char *user, crypto_uint32 id, crypto_uint32 remotewindow,
     }
 
     /* create env. SSH_CONNECTION */
-    connectioninfo(channel.localip, channel.localport, channel.remoteip,
-                   channel.remoteport);
     buf_purge(&b);
     buf_puts(&b, channel.remoteip);
     buf_puts(&b, " ");

@@ -75,7 +75,7 @@ _tinysshd-test-channel-protocol.o: _tinysshd-test-channel-protocol.c \
  crypto_kem_sntrup761.h haslibntruprime.h crypto_kem_sntrup761x25519.h \
  crypto_onetimeauth_poly1305.h haslib1305.h \
  crypto_scalarmult_curve25519.h crypto_dh_x25519.h crypto_sign_ed25519.h \
- crypto_sort_uint32.h crypto_stream_chacha20.h ssh.h
+ crypto_sort_uint32.h crypto_stream_chacha20.h ssh.h str.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c _tinysshd-test-channel-protocol.c
 
 _tinysshd-test-closefrom.o: _tinysshd-test-closefrom.c e.h p.h
@@ -248,8 +248,8 @@ buf.o: buf.c byte.h str.h purge.h cleanup.h randombytes.h \
 byte.o: byte.c ../cryptoint/crypto_int16.h byte.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c byte.c
 
-channel.o: channel.c sig.h byte.h bug.h global.h e.h log.h newenv.h purge.h \
- cleanup.h connectioninfo.h iptostr.h porttostr.h buf.h \
+channel.o: channel.c sig.h byte.h bug.h global.h e.h log.h newenv.h \
+ purge.h cleanup.h iptostr.h porttostr.h buf.h \
  ../cryptoint/crypto_uint8.h ../cryptoint/crypto_uint32.h str.h logsys.h \
  loginshell.h trymlock.h limit.h haslimits.h channel.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c channel.c

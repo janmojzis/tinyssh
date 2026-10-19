@@ -13,6 +13,7 @@ Public domain.
 #include "global.h"
 #include "packet.h"
 #include "ssh.h"
+#include "str.h"
 
 static unsigned char space1[2048];
 static unsigned char space2[2048];
@@ -50,9 +51,14 @@ static int opentests(void) {
     reset();
     packet.name[0] = 'u';
     packet.name[1] = 0;
+    if (!str_copyn(channel.remoteip, sizeof channel.remoteip, "192.0.2.1"))
+        return 0;
     openrequest("session", 42, 12345, 1, 0);
     if (!packet_channel_open(&b1, &b2)) return 0;
     if (!replytype(SSH_MSG_CHANNEL_OPEN_CONFIRMATION)) return 0;
+    /* the address obtained when the connection started is kept */
+    if (!str_equaln(channel.remoteip, str_len(channel.remoteip), "192.0.2.1"))
+        return 0;
     if (channel.id != 42 || channel.remotewindow != 12345 ||
         channel.maxpacket != 32 || channel.localwindow != CHANNEL_BUFSIZE)
         return 0;

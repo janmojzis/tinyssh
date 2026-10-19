@@ -174,13 +174,13 @@ int main_tinysshd(int argc, char **argv, const char *binaryname) {
         flagnoneauth = 1;
     }
 
+    global_init();
+
     connectioninfo(channel.localip, channel.localport, channel.remoteip,
                    channel.remoteport);
     log_i4("connection from ", channel.remoteip, ":", channel.remoteport);
 
     channel_subsystem_log();
-
-    global_init();
 
     blocking_disable(0);
     blocking_disable(1);
