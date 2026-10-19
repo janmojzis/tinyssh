@@ -166,6 +166,7 @@ int packet_auth(struct buf *b, struct buf *b2, int flagnoneauth) {
 
                 if (!flagsignature) {
                     /* 'publickey' ... without signature */
+                    pos = packetparser_end(b->buf, b->len, pos);
                     buf_purge(b);
                     buf_putnum8(b, SSH_MSG_USERAUTH_PK_OK);
                     buf_putstring(b, pkname);

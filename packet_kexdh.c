@@ -101,6 +101,8 @@ int packet_kexdh(const char *keydir, struct buf *b1, struct buf *b2) {
     /* receive new keys, reject unexpected packets in either KEX mode */
     buf_purge(b2);
     if (!packet_getall(b2, SSH_MSG_NEWKEYS)) return 0;
+    pos = packetparser_uint8(b2->buf, b2->len, 0, &ch);
+    pos = packetparser_end(b2->buf, b2->len, pos);
 
     /* key derivation */
     for (i = 0; i < 6; ++i) {

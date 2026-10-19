@@ -119,7 +119,7 @@ static int run(const struct offer *o, enum result expected, int expected_guess,
 
 /* packet of type 'type' received between SSH_MSG_KEXDH_INIT and SSH_MSG_NEWKEYS */
 static int runkexdh(const char *keydir, const struct offer *o,
-                    crypto_uint8 type, enum result expected) {
+                    crypto_uint8 type, int trailing, enum result expected) {
     unsigned char space1[2048];
     unsigned char space2[2048];
     struct buf b1, b2;
@@ -147,6 +147,7 @@ static int runkexdh(const char *keydir, const struct offer *o,
 
         buf_purge(&b1);
         buf_putnum8(&b1, type);
+        if (trailing) buf_putnum8(&b1, 0);
         putpacket(b1.buf, b1.len);
 
         buf_purge(&b1);
@@ -256,15 +257,19 @@ int main(int argc, char **argv) {
         if (type == SSH_MSG_IGNORE || type == SSH_MSG_DEBUG ||
             type == SSH_MSG_NEWKEYS)
             expected = RESULT_OK;
-        if (!runkexdh(argv[1], &valid, type, expected)) ok = 0;
+        if (!runkexdh(argv[1], &valid, type, 0, expected)) ok = 0;
     }
 
     o = valid;
     o.kex = "curve25519-sha256,kex-strict-c-v00@openssh.com";
-    if (!runkexdh(argv[1], &o, SSH_MSG_NEWKEYS, RESULT_OK)) ok = 0;
-    if (!runkexdh(argv[1], &o, SSH_MSG_IGNORE, RESULT_FATAL)) ok = 0;
-    if (!runkexdh(argv[1], &o, SSH_MSG_KEXINIT, RESULT_FATAL)) ok = 0;
-    if (!runkexdh(argv[1], &o, SSH_MSG_CHANNEL_DATA, RESULT_FATAL)) ok = 0;
+    if (!runkexdh(argv[1], &o, SSH_MSG_NEWKEYS, 0, RESULT_OK)) ok = 0;
+    if (!runkexdh(argv[1], &o, SSH_MSG_IGNORE, 0, RESULT_FATAL)) ok = 0;
+    if (!runkexdh(argv[1], &o, SSH_MSG_KEXINIT, 0, RESULT_FATAL)) ok = 0;
+    if (!runkexdh(argv[1], &o, SSH_MSG_CHANNEL_DATA, 0, RESULT_FATAL)) ok = 0;
+
+    if (!runkexdh(argv[1], &valid, SSH_MSG_NEWKEYS, 1, RESULT_FATAL))
+        ok = 0;
+    if (!runkexdh(argv[1], &o, SSH_MSG_NEWKEYS, 1, RESULT_FATAL)) ok = 0;
 
     return ok ? 0 : 111;
 }
