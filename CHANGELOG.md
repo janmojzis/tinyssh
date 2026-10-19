@@ -1,4 +1,6 @@
 ### UNRELEASED
+- Extracted portable `p_openpty()` and `p_login_tty()` helpers from PTY session setup.
+
 The following issues were discovered by Anthropic's OSS Scanner:
 - Detached non-PTY session commands from the supervisor's controlling terminal (ANT-2026-XXAAW4IN).
 - Restricted PTY permissions before changing ownership, using the open slave descriptor (ANT-2026-N0CYS4Q7).

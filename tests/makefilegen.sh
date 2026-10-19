@@ -5,7 +5,7 @@ cd "$(dirname "$0")" || exit 111
 LANG=C
 export LANG
 
-programs='_tinysshd-printkex _tinysshd-test-auth-protocol _tinysshd-test-channel-early-eof _tinysshd-test-channel-flow _tinysshd-test-channel-protocol _tinysshd-test-closefrom _tinysshd-test-global-request _tinysshd-test-hello1 _tinysshd-test-hello2 _tinysshd-test-ignore _tinysshd-test-kex-protocol _tinysshd-test-kex1 _tinysshd-test-kex2 _tinysshd-test-packet _tinysshd-test-rekey-protocol _tinysshd-test-sequence _tinysshd-unauthenticated test-crypto tinysshd'
+programs='_tinysshd-printkex _tinysshd-test-auth-protocol _tinysshd-test-channel-early-eof _tinysshd-test-channel-flow _tinysshd-test-channel-protocol _tinysshd-test-closefrom _tinysshd-test-global-request _tinysshd-test-hello1 _tinysshd-test-hello2 _tinysshd-test-ignore _tinysshd-test-kex-protocol _tinysshd-test-kex1 _tinysshd-test-kex2 _tinysshd-test-packet _tinysshd-test-pty _tinysshd-test-rekey-protocol _tinysshd-test-sequence _tinysshd-unauthenticated test-crypto tinysshd'
 links='tinysshd-makekey tinysshd-printkey'
 autoheaders=''
 objects=''
@@ -33,7 +33,7 @@ for file in *.c; do
         _tinysshd-test-ignore.c | _tinysshd-test-kex-protocol.c | \
         _tinysshd-test-kex1.c | \
         _tinysshd-test-kex2.c | _tinysshd-test-packet.c | \
-        _tinysshd-test-rekey-protocol.c | \
+        _tinysshd-test-pty.c | _tinysshd-test-rekey-protocol.c | \
         _tinysshd-test-sequence.c | \
         _tinysshd-unauthenticated.c | test-crypto.c | tinysshd.c)
             ;;
@@ -47,7 +47,8 @@ for file in test-*.sh; do
     testout="$testout ${file%.sh}.out"
     tests="$tests $file"
     case "$file" in
-        test-closefrom.sh | test-crypto-*.sh | test-tinysshd-makekey.sh | \
+        test-closefrom.sh | test-pty.sh | test-crypto-*.sh | \
+        test-tinysshd-makekey.sh | \
         test-tinysshd-printkey.sh)
             ;;
         *)
@@ -97,6 +98,10 @@ done
         if test "$program" = _tinysshd-test-closefrom; then
             randomobject=''
             linkobjects='p_closefrom.o'
+        fi
+        if test "$program" = _tinysshd-test-pty; then
+            randomobject=''
+            linkobjects='p_login_tty.o p_openpty.o'
         fi
         echo "$program: $program.o $linkobjects$randomobject libs"
         printf '\t$(CC) $(CFLAGS) $(CPPFLAGS) -o %s %s.o \\\n' \
