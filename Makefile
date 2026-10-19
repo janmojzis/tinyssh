@@ -223,7 +223,7 @@ fe25519.o: fe25519.c crypto_verify_32.h cleanup.h fe.h \
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c fe25519.c
 
 ge25519.o: ge25519.c fe25519.h fe.h cryptoint/crypto_uint32.h \
- cryptoint/crypto_uint64.h cleanup.h ge25519.h
+ cryptoint/crypto_uint64.h cleanup.h crypto_verify_32.h ge25519.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c ge25519.c
 
 getln.o: getln.c e.h getln.h

@@ -22,6 +22,28 @@ static const char *sign_ed25519_checksums[] = {
     "2ed857f17c917a8185e6c296303a11772ae45683a5e7cb5b095489bad65fffde",
 };
 
+/*
+public keys that are not valid encodings (RFC 8032 5.1.3): y >= p, or
+x = 0 with the sign bit set; each is an alias of the neutral element (0, 1),
+for which R = (0, 1), S = 0 would otherwise verify any message
+*/
+static const unsigned char sign_ed25519_badpk[][32] = {
+    /* y = p + 1 */
+    {0xee, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+     0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+     0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f},
+    /* y = p + 1, sign bit set */
+    {0xee, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+     0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+     0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff},
+    /* y = 1, x = 0, sign bit set */
+    {0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80},
+};
+/* R = (0, 1), S = 0 */
+static const unsigned char sign_ed25519_badpk_sm[64] = {0x01};
+
 static int (*crypto_sign_keypair)(unsigned char *, unsigned char *);
 static int (*crypto_sign)(unsigned char *, unsigned long long *,
                           const unsigned char *, unsigned long long,
@@ -75,6 +97,17 @@ static void test_sign_ed25519_impl(long long impl) {
     crypto_sign_keypair = crypto_sign_ed25519_keypair;
     crypto_sign = crypto_sign_ed25519;
     crypto_sign_open = crypto_sign_ed25519_open;
+
+    for (unsigned long long i = 0; i < sizeof sign_ed25519_badpk / 32; ++i) {
+        memcpy(p, sign_ed25519_badpk[i], plen);
+        memcpy(c, sign_ed25519_badpk_sm, sizeof sign_ed25519_badpk_sm);
+        clen = sizeof sign_ed25519_badpk_sm;
+        if (crypto_sign_open(t, &tlen, c, clen, p) == 0)
+            fail("failure: crypto_sign_open accepts non-canonical public key "
+                 "%llu\n",
+                 i);
+    }
+
     for (long long checksumbig = 0; checksumbig < 2; ++checksumbig) {
         long long loops = checksumbig ? 64 : 8;
         long long maxtest = checksumbig ? 4096 : 128;

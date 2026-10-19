@@ -1,5 +1,6 @@
 #include "fe25519.h"
 #include "cleanup.h"
+#include "crypto_verify_32.h"
 #include "ge25519.h"
 
 /* D = -121665/121666 */
@@ -130,9 +131,16 @@ void ge25519_tobytes(unsigned char *s, ge25519 h) {
 int ge25519_frombytes_negate_vartime(ge25519 h, const unsigned char *s) {
 
     fe u, v, v3, vxx, check;
+    unsigned char ycheck[32];
     int ret = -1;
 
     fe25519_frombytes(h[1], s);
+
+    /* check y, reject non-canonical encoding y >= p */
+    fe25519_tobytes(ycheck, h[1]);
+    ycheck[31] |= s[31] & 128;
+    if (crypto_verify_32(ycheck, s) != 0) goto cleanup;
+
     fe_1(h[2]);
     fe25519_sq(u, h[1]);
     fe25519_mul(v, u, D);
@@ -158,6 +166,9 @@ int ge25519_frombytes_negate_vartime(ge25519 h, const unsigned char *s) {
         fe25519_mul(h[0], h[0], sqrtm1);
     }
 
+    /* check x, reject non-canonical encoding x = 0 with the sign bit set */
+    if (!fe25519_isnonzero(h[0]) && (s[31] >> 7)) goto cleanup;
+
     if (fe25519_isnegative(h[0]) == (s[31] >> 7)) fe25519_neg(h[0], h[0]);
 
     fe25519_mul(h[3], h[0], h[1]);
@@ -169,6 +180,7 @@ cleanup:
     cleanup(v3);
     cleanup(vxx);
     cleanup(check);
+    cleanup(ycheck);
     return ret;
 }
 
