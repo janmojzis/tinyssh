@@ -24,16 +24,17 @@ OBJLIB=blocking.o buf.o byte.o channel.o channel_drop.o channel_fork.o \
  fe25519.o ge25519.o getln.o global.o int16_optblocker.o int32_optblocker.o \
  int64_optblocker.o int8_optblocker.o iptostr.o load.o log.o loginshell.o \
  logsys.o main_tinysshd.o main_tinysshd_makekey.o main_tinysshd_printkey.o \
- newenv.o numtostr.o open.o packet.o packet_auth.o packet_channel_open.o \
- packet_channel_recv.o packet_channel_request.o packet_channel_send.o \
- packet_get.o packet_global_request.o packet_hello.o packet_kex.o packet_kexdh.o \
- packet_put.o packet_recv.o packet_send.o packet_unimplemented.o packetparser.o \
- porttostr.o randommod.o readall.o savesync.o sc25519.o sig.o ssh.o sshcrypto.o \
- sshcrypto_cipher.o sshcrypto_cipher_chachapoly.o sshcrypto_kex.o \
- sshcrypto_kex_curve25519.o sshcrypto_kex_sntrup761x25519.o sshcrypto_key.o \
- sshcrypto_key_ed25519.o str.o stringparser.o subprocess_auth.o \
- subprocess_sign.o trymlock.o uint16_optblocker.o uint32_optblocker.o \
- uint64_optblocker.o uint8_optblocker.o writeall.o
+ newenv.o numtostr.o open.o p_closefrom.o packet.o packet_auth.o \
+ packet_channel_open.o packet_channel_recv.o packet_channel_request.o \
+ packet_channel_send.o packet_get.o packet_global_request.o packet_hello.o \
+ packet_kex.o packet_kexdh.o packet_put.o packet_recv.o packet_send.o \
+ packet_unimplemented.o packetparser.o porttostr.o randommod.o readall.o \
+ savesync.o sc25519.o sig.o ssh.o sshcrypto.o sshcrypto_cipher.o \
+ sshcrypto_cipher_chachapoly.o sshcrypto_kex.o sshcrypto_kex_curve25519.o \
+ sshcrypto_kex_sntrup761x25519.o sshcrypto_key.o sshcrypto_key_ed25519.o str.o \
+ stringparser.o subprocess_auth.o subprocess_sign.o trymlock.o \
+ uint16_optblocker.o uint32_optblocker.o uint64_optblocker.o uint8_optblocker.o \
+ writeall.o
 
 OBJALL=_tinysshd-speed.o blocking.o buf.o byte.o channel.o channel_drop.o \
  channel_fork.o channel_forkpty.o channel_subsystem.o cleanup.o coe.o \
@@ -48,23 +49,23 @@ OBJALL=_tinysshd-speed.o blocking.o buf.o byte.o channel.o channel_drop.o \
  getln.o global.o int16_optblocker.o int32_optblocker.o int64_optblocker.o \
  int8_optblocker.o iptostr.o load.o log.o loginshell.o logsys.o main_tinysshd.o \
  main_tinysshd_makekey.o main_tinysshd_printkey.o newenv.o numtostr.o open.o \
- packet.o packet_auth.o packet_channel_open.o packet_channel_recv.o \
- packet_channel_request.o packet_channel_send.o packet_get.o \
- packet_global_request.o packet_hello.o packet_kex.o packet_kexdh.o packet_put.o \
- packet_recv.o packet_send.o packet_unimplemented.o packetparser.o porttostr.o \
- randombytes.o randommod.o readall.o savesync.o sc25519.o sig.o ssh.o sshcrypto.o \
- sshcrypto_cipher.o sshcrypto_cipher_chachapoly.o sshcrypto_kex.o \
- sshcrypto_kex_curve25519.o sshcrypto_kex_sntrup761x25519.o sshcrypto_key.o \
- sshcrypto_key_ed25519.o str.o stringparser.o subprocess_auth.o \
+ p_closefrom.o packet.o packet_auth.o packet_channel_open.o \
+ packet_channel_recv.o packet_channel_request.o packet_channel_send.o \
+ packet_get.o packet_global_request.o packet_hello.o packet_kex.o packet_kexdh.o \
+ packet_put.o packet_recv.o packet_send.o packet_unimplemented.o packetparser.o \
+ porttostr.o randombytes.o randommod.o readall.o savesync.o sc25519.o sig.o \
+ ssh.o sshcrypto.o sshcrypto_cipher.o sshcrypto_cipher_chachapoly.o \
+ sshcrypto_kex.o sshcrypto_kex_curve25519.o sshcrypto_kex_sntrup761x25519.o \
+ sshcrypto_key.o sshcrypto_key_ed25519.o str.o stringparser.o subprocess_auth.o \
  subprocess_sign.o tinysshd.o trymlock.o uint16_optblocker.o uint32_optblocker.o \
  uint64_optblocker.o uint8_optblocker.o writeall.o
 
-AUTOHEADERS=haslib1305.h haslib25519.h haslibntruprime.h haslibrandombytes.h \
- haslibutilh.h haslimits.h haslogintty.h hasmlock.h hasopenpty.h hasutilh.h \
- hasutmp.h hasutmpaddrv6.h hasutmphost.h hasutmploginlogout.h hasutmplogwtmp.h \
- hasutmpname.h hasutmppid.h hasutmptime.h hasutmptv.h hasutmptype.h \
- hasutmpuser.h hasutmpx.h hasutmpxaddrv6.h hasutmpxsyslen.h hasutmpxupdwtmpx.h \
- hasvalgrind.h
+AUTOHEADERS=hasclosefrom.h haslib1305.h haslib25519.h haslibntruprime.h \
+ haslibrandombytes.h haslibutilh.h haslimits.h haslogintty.h hasmlock.h \
+ hasopenpty.h hasutilh.h hasutmp.h hasutmpaddrv6.h hasutmphost.h \
+ hasutmploginlogout.h hasutmplogwtmp.h hasutmpname.h hasutmppid.h \
+ hasutmptime.h hasutmptv.h hasutmptype.h hasutmpuser.h hasutmpx.h \
+ hasutmpxaddrv6.h hasutmpxsyslen.h hasutmpxupdwtmpx.h hasvalgrind.h
 
 all: $(AUTOHEADERS) $(BINARIES) $(LINKS)
 
@@ -102,12 +103,12 @@ channel_drop.o: channel_drop.c dropuidgid.h newenv.h channel.h \
  cryptoint/crypto_uint32.h iptostr.h porttostr.h limit.h haslimits.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c channel_drop.c
 
-channel_fork.o: channel_fork.c blocking.h open.h e.h channel.h \
+channel_fork.o: channel_fork.c blocking.h open.h p.h e.h channel.h \
  cryptoint/crypto_uint32.h iptostr.h porttostr.h limit.h haslimits.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c channel_fork.c
 
 channel_forkpty.o: channel_forkpty.c hasopenpty.h haslogintty.h e.h coe.h \
- blocking.h global.h channel.h cryptoint/crypto_uint32.h iptostr.h \
+ p.h blocking.h global.h channel.h cryptoint/crypto_uint32.h iptostr.h \
  porttostr.h limit.h haslimits.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c channel_forkpty.c
 
@@ -324,6 +325,9 @@ numtostr.o: numtostr.c numtostr.h
 
 open.o: open.c blocking.h open.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c open.c
+
+p_closefrom.o: p_closefrom.c hasclosefrom.h p.h
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c p_closefrom.c
 
 packet.o: packet.c purge.h cleanup.h trymlock.h packet.h buf.h \
  cryptoint/crypto_uint8.h cryptoint/crypto_uint32.h sshcrypto.h crypto.h \
@@ -751,6 +755,11 @@ tinysshd: tinysshd.o $(OBJLIB) randombytes.o libs
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o tinysshd tinysshd.o \
 	$(OBJLIB) $(LDFLAGS) `cat libs` randombytes.o
 
+
+hasclosefrom.h: tryfeature.sh hasclosefrom.c libs
+	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \
+	./tryfeature.sh hasclosefrom.c >hasclosefrom.h 2>hasclosefrom.log
+	cat hasclosefrom.h
 
 haslib1305.h: tryfeature.sh haslib1305.c libs
 	env CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS) `cat libs`" \

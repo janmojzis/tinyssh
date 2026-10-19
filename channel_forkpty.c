@@ -30,6 +30,7 @@ extern int login_tty(int);
 
 #include "e.h"
 #include "coe.h"
+#include "p.h"
 #include "blocking.h"
 #include "global.h"
 #include "channel.h"
@@ -134,7 +135,7 @@ fd[2] is always -1
 
 long long channel_forkpty(int fd[3], int master, int slave) {
 
-    long long pid, r, i;
+    long long pid, r;
     char ch;
     int pi[2];
 
@@ -163,14 +164,7 @@ long long channel_forkpty(int fd[3], int master, int slave) {
             /* Trigger a read event on the other side of the pipe. */
             do { r = write(pi[1], "", 1); } while (r == -1 && errno == EINTR);
             close(pi[1]);
-            {
-                long long maxfd = 4096;
-#ifdef _SC_OPEN_MAX
-                long long openmax = sysconf(_SC_OPEN_MAX);
-                if (openmax > maxfd) maxfd = openmax;
-#endif
-                for (i = 3; i < maxfd; ++i) close(i);
-            }
+            p_closefrom(3);
             errno = 0;
 
             return 0;
