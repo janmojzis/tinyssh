@@ -184,7 +184,6 @@ int main_tinysshd(int argc, char **argv, const char *binaryname) {
 
     blocking_disable(0);
     blocking_disable(1);
-    blocking_disable(2);
 
     /* get server longterm keys */
     fdwd = open_cwd();
