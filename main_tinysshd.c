@@ -235,8 +235,8 @@ int main_tinysshd(int argc, char **argv, const char *binaryname) {
 
 rekeying:
     /* rekeying */
-    alarm(60);
     if (packet.flagrekeying == 1) {
+        alarm(60);
         if (!packet_kex_receive_rekey(&b1))
             die_fatal("unable to receive rekey-message", 0, 0);
         if (!packet_kex_send()) die_fatal("unable to send kex-message", 0, 0);

@@ -10,6 +10,7 @@ The following issues were discovered by Anthropic's OSS Scanner:
 - Checked the home and .ssh directory paths before following authorized_keys symlinks (ANT-2026-1X7WCZO8).
 - Rejected non-canonical public key encodings in bundled Ed25519 verification (ANT-2026-WLSFCCD8).
 - Rejected embedded NUL bytes in key-exchange algorithm name-lists (ANT-2026-C3S8DE78).
+- Preserved the original pre-authentication timeout through initial key exchange (ANT-2026-LAOMU7HO).
 
 ### 20261016 (pre-release)
 - Removed the disabled `authorized_keys` handling test and its build integration because it depended on permissions of the build directory and its parents.
