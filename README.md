@@ -12,7 +12,7 @@ Starting with version 20260906, TinySSH rejects all client-supplied environment 
 
 ### Supported SSH algorithms ###
 
-Since version 20261001, TinySSH supports the following SSHv2 algorithms:
+Since version 20261101, TinySSH supports the following SSHv2 algorithms:
 
 | OpenSSH option | Algorithms |
 | --- | --- |
@@ -31,8 +31,7 @@ The `curve25519-sha256` algorithms can be disabled with `-S`. The post-quantum `
 * beta(updated): 2018.01.01 - ????.??.?? (ready for production use)
 * stable: expected ????.??.?? - (ready for production use - including post-quantum crypto)
 
-### Current release (20261001) ###
-* has 74260 words of code
+### Current release (20261101) ###
 * beta release
 
 ### How-to compile and install ###

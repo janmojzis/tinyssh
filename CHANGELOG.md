@@ -1,4 +1,4 @@
-### UNRELEASED
+### 20261101
 - Extracted portable `p_openpty()` and `p_login_tty()` helpers from PTY session setup.
 
 The following issues were discovered by Anthropic's OSS Scanner:
